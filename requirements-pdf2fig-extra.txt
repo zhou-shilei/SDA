@@ -1,0 +1,7 @@
+# Optional backends for src/pdf2fig.py; default PP-DocLayoutV3 uses environment.yml.
+doclayout-yolo
+transformers
+torch
+torchvision
+huggingface-hub
+Pillow

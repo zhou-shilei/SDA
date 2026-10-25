@@ -1,0 +1,34 @@
+{
+  "source": "dataagent/studio",
+  "files": [
+    {
+      "file": "index.html",
+      "source_sha256": "fa6a6da7da9d8811f6a6663bd91bb8be69cc0fbbcd4964a475c19462ec635e3d"
+    },
+    {
+      "file": "styles.css",
+      "source_sha256": "a67a653f47fc800688b87cd36d6084f5c2c61ffb091e6232f35d66bb5d5c2124"
+    },
+    {
+      "file": "collection_review.js",
+      "source_sha256": "44ddbe3b7cbd3347ad39b3ad6d957860b9a9562db0a3f017fe1e96da320bd291"
+    },
+    {
+      "file": "app.js",
+      "source_sha256": "5990bd1d003f2bd1ae8cbf774bca43fce5eef2d78257ee1465a693a9f4bc3458"
+    },
+    {
+      "file": "table_columns.js",
+      "source_sha256": "d0361101654fb95e4bc968cb02eeb83c0eaacdaff64258ad26498870ea53d69b"
+    },
+    {
+      "file": "patent_identity.js",
+      "source_sha256": "ece11b72f29b814ef4e3b17c8ed3b2a653deddf604ae710298d29a8301c86e95"
+    },
+    {
+      "file": "job_eta.js",
+      "source_sha256": "fadc2f0dc3ad371a1808a0af644850218bc3d6070f05c653507d4a0dcd1edd3e"
+    }
+  ],
+  "notes": "Original HTML, CSS and JavaScript copied before adapting the SDA data connection. Patent page images are served from SDA PDFs."
+}

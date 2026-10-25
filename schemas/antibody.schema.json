@@ -1,0 +1,632 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sda:antibody-dataset:2.0",
+  "title": "SDA fixed antibody dataset and completion plan",
+  "description": "Table rows seed separate observations; exact construct names stay separate. Full H/L chains are not VH/VL. CDR/FR slots are optional unless explicitly incomplete. Units and qualified values remain verbatim. Status missing denotes unknown; unavailable and not_applicable are explicit reviewed dispositions. Original WIPO sequence residues may replace OCR transcription only through a same-document explicit construct/region/SEQ-ID relation, with discrepant evidence retained.",
+  "x-schema-version": "antibody-dataset-2.0",
+  "x-adapted-from": [
+    "dataagent/src/template_agent.py",
+    "dataagent/prompt/document_template.txt"
+  ],
+  "type": "object",
+  "required": [
+    "document_id",
+    "schema_version",
+    "agent",
+    "entities",
+    "missing",
+    "summary",
+    "issues"
+  ],
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "const": "antibody-dataset-2.0"
+    },
+    "agent": {
+      "type": "object"
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/task"
+      }
+    },
+    "summary": {
+      "type": "object"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "exp_id"
+        ],
+        "properties": {
+          "exp_id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "sequence_definitions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sequenceDefinition"}
+    },
+    "sequence_audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sequenceDefinition": {
+      "type": "object",
+      "required": ["definition_id", "seq_id", "status", "name", "region", "source_refs", "evidence_refs", "assignments", "evidence_digest"],
+      "properties": {
+        "definition_id": {"type": "string"},
+        "seq_id": {"type": ["integer", "null"], "minimum": 1},
+        "status": {"enum": ["unresolved", "definition", "linked", "reference", "non_antibody", "ambiguous"]},
+        "name": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]},
+        "source_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "assignments": {"type": "array", "items": {"type": "string"}},
+        "evidence_digest": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "sequenceComponent": {
+      "type": "object",
+      "required": ["component_id", "definition_id", "name", "role", "region", "parent_chain", "order", "seq_id", "sequence", "ocr_sequence", "provenance"],
+      "properties": {
+        "component_id": {"type": "string"},
+        "definition_id": {"type": "string"},
+        "name": {"type": "string"},
+        "role": {"enum": ["molecule", "IgG", "scFv", "linker", "other"]},
+        "region": {"type": "string"},
+        "parent_chain": {"enum": ["H_CHAIN", "L_CHAIN", null]},
+        "order": {"type": ["integer", "null"], "minimum": 1},
+        "seq_id": {"type": ["integer", "null"], "minimum": 1},
+        "sequence": {"type": ["string", "null"]},
+        "ocr_sequence": {"type": ["string", "null"]},
+        "provenance": {"type": "array", "items": {"type": "object"}, "minItems": 1}
+      },
+      "additionalProperties": false
+    },
+    "slot": {
+      "type": "object",
+      "required": [
+        "value",
+        "status",
+        "required",
+        "provenance",
+        "candidates"
+      ],
+      "properties": {
+        "value": {},
+        "status": {
+          "enum": [
+            "missing",
+            "present",
+            "conflict",
+            "unavailable",
+            "not_applicable"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "provenance": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "value",
+              "provenance"
+            ],
+            "properties": {
+              "value": {},
+              "provenance": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "missing",
+                  "conflict",
+                  "unavailable",
+                  "not_applicable"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "sequenceSlot": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/slot"
+        },
+        {
+          "properties": {
+            "value": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "seqIdSlot": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/slot"
+        },
+        {
+          "properties": {
+            "value": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            }
+          }
+        }
+      ]
+    },
+    "entity": {
+      "type": "object",
+      "required": [
+        "entity_id",
+        "name",
+        "name_provenance",
+        "VH",
+        "VL",
+        "H_CHAIN",
+        "L_CHAIN",
+        "METRIC",
+        "other_sequences",
+        "sequence_links"
+      ],
+      "properties": {
+        "entity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name_provenance": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "VH": {
+          "type": "object",
+          "required": [
+            "sequence",
+            "seq_id",
+            "CDRH1",
+            "CDRH2",
+            "CDRH3",
+            "FRH1",
+            "FRH2",
+            "FRH3",
+            "FRH4"
+          ],
+          "properties": {
+            "sequence": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "seq_id": {
+              "$ref": "#/$defs/seqIdSlot"
+            },
+            "CDRH1": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "CDRH2": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "CDRH3": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRH1": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRH2": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRH3": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRH4": {
+              "$ref": "#/$defs/sequenceSlot"
+            }
+          },
+          "additionalProperties": false
+        },
+        "VL": {
+          "type": "object",
+          "required": [
+            "sequence",
+            "seq_id",
+            "CDRL1",
+            "CDRL2",
+            "CDRL3",
+            "FRL1",
+            "FRL2",
+            "FRL3",
+            "FRL4"
+          ],
+          "properties": {
+            "sequence": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "seq_id": {
+              "$ref": "#/$defs/seqIdSlot"
+            },
+            "CDRL1": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "CDRL2": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "CDRL3": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRL1": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRL2": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRL3": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "FRL4": {
+              "$ref": "#/$defs/sequenceSlot"
+            }
+          },
+          "additionalProperties": false
+        },
+        "H_CHAIN": {
+          "type": "object",
+          "required": [
+            "sequence",
+            "seq_id"
+          ],
+          "properties": {
+            "sequence": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "seq_id": {
+              "$ref": "#/$defs/seqIdSlot"
+            }
+          },
+          "additionalProperties": false
+        },
+        "L_CHAIN": {
+          "type": "object",
+          "required": [
+            "sequence",
+            "seq_id"
+          ],
+          "properties": {
+            "sequence": {
+              "$ref": "#/$defs/sequenceSlot"
+            },
+            "seq_id": {
+              "$ref": "#/$defs/seqIdSlot"
+            }
+          },
+          "additionalProperties": false
+        },
+        "METRIC": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observation"
+          }
+        },
+        "other_sequences": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "sequence_components": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/sequenceComponent"}
+        },
+        "sequence_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "field_path",
+              "seq_id"
+            ],
+            "properties": {
+              "field_path": {
+                "type": "string"
+              },
+              "seq_id": {
+                "$ref": "#/$defs/seqIdSlot"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "original_entity_id": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "construct_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "required": [
+        "observation_id",
+        "label",
+        "order",
+        "source",
+        "metric",
+        "value",
+        "unit",
+        "conditions",
+        "experiment_type",
+        "target"
+      ],
+      "properties": {
+        "observation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source": {
+          "type": "object"
+        },
+        "metric": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "value": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "number",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "unit": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "conditions": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "object",
+                    "array",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "experiment_type": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "target": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/slot"
+            },
+            {
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "exp_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "entity_id",
+        "observation_id",
+        "field_path",
+        "query",
+        "kind"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "observation_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "field_path": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "sequence",
+            "assay"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

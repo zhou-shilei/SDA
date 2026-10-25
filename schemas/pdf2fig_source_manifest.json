@@ -1,0 +1,126 @@
+{
+  "source": "dataagent/src/patent_layout",
+  "runtime_dependency_on_dataagent": false,
+  "scope": "PDF rendering, layout detection/fusion, high-resolution crops, reversible page orientation preparation, continuation candidates and source-addressed header inheritance in the SDA batch pipeline.",
+  "files": [
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/__init__.py",
+      "source_sha256": "b0ab794c3a211dd3b996f93a2d3f816168206a902e93fe10a311cefc5195c02d",
+      "former_local_file": "src/patent_layout/__init__.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/__main__.py",
+      "source_sha256": "2cdd23d4f5cd6c3b3e4cb690ad16d560637767b9ca5b2a3cf129fcc0a5ebc82b",
+      "former_local_file": "src/patent_layout/__main__.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/backends/__init__.py",
+      "source_sha256": "09ccf2afea3783c051eaf4279cb6aa25290815430ca654a74e7397d3d66358e7",
+      "former_local_file": "src/patent_layout/backends/__init__.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/backends/base.py",
+      "source_sha256": "b66bd75c86da7fec45d80041e8b3c81aae70a593e258c278a8d76ae89e1c4ff2",
+      "former_local_file": "src/patent_layout/backends/base.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/backends/doclayout_yolo.py",
+      "source_sha256": "7cbc68721cdac2c02050bfcddee2021c1918ba2e9f8ef76ecd1b68f6baedd2bd",
+      "former_local_file": "src/patent_layout/backends/doclayout_yolo.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/backends/pp_doclayoutv3.py",
+      "source_sha256": "67d2ee3921d964c1297550a045e42160e27658b5b90daa394732c32334ef0cee",
+      "former_local_file": "src/patent_layout/backends/pp_doclayoutv3.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/backends/table_transformer.py",
+      "source_sha256": "0b70be053f583eeaac6459a491f8e7149242a39911a5d7939482b4c4486a727c",
+      "former_local_file": "src/patent_layout/backends/table_transformer.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/cli.py",
+      "source_sha256": "2cdbcfd2a02399dbc12a5c9e99ff3d339523542a50230963373133ccb90c96fd",
+      "former_local_file": "src/patent_layout/cli.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/cropper.py",
+      "source_sha256": "5ffa2d8483765a60a01df86b2f4edf7705cc952564f67e07112a25befb998050",
+      "former_local_file": "src/patent_layout/cropper.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/engine.py",
+      "source_sha256": "5bc9c4c05c586a0dcb1f6f5a15a9e04bc85db4c04958dd2ceea65b9e9c5f0a72",
+      "former_local_file": "src/patent_layout/engine.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/parallel.py",
+      "source_sha256": "50c9154774ee25656b6b80c00111ef06ef2459a88a6deb6540a2f41912b15b66",
+      "former_local_file": "src/patent_layout/parallel.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/render.py",
+      "source_sha256": "8c58efbdc56261cdc9b2edecbcf7e6dd05b5f5120e06636fc06dc63d7f02a303",
+      "former_local_file": "src/patent_layout/render.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/patent_layout/schema.py",
+      "source_sha256": "5d972008b47d2526ae153439e70f0cb5fc9ce590f88bef4fac4871214c96e9cd",
+      "former_local_file": "src/patent_layout/schema.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/pdf_orientation.py",
+      "source_sha256": "a3ceb7b6f395cbb780d2f7f4590c6de15322b8e6459cf528bfdfd7fbd2176b17",
+      "former_local_file": "src/pdf_orientation.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    },
+    {
+      "file": "src/pdf2fig.py",
+      "source_file": "/project_c20250601/252705034/dataagent/src/document_context.py",
+      "source_sha256": "63a22bffade3ae50495cc3cb95e55e0293335c70e66bf3c459892c59539ff64d",
+      "former_local_file": "src/document_context.py",
+      "local_sha256": "0467c8d6f24880f84faa9e22b8f3e9b5d8c539c8312c783e95096fd49a1c223c"
+    }
+  ],
+  "adaptations": [
+    "SDA CLI in src/pdf2fig.py; model-free crop replay and source-PDF hash validation",
+    "SDA process entry point, config directory and environment variable prefix",
+    "Page-range, threshold, coordinate and invalid-box validation",
+    "Figure-label normalization and document-prefixed crop names",
+    "Default crop confidence 0.8, matching dataagent layout_tools crop command",
+    "Device spelling normalization for Paddle and Torch; optional dependencies documented",
+    "检测、渲染、裁图、并行推理和命令行合并为单文件，补充中文说明。",
+    "SDA Tesseract executable discovery and selected-page orientation preparation",
+    "Reuse verified prepared PDF and coordinate maps alongside saved detections",
+    "OCR continuation dependency scheduling and explicit inherited/local metric extraction",
+    "Continuation and orientation review issues retained in schema output"
+  ],
+  "layout": "原 src/patent_layout 的实现已合并至 src/pdf2fig.py，不再保留独立包。"
+}

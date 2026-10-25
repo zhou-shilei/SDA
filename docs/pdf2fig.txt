@@ -1,0 +1,90 @@
+PDF 到表格/插图裁图
+
+入口及实现：src/pdf2fig.py。渲染、三种检测后端、同类框融合、并行推理和原 PDF
+高清裁图均在此文件中；原 src/patent_layout 已合并并移除。
+方向校正：src/pdf_orientation.py；续表上下文：src/document_context.py、src/table_continuation.py。
+实现最初迁移自 dataagent 的 patent_layout、pdf_orientation 和 document_context。
+原文件哈希：schemas/pdf2fig_source_manifest.json。运行不导入或调用 dataagent 项目。
+
+默认：PP-DocLayoutV3、CPU、150 DPI 检测、400 DPI 裁图、四线程、只输出 table。
+裁图置信度门槛为 0.8，与 dataagent 的裁图命令一致；--min-confidence 0 保留全部候选。
+新检测默认 --orientation auto：先判断页面方向，再检测和裁图。
+Tesseract OSD 在 160 DPI 判断方向，非零旋转须经 110 DPI 再次确认。
+判断不可靠的页面保持原方向，写入 review_pages；不会把扫描原件直接改写。
+prepared.pdf 保留文字和图像，page_orientation.json 保存正反坐标映射。
+--pages 抽样时只检测所选页的方向，工作 PDF 仍保留全部页码。
+关闭方向检测可用 --orientation off。
+Tesseract 可由 environment.yml 安装，须含 osd.traineddata；也可设置
+SDA_TESSERACT=/path/to/tesseract 和 SDA_TESSDATA=/path/to/tessdata。
+默认依赖已在 environment.yml 中。YOLO/TATR 为可选后端：
+  python -m pip install -r requirements-pdf2fig-extra.txt
+模型参数应指向本地权重；未指定时，使用后端默认模型获取机制。
+也可将权重放入 models/layout/pp_doclayoutv3、doclayout_yolo、tatr，
+或设置 SDA_PP_LAYOUT_MODEL_DIR / SDA_YOLO_LAYOUT_MODEL / SDA_TATR_LAYOUT_MODEL_DIR。
+
+全篇 PDF 转表格图片（项目根目录执行；输出目录必须是新目录或空目录）：
+  python src/pdf2fig.py --input data/WO2025108394A1/source.pdf \
+    --document-id WO2025108394A1 --output-dir data/pdf2fig/WO2025108394A1 \
+    --pp-model-dir /path/to/PP-DocLayoutV3 --device cpu
+
+接现有提取主流程：
+  python src/graph.py --image-dir data/pdf2fig/WO2025108394A1 \
+    --text-context-dir data/WO2025108394A1 --output-dir results/pdf2fig
+专利号写入 PNG 文件名，可被现有文档归属逻辑识别。其他非专利文档可独立裁图，
+带本工具 manifest 的图片通过清单传递 document_id；旧的裸图片仍按文件名识别专利号。
+输出目录内只保留裁图 PNG；检测用的临时整页图不会进入后续图片任务。
+已有结果不会自动修改。pdf2fig 只调用方向检测和版面模型，不调用表格 OCR/LLM。
+
+续表关联：
+PDF 标题/表号和相邻页面的位置先生成 continuation_of / logical_table_id 候选。
+table_contexts.json 与 logical_tables.json 记录候选关系，原始 PNG 保持分开。
+graph.py 自动加载同目录的 manifest，先 OCR 前页，再给续表读取前页的 OCR 证据。
+只有同文档、相邻页、表格左右边界对齐、OCR 列数一致且前页有明确的起始表头区时，
+才允许继承该表头。跨页来源保留原始表格/单元格引用，不复制成虚构的当前页表头。
+前页可以同时包含数据，但传给续表的支持内容仅保留表头，不复制前页数据行。
+完整且明确的指标列由程序按格提取，遇到新标题/表头切换区域；IC50/EC50 与
+后段 Ka/Kd/KD 分开处理。复杂或不能完整验证的结构交给带受限表头上下文的 Agent。
+本实现用 PDF 外边界与 OCR 单元格列数校验，不具备 dataagent 原网格 OCR 的全部
+内部列线校验。布局候选不是已证明的跨页关系，校验不足时保留 issues，不强行合并。
+多页续表可沿已验证关系回溯至原始表头；缺失前页或前页 OCR 失败会备注问题。
+
+抽样：--pages 9 10，或 --pages 9-10,13。
+同时输出插图：--labels table figure。支持 image/picture 检测标签归一到 figure。
+三后端融合：--backends pp_doclayoutv3 doclayout_yolo tatr
+  --pp-model-dir /path/to/PP-DocLayoutV3 --yolo-model /path/to/model.pt
+  --tatr-model-dir /path/to/tatr
+只处理图：--labels figure（TATR 是表格检测器，插图请用 PP 或 YOLO）。
+
+并行与独立运行环境：
+  --execution parallel --cpu-workers 2 --max-workers 4 --threads-per-worker 2
+  --pp-device cpu --torch-device cuda:0 --torch-python /path/to/torch-env/bin/python
+Paddle 与 Torch 可在独立进程/解释器中运行，避免 CUDA/动态库冲突。
+默认不会读取 dataagent 的 .studio 配置。
+
+复用已有 regions.json，不运行检测模型：
+  python src/pdf2fig.py --input data/WO2025108394A1/source.pdf \
+    --document-id WO2025108394A1 --output-dir validation_results/pdf2fig_reuse \
+    --regions-json /path/to/regions.json
+兼容 dataagent 的 patent-layout-regions/v1；存在源 PDF 哈希时强制核对。
+支持 PDF points / xyxy，拒绝像素坐标，页码从 1 开始。
+复用检测结果时保留该清单原有的 PDF 坐标，默认不再旋转；如需方向校正，
+去掉 --regions-json 重新检测，防止旋转后的页面误用旧框。
+本工具生成的 regions.json 若属于 prepared.pdf，会同时核对原 PDF、工作副本及
+page_orientation.json 的哈希，并将工作副本与坐标映射一起复制到新输出目录。
+因此可以继续传原始 PDF，不必手工判断坐标属于哪份文件，也不会重复旋转。
+
+输出：
+  prepared.pdf / page_orientation.json：新检测时的校正工作副本及坐标变换、待审页。
+  regions.json：所有检测类别、页大小、PDF 坐标、像素坐标、模型来源及检测耗时。
+  table_crops.json：选定类别的裁图清单，含原框/扩边框、分辨率、PNG 哈希、来源。
+  <document_id>_manifest.json：源 PDF 路径/哈希、页范围、图片清单和总耗时。
+  table_contexts.json / logical_tables.json：续表候选及逻辑表分组。
+  <document_id>_table-0001-page-0009.png（插图使用 figure 前缀）。
+并行运行另保留 worker 日志和每页结果。
+
+检测器可能漏检或误检，空裁图清单不等于 PDF 中没有表格。
+方向待审页也会将产物标记 partial，退出码为 1；已生成图片仍保留以便检查。
+--allow-missing-backends 可容忍部分后端失败，产物标记 partial，命令退出码为 1；
+每个页面必须至少一个后端成功，不能把全部模型失败当作空检测成功。
+
+检查：python -m unittest discover -s tests -v

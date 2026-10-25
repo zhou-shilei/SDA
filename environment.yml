@@ -1,0 +1,20 @@
+name: sda
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - nodefaults
+dependencies:
+  - python=3.10.14
+  # PDF 自动方向检测使用 Tesseract OSD（需包含 osd.traineddata）。
+  - tesseract
+  - pip
+  - pip:
+      - --index-url https://pypi.org/simple
+      # GPU 版也支持 CPU；此安装包对应 Python 3.10 / Linux x86_64 / CUDA 11.8。
+      - paddlepaddle-gpu @ https://paddle-whl.bj.bcebos.com/stable/cu118/paddlepaddle-gpu/paddlepaddle_gpu-3.3.1-cp310-cp310-linux_x86_64.whl
+      # VL 表格识别所需的文档解析依赖。
+      - paddleocr[doc-parser]==3.7.0
+      - paddlex==3.7.2
+      - langgraph==1.2.16
+      # 表格 HTML 解析及原始 PDF 文本读取。
+      - lxml
+      - pymupdf

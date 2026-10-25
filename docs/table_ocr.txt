@@ -1,0 +1,44 @@
+表格识别
+
+主流程默认使用 PaddleOCR-VL-1.6，在指定设备上用原生 Paddle 推理。
+输入应为单张表格裁图；关闭整页版面检测，使用 prompt_label="table"。
+extract_table_text(image_path) 仍返回字符串，但内容为保留 rowspan/colspan
+的原始 HTML。默认由统一表格提取 Agent 直接读取该 HTML，同时输出序列和实验记录。
+不在 OCR 层补字、纠正序列或按生物学常识改写模型输出。
+
+安装环境：
+  python -m pip install 'paddleocr[doc-parser]==3.7.0' 'paddlex==3.7.2'
+另需 environment.yml 中的 Paddle GPU 运行时。模型首次使用时由 PaddleX
+下载并缓存；后续在各工作进程中复用已初始化的实例。
+
+单图识别：
+  python src/table_ocr.py data/WO2025108394A1/WO2025108394A1_table-0007-page-0012.png
+
+主流程：
+  python src/graph.py --image-dir data/WO2025108394A1 --ocr-backend vl
+默认 OCR 独立进程数为 1，避免单卡同时加载多份 VL 模型；可通过
+--ocr-workers 显式调整。提取并发由 --extraction-concurrency 控制。
+OCR 耗时继续记录在现有 _timings.json 中；初始化计入各进程首张图片请求。
+
+独立表格分类默认关闭：
+  python src/graph.py --image-dir data/WO2025108394A1
+OCR 后保留已验证的续表表头上下文，一次抽取 assay_records 与 sequence_records；
+不因 other 标签跳过表格，也不把混合表限制为一种记录。结果可同时为空。
+固定 schema、WIPO 序列核验和后续正文补全继续执行。
+
+需要对照旧的“分类后分流”时显式开启：
+  python src/graph.py --image-dir data/WO2025108394A1 --classify-tables
+该模式沿用 sequence/assay/other/uncertain 分类及原分流行为；other 不进入表格抽取。
+--no-classify-tables 可显式关闭；分类批大小、字符预算和并发参数仅在开启时生效。
+Python 批处理配置为 PipelineConfig(classify_tables=True)，默认 False；
+单图 Graph 输入 state 的 classify_tables 默认为 False，也可显式设置为 True。
+时间与 token 报告中，默认模型抽取用量记为 unified_extraction，不产生分类请求；
+旧模式保留 classification、assay_extraction、sequence_extraction 的用量阶段。
+
+需要旧的普通 OCR 时：
+  python src/graph.py --image-dir data/WO2025108394A1 --ocr-backend paddle
+普通 OCR 保留 GPU 失败后用 CPU 重试的行为。VL 的初始化/推理失败
+直接上报给现有流水线重试和错误记录，不自动切换模型。
+
+VL 能更好保留合并单元格，但本次序列表实测仍有漏字、替换等字符错误。
+HTML 正确恢复分组不代表序列逐字准确；序列核验仍需单独处理。

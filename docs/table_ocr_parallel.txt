@@ -1,0 +1,34 @@
+表格 OCR 并发与提交批
+
+当前默认：6 个 OCR 工作进程、每次提交 1 张图片。此配置在本机 A100 80GB 上对
+WO2026086808A1 的同一批 31 张表验证：198.6 秒，输出 HTML/网格/单元格字符 31/31
+与原结果完全一致，设备显存采样峰值 80051 MiB（约 78.2 GiB）。
+测试的 1进程/批6 为 718.6 秒，6进程/批6 为 230.2 秒；历史1进程OCR阶段为735.3秒。
+显存占用随进程数增加，可通过下面参数降低工作进程数。完整结果和差异审计位于
+validation_results/table_ocr_parallel/WO2026086808A1/report.html。
+
+graph.py 参数：
+  --ocr-workers N       独立 OCR 工作进程数，每个进程加载自己的模型。
+  --ocr-batch-size N    每个工作进程每次提交的表格图片数量。
+
+完整 PDF 入口 run_document_pdf.py 对应：
+  --table-ocr-workers N
+  --table-ocr-batch-size N
+正文文字 OCR 的 --text-workers 及识别批大小与这些表格参数独立。
+
+当前安装 PaddleOCR-VL-1.6 的 native 后端会把模型推理 batch 限制为 1。
+因此 --ocr-batch-size 6 表示一次传入 6 张图片，不代表 GPU 同时对 6 张图片做模型推理。
+程序记录 configured_submission_batch_size、submission_size、effective_model_batch_size、
+worker_pid、初始化时间和整批推理耗时。整批时间在多张结果中共享，不能重复累加。
+不会修改第三方代码强行移除限制，也不改变最大生成长度、精度或图像分辨率。
+
+批量返回按 input_path 绑定原裁图，而不依赖结果顺序。未知路径、重复路径、缺少结果或
+生成器中途失败会报告整批失败，不会将下一张表的文字错配到上一张，也不悄悄降低配置重跑。
+批次中所有原始 OCR 状态先发布，再核验跨页续表，避免同批续表等待自己的上文而阻塞。
+已有表格 OCR 缓存仍走原有复用路线，不重新调用模型。
+
+完整 PDF 流程通过 src/run_document_pdf.py 的 --table-ocr-workers 和
+--table-ocr-batch-size 设置表格 OCR。主入口及模块关系见 docs/pdf_pipeline.txt。
+
+历史测速报告保存在 validation_results/table_ocr_parallel/。独立测速脚本已从 src 清理，
+报告中的数字/序列/网格一致性仅表示相对既有 OCR 的一致性，不是人工准确率。

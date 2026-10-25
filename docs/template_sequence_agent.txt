@@ -1,0 +1,42 @@
+TemplateAgent 序列证据循环
+
+确定性入口 TemplateAgent.run() 保持兼容；异步入口 TemplateAgent.complete() 在固定框架
+上执行本地检索、原文读取、关联提议、独立模型核验和覆盖检查。实现位于
+src/template_sequence_agent.py，document 模式默认在全文提取后运行。
+
+工具协议为受约束 JSON action，由宿主 Python 执行，不依赖 Codex 原生工具列表：
+  search：按分子名称/别名/组件名检索同篇本地证据。
+  read：读取指定来源附近的正文/表格上下文，保留页码、单元格和原文地址。
+  submit：分类序列定义并提出构建体关联，程序检查后另发模型核验请求。
+  finish：结束本轮，未解决项仍保留在清单和审计报告中。
+
+只允许引用已经在上下文或工具结果中提供的来源。模型输出名称、角色、区域、编号关联，
+不输出序列残基。程序读取明确的原文定义；可选同篇序列表提供原始字符，不能用序列表
+反推构建体归属。OCR字符与序列表字符分别保留，不把全长链切成猜测的VH/VL。
+组成表中明确的“构建体—组件—SEQ ID”也可以建立关联，即使该表只引用编号而不重印残基；
+先归类为 reference，再核验行列、区域和构建体归属。泛泛的编号引用不构成归属证据。
+
+sequence_components 按 role、region、parent_chain、order 表达 IgG/scFv/完整链/接头及
+排列；没有证据的连接位置和顺序保持 null。不会把父体/突变体、相似名称、共享序列的
+不同分子自动合并。每条关联都能回查具体原文；独立模型核验仍不是人工金标准。
+
+序列整理由 src/run_document_pdf.py 的完整文档流程调用，通过
+--template-agent-max-calls 和 --template-agent-context-chars 控制调用次数和上下文预算。
+--template-agent-max-calls 0 只生成清单审计，不调用该阶段的模型。
+所有实际请求记录耗时/token；数据、字段状态和证据随文档结果一起保存。
+已有文档模型检查点通过主入口 --resume --run-dir 续跑。
+独立序列重放实验入口已从 src 清理，主流程和 TemplateAgent.complete() 保留。
+
+主要产物：
+  sequence_inventory.json：编号出现位置/显式无编号定义的清单，每条都有状态和去向。
+  template_agent_report.json：接受、拒绝、错误、工具步骤、停止原因和剩余缺口。
+  template_agent/：逐次模型输入、响应和工具结果。
+  template.agent.completed.json：序列整理检查点。
+  template.completed.json / dataset.json：完整链、组件、证据和审计结果。
+  data_construction.json：原有六字段兼容导出；组件信息查看 dataset.json。
+  _timings.json / token_usage.json：本次单独序列整理的实际耗时与模型用量。
+
+覆盖口径是输入OCR中的编号出现位置及显式序列定义标题；同一编号可出现多次，
+不能把出现位置数当作独立序列数。处理状态有 unresolved、definition（已定义待关联）、
+linked、reference、non_antibody、ambiguous。预算耗尽/无进展/错误后保留 partial。
+此覆盖不证明原PDF没有OCR遗漏，也不证明所有构建体和实验语义正确。

@@ -1,0 +1,11 @@
+{
+  "knowledge_source": "/project_c20250601/252705034/dataagent/src/templates/antibody_sequence_assay_v2.json",
+  "sha256": "9d94c760c1241a98eb864181e63bf43e9b9e8c436357451a399fd0080f4be992",
+  "template_agent_reference": "dataagent/src/template_agent.py",
+  "semantic_plan_reference": "dataagent/prompt/document_template.txt",
+  "runtime_dependency_on_dataagent": false,
+  "excluded_inference_defaults": [
+    "assay.default_unit",
+    "sequence_definition.variable_length"
+  ]
+}

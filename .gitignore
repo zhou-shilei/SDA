@@ -1,0 +1,31 @@
+# Local workspaces, documents, model weights and generated artifacts
+/.studio/
+/.vscode/
+/data/
+/results/
+/outputs/
+/runs/
+/baseline/
+/validation_results/
+/papers/
+/vendor/
+/models/
+/todo.md
+
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+envs/
+.cache/
+.paddlex/
+
+# Local credentials and transient files
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+.DS_Store

@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="SeqDataAgent"
+    />
+    <title>SeqDataAgent</title>
+    <link rel="stylesheet" href="./styles.css?v=20261024-pdf-workflow" />
+  </head>
+  <body>
+    <div id="app" class="app-shell" aria-busy="true">
+      <header class="topbar">
+        <div class="brand-block">
+          <div class="brand-line">
+            <h1 data-i18n="app.title">SeqDataAgent</h1>
+          </div>
+        </div>
+        <nav class="primary-nav" aria-label="主功能" data-i18n-aria-label="nav.aria">
+          <button type="button" class="active" data-app-page="dataset" data-i18n="nav.dataset">数据集</button>
+          <button type="button" data-app-page="intake" data-i18n="nav.intake">数据录入</button>
+          <button type="button" data-app-page="review" data-i18n="nav.review">数据审阅</button>
+        </nav>
+        <div class="topbar-actions">
+          <a id="run-overview-link" class="button" href="./run.html">运行概览</a>
+          <button id="reviewer-identity-button" class="button reviewer-identity-button" type="button"
+            title="修改当前人工审核人" data-i18n-title="reviewer.change">
+            <span aria-hidden="true">●</span>
+            <span id="reviewer-identity-label">人工审核 · 未设置</span>
+          </button>
+          <button id="language-toggle" class="button language-toggle" type="button" aria-label="切换语言">
+            EN
+          </button>
+        </div>
+      </header>
+
+      <section id="dataset-page" class="app-page dataset-page" aria-labelledby="dataset-page-title">
+        <article class="page-card full-dataset-panel">
+          <div class="page-card-header">
+            <div class="page-card-title">
+              <button id="dataset-back" class="button button-secondary" type="button" data-i18n="datasetPage.back" hidden>← 数据集</button>
+              <h2 id="dataset-page-title">数据集</h2>
+              <span id="dataset-total-count" class="count-pill" aria-live="polite">0 个文件夹</span>
+            </div>
+            <div class="dataset-tools">
+              <button id="dataset-create-button" class="button button-secondary" type="button" data-i18n="datasetPage.create">＋ 新建文件夹</button>
+              <div id="dataset-record-tools" class="dataset-tools" hidden>
+              <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="dataset-search" type="search" placeholder="搜索专利、名称、序列或数值" data-i18n-placeholder="datasetPage.search" />
+              </label>
+              <button id="dataset-export-button" class="button button-primary table-export-button" type="button">
+                <span aria-hidden="true">⇩</span>
+                <span data-i18n="action.exportDataset">导出数据集</span>
+              </button>
+              </div>
+            </div>
+          </div>
+          <div id="dataset-folders-panel" class="dataset-folders-panel">
+            <p class="dataset-folders-hint" data-i18n="datasetPage.folderHint">按靶点管理数据集，打开文件夹查看已推送的记录。</p>
+            <div id="dataset-folder-list" class="dataset-folder-list"></div>
+          </div>
+          <div id="dataset-records-panel" class="grid-wrap full-grid-wrap" tabindex="0" aria-label="当前靶点数据集" data-i18n-aria-label="datasetPage.tableAria" hidden>
+            <div id="dataset-empty-state" class="dataset-empty-state" hidden>
+              <svg class="dataset-folder-icon" viewBox="0 0 48 40" aria-hidden="true"><path d="M3 10a4 4 0 0 1 4-4h11l5 5h18a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M3 17h42"/></svg>
+              <p data-i18n="datasetPage.emptyFolder">此文件夹暂无记录。请在数据审阅中选择此靶点，再推送所选记录。</p>
+            </div>
+            <table id="dataset-overview-table" class="dataset-grid overview-grid" data-resizable-table="dataset">
+              <colgroup>
+                <col style="width: 170px" /><col style="width: 220px" />
+                <col style="width: 280px" /><col style="width: 280px" />
+                <col style="width: 95px" /><col style="width: 116px" />
+                <col style="width: 250px" /><col style="width: 320px" />
+                <col style="width: 180px" /><col style="width: 150px" />
+                <col style="width: 88px" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th data-i18n="field.patent">专利</th>
+                  <th data-i18n="field.antibody_id">原文名称</th>
+                  <th data-i18n="field.vh">VH</th>
+                  <th data-i18n="field.vl">VL</th>
+                  <th class="number-column" data-i18n="field.ic50">数值</th>
+                  <th class="sortable-header" aria-sort="none">
+                    <div class="column-header-content unit-sort-header">
+                      <span data-i18n="field.ic50_unit">单位</span>
+                      <select id="dataset-unit-sort" class="column-sort-select" title="按单位排序" data-i18n-title="sort.unit" data-i18n-aria-label="sort.unit">
+                        <option value="none" data-i18n="sort.none">默认顺序</option>
+                        <option value="ascending" data-i18n="sort.ascending">升序</option>
+                        <option value="descending" data-i18n="sort.descending">降序</option>
+                      </select>
+                    </div>
+                  </th>
+                  <th data-i18n="field.experiment_group">实验组</th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.experiment_keywords">实验 keyword</span>
+                      <details id="dataset-keyword-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选实验 keyword" data-i18n-title="filter.experimentKeyword">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.link_status">复核状态</span>
+                      <details id="dataset-status-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选复核状态" data-i18n-title="filter.reviewStatus">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.humanReviewer">人工审核</span>
+                      <details id="dataset-reviewer-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选人工审核人" data-i18n-title="filter.humanReviewer">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="number-column" data-i18n="field.evidence">证据</th>
+                </tr>
+              </thead>
+              <tbody id="dataset-overview-rows">
+                <tr class="loading-row"><td colspan="11" data-i18n="app.loading">正在加载专利数据…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section id="intake-page" class="app-page intake-page" aria-label="数据录入" data-i18n-aria-label="intake.aria" hidden>
+        <article class="page-card patent-list-panel">
+          <div class="page-card-header">
+            <div class="page-card-title">
+              <h2 data-i18n="intake.collectionTitle">专利收集情况</h2>
+              <span id="patent-count" class="count-pill">0 篇专利</span>
+            </div>
+            <div class="patent-list-actions">
+              <span id="patent-selection-count" class="page-card-description" aria-live="polite" data-i18n="intake.noneSelected">未选择专利</span>
+              <button id="delete-selected-patents" class="button button-ghost-danger table-export-button" type="button" disabled>
+                <span data-i18n="intake.deleteSelected">删除所选</span>
+              </button>
+              <button id="patent-export-button" class="button button-primary table-export-button" type="button">
+                <span aria-hidden="true">⇩</span>
+                <span data-i18n="action.exportPatents">导出专利列表</span>
+              </button>
+            </div>
+          </div>
+          <div class="patent-table-wrap">
+            <table class="patent-table" data-resizable-table="patents">
+              <colgroup>
+                <col style="width: 44px" /><col style="width: 280px" />
+                <col style="width: 120px" /><col style="width: 104px" />
+                <col style="width: 140px" />
+                <col style="width: 190px" />
+                <col style="width: 400px" /><col style="width: 160px" />
+                <col style="width: 280px" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="patent-select-column"><input id="select-all-patents" type="checkbox" aria-label="选择全部可删除专利" data-i18n-aria-label="intake.selectAll" /></th>
+                  <th data-i18n="field.patentName">专利号</th>
+                  <th class="number-column" data-i18n="field.collectedCount">已收集条数</th>
+                  <th class="number-column" data-i18n="field.pdfPages">PDF 页数</th>
+                  <th data-i18n="field.pdfForm" data-i18n-title="pdfForm.help" title="按文字的保存方式自动判断；表格和插图不单独作为分类。">PDF 形式</th>
+                  <th data-i18n="field.patentText" data-i18n-title="patentText.help" title="检查当前专利的本地正文和 PDF 文字资料。">本地正文资料</th>
+                  <th data-i18n="field.agentStatus">Agent 状态</th>
+                  <th data-i18n="field.datasetMembership">数据库记录</th>
+                  <th data-i18n="field.action">操作</th>
+                </tr>
+              </thead>
+              <tbody id="patent-rows"></tbody>
+            </table>
+          </div>
+          <form id="patent-import-form" class="patent-import-form">
+            <input id="patent-name-input" type="hidden" />
+            <button id="pdf-drop-zone" class="pdf-drop-zone" type="button">
+              <span class="upload-icon" aria-hidden="true">＋</span>
+              <span class="import-button-copy">
+                <strong data-i18n="intake.addTitle">选择专利 PDF</strong>
+                <small id="selected-pdf-name" data-i18n="intake.choosePdf">点击选择或拖入 PDF</small>
+              </span>
+            </button>
+            <input id="patent-pdf-input" class="sr-only" type="file" accept="application/pdf,.pdf" />
+            <button id="start-agent-button" class="button button-primary import-submit" type="submit" disabled>
+              <span aria-hidden="true">▶</span>
+              <span data-i18n="intake.startAgent">导入 PDF 并开始解析</span>
+            </button>
+          </form>
+        </article>
+      </section>
+
+      <main id="review-page" class="app-page studio-main" hidden>
+        <section id="dataset-panel" class="dataset-panel" aria-labelledby="dataset-title">
+          <div class="section-toolbar">
+            <div class="section-heading">
+              <h2 id="dataset-title">SDA</h2>
+              <span id="record-count" class="count-pill">0 条记录</span>
+              <label class="dataset-publish-target">
+                <span data-i18n="datasetPage.publishTarget">推送到</span>
+                <select id="review-dataset-select" aria-label="目标数据集文件夹" data-i18n-aria-label="datasetPage.publishTargetAria"></select>
+              </label>
+              <button id="review-publish-button" class="review-publish-button" type="button" disabled
+                title="用当前所选记录覆盖目标文件夹中该专利的记录" data-i18n-title="review.publishSelectedTitle">
+                <span aria-hidden="true">⇧</span>
+                <span data-i18n="review.publishSelected">推送所选记录</span>
+              </button>
+            </div>
+            <div class="dataset-tools">
+              <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="record-search" type="search" placeholder="搜索名称、序列或数值" data-i18n-placeholder="dataset.search" />
+              </label>
+              <div class="bulk-reparse-tools">
+                <details id="reparse-field-menu" class="reparse-field-menu">
+                  <summary class="button button-secondary">
+                    <span aria-hidden="true">↻</span>
+                    <span id="reparse-field-summary">重新解析字段</span>
+                  </summary>
+                  <div class="reparse-field-popover">
+                    <strong data-i18n="review.reparseFields">选择重新解析的字段</strong>
+                    <label><input type="checkbox" name="reparse-field" value="antibody_id" /><span data-i18n="field.antibody_id">原文名称</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="vh" checked /><span>VH</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="vl" checked /><span>VL</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="ic50" /><span>IC50</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="ic50_unit" /><span data-i18n="field.ic50_unit">单位</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="link_status" /><span data-i18n="field.link_status">复核状态</span></label>
+                    <label><input type="checkbox" name="reparse-field" value="assay_keywords" /><span data-i18n="field.experiment_keywords">实验 keyword</span></label>
+                    <p id="reparse-field-hint" class="reparse-field-hint" role="status">先勾选表格左侧的记录</p>
+                  </div>
+                </details>
+                <div class="reparse-action">
+                  <button id="reparse-selected-records" class="button button-primary" type="button"
+                    aria-describedby="review-selection-count reparse-field-hint" disabled>
+                    <span aria-hidden="true">▶</span>
+                    <span data-i18n="review.reparseSelected">重新解析所选字段</span>
+                  </button>
+                  <span id="review-selection-count" class="selection-count" role="status">先勾选表格左侧的记录</span>
+                </div>
+              </div>
+              <button id="toggle-grid" class="icon-button" type="button" title="最大化数据表" data-i18n-title="dataset.maximize">
+                <span aria-hidden="true">↗</span>
+                <span class="sr-only" data-i18n="dataset.maximize">最大化数据表</span>
+              </button>
+              <button id="review-export-button" class="button button-primary table-export-button" type="button">
+                <span aria-hidden="true">⇩</span>
+                <span data-i18n="action.exportPatent">导出当前专利</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-wrap" tabindex="0" aria-label="专利提取数据表" data-i18n-aria-label="dataset.tableAria">
+            <table class="dataset-grid" data-resizable-table="review">
+              <colgroup>
+                <col style="width: 42px" /><col style="width: 48px" />
+                <col style="width: 210px" /><col style="width: 245px" />
+                <col style="width: 245px" /><col style="width: 95px" />
+                <col style="width: 116px" /><col style="width: 250px" />
+                <col style="width: 320px" /><col style="width: 180px" />
+                <col style="width: 150px" /><col style="width: 88px" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="selection-column">
+                    <input id="select-all-records" class="row-checkbox" type="checkbox" aria-label="选择当前显示的全部记录" data-i18n-aria-label="review.selectAll" />
+                  </th>
+                  <th class="index-column">#</th>
+                  <th data-i18n="field.antibody_id">原文名称</th>
+                  <th data-i18n="field.vh">VH</th>
+                  <th data-i18n="field.vl">VL</th>
+                  <th class="number-column" data-i18n="field.ic50">数值</th>
+                  <th class="sortable-header" aria-sort="none">
+                    <div class="column-header-content unit-sort-header">
+                      <span data-i18n="field.ic50_unit">单位</span>
+                      <select id="unit-sort" class="column-sort-select" title="按单位排序" data-i18n-title="sort.unit" data-i18n-aria-label="sort.unit">
+                        <option value="none" data-i18n="sort.none">默认顺序</option>
+                        <option value="ascending" data-i18n="sort.ascending">升序</option>
+                        <option value="descending" data-i18n="sort.descending">降序</option>
+                      </select>
+                    </div>
+                  </th>
+                  <th data-i18n="field.experiment_group">实验组</th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.experiment_keywords">实验 keyword</span>
+                      <details id="keyword-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选实验 keyword" data-i18n-title="filter.experimentKeyword">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.link_status">复核状态</span>
+                      <details id="status-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选复核状态" data-i18n-title="filter.reviewStatus">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.humanReviewer">人工审核</span>
+                      <details id="reviewer-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选人工审核人" data-i18n-title="filter.humanReviewer">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
+                  <th class="number-column" data-i18n="field.evidence">证据</th>
+                </tr>
+              </thead>
+              <tbody id="record-rows">
+                <tr class="loading-row">
+                  <td colspan="12" data-i18n="app.loading">正在加载专利数据…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div id="horizontal-splitter" class="splitter splitter-horizontal" role="separator" aria-orientation="horizontal">
+          <span></span>
+        </div>
+
+        <section id="evidence-workspace" class="evidence-workspace" aria-label="PDF 与 Agent 证据" data-i18n-aria-label="viewer.workspaceAria">
+          <article id="viewer-panel" class="viewer-panel">
+            <div class="panel-toolbar viewer-toolbar">
+              <div class="viewer-title-row">
+                <h2 id="viewer-title" data-i18n="panel.annotation">数据标注</h2>
+                <span id="pdf-page-count" class="count-pill">PDF · 0 页</span>
+              </div>
+              <div class="viewer-actions">
+                <div class="segmented-control" aria-label="证据显示模式" data-i18n-aria-label="viewer.modeAria">
+                  <button type="button" data-view-mode="page" class="active" data-i18n="viewer.page">连续 PDF</button>
+                  <button type="button" data-view-mode="context" data-i18n="viewer.context">上下文</button>
+                  <button type="button" data-view-mode="table" data-i18n="viewer.table">表格</button>
+                </div>
+                <div class="page-navigation" aria-label="PDF 翻页" data-i18n-aria-label="viewer.navigationAria">
+                  <button id="page-previous" class="icon-button" type="button" title="上一页" data-i18n-title="viewer.previous">‹</button>
+                  <span id="page-indicator">1 / 1</span>
+                  <button id="page-next" class="icon-button" type="button" title="下一页" data-i18n-title="viewer.next">›</button>
+                </div>
+                <div class="segmented-control canvas-tools" aria-label="画布工具" data-i18n-aria-label="viewer.canvasAria">
+                  <button id="canvas-select" type="button" class="active" title="选择标注框" data-i18n="tool.select" data-i18n-title="viewer.selectTitle">选择</button>
+                  <button id="canvas-rectangle" type="button" title="绘制人工复核框" data-i18n="tool.rectangle" data-i18n-title="viewer.rectangleTitle">框选</button>
+                </div>
+                <button id="clear-manual-boxes" class="icon-button" type="button" title="清除本页人工框" data-i18n-title="viewer.clearTitle">⌫</button>
+                <button id="zoom-out" class="icon-button" type="button" title="缩小" data-i18n-title="viewer.zoomOut">−</button>
+                <span id="zoom-level" class="zoom-level">100%</span>
+                <button id="zoom-in" class="icon-button" type="button" title="放大" data-i18n-title="viewer.zoomIn">＋</button>
+                <button id="zoom-fit" class="icon-button fit-button" type="button" title="适应宽度" data-i18n="viewer.fit" data-i18n-title="viewer.zoomFit">适应</button>
+              </div>
+            </div>
+
+            <div id="annotation-workspace" class="annotation-workspace">
+              <div class="annotation-canvas">
+                <div id="highlight-controls" class="highlight-controls" role="group" aria-label="高亮显示" data-i18n-aria-label="highlight.title">
+                  <label title="当前单元格" data-i18n-title="legend.cell"><input type="checkbox" data-highlight="cell" aria-label="当前单元格" data-i18n-aria-label="legend.cell" checked /><i class="legend-cell" aria-hidden="true"></i></label>
+                  <label title="表格" data-i18n-title="legend.table"><input type="checkbox" data-highlight="table" aria-label="表格" data-i18n-aria-label="legend.table" checked /><i class="legend-table" aria-hidden="true"></i></label>
+                  <label title="上下文" data-i18n-title="legend.context"><input type="checkbox" data-highlight="context" aria-label="上下文" data-i18n-aria-label="legend.context" checked /><i class="legend-context" aria-hidden="true"></i></label>
+                  <label title="人工框选" data-i18n-title="legend.manual"><input type="checkbox" data-highlight="manual" aria-label="人工框选" data-i18n-aria-label="legend.manual" checked /><i class="legend-manual" aria-hidden="true"></i></label>
+                </div>
+                <div id="viewer-stage" class="viewer-stage">
+                  <div id="empty-viewer" class="empty-state">
+                    <div class="empty-icon">⌁</div>
+                    <h3 data-i18n="empty.title">选择上方任意字段</h3>
+                    <p data-i18n="empty.description">这里将显示对应的页面和证据框。</p>
+                  </div>
+                  <div id="continuous-pages" class="continuous-pages" hidden></div>
+                  <div id="image-frame" class="image-frame" hidden>
+                    <img id="evidence-image" alt="专利证据图" data-i18n-alt="viewer.imageAlt" />
+                    <div id="annotation-layer" class="annotation-layer" aria-label="PDF 标注框" data-i18n-aria-label="viewer.annotationAria"></div>
+                  </div>
+                </div>
+              </div>
+              <div id="map-splitter" class="splitter splitter-vertical annotation-map-splitter" role="separator" aria-orientation="vertical" aria-label="调整数据关联图宽度" data-i18n-aria-label="map.resize"><span></span></div>
+              <aside class="review-map-panel" aria-label="数据关联图" data-i18n-aria-label="map.title">
+                <button id="toggle-review-map" class="review-map-toggle" type="button" aria-expanded="true" aria-controls="review-map-body" title="收起数据关联图">
+                  <span class="review-map-title" data-i18n="map.title">数据关联图</span>
+                  <span class="review-map-toggle-icon" aria-hidden="true">›</span>
+                </button>
+                <div id="review-map-body" class="review-map-body">
+                  <div class="review-map-controls">
+                    <button id="map-toggle-branches" class="sidebar-text-button" type="button" data-i18n="map.collapseAll">收起分支</button>
+                    <div class="map-zoom-controls">
+                      <button id="map-zoom-out" class="icon-button" type="button" title="缩小关联图" data-i18n-title="map.zoomOut">−</button>
+                      <button id="map-zoom-reset" class="sidebar-text-button" type="button" title="重置关联图缩放" data-i18n-title="map.zoomReset">100%</button>
+                      <button id="map-zoom-in" class="icon-button" type="button" title="放大关联图" data-i18n-title="map.zoomIn">＋</button>
+                    </div>
+                  </div>
+                  <div id="evidence-strip" class="review-map-viewport" tabindex="0" aria-label="数据关联图，点击节点定位原文" data-i18n-aria-label="map.aria"></div>
+                  <p class="review-map-hint" data-i18n="map.hint">点击节点定位原文；可折叠分支、缩放，拖动左侧分隔线调整宽度。</p>
+                </div>
+              </aside>
+            </div>
+
+            <footer class="viewer-footer">
+              <span id="viewer-location" data-i18n="viewer.noneEvidence">未选择证据</span>
+              <span id="viewer-caption" class="viewer-caption"></span>
+            </footer>
+          </article>
+
+          <div id="vertical-splitter" class="splitter splitter-vertical" role="separator" aria-orientation="vertical">
+            <span></span>
+          </div>
+
+          <aside class="inspector-panel" aria-labelledby="inspector-title">
+            <div class="panel-toolbar inspector-heading">
+              <h2 id="inspector-title" data-i18n="panel.recognition">识别过程</h2>
+              <span id="field-kind" class="field-kind">—</span>
+            </div>
+
+            <nav id="inspector-tabs" class="inspector-tabs" aria-label="Agent 识别阶段" data-i18n-aria-label="inspector.tabsAria">
+              <button type="button" data-tab="detection" data-i18n="tab.detection">表格检测</button>
+              <button type="button" data-tab="ocr" class="active" data-i18n="tab.ocr">文字识别</button>
+              <button type="button" data-tab="experiment" data-i18n="tab.experiment">实验过程</button>
+            </nav>
+
+            <div id="inspector-content" class="inspector-content">
+              <div class="empty-inspector">
+                <p data-i18n="inspector.empty">选择数据字段后显示 Agent 识别过程。</p>
+              </div>
+            </div>
+
+            <div class="review-bar">
+              <button id="accept-field" class="button button-success" type="button"><span>✓</span><span data-i18n="action.accept">接受</span></button>
+              <button id="edit-field" class="button button-secondary" type="button"><span>✎</span><span data-i18n="action.edit">修正</span></button>
+              <button id="flag-field" class="button button-ghost-danger" type="button"><span>!</span><span data-i18n="action.flag">标记问题</span></button>
+            </div>
+          </aside>
+        </section>
+      </main>
+
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <dialog id="reviewer-dialog" class="edit-dialog reviewer-dialog">
+        <form id="reviewer-form" method="dialog">
+          <div class="dialog-header">
+            <div>
+              <div class="eyebrow" data-i18n="reviewer.dialogEyebrow">操作者身份</div>
+              <h2 data-i18n="reviewer.dialogTitle">请输入您的真实姓名</h2>
+            </div>
+          </div>
+          <p id="reviewer-dialog-description" class="reviewer-dialog-description" data-i18n="reviewer.dialogDescription">人工修正、接受和标记问题都会记录此姓名。</p>
+          <label class="dialog-field">
+            <span data-i18n="reviewer.name">真实姓名</span>
+            <input id="reviewer-name-input" type="text" required maxlength="40" autocomplete="name"
+              placeholder="例如：周仕磊" data-i18n-placeholder="reviewer.namePlaceholder"
+              aria-describedby="reviewer-dialog-description reviewer-name-error" />
+          </label>
+          <p id="reviewer-name-error" class="correction-reason-error" role="alert" data-i18n="reviewer.nameRequired" hidden>请输入至少两个文字的真实姓名</p>
+          <div class="dialog-actions">
+            <button id="cancel-reviewer-name" class="button button-secondary" type="button" data-i18n="action.cancel" hidden>取消</button>
+            <button id="save-reviewer-name" class="button button-primary" type="submit" data-i18n="reviewer.confirm">确认身份</button>
+          </div>
+        </form>
+      </dialog>
+
+      <button id="open-collection-review" class="collection-launcher" type="button" aria-controls="collection-review-panel" aria-expanded="false" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 1.5-2.5 3M12 15h.01"/></svg>
+        <span data-i18n="review.collection">采集确认</span>
+        <span id="collection-question-count" class="collection-question-count" aria-live="polite" aria-atomic="true">…</span>
+      </button>
+      <aside id="collection-review-panel" class="collection-panel" role="dialog" aria-modal="false" aria-label="采集确认" data-i18n-aria-label="review.collection" hidden></aside>
+
+      <dialog id="dataset-folder-dialog" class="edit-dialog reviewer-dialog" aria-labelledby="dataset-folder-dialog-title">
+        <form id="dataset-folder-form">
+          <div class="dialog-header">
+            <h2 id="dataset-folder-dialog-title" data-i18n="datasetPage.createTitle">新建靶点文件夹</h2>
+          </div>
+          <p class="reviewer-dialog-description" data-i18n="datasetPage.createHint">以靶点名称命名，例如 TSLP、IL-4。创建后可将审阅结果推送到此文件夹。</p>
+          <label class="dialog-field">
+            <span data-i18n="datasetPage.targetName">靶点名称</span>
+            <input id="dataset-folder-name" type="text" maxlength="80" required autocomplete="off" placeholder="例如 IL-4" data-i18n-placeholder="datasetPage.namePlaceholder" aria-describedby="dataset-folder-error" />
+          </label>
+          <p id="dataset-folder-error" class="collection-error" role="alert" hidden></p>
+          <div class="dialog-actions">
+            <button id="dataset-folder-cancel" class="button button-secondary" type="button" data-i18n="action.cancel">取消</button>
+            <button id="dataset-folder-submit" class="button button-primary" type="submit" data-i18n="datasetPage.createSubmit">创建文件夹</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="patent-log-dialog" class="edit-dialog patent-log-dialog" aria-labelledby="patent-log-title" aria-describedby="patent-log-document patent-log-status">
+        <div class="patent-log-body">
+          <div class="dialog-header">
+            <div>
+              <h2 id="patent-log-title" data-i18n="intake.logTitle">解析任务日志</h2>
+              <p id="patent-log-document" class="patent-log-document"></p>
+            </div>
+            <button id="patent-log-close" class="icon-button" type="button" aria-label="关闭" data-i18n-aria-label="dialog.close">×</button>
+          </div>
+          <p id="patent-log-status" class="patent-log-status" role="status" aria-live="polite"></p>
+          <pre id="patent-log-content" class="patent-log-content" tabindex="0"></pre>
+          <div class="dialog-actions">
+            <button id="patent-log-refresh" class="button button-primary" type="button" data-i18n="intake.logRefresh">刷新日志</button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="edit-dialog" class="edit-dialog">
+        <form method="dialog">
+          <div class="dialog-header">
+            <div>
+              <div class="eyebrow" data-i18n="dialog.eyebrow">人工修正</div>
+              <h2 id="edit-dialog-title" data-i18n="dialog.title">修改字段</h2>
+            </div>
+            <button id="close-edit-dialog" class="icon-button" type="button" aria-label="关闭" data-i18n-aria-label="dialog.close">×</button>
+          </div>
+          <label class="dialog-field">
+            <span data-i18n="dialog.original">原始识别结果</span>
+            <pre id="original-value"></pre>
+          </label>
+          <label class="dialog-field">
+            <span data-i18n="dialog.corrected">修正值</span>
+            <textarea id="corrected-value" rows="7"></textarea>
+          </label>
+          <fieldset class="dialog-field correction-reason-fieldset">
+            <legend data-i18n="dialog.reason">修改原因（可多选）</legend>
+            <div id="correction-reasons" class="correction-reason-grid">
+              <label class="correction-reason-option"><input type="checkbox" value="ocr_character" /><span data-i18n="correctionReason.character">字符识别错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="sequence_assembly" /><span data-i18n="correctionReason.sequence">序列拼接错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="index" /><span data-i18n="correctionReason.index">索引错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="numeric" /><span data-i18n="correctionReason.numeric">数值识别错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="unit" /><span data-i18n="correctionReason.unit">单位识别错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="relation" /><span data-i18n="correctionReason.relation">字段关联错误</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="missing" /><span data-i18n="correctionReason.missing">内容缺失</span></label>
+              <label class="correction-reason-option"><input type="checkbox" value="other" /><span data-i18n="correctionReason.other">其他错误</span></label>
+            </div>
+            <p id="correction-reason-error" class="correction-reason-error" role="alert" data-i18n="dialog.reasonRequired" hidden>请至少选择一个修改原因</p>
+          </fieldset>
+          <label class="dialog-field">
+            <span data-i18n="dialog.note">补充说明（可选）</span>
+            <input id="correction-note" type="text" placeholder="例如：OCR 将 Q 识别为 O" data-i18n-placeholder="dialog.notePlaceholder" />
+          </label>
+          <div class="dialog-actions">
+            <button id="cancel-edit" class="button button-secondary" type="button" data-i18n="action.cancel">取消</button>
+            <button id="save-correction" class="button button-primary" type="button" data-i18n="action.save">保存修正</button>
+          </div>
+        </form>
+      </dialog>
+    </div>
+    <script type="module" src="./app.js?v=20261024-pdf-workflow"></script>
+  </body>
+</html>

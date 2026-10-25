@@ -1,0 +1,102 @@
+文档级 PDF 提取
+
+表格 OCR 可配置 --table-ocr-workers / --table-ocr-batch-size（完整PDF入口），或
+--ocr-workers / --ocr-batch-size（graph.py）。提交批与实际模型 batch 分别记录，
+当前 native VL 实际模型 batch 为 1；并发测速及参数说明见 docs/table_ocr_parallel.txt。
+默认表格 OCR 使用本机实测较快的 6 进程、每次提交 1 张图片，可通过上述参数覆盖。
+
+完整入口（全新目录，不复用旧 OCR 或提取结果）：
+  ../envs/sda/bin/python src/run_document_pdf.py data/WO2025108394A1/source.pdf \
+    --document-id WO2025108394A1 --run-dir /path/to/new/run \
+    --catalog data/WO2025108394A1/wipo/sequences.json
+
+catalog 可省略。提供时只使用本地、同篇专利的序列表，不在线下载；序列编号必须
+在所引 OCR 中有字面支持，才能通过既有模板逻辑关联官方残基。来源和 OCR 差异保留。
+本轮使用原页坐标，orientation=off，不宣称已自动评估扫描内容方向。
+
+实际流程：
+  PP-DocLayoutV3 检测/裁图
+  -> PP-OCRv6 全文文字 OCR（默认单卡 6 进程、batch 6、预渲染 4）
+  -> PaddleOCR-VL-1.6 表格裁图 OCR
+  -> 一次全文 Codex 提取
+  -> 单元格覆盖审计及至多 2 轮局部补抽
+  -> 实体身份一致性校验、TemplateAgent 固定框架组装、同篇序列表关联
+  -> TemplateAgent 序列定义审计、本地 search/read、关联提议和独立模型核验
+  -> 完整数据和兼容六字段导出、独立 HTML 运行报告。
+
+沿用已有表格图片/原始 OCR 时，也可以直接进入批处理：
+  ../envs/sda/bin/python src/graph.py --image-dir data/WO2025108394A1 \
+    --output-dir /path/to/new/results --extraction-mode document \
+    --text-pages-jsonl /path/to/full/text_ocr/pages.jsonl \
+    --text-context-dir data/WO2025108394A1 \
+    --reuse-table-ocr-from results/WO2025108394A1
+
+默认 extraction-mode=table，保留现有逐表路线。document 路线跳过逐表分类/提取，
+不在全文调用之后再次逐表调用。document-repair-rounds 设置补抽上限；没有覆盖
+进展会提前停止。每轮局部请求最多携带 4 张表，最多同时执行 3 个请求；不会因
+全文响应漏掉测量就再次提交整篇。文档调用复用 Codex CLI 的原生 --output-schema
+约束，验证后的 table#cell 片段引用可以规范为其确切单元格 ID，其他未知引用拒绝。
+默认不对全文已经读取的相同 OCR 再发局部序列映射请求；如需
+显式补查，可以传 --document-sequence-mapping，所有额外请求仍计入用量。
+这里的序列映射指旧的逐实体 VH/VL 映射器。新的 TemplateAgent 序列整理默认开启，
+由 --document-template-agent/--no-document-template-agent 控制；--legacy-text-sequences
+或关闭正文补全时也不运行。--template-agent-max-calls 默认 12，包含规划和核验请求；
+设为 0 只生成序列清单和缺口审计。--template-agent-context-chars 默认 24000。
+这是宿主执行 JSON 动作的单 Agent 工具循环，不是多 Agent 系统，也不开放任意 CLI/网络工具。
+search/read 仅查询本次 OCR 来源；模型不生成残基。submit 经程序校验和另一次模型核验后
+才写入，拒绝未读证据、跨文档来源、全长链冒充 VH/VL、双抗整体 VH/VL 和已有编号冲突。
+独立模型请求不等于独立人工/生物学复核，正确归属仍需复核。预算耗尽/无进展时保存待处理项。
+
+框架版本 antibody-dataset-2.0：保留原有链槽、CDR/FR、METRIC、状态和候选来源，
+新增 experiments、relations、实体原始 ID/别名/构建体类型及 observation.exp_id、
+method、keywords。双抗组件序列保存在 other_sequences，不冒充整个分子的 VH/VL。
+TemplateAgent 新增 sequence_definitions 和 sequence_audit；每个实体可含结构化
+sequence_components，记录 role（molecule/IgG/scFv/linker/other）、region、parent_chain、
+order、seq_id、sequence、原 OCR 字符及证据。未知顺序和连接位置保留 null。
+兼容六字段导出仍只表达明确的整体 VH/VL，完整链和双抗组件查看 dataset.json。
+测量原名和实体身份分开保存，不能依靠相似名称或共享序列合并分子。
+
+身份校验：测量名称必须等于所关联实体的名称或明确别名。发现不一致时，不继承
+另一个分子的序列；若原结果行的首列明确支持该名称，可直接建立序列为空的实体，
+否则保留未关联测量。拒绝的原始关联和模型原始输出始终保存。
+
+覆盖口径：HTML rowspan/colspan 展开使用既有 parse_grid，并保留物理单元格地址。
+结果列依据明确表头、经核验的续表头及模型列解释识别。混合表中的后部表头不应
+屏蔽前部结果。此覆盖仅说明 OCR 结果单元格有去向，不代表 PDF 表格检测无遗漏，
+也不证明实验条件、分子归属或序列配对已通过独立人工核验。
+
+主要产物（run/results/<id>/）：
+  document_input.json / document_sources.json    完整输入及可回查的来源
+  document_extraction.raw.json                  不可改写的模型原始输出
+  document_extraction.json                      审计/身份校验后的中间结果
+  document_report.json / coverage*.json          校验、局部补抽及覆盖说明
+  template.completed.json / dataset.json        完整框架、状态、组件与关系
+  sequence_inventory.json                       SEQ-ID 出现位置和显式无编号序列定义的处理清单
+  template_agent_report.json / template_agent/   工具步骤、提议、核验、拒绝和预算停止原因
+  template.agent.completed.json                 序列整理阶段检查点
+  data_construction.json                        兼容 NAME/VH/VL/METRIC/VALUE/UNIT
+  run_summary.json                             本次 PDF 总时间、阶段和实际 token
+  report.html                                  内嵌数据的静态可视化报告
+
+run/results/requests/ 保存每次模型输入、CLI 原始事件和 stderr。总 token 为
+CLI 返回的 input_tokens + output_tokens；cached_input_tokens 是输入的子集，
+不重复相加。缺失用量保持未知。本地 OCR 的解码 token、开发与测试对话不属于这个
+模型服务用量口径。新目录下的总 wall time 包含复制输入、子进程启动、版面、OCR、
+提取、定向补全和数据导出；人工查看网页和开发耗时不在 PDF 推理时间中。
+
+失败/部分结果的检查点续跑：
+  ../envs/sda/bin/python src/run_document_pdf.py --run-dir /path/to/run --resume
+完整 OCR/表格输入须与原模型输入完全一致。先前 token 事件只读取并累计一次，
+原始模型输出不会被覆盖；新请求和旧报告均保存在独立的 attempt 目录。
+续跑报告的 wall_seconds 是实际自动处理区间之和，明确排除开发暂停，并另列
+elapsed_since_first_start_seconds；不能把该数值称为一次不中断的端到端基准。
+对照普通 OCR 行与表格重复的结果时，只有分子、指标、数值、单位匹配，且该 OCR
+数值行位于唯一匹配结果表的原页矩形内部，才合并来源；不同实验结果不靠数值去重。
+覆盖分母在补全期间保留，模型修改列解释不能让此前已识别的遗漏消失。
+
+VS Code 查看：
+  运行任务 SDA: 启动可视化网页
+  命令面板 -> Simple Browser: Show -> http://127.0.0.1:4182/studio/run.html
+远程 IDE 转发 4182；code-server 可使用 /proxy/4182/studio/run.html。
+端口配置已设置 openPreview。report.html 也可用已有 HTML Live Preview 打开，
+不依赖后端读取 JSON；原页图片使用相对路径，需保留整个 run 目录。

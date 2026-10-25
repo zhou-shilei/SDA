@@ -1,0 +1,120 @@
+PDF 结构化文档解析（默认 VL）
+
+入口：src/paten_ocr.py。默认 --backend vl，使用本地 PP-DocLayoutV3 + PaddleOCR-VL-1.6
+恢复版面、阅读顺序和表格 HTML，输出结构化 Markdown。--backend paddle 可选 PP-OCRv6
+普通逐行文字识别。仅识别 PDF 渲染图片，不读取文字层，不调用远程模型服务，
+不提取序列归属或实验数据，不做跨页表格拼接。PDF 原件保持不变。
+
+环境：environment.yml 中的 PaddleOCR、PaddlePaddle 和 PyMuPDF。
+--device auto 根据当前 Python 环境中的 Paddle 选择 gpu:0 或 cpu。
+显式 --device gpu:0 时，设备不可用会保存失败信息，不静默改用 CPU。
+基础 Python 若安装的是 CPU 版 Paddle，应使用安装了 GPU 版依赖的 sda 环境。
+
+默认使用本地模型：
+  ~/.paddlex/official_models/PP-DocLayoutV3/
+  ~/.paddlex/official_models/PaddleOCR-VL-1.6-0.9B/
+VL 权重目录也兼容已有名称 PaddleOCR-VL-1.6。版面模型需要 inference.json、
+inference.pdiparams、inference.yml；VL 目录包含 model.safetensors、配置及 tokenizer。
+可用 --layout-model-dir / SDA_LAYOUT_MODEL_DIR 和 --vl-model-dir / SDA_VL_MODEL_DIR
+分别指定目录；--ocr-model-root / SDA_OCR_MODEL_ROOT 指定共同根目录。不自动下载模型。
+本机已将现有 PP-DocLayoutV3 权重链接到默认模型目录，不重复复制权重。
+
+--backend paddle 使用根目录下的 PP-OCRv6_medium_det/ 和 PP-OCRv6_medium_rec/；
+每个目录需要 inference.json、inference.pdiparams、inference.yml。
+
+全篇识别：
+  python src/paten_ocr.py --input data/WO2025108394A1/source.pdf \
+    --document-id WO2025108394A1 \
+    --output-dir results/pdf_ocr/WO2025108394A1 --device gpu:0
+
+抽样：
+  python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+    --output-dir validation_results/paten_ocr_vl/sample --pages 1-3 10,11 --device gpu:0
+
+普通 OCR 核验：
+  python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+    --backend paddle --output-dir results/pdf_ocr_check/WO2025108394A1 --device gpu:0
+
+重复执行同一命令即可续跑：成功且校验通过的页面直接复用，失败、损坏和过期页面
+重新识别。--force 强制重识别所选页。省略 --pages 处理全篇；页码从 1 开始。
+先处理子集，再去掉 --pages，会保留已完成页并补识别剩余页面。
+默认输出目录为 results/pdf_ocr/<document-id>，默认 document-id 为 PDF 文件名。
+
+缓存键包括 PDF 内容哈希、document-id、后端、OCR 配置、模型文件内容哈希及依赖版本。
+切换后端会重新识别，不会将旧的逐行 OCR 缓存当作 VL 结果。VL 模型配置和 tokenizer
+文件也纳入哈希；页面缓存校验原图、原始 JSON、逐页 Markdown 与区域图片是否完整。
+workers 和 render_prefetch 仅改变调度，不改变缓存键；串行和并行可共享已完成页。
+每页结果独立原子落盘，并有内容校验，避免中断或编辑后误用损坏缓存。
+全缓存命中不初始化 OCR 模型。相同输出目录只允许一个运行中的任务；不同 PDF
+或不同 document-id 必须使用独立目录，不覆盖其他工具的既有结果。
+文件写入中断后重新运行即可从独立页面结果重建汇总。
+
+产物：
+  document.json             PDF 哈希、页范围、模型与运行版本、参数、坐标约定和状态
+  pages/page-0001.json      独立页面缓存，VL 包含 blocks、兼容 lines、Markdown 和耗时
+  pages.jsonl              本次所选页面的汇总，兼容 --text-pages-jsonl 输入
+  document.txt             带页码标记的可读文字
+  document.md              VL 结构化 Markdown，保留标题/HTML 表格/区域图片
+  raw/page-0001.json       VL 模型原始 JSON，保留原始像素坐标
+  markdown/page-0001/      VL 单页 Markdown 和 imgs/ 区域图片
+  images/page-0001.png      实际识别的页面图片
+  summary.json             成功/失败/缓存/待处理页、低置信度页和本次耗时
+
+VL blocks 包含稳定的 block_id、block_label、block_order、block_content、bbox/polygon。
+兼容 lines 按模型输出顺序逐区块投影，line_id 引用对应 block_id，granularity=block，
+表格 text 原样保留 HTML（含 rowspan/colspan）；这些条目不是物理文字行。
+VL 不提供可比较的逐行置信度，confidence=null、confidence_available=false，
+--low-confidence 仅对 paddle 后端生效。--max-new-tokens 默认 4096，限定单区块生成长度。
+两种后端都不在后处理阶段纠正 O/Q 等字符或按生物学知识补字；VL 本身仍可能产生
+字符错误和补写，不能将运行成功或区块置信度缺失理解为文字已经核对正确。
+普通 OCR 保留稳定的行 line_id、识别顺序和真实置信度；低置信度文字仅标记而不删除。
+整页没有识别出文字时记录 empty 并进入 review_pages，不将其认定为原页没有内容。
+
+坐标：bbox/polygon 使用 PDF points（1/72 英寸），原点为当前可视页面左上角，
+包含 PDF 自带的 rotation，适用于 page.rect 对应的页面图。记录像素到页面的比例、
+原有 rotation 以及 page_derotation_matrix，可将坐标映射回未旋转的页面坐标。
+此入口不自动判断扫描内容方向、不旋转原件、不做图像去弯曲。VL 使用版面检测
+恢复区块顺序和表格；block_bbox/bbox/polygon 使用 PDF points，bbox_image 为原始像素框。
+raw/ 中模型 JSON 的坐标仍为图片像素。普通 OCR 仍沿用逐行输出，不恢复单元格关系。
+图表保留为区域图片，未启用图表数值解析。schema_pipeline 和 PageEvidenceStore 可直接
+读取 VL pages.jsonl，保留区块地址和表格 HTML，无需转换为旧 OCR 格式。
+
+summary.timings.wall_seconds 是本次执行经过的时间。并行时 model_init_seconds、
+render_seconds 和 ocr_seconds 为已收集页面的工作耗时之和，可相互重叠，不能相加
+作为总耗时；预渲染也可能与模型初始化重叠。render_wait_seconds 表示串行 OCR
+等待预渲染的时间，worker_wait_seconds 表示主进程等待并行页结果的时间。
+saved_page_ocr_seconds 是所选成功页面原始识别耗时之和，含缓存页历史耗时，
+不可当作本次 OCR 耗时。CLI complete 表示所选页全部执行成功；
+full_document_ocr_complete 另行表示全篇页面是否齐全，不能据此宣称字符识别全对。
+有失败页退出码 1；Ctrl-C 保存已完成页、标记 pending 后退出码 130。
+
+Python 接口：
+  from paten_ocr import OCRConfig, ocr_pdf
+  summary = ocr_pdf(pdf, output_dir, config=OCRConfig(device="gpu:0"))
+  # 可选普通 OCR：OCRConfig(device="gpu:0", backend="paddle")
+
+普通 OCR 单 GPU 加速（以下参数及历史基准针对 --backend paddle）：
+  ../envs/sda/bin/python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+    --output-dir results/pdf_ocr/WO2025108394A1 --device gpu:0 \
+    --backend paddle --batch-size 6 --workers 6 --render-prefetch 4
+
+--workers 默认 1；大于 1 时，每个 spawn 进程独立加载模型，全部使用所指定的同一
+设备，主进程按页码保存结果。任务队列有界，中断会取消尚未执行的任务，并等待
+正在执行的进程退出后释放目录锁。成功页逐页写入，不用等待全篇完成。
+--render-prefetch 默认 0；大于 0 时，另启一个 CPU 进程预渲染有限数量的页面，
+让渲染与模型初始化/推理重叠，支持与 --workers 同时使用。
+VL 同样支持 workers 和 render-prefetch，但每个进程都会加载一份 VL 和版面模型，
+默认保留 --workers 1。--batch-size 仅控制 paddle 后端。
+batch-size 是普通 OCR 文字裁块批量，不是并发 PDF 页数；本机测试增大到 16/32/64 更慢，
+也会改变部分识别文字，因此保留 6。模型和渲染进程均不会在全缓存命中时启动。
+进程数提高会增加模型显存和初始化开销；上面的 6 进程适用于本次 A100 80GB
+测试，不是所有 GPU 的通用默认。低显存设备可先用 --workers 1 --render-prefetch 2。
+Python 脚本调用多进程模式时，需要将入口放在 if __name__ == "__main__": 中。
+
+历史单卡基准结果位于 validation_results/paten_ocr_speed/，独立测速脚本已从 src 清理。
+文字一致只表示相对基线没有文字变化，不是人工准确率评估。
+完整 PDF 到 dataset 的运行入口及依赖说明见 docs/pdf_pipeline.txt。
+
+验证：
+  python -m unittest discover -s tests -p test_paten_ocr.py -v
+  python -m unittest discover -s tests -p test_document_vl.py -v
