@@ -380,7 +380,7 @@ class TemplateSequenceAgentTests(unittest.TestCase):
         (data_dir / "sequences.json").write_text(json.dumps(self.catalog))
         llm = ScriptedLLM([action("submit", definitions=[self.proposal()], bindings=[self.binding()]), action("finish")])
         result = asyncio.run(build_document_dataset("DOC", [], data_dir, self.out, llm=llm,
-            initial_template=self.template, complete_text=True, run_tst=False, page_evidence=False,
+            initial_template=self.template, complete_text=True,
             sequence_agent=True, template_agent_max_calls=4))
         self.assertIn("sequence_audit", result["dataset"])
         self.assertEqual(result["dataset"]["entities"][0]["sequence_components"][0]["seq_id"], 38)

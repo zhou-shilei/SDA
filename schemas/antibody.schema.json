@@ -392,6 +392,14 @@
           "type": "array",
           "items": {"$ref": "#/$defs/sequenceComponent"}
         },
+        "sequence_locations": {
+          "type": "object",
+          "properties": {
+            "vh": {"type": "object"},
+            "vl": {"type": "object"}
+          },
+          "additionalProperties": false
+        },
         "sequence_links": {
           "type": "array",
           "items": {

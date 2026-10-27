@@ -12,6 +12,12 @@
 /models/
 /todo.md
 
+# dataagent2 local dependencies and generated benchmark outputs
+/src/dataagent2/.tokenizer_runtime/
+/src/dataagent2/benchmarks/**
+!/src/dataagent2/benchmarks/**/
+!/src/dataagent2/benchmarks/**/*.md
+
 # Python environments and caches
 __pycache__/
 *.py[cod]

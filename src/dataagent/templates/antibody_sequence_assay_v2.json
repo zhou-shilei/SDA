@@ -1,0 +1,368 @@
+{
+  "template_id": "antibody-sequence-assay-v2",
+  "version": 2,
+  "construct_mapping": {
+    "headers": {
+      "construct": ["抗体", "antibody", "construct"],
+      "VH": ["vh", "重链", "heavy chain"],
+      "VL": ["vl", "轻链", "light chain"]
+    },
+    "seq_id_value_pattern": "^(?:SEQ\\s*ID\\s*NO\\s*:?\\s*)?(\\d+)$"
+  },
+  "sequence_definition": {
+    "label_patterns": [
+      "^\\s*>\\s*(?P<family>[A-Za-z]{1,12}\\d+)\\s*(?P<chain>VH|VL)\\s*(?P<variant>\\d+)\\s*:?.*$"
+    ],
+    "scope_patterns": {
+      "variable_heavy": ["\\bVH\\s*\\d+\\b", "重链可变区", "heavy\\s+chain\\s+variable"],
+      "variable_light": ["\\bVL\\s*\\d+\\b", "轻链可变区", "light\\s+chain\\s+variable"],
+      "full_heavy_chain": ["抗体重链", "antibody\\s+heavy\\s+chain"],
+      "full_light_chain": ["抗体轻链", "antibody\\s+light\\s+chain"],
+      "heavy_cdr": ["\\bHCDR\\s*[123]\\b"],
+      "light_cdr": ["\\bLCDR\\s*[123]\\b"],
+      "constant_region": ["恒定区", "constant\\s+region"]
+    },
+    "seq_id_pattern": "SEQ\\s*ID\\s*NO\\s*:?(?:<br>)?\\s*(\\d+)",
+    "variable_length": {
+      "VH": [70, 160],
+      "VL": [70, 140]
+    },
+    "page_scan_before": 3,
+    "page_scan_after": 0
+  },
+  "antibody_construct_knowledge": {
+    "types": [
+      {
+        "key": "bispecific_antibody",
+        "label_zh": "双特异性抗体",
+        "label_en": "Bispecific antibody",
+        "patterns": [
+          "bispecific", "bi-specific", "dual[- ]specific", "multispecific",
+          "crossmab", "knob[- ]into[- ]hole", "dvd[- ]?ig", "双特异"
+        ]
+      },
+      {
+        "key": "full_length_antibody",
+        "label_zh": "完整抗体",
+        "label_en": "Full-length antibody",
+        "patterns": [
+          "full[- ]length (?:igg|antibod)", "intact (?:igg|antibod)",
+          "complete (?:igg|antibod)", "完整抗体", "全长抗体"
+        ]
+      },
+      {
+        "key": "variable_heavy",
+        "label_zh": "VH",
+        "label_en": "VH",
+        "patterns": ["\\bVH\\b", "variable heavy", "重链可变区"]
+      },
+      {
+        "key": "variable_light",
+        "label_zh": "VL",
+        "label_en": "VL",
+        "patterns": ["\\bVL\\b", "variable light", "轻链可变区"]
+      },
+      {
+        "key": "full_heavy_chain",
+        "label_zh": "完整重链",
+        "label_en": "Full heavy chain",
+        "patterns": ["full heavy chain", "complete heavy chain", "完整重链"]
+      },
+      {
+        "key": "full_light_chain",
+        "label_zh": "完整轻链",
+        "label_en": "Full light chain",
+        "patterns": ["full light chain", "complete light chain", "完整轻链"]
+      },
+      {
+        "key": "fab",
+        "label_zh": "Fab",
+        "label_en": "Fab",
+        "patterns": ["\\bFab\\b", "antigen[- ]binding fragment"]
+      },
+      {
+        "key": "scfv",
+        "label_zh": "scFv",
+        "label_en": "scFv",
+        "patterns": ["\\bscFv\\b", "single[- ]chain variable"]
+      }
+    ]
+  },
+  "assay": {
+    "entity_headers": ["抗体", "antibody", "construct"],
+    "endpoints": ["IC50", "IC₅₀"],
+    "default_unit": "nM",
+    "protocol_ocr": {
+      "page_scan_before": 36,
+      "page_scan_after": 0,
+      "max_side": 1900,
+      "preferred_backend": "tesseract"
+    },
+    "species": [
+      {
+        "key": "human",
+        "label_zh": "人",
+        "label_en": "Human",
+        "patterns": ["\\bhuman\\b", "\\bhTSLP\\b", "\\bhTSLPR\\b", "人源", "人\\s*TSLP"]
+      },
+      {
+        "key": "cynomolgus",
+        "label_zh": "食蟹猴",
+        "label_en": "Cynomolgus",
+        "patterns": ["cynomolgus", "cyno(?:TSLP|TSLPR|IL[- ]?7R)?", "食蟹猴"]
+      },
+      {
+        "key": "mouse",
+        "label_zh": "老鼠",
+        "label_en": "Mouse",
+        "patterns": ["\\bmouse\\b", "\\bmurine\\b", "\\bmTSLP\\b", "小鼠", "老鼠"]
+      }
+    ],
+    "systems": [
+      {
+        "key": "protein",
+        "label_zh": "蛋白",
+        "label_en": "Protein",
+        "patterns": [
+          "\\bELISA\\b", "\\bKinExA\\b", "surface plasmon resonance", "\\bSPR\\b",
+          "bio[- ]?layer interferometry", "\\bBLI\\b", "immobilized", "coated",
+          "蛋\\s*白", "包\\s*被", "亲\\s*和\\s*力"
+        ]
+      },
+      {
+        "key": "cell",
+        "label_zh": "细胞",
+        "label_en": "Cell",
+        "patterns": [
+          "cell line", "cells?\\b", "PBMC", "dendritic", "mDC", "whole blood",
+          "Ba/F3", "STAT5", "luciferase", "FACS", "flow cytometry", "proliferation",
+          "细\\s*胞", "全\\s*血", "树\\s*突\\s*状", "流\\s*式", "增\\s*殖"
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "key": "protein_blocking_elisa_ic50",
+        "label_zh": "阻断 ELISA·IC50",
+        "label_en": "Blocking ELISA·IC50",
+        "endpoint": "IC50",
+        "system": "protein",
+        "minimum_score": 3,
+        "patterns": ["blocking ELISA", "inhibition of binding", "block.*receptor", "TMB", "HRP", "IC\\s*(?:50|so|s0)", "ELISA", "阻\\s*断", "抑\\s*制", "受\\s*体", "预\\s*孵\\s*育", "包\\s*被"],
+        "summary_zh": "采用蛋白阻断 ELISA：抗体与配体预孵育后加入受体包被板，通过 HRP/TMB 信号计算抑制率并拟合 IC50。",
+        "summary_en": "Protein blocking ELISA: antibody and ligand are pre-incubated, transferred to a receptor-coated plate, and HRP/TMB signal is used to fit IC50."
+      },
+      {
+        "key": "protein_binding_elisa_ec50",
+        "label_zh": "结合 ELISA·EC50",
+        "label_en": "Binding ELISA·EC50",
+        "endpoint": "EC50",
+        "system": "protein",
+        "minimum_score": 3,
+        "patterns": ["binding ELISA", "indirect ELISA", "coated.*protein", "absorbance", "EC\\s*(?:50|so|s0)", "ELISA", "结\\s*合", "包\\s*被", "吸\\s*光\\s*度", "OD\\s*450"],
+        "summary_zh": "采用蛋白结合 ELISA 测量抗体结合信号，并通过非线性曲线拟合得到 EC50。",
+        "summary_en": "Protein binding ELISA measures antibody binding signal and obtains EC50 by nonlinear curve fitting."
+      },
+      {
+        "key": "kinexa_kd",
+        "label_zh": "KinExA·KD",
+        "label_en": "KinExA·KD",
+        "endpoint": "KD",
+        "system": "protein",
+        "minimum_score": 2,
+        "patterns": ["KinExA", "kinetic exclusion", "solution equilibrium", "azlactone beads", "equilibrium titration", "\\bK[Dd]\\b"],
+        "summary_zh": "采用 KinExA 溶液平衡法测定游离抗体，并用平衡结合模型计算 KD；可进一步由直接动力学实验得到 ka/kd。",
+        "summary_en": "KinExA solution-equilibrium analysis measures free antibody and fits KD; direct kinetic measurements may additionally yield ka/kd."
+      },
+      {
+        "key": "spr_kd",
+        "label_zh": "SPR·KD",
+        "label_en": "SPR·KD",
+        "endpoint": "KD",
+        "system": "protein",
+        "minimum_score": 2,
+        "patterns": ["surface plasmon resonance", "\\bSPR\\b", "Biacore", "sensor chip", "association", "dissociation", "\\bK[Dd]\\b", "亲\\s*和\\s*力", "芯\\s*片", "结\\s*合\\s*与?\\s*解\\s*离"],
+        "summary_zh": "采用 SPR 记录结合与解离过程，通过动力学模型拟合 ka、kd 和 KD。",
+        "summary_en": "SPR records association and dissociation and fits ka, kd, and KD with a kinetic model."
+      },
+      {
+        "key": "bli_kd",
+        "label_zh": "BLI·KD",
+        "label_en": "BLI·KD",
+        "endpoint": "KD",
+        "system": "protein",
+        "minimum_score": 2,
+        "patterns": ["bio[- ]?layer interferometry", "\\bBLI\\b", "Octet", "biosensor", "association", "dissociation", "\\bK[Dd]\\b"],
+        "summary_zh": "采用 BLI 生物传感器记录结合/解离曲线，并拟合 ka、kd 和 KD。",
+        "summary_en": "BLI biosensors record association/dissociation curves and fit ka, kd, and KD."
+      },
+      {
+        "key": "cell_reporter_ic50",
+        "label_zh": "报告细胞·IC50",
+        "label_en": "Reporter cell·IC50",
+        "endpoint": "IC50",
+        "system": "cell",
+        "minimum_score": 3,
+        "patterns": ["reporter cell", "Ba/F3", "STAT5", "luciferase", "luminescence", "TSLPR", "IL[- ]?7R", "IC\\s*(?:50|so|s0)", "报\\s*告\\s*细\\s*胞", "荧\\s*光\\s*素\\s*酶", "发\\s*光"],
+        "summary_zh": "抗体与细胞因子预孵育后加入受体报告细胞，培养后读取荧光素酶/发光信号，并用非线性曲线拟合 IC50。",
+        "summary_en": "Antibody and cytokine are pre-incubated before receptor reporter cells are added; luciferase/luminescence is read and IC50 is fitted."
+      },
+      {
+        "key": "primary_cell_cytokine_ic50",
+        "label_zh": "原代细胞·IC50",
+        "label_en": "Primary cell·IC50",
+        "endpoint": "IC50",
+        "system": "cell",
+        "minimum_score": 3,
+        "patterns": ["PBMC", "whole blood", "independent donors?", "myeloid dendritic", "mDC", "CCL17", "TARC", "MSD", "IC\\s*(?:50|so|s0)", "全\\s*血", "供\\s*者", "树\\s*突\\s*状\\s*细\\s*胞", "外\\s*周\\s*血", "细\\s*胞\\s*因\\s*子"],
+        "summary_zh": "从供者血液分离 PBMC 并富集原代细胞；抗体与刺激物预孵育后加入细胞培养，检测分泌/信号读出并拟合 IC50。",
+        "summary_en": "PBMCs are isolated from donor blood and primary cells are enriched; antibody and stimulus are pre-incubated, cells are cultured, and a secreted/signal readout is used to fit IC50."
+      },
+      {
+        "key": "flow_cytometry_ic50",
+        "label_zh": "流式细胞术·IC50",
+        "label_en": "Flow cytometry·IC50",
+        "endpoint": "IC50",
+        "system": "cell",
+        "minimum_score": 3,
+        "patterns": ["flow cytometry", "\\bFACS\\b", "mean fluorescence", "MFI", "surface expression", "IC\\s*(?:50|so|s0)", "流\\s*式", "荧\\s*光\\s*强\\s*度", "细\\s*胞\\s*表\\s*面"],
+        "summary_zh": "采用流式细胞术读取细胞表面结合或阻断信号，并拟合 IC50。",
+        "summary_en": "Flow cytometry reads cell-surface binding or blocking signal and fits IC50."
+      },
+      {
+        "key": "cell_proliferation_ic50",
+        "label_zh": "细胞增殖·IC50",
+        "label_en": "Cell proliferation·IC50",
+        "endpoint": "IC50",
+        "system": "cell",
+        "minimum_score": 3,
+        "patterns": ["proliferation", "cell viability", "thymidine", "CellTiter", "Ba/F3", "IC\\s*(?:50|so|s0)", "增\\s*殖", "细\\s*胞\\s*活\\s*力"],
+        "summary_zh": "通过细胞增殖或活力读出评估抗体抑制效应，并拟合 IC50。",
+        "summary_en": "A cell proliferation or viability readout measures antibody inhibition and is used to fit IC50."
+      }
+    ],
+    "document_profiles": {
+      "WO2026086808A1": {
+        "p0028-r0001": {
+          "experiment_id": "table_9_2_elisa_tslp_tslpr",
+          "label": "表 9-2 · ELISA 阻断人 TSLP–TSLPR",
+          "table_number": "9-2",
+          "assay_method": "protein_blocking_elisa_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [28],
+          "confidence": 0.96,
+          "evidence_text": "3.2 ELISA 方法检测抗人 TSLP 抗体对人 TSLP 与人 TSLPR 蛋白结合的阻断活性；结果见表 9-2。"
+        },
+        "p0030-r0001": {
+          "experiment_id": "table_10_biacore_human_tslp",
+          "label": "表 10 · Biacore 人 TSLP 亲和力",
+          "table_number": "10",
+          "assay_method": "spr_kd",
+          "endpoint": "KD",
+          "species": ["human"],
+          "protocol_pages": [30],
+          "confidence": 0.96,
+          "evidence_text": "3.4 Biacore 检测抗人 TSLP 抗体与人 TSLP 蛋白的亲和力；拟合 ka、kd 和 KD，结果见表 10。"
+        }
+      },
+      "WO2020244544A1": {
+        "p0052-r0004": {
+          "experiment_id": "table_31_biacore_human_tslp",
+          "label": "表 31 · Biacore 人 TSLP 亲和力",
+          "table_number": "31",
+          "assay_method": "spr_kd",
+          "endpoint": "KD",
+          "species": ["human"],
+          "protocol_pages": [52],
+          "confidence": 0.92,
+          "evidence_text": "Biacore 测定抗体与人 TSLP 的亲和力 KD。"
+        },
+        "p0056-r0001": {
+          "experiment_id": "table_34_elisa_tslp_tslpr",
+          "label": "表 34 · ELISA 阻断 TSLP–TSLPR",
+          "table_number": "34",
+          "assay_method": "protein_blocking_elisa_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [56],
+          "confidence": 0.92,
+          "evidence_text": "ELISA 测定抗 TSLP 抗体阻断人 TSLP 与 TSLPR 结合的 IC50。"
+        },
+        "p0061-r0001": {
+          "experiment_id": "table_35_elisa_human_tslp_binding",
+          "label": "表 35 · ELISA 结合人 TSLP",
+          "table_number": "35",
+          "assay_method": "protein_binding_elisa_ec50",
+          "endpoint": "EC50",
+          "species": ["human"],
+          "protocol_pages": [61],
+          "confidence": 0.92,
+          "evidence_text": "ELISA 测定抗体与人 TSLP 结合的 EC50。"
+        },
+        "p0062-r0001": {
+          "experiment_id": "table_36_biacore_human_cyno_tslp",
+          "label": "表 36 · Biacore 人/食蟹猴 TSLP 亲和力",
+          "table_number": "36",
+          "assay_method": "spr_kd",
+          "endpoint": "KD",
+          "species": ["human", "cynomolgus"],
+          "protocol_pages": [62],
+          "confidence": 0.94,
+          "evidence_text": "Biacore T200 测定抗体与人及食蟹猴 TSLP 的亲和力 KD。"
+        },
+        "p0063-r0001": {
+          "experiment_id": "table_37_elisa_tslp_tslpr",
+          "label": "表 37 · ELISA 阻断 TSLP–TSLPR",
+          "table_number": "37",
+          "assay_method": "protein_blocking_elisa_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [63],
+          "confidence": 0.94,
+          "evidence_text": "ELISA 测定抗体阻断人 TSLP 与 TSLPR 结合的 IC50。"
+        },
+        "p0064-r0001": {
+          "experiment_id": "table_38_facs_surface_tslpr_il7r",
+          "label": "表 38 · FACS 细胞表面 TSLPR/IL7R 阻断",
+          "table_number": "38",
+          "assay_method": "flow_cytometry_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [63, 64],
+          "confidence": 0.94,
+          "evidence_text": "FACS 检测抗体阻断 TSLP 与 CHOK1-TSLPR/IL7R 细胞表面受体结合的 IC50。"
+        },
+        "p0065-r0002": {
+          "experiment_id": "table_39_native_tslp_baf3_proliferation",
+          "label": "表 39 · 天然 TSLP 诱导 BaF3 增殖",
+          "table_number": "39",
+          "assay_method": "cell_proliferation_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [64, 65],
+          "confidence": 0.94,
+          "evidence_text": "CellTiter-Glo 读取天然人 TSLP 诱导 BaF3-hTSLPR/hIL7R 细胞增殖，并计算 IC50。"
+        },
+        "p0065-r0003": {
+          "experiment_id": "table_40_tslp_fc_baf3_proliferation",
+          "label": "表 40 · TSLP-Fc 诱导 BaF3 增殖",
+          "table_number": "40",
+          "assay_method": "cell_proliferation_ic50",
+          "endpoint": "IC50",
+          "species": ["human"],
+          "protocol_pages": [65],
+          "confidence": 0.94,
+          "evidence_text": "CellTiter-Glo 读取人 TSLP-Fc 诱导 BaF3-TSLPR/IL7R 细胞增殖，并计算 IC50。"
+        }
+      }
+    }
+  },
+  "relations": [
+    "construct.vh_seq_id -> sequence.seq_id",
+    "construct.vl_seq_id -> sequence.seq_id",
+    "assay.construct -> construct.name",
+    "assay.table_number -> protocol.explicit_table_reference",
+    "assay.donor_id -> protocol.biological_sample"
+  ]
+}

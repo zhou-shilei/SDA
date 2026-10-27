@@ -14,7 +14,9 @@ from datetime import datetime, timezone
 from urllib.parse import quote, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from table_continuation import parse_grid
+from document.table_continuation import parse_grid
+from units.cache_policy import cache_enabled
+from studio.processing_metrics import processing_metrics
 
 
 def now():
@@ -31,6 +33,96 @@ def slot_value(slot):
 
 def compact(value):
     return re.sub(r"\s+", "", str(value or ""))
+
+
+def experiment_keywords(experiment, observation, groups):
+    """Display only supported species and assay systems; endpoints have their own column."""
+    supplied = [*experiment.get("KEYWORDS", []), *experiment.get("TAGS", []),
+                *observation.get("keywords", [])]
+    output = []
+    for category, group, field in (("species", "species", "SPECIES"), ("system", "systems", "SYSTEM")):
+        raw = experiment.get(field) or []
+        values = re.split(r"[,，;；、|]", raw) if isinstance(raw, str) else list(raw)
+        if not values:
+            values = [item.get("key", "") if isinstance(item, dict) else item
+                      for item in supplied if not isinstance(item, dict) or item.get("category") == category]
+        for definition in groups.get(group, []):
+            keys = [definition["key"], definition.get("label_zh"), definition.get("label_en")]
+            if any(str(value).strip().casefold() in {str(k).casefold() for k in keys if k}
+                   or any(re.fullmatch(pattern, str(value).strip(), re.I)
+                          for pattern in definition.get("patterns", [])) for value in values if value):
+                output.append({"key": definition["key"], "category": category,
+                    "label_zh": "human" if definition["key"] == "human" else definition.get("label_zh", definition["key"]),
+                    "label_en": definition.get("label_en", definition["key"])})
+    return output
+
+
+def attach_table_text_comparison(record, ocr):
+    """Render addressed OCR comparisons without changing stored sequence values."""
+    index = {}
+    for table in ocr:
+        identity = table.get("source_id") or table.get("table_id")
+        for ri, row in enumerate(table.get("rows", [])):
+            for ci, cell in enumerate(row):
+                index[(identity, ri, ci)] = cell
+                for ref in (cell.get("ref"), cell.get("source_ref")):
+                    if ref:
+                        index[ref] = cell
+    found = {}
+    def visit(value, chain=None):
+        if isinstance(value, list):
+            for item in value:
+                visit(item, chain)
+        elif isinstance(value, dict):
+            declared = str(value.get("chain", "")).upper()
+            chain = declared if declared in {"VH", "VL"} else chain
+            chain = {"variable_heavy": "VH", "variable_light": "VL"}.get(value.get("type") or value.get("kind"), chain)
+            if chain:
+                cell = None
+                for field in ("ref", "source_ref", "source_id", "evidence_ref"):
+                    ref = value.get(field)
+                    if isinstance(ref, str) and ref in index:
+                        cell = index[ref]
+                        break
+                if cell is None:
+                    cell = index.get((value.get("table_id"), value.get("row_index"), value.get("col_index")))
+                if cell and cell.get("sequence_ocr"):
+                    key = (chain, cell.get("ref") or cell.get("source_ref") or str((value.get("table_id"), value.get("row_index"), value.get("col_index"))))
+                    found[key] = cell["sequence_ocr"].get("page_comparison", {"status": "uncompared"})
+            for key, item in value.items():
+                if key not in {"sequence_source_conflicts", "sequence_ocr"}:
+                    visit(item, key.upper() if key.upper() in {"VH", "VL"} else chain)
+    visit(record)
+    result = copy.deepcopy(record)
+    for (chain, ref), comparison in found.items():
+        if comparison["status"] == "mismatch":
+            conflict = {"chain": chain, "table_ref": ref,
+                        "text_ref": (comparison.get("page_refs") or [""])[0],
+                        "table_quote": comparison["table_text"], "text_quote": comparison["page_text"],
+                        "message": "表文不一致；采用表格序列复识别结果，正文差异仅作提示"}
+            if conflict not in result.setdefault("sequence_source_conflicts", []):
+                result["sequence_source_conflicts"].append(conflict)
+    if found:
+        result["sequence_table_text_status"] = ("mismatch" if result.get("sequence_source_conflicts") else
+            "matched" if all(c["status"] == "matched" for c in found.values()) else "uncompared")
+    return result
+
+
+def review_payload(bundle):
+    """Send fields used by the review UI; complete artifacts remain separately addressable."""
+    citation_fields = {"ref", "source_ref", "source_id", "line_id", "table_id", "page", "pdf_page",
+                       "quote", "source_type", "bbox", "bbox_crop", "bbox_pdf", "bbox_source",
+                       "coordinate_space", "precision", "location_status", "value_ref", "cell_refs"}
+    records = []
+    for record in bundle["records"]:
+        record = attach_table_text_comparison(record, bundle.get("ocr", []))
+        fields = {name: {"status": slot.get("status"),
+                         "provenance": [{k: v for k, v in source.items() if k in citation_fields}
+                                        for source in slot.get("provenance", [])]}
+                  for name, slot in record.get("sda_fields", {}).items()}
+        records.append({**record, "sda_fields": fields})
+    return {"records": records, "template": {"agent": bundle.get("template", {}).get("agent", {})},
+            **{key: bundle[key] for key in ("contexts", "candidates", "classifications", "ocr", "runtime", "pages")}}
 
 
 class Workspace:
@@ -117,36 +209,73 @@ class Workspace:
                 documents[identity] = (result, inputs)
         return documents
 
+    def structured_files(self, document_id, result_dir):
+        """仅暴露统一流程的固定产物；兼容历史运行和复用 OCR 的新运行。"""
+        job = self.jobs().get(document_id, {})
+        report = read_json(result_dir / "run_summary.json", {})
+        directory = job.get("structured_dir") or report.get("structured_dir")
+        if not directory:
+            return {}
+        directory = Path(directory).resolve()
+        if not directory.is_relative_to(self.root):
+            return {}
+        names = {"json": "document.json", "markdown": "document.md", "text": "document.txt", "summary": "summary.json"}
+        return {key: path for key, name in names.items() if (path := self.local_path(directory / name))}
+
     def bundle(self, document_id):
         with self.lock:
             location = self.locations().get(document_id)
             if location is None:
                 raise KeyError("专利不存在")
             result_dir, input_dir = location
+            if not cache_enabled():
+                return self._build(document_id, result_dir, input_dir)
             paths = list(result_dir.glob("*.json")) + list(input_dir.glob("*.json"))
             paths += list(input_dir.parent.glob("source.pdf")) + list(input_dir.glob("*.pdf"))
             paths += list((self.state / "patents" / document_id).glob("source.pdf"))
-            signature = tuple(sorted((str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in paths))
+            paths += list(self.structured_files(document_id, result_dir).values())
+            signature = (str(result_dir), str(input_dir),
+                         tuple(sorted((str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in paths)))
             if self.cache.get(document_id, (None,))[0] != signature:
                 self.cache[document_id] = (signature, self._build(document_id, result_dir, input_dir))
             return self.cache[document_id][1]
+
+    def page_bundle(self, document_id):
+        location = self.locations().get(document_id)
+        if location is None:
+            raise KeyError("专利不存在")
+        _, input_dir = location
+        evidence_id = self.jobs().get(document_id, {}).get("evidence_document_id") or document_id
+        manifest = {}
+        for path in sorted(input_dir.glob("*_manifest.json")):
+            candidate = read_json(path, {})
+            if (candidate.get("document_id") or candidate.get("patent_id")) == evidence_id:
+                manifest = candidate
+                break
+        pdf = self.source_pdf(document_id, input_dir, manifest)
+        pages, _ = self.pdf_metadata(pdf, "")
+        return {"pdf": pdf, "pages": pages}
+
+    def source_pdf(self, identity, input_dir, manifest):
+        return (self.local_path(manifest.get("processing_pdf"), input_dir)
+                or self.local_path(input_dir / "prepared.pdf")
+                or self.local_path(input_dir / "source.pdf")
+                or self.local_path(input_dir.parent / "source.pdf")
+                or self.local_path(self.state / "patents" / identity / "source.pdf"))
 
     def _build(self, identity, result_dir, input_dir):
         dataset = read_json(result_dir / "dataset.json", {})
         template = read_json(result_dir / "template.completed.json", {})
         metadata = {}
         manifest = {}
+        evidence_id = self.jobs().get(identity, {}).get("evidence_document_id") or identity
         for path in sorted(input_dir.glob("*_manifest.json")):
             candidate = read_json(path, {})
-            if (candidate.get("document_id") or candidate.get("patent_id")) == identity:
+            if (candidate.get("document_id") or candidate.get("patent_id")) == evidence_id:
                 manifest = candidate
                 for row in candidate.get("images", []):
                     metadata[Path(row["image"]).name] = row
-        pdf = (self.local_path(manifest.get("processing_pdf"), input_dir)
-               or self.local_path(input_dir / "prepared.pdf")
-               or self.local_path(input_dir / "source.pdf")
-               or self.local_path(input_dir.parent / "source.pdf")
-               or self.local_path(self.state / "patents" / identity / "source.pdf"))
+        pdf = self.source_pdf(identity, input_dir, manifest)
         base = f"api/patents/{quote(identity, safe='')}/"
         tables, candidates, contexts, classifications, ocr, crops = {}, [], [], [], [], {}
         for path in sorted(result_dir.glob("*.json")):
@@ -167,7 +296,8 @@ class Workspace:
             rows = grid["rows"] if grid else [[{"text": line}] for line in table.get("table_text", "").splitlines()]
             # Cell addresses are preserved. No cell rectangles are inferred from HTML.
             structure = table.get("table_evidence") or table.get("ocr_evidence") or {}
-            boxes = {c.get("ref"): c for c in structure.get("cells", []) if c.get("bbox")}
+            boxes = {c.get("ref"): c for c in structure.get("cells", [])
+                     if c.get("bbox") or c.get("bbox_crop") or c.get("bbox_pdf")}
             rows = [[{**cell, **boxes.get(cell.get("ref"), {})} for cell in row] for row in rows]
             tables[table_id] = {**table, "rows": rows, "page": page}
             candidates.append({"table_id": table_id, "page": page, "bbox": bbox,
@@ -177,17 +307,26 @@ class Workspace:
                              "context_image": image_url, "context_status": "available" if context else "missing"})
             classification = table.get("classification") or {}
             classifications.append({"table_id": table_id, "primary_label": classification.get("category"),
-                                    "classifier": {"name": "TableClassificationAgent"},
+                                    "classifier": {"name": "ArchivedClassification" if classification else "DocumentExtraction"},
                                     "reasons": [classification["reason"]] if classification.get("reason") else [],
                                     "extraction_status": "failed" if table.get("error") else "complete"})
             ocr.append({"source_id": table_id, "page": page, "rows": rows,
                         "image": image_url, "backend": structure.get("backend") or "SDA table OCR",
-                        "width": meta.get("width_px"), "height": meta.get("height_px")})
+                        "width": meta.get("width_px") or structure.get("width_px"),
+                        "height": meta.get("height_px") or structure.get("height_px"),
+                        "bbox_padded": meta.get("bbox_padded") or structure.get("bbox_padded"),
+                        "crop_to_pdf": meta.get("crop_to_pdf") or structure.get("crop_to_pdf")})
         records = []
         experiments = {e.get("exp_id", e.get("id")): e for e in template.get("experiments", [])}
-        from tst_completion import load_domain_knowledge
-        vocabulary = {row["key"]: row for rows in load_domain_knowledge()["groups"].values() for row in rows}
+        from units.domain_knowledge import load_domain_knowledge
+        vocabulary_groups = load_domain_knowledge()["groups"]
         entities = template.get("entities", [])
+        original_names = {e["original_entity_id"]: e["name"] if isinstance(e.get("name"), str) else slot_value(e.get("name"))
+                          for e in entities if e.get("original_entity_id") and e.get("name")}
+        def display_question(text):
+            for identity in sorted(original_names, key=len, reverse=True):
+                text = text.replace(identity, str(original_names[identity]))
+            return text
         if not entities:
             # A dataset without a completed template still remains browsable.
             for index, row in enumerate(dataset.get("records", [])):
@@ -197,9 +336,15 @@ class Workspace:
                                 "assay_endpoint": row.get("METRIC"), "evidence": [],
                                 "experiment_group": row.get("METRIC") or "", "link_status": "unmatched"})
         for entity in entities:
+            if not entity.get("sequence_locations"):
+                from dataagent.sequence_evidence import locate_sequence_provenance
+                entity["sequence_locations"] = {field: locate_sequence_provenance(
+                    slot_value(entity.get(field.upper(), {}).get("sequence", {})),
+                    entity.get(field.upper(), {}).get("sequence", {}).get("provenance", []), chain=field,
+                    seq_id=slot_value(entity.get(field.upper(), {}).get("seq_id", {}))) for field in ("vh", "vl")}
             for observation in entity.get("METRIC", []):
                 experiment = experiments.get(observation.get("exp_id"), {})
-                keywords = list(dict.fromkeys(experiment.get("KEYWORDS", []) + experiment.get("TAGS", []) + observation.get("keywords", [])))
+                keywords = experiment_keywords(experiment, observation, vocabulary_groups)
                 metric, value, unit = (slot_value(observation.get(k)) for k in ("metric", "value", "unit"))
                 source = observation.get("source", {})
                 record = {"record_id": f"{identity}:{observation['observation_id']}", "document_id": identity,
@@ -210,14 +355,15 @@ class Workspace:
                           "vh": slot_value(entity.get("VH", {}).get("sequence")),
                           "vl": slot_value(entity.get("VL", {}).get("sequence")),
                           "ic50": value, "ic50_unit": unit, "assay_endpoint": metric,
-                          "experiment_group": experiment.get("NAME") or " · ".join(str(x) for x in (metric, observation.get("label")) if x),
+                          "experiment_group": metric or "",
+                          "experiment_name": experiment.get("NAME") or observation.get("label"),
                           "assay_condition": slot_value(observation.get("conditions")),
                           "antigen_target": slot_value(observation.get("target")),
                           "assay_method": observation.get("method") or slot_value(observation.get("experiment_type")),
                           "experiment_id": observation.get("exp_id"),
-                          "assay_keywords": [{"key": k, "label_zh": vocabulary[k].get("label_zh", k),
-                                              "label_en": vocabulary[k].get("label_en", k), "category": "method"}
-                                             if k in vocabulary else k for k in keywords],
+                          "assay_keywords": keywords,
+                          "species": [k["key"] for k in keywords if k["category"] == "species"],
+                          "assay_system": next((k["key"] for k in keywords if k["category"] == "system"), None),
                           "entity_aliases": entity.get("aliases", []), "construct_type": entity.get("construct_type"),
                           "evidence": [], "sda_sources": [],
                           "sda_fields": {**{k: observation.get(k, {}) for k in
@@ -240,12 +386,21 @@ class Workspace:
                     else:
                         record["sda_sources"].append({"table_id": table_id, "page": table.get("page"),
                                                        "label": metric or "原表证据", "kind": "source"})
+                if any(location.get("length") for location in entity.get("sequence_locations", {}).values()):
+                    record["evidence"].append({"type": "sequence_index",
+                        "construct_key": entity.get("original_entity_id", entity["entity_id"]),
+                        "locations": copy.deepcopy(entity["sequence_locations"])})
                 for chain in ("VH", "VL"):
                     slot = entity.get(chain, {}).get("sequence", {})
                     for provenance in flatten_provenance(slot.get("provenance", [])):
                         sid = provenance.get("table_id")
                         if sid and sid in tables:
                             ri, ci = locate_sequence(tables[sid]["rows"], slot_value(slot))
+                            cited_ref = (provenance.get("ref") or provenance.get("source_ref")
+                                         or provenance.get("source_id") or provenance.get("evidence_ref"))
+                            cited_cell = re.search(r":R(\d+)C(\d+)$", str(cited_ref or ""))
+                            if cited_cell:
+                                ri, ci = map(int, cited_cell.groups())
                             record["sda_sources"].append({"kind": "variable_heavy" if chain == "VH" else "variable_light",
                                                            "table_id": sid, "page": tables[sid].get("page"),
                                                            "row_index": ri, "col_index": ci, "chain": chain,
@@ -255,9 +410,38 @@ class Workspace:
                             record["sda_sources"].append({"kind": "variable_heavy" if chain == "VH" else "variable_light",
                                                            "table_id": f"text:p{page_number}:{provenance.get('line_id', '')}",
                                                            "page": page_number, "chain": chain, "label": chain,
-                                                           "source_bbox": provenance.get("bbox"),
+                                                           "source_bbox": provenance.get("bbox_pdf") or provenance.get("bbox"),
                                                            "detail": provenance.get("quote", "")})
                 record["link_status"] = "linked" if record["vh"] and record["vl"] else "unmatched"
+                evaluation = entity.get("sequence_evaluation", {})
+                for tool in ("agent", "anarci", "esm2"):
+                    review = evaluation.get(tool + "_review")
+                    if review:
+                        record[tool + "_review"] = copy.deepcopy(review)
+                        record[tool + "_review_status"] = review["status"]
+                if evaluation:
+                    record["construct_validation_status"] = evaluation.get("pair_status", "review")
+                    if evaluation.get("overall_review_status") != "passed":
+                        record["link_status"] = "review"
+                record["sequence_source_conflicts"] = [copy.deepcopy(issue) for issue in template.get("issues", [])
+                    if issue.get("kind") == "table_text_mismatch" and issue.get("entity_id") == entity["entity_id"]]
+                record["sequence_image_reviews"] = [copy.deepcopy(issue) for issue in template.get("issues", [])
+                    if issue.get("kind") == "sequence_image_review" and issue.get("entity_id") == entity["entity_id"]]
+                record["sequence_ocr_failures"] = [copy.deepcopy(issue) for issue in template.get("issues", [])
+                    if issue.get("kind") == "table_sequence_ocr_failed" and issue.get("entity_id") == entity["entity_id"]]
+                record["constant_regions"] = [copy.deepcopy(other["record"]) for other in entity.get("other_sequences", [])
+                    if other.get("record", {}).get("region") in {"CH", "CL"}]
+                qa = dataset.get("question_review", {})
+                answers = {a["question_id"]: a for a in qa.get("answers", [])}
+                decisions = {c["question_id"]: c for c in qa.get("changes", [])}
+                native_id = entity.get("original_entity_id")
+                record["question_answers"] = [{"question_id": q["id"], "question": display_question(q["question"]),
+                    "answer": answers.get(q["id"], {}).get("answer", {}).get("answer", ""),
+                    "status": decisions.get(q["id"], {}).get("status", "needs_review"),
+                    "reason": decisions.get(q["id"], {}).get("reason", ""),
+                    "chains": [t["chain"] for t in q.get("targets", []) if t["entity_id"] == native_id]}
+                    for q in qa.get("questions", []) if native_id and any(
+                        t["entity_id"] == native_id for t in q.get("targets", []))]
                 # Presence of extracted values does not certify any independent review.
                 record["record_verification"] = {"status": "manual_review", "messages": ["SDA 提取结果，尚未人工复核"]}
                 records.append(record)
@@ -267,16 +451,19 @@ class Workspace:
                 "runtime": read_json(result_dir / "_timings.json", {}), "pages": pages,
                 "dataset": dataset, "pdf": pdf, "pdf_form": profile, "crops": crops,
                 "run": read_json(result_dir / "run_summary.json", {}),
+                "structured_files": self.structured_files(identity, result_dir),
                 "coverage": read_json(result_dir / "coverage.json", {}),
                 "document_report": read_json(result_dir / "document_report.json", {}),
                 "missing": read_json(result_dir / "missing_fields.json", {}),
-                "tst": read_json(result_dir / "tst_completion.json", {})}
+                "tst": read_json(result_dir / "completion_report.json",
+                                 read_json(result_dir / "tst_completion.json", {}))}
 
     def pdf_metadata(self, pdf, base):
         if not pdf:
             return {"page_count": 0, "pages": []}, {"kind": "unknown"}
         key = (str(pdf), pdf.stat().st_mtime_ns, pdf.stat().st_size)
-        if key not in self.pdf_cache:
+        use_cache = cache_enabled()
+        if not use_cache or key not in self.pdf_cache:
             import pymupdf
             pages, text_pages = [], 0
             with pymupdf.open(pdf) as document:
@@ -287,7 +474,10 @@ class Workspace:
                                   "pixel_width": 1280, "pixel_height": round(height * 1280 / width),
                                   "image": f"pages/{number:04d}.png"})
             kind = "text" if text_pages == len(pages) else "scanned" if not text_pages else "mixed"
-            self.pdf_cache[key] = ({"page_count": len(pages), "pages": pages}, {"kind": kind})
+            result = ({"page_count": len(pages), "pages": pages}, {"kind": kind})
+            if not use_cache:
+                return result
+            self.pdf_cache[key] = result
         return self.pdf_cache[key]
 
     def patents(self):
@@ -295,34 +485,72 @@ class Workspace:
         builtin = set(self.builtin_locations())
         with self.connection() as db:
             counts = dict(db.execute("SELECT document_id, COUNT(*) FROM publications GROUP BY document_id"))
-        for identity, (result_dir, _) in self.locations().items():
-            bundle = self.bundle(identity)
+        for identity, (result_dir, input_dir) in self.locations().items():
+            # The registry needs counts and file metadata, not every record's
+            # provenance, table grid and sequence location. Building all those
+            # bundles here can exceed the browser's registry timeout.
+            dataset = read_json(result_dir / "dataset.json", {})
+            entities = dataset.get("entities")
+            if entities is None and (result_dir / "template.completed.json").is_file():
+                entities = read_json(result_dir / "template.completed.json", {}).get("entities")
+            record_count = (sum(len(e.get("METRIC", [])) for e in entities) if entities
+                            else len(dataset.get("records", [])))
+            manifest = {}
+            evidence_id = jobs.get(identity, {}).get("evidence_document_id") or identity
+            for path in sorted(input_dir.glob("*_manifest.json")):
+                candidate = read_json(path, {})
+                if (candidate.get("document_id") or candidate.get("patent_id")) == evidence_id:
+                    manifest = candidate
+                    break
+            pdf = self.source_pdf(identity, input_dir, manifest)
+            pages, profile = self.pdf_metadata(pdf, "")
+            bundle = {"dataset": dataset, "pdf": pdf, "pages": pages, "pdf_form": profile,
+                      "structured_files": self.structured_files(identity, result_dir),
+                      "run": read_json(result_dir / "run_summary.json", {}),
+                      "runtime": read_json(result_dir / "_timings.json", {})}
             dataset = bundle["dataset"]
             job = jobs.get(identity, {})
             status = job.get("status") or ("failed" if dataset.get("status") == "failed" else "completed")
             base = f"api/patents/{quote(identity, safe='')}/"
             artifacts = {key: base + key + ".json" for key in
                          ("records", "contexts", "candidates", "classifications", "ocr", "template", "runtime", "pages")}
+            artifacts["review"] = base + "review.json"
+            structured = bundle.get("structured_files", {})
+            for key, name in (("json", "structured.json"), ("markdown", "structured.md"), ("text", "structured.txt")):
+                if key in structured:
+                    artifacts["structured_" + key] = base + name
             count = counts.get(identity, 0)
             has_ocr = False
-            for path in result_dir.glob("*.json"):
+            for path in sorted(result_dir.glob("*.json"), key=lambda p: (not p.name.startswith("table-"), p.name)):
                 table = read_json(path, {})
                 if (isinstance(table, dict) and table.get("table_id")
                         and isinstance(table.get("table_text"), str) and table["table_text"].strip()):
                     has_ocr = True
                     break
+            if not has_ocr:
+                checkpoint = read_json(result_dir / "dataagent_checkpoint.json", {}) or read_json(result_dir / "dataagent2_checkpoint.json", {})
+                table_source = checkpoint.get("inputs", {}).get("table_ocr")
+                if table_source:
+                    path = Path(table_source).resolve()
+                    has_ocr = path.is_relative_to(self.root) and (path.is_file() or path.is_dir() and any(path.glob("*.json")))
+                if not has_ocr and job.get("structured_dir"):
+                    has_ocr = self.local_path(Path(job["structured_dir"]) / "table_ocr/tables.jsonl") is not None
             protected_source = identity in builtin or job.get("builtin_source") is True
             log = self.local_path(job.get("log"))
             patent_root = (self.state / "patents" / identity).resolve()
             log_available = bool(log and log.is_relative_to(patent_root))
             pipeline_available = bundle["pdf"] is not None
             patents.append({**job, "document_id": identity, "filename": job.get("filename") or f"{identity}.pdf",
-                            "record_count": len(bundle["records"]), "page_count": bundle["pages"]["page_count"],
+                            "extraction_engine": job.get("extraction_engine") or bundle["run"].get("extraction_engine")
+                                or ("dataagent2" if dataset.get("extraction_mode") == "dataagent2" else "dataagent1"),
+                            "record_count": record_count, "page_count": bundle["pages"]["page_count"],
                             "pdf_form": bundle["pdf_form"], "status": status,
                             "semantic_status": dataset.get("status"), "stage": job.get("stage", "completed"),
                             "progress": job.get("progress", 100), "builtin": protected_source,
                             "protected_source": protected_source,
                             "pipeline_available": pipeline_available,
+                            "comparison_available": pipeline_available and "json" in structured
+                                and read_json(structured["json"].parent / "page_ocr/summary.json", {}).get("full_document_ocr_complete") is True,
                             "retry_available": pipeline_available and status not in {"queued", "processing"},
                             "analyze_available": has_ocr,
                             "log_available": log_available,
@@ -332,6 +560,8 @@ class Workspace:
                             "reparse_available": False, "collection_review_available": False,
                             "dataset_published": bool(count), "published_record_count": count,
                             "patent_text": self.patent_text(identity), "artifacts": artifacts})
+            patents[-1]["processing_metrics"] = processing_metrics(
+                self.root, identity, result_dir, job, bundle["run"], bundle["runtime"])
         return patents
 
     def patent_text(self, identity):

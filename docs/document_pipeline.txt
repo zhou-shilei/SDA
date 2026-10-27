@@ -1,46 +1,52 @@
-文档级 PDF 提取
+PDF 主流程（默认 dataagent）
 
 表格 OCR 可配置 --table-ocr-workers / --table-ocr-batch-size（完整PDF入口），或
 --ocr-workers / --ocr-batch-size（graph.py）。提交批与实际模型 batch 分别记录，
 当前 native VL 实际模型 batch 为 1；并发测速及参数说明见 docs/table_ocr_parallel.txt。
-默认表格 OCR 使用本机实测较快的 6 进程、每次提交 1 张图片，可通过上述参数覆盖。
+完整 PDF 入口默认全文和表格各 1 进程；graph.py 的旧 document OCR 分支另有自己的参数。
 
 完整入口（全新目录，不复用旧 OCR 或提取结果）：
-  ../envs/sda/bin/python src/run_document_pdf.py data/WO2025108394A1/source.pdf \
+  ../envs/sda/bin/python src/document/run_document_pdf.py data/WO2025108394A1/source.pdf \
     --document-id WO2025108394A1 --run-dir /path/to/new/run \
     --catalog data/WO2025108394A1/wipo/sequences.json
 
 catalog 可省略。提供时只使用本地、同篇专利的序列表，不在线下载；序列编号必须
 在所引 OCR 中有字面支持，才能通过既有模板逻辑关联官方残基。来源和 OCR 差异保留。
-本轮使用原页坐标，orientation=off，不宣称已自动评估扫描内容方向。
+完整 PDF 入口默认 orientation=auto，全文和表格使用同一份方向校正后的工作 PDF 坐标。
 
 实际流程：
   PP-DocLayoutV3 检测/裁图
-  -> PP-OCRv6 全文文字 OCR（默认单卡 6 进程、batch 6、预渲染 4）
-  -> PaddleOCR-VL-1.6 表格裁图 OCR
-  -> 一次全文 Codex 提取
-  -> 单元格覆盖审计及至多 2 轮局部补抽
-  -> 实体身份一致性校验、TemplateAgent 固定框架组装、同篇序列表关联
-  -> TemplateAgent 序列定义审计、本地 search/read、关联提议和独立模型核验
-  -> 完整数据和兼容六字段导出、独立 HTML 运行报告。
+  -> PP-OCRv6 全文文字 OCR 与表格 OCR 并行：PPVL-1.6 解析结构，PP-OCRv6 medium 裁行复识别序列并回填
+  -> dataagent 表格分类及已有全文 OCR 索引
+  -> 从已有 OCR 读取表题、实验方法、名称和序列相关证据
+  -> LLMTemplateAgent 规划分子、编号与实验关系
+  -> SequenceExtractionAgent 检索原文并提取有引用支持的 VH/VL
+  -> Python 关联测量，构建体及来源校验、有限修复
+  -> 转换为 SDA 固定模板，同篇本地序列表关联及结果单元格覆盖审计
+  -> antibody-dataset-2.0、兼容六字段记录及 HTML 运行报告。
+
+dataagent 不再次运行表格/页面 OCR 或读取 PDF 文字层。原生结果和每次尝试保存在
+results/<id>/dataagent/<attempt>/，入口和模式区别见 src/dataagent/README.md。
+成功复识别的表格序列作为取值来源；同位置的正文 OCR 差异仅在网页标红，不清空序列、
+不因该差异追加补问。复识别失败的 PPVL 字符仅保留审计用途。已有旧序列表格缓存须重新 OCR；
+完整策略与实际裁行图保存位置见 docs/table_ocr.txt。
 
 沿用已有表格图片/原始 OCR 时，也可以直接进入批处理：
   ../envs/sda/bin/python src/graph.py --image-dir data/WO2025108394A1 \
-    --output-dir /path/to/new/results --extraction-mode document \
+    --output-dir /path/to/new/results --extraction-mode dataagent \
     --text-pages-jsonl /path/to/full/text_ocr/pages.jsonl \
     --text-context-dir data/WO2025108394A1 \
     --reuse-table-ocr-from results/WO2025108394A1
 
-默认 extraction-mode=table，保留现有逐表路线。document 路线跳过逐表分类/提取，
+以下为显式选择 --extraction-mode document 后的旧实现说明：
+document 模式直接做全文与全部表格的文档级提取，
 不在全文调用之后再次逐表调用。document-repair-rounds 设置补抽上限；没有覆盖
 进展会提前停止。每轮局部请求最多携带 4 张表，最多同时执行 3 个请求；不会因
 全文响应漏掉测量就再次提交整篇。文档调用复用 Codex CLI 的原生 --output-schema
 约束，验证后的 table#cell 片段引用可以规范为其确切单元格 ID，其他未知引用拒绝。
-默认不对全文已经读取的相同 OCR 再发局部序列映射请求；如需
-显式补查，可以传 --document-sequence-mapping，所有额外请求仍计入用量。
-这里的序列映射指旧的逐实体 VH/VL 映射器。新的 TemplateAgent 序列整理默认开启，
-由 --document-template-agent/--no-document-template-agent 控制；--legacy-text-sequences
-或关闭正文补全时也不运行。--template-agent-max-calls 默认 12，包含规划和核验请求；
+旧的逐实体页面序列映射器已删除。TemplateAgent 序列整理默认开启，
+由 --document-template-agent/--no-document-template-agent 控制。
+--template-agent-max-calls 默认 12，包含规划和核验请求；
 设为 0 只生成序列清单和缺口审计。--template-agent-context-chars 默认 24000。
 这是宿主执行 JSON 动作的单 Agent 工具循环，不是多 Agent 系统，也不开放任意 CLI/网络工具。
 search/read 仅查询本次 OCR 来源；模型不生成残基。submit 经程序校验和另一次模型核验后
@@ -85,7 +91,7 @@ CLI 返回的 input_tokens + output_tokens；cached_input_tokens 是输入的子
 提取、定向补全和数据导出；人工查看网页和开发耗时不在 PDF 推理时间中。
 
 失败/部分结果的检查点续跑：
-  ../envs/sda/bin/python src/run_document_pdf.py --run-dir /path/to/run --resume
+  ../envs/sda/bin/python src/document/run_document_pdf.py --run-dir /path/to/run --resume
 完整 OCR/表格输入须与原模型输入完全一致。先前 token 事件只读取并累计一次，
 原始模型输出不会被覆盖；新请求和旧报告均保存在独立的 attempt 目录。
 续跑报告的 wall_seconds 是实际自动处理区间之和，明确排除开发暂停，并另列

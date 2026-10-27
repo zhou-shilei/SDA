@@ -37,25 +37,55 @@ bash studio/studio.sh stop
 - 仅使用已有来源和明确的 OCR 行匹配。HTML 结构不用于推测单元格矩形；缺少位置时保留表格级证据。缺失值与未执行的审核保留待复核状态。
 - 数据集文件夹与发布快照、审核人记录保存在 `.studio/dataset.sqlite`。初始 SDA 文件夹为空；在审阅页勾选记录并点击“推送所选记录”后，数据集页才会出现发布快照。
 - 原网页的字段修订、标记和手动画框继续保存在浏览器中，使用独立的 `sda.studio.*` 存储名称；源提取文件不被覆盖。
+- 数据录入列表提供“处理用时”和“Token 用量”；悬停、键盘聚焦或点击数值可查看明细，Esc 或点击外部关闭。
+  时间优先使用完整运行报告，续跑累计、复用 OCR 的重新提取和仅有局部耗时的历史记录分别注明范围。
+  并行正文/表格 OCR 显示独立耗时，阶段明细不能直接相加。运行中显示已用时间，缺失统计显示“未记录”或“记录中”。
+  Token 全部使用十进制 K（1K=1,000），明细包含各模型阶段、输入、输出和缓存输入；缓存输入不重复计入总量。
+  有未知请求用量时显示已知部分及 ≥ 标识；本地 OCR 解码 Token 尚未计入。完成任务的累计用量不会被后续缓存检查的零请求快照覆盖。
 
 ## PDF 导入
 
+上传区域可选择 `dataagent1 · 多轮检索` 或 `dataagent2 · 分块提取`，默认 dataagent1。
+两版共用相同的 PDF 预处理、正文 OCR，以及 VL 结构＋medium 裁行识别并拼接回填的表格 OCR。
+dataagent2 完成本次表格分类和模板后，运行自己的分块 Reader、原文锚点序列物化与有限问答；
+不运行 dataagent1 的序列提取、修复或评估。模型和推理强度沿用共享模板阶段的配置。
+列表显示实际选择的引擎；重新解析和复用 OCR 重新解析会沿用该选择。
+专利列表的“Agent 策略”列可选择 dataagent1 / dataagent2，再点击“新建对比”。
+对比会创建独立列表记录，保留原任务；复制同一批已完成的正文/表格 OCR，并重新运行所选 Agent。
+原任务仍在抽取时也可创建对比，无需重复 OCR。相同源运行及策略已有排队/运行中的对比时复用该记录。
+选择下拉框只指定新任务策略，不会修改正在运行的策略。两种策略的状态、用时、Token 和结果分别保留；
+对比耗时标为复用 OCR 的重新提取，不能与原任务完整 PDF 总耗时直接相比。
+API 为 `POST /api/patents/compare`，JSON 字段为 `document_id` 和 `extraction_engine`。
+不重启旧 HTTP 服务也可用 `python studio/run_comparison.py --source <列表ID> --engine dataagent2`
+启动独立执行器；其任务仍登记到网页列表，日志和产物位于对应 `.studio/patents/<对比ID>/`。
+API 的上传表单和 retry/analyze JSON 可传 `extraction_engine=dataagent1|dataagent2`；
+省略时新上传默认 dataagent1，重解析沿用原任务。非法值在创建任务之前拒绝。
+dataagent2 产物保存在当前结果目录的 `shared_seed/` 和 `dataagent2/`，同时导出原有审阅格式；
+运行统计包含本次共享分类/模板与新 Reader/问答的实际请求，不叠加历史基线。
+Reader 或问答调用失败会保留部分结果并标记任务失败，真实缺项继续显示待复核。
+`dataagent2` 的 `--resume` 暂不接入完整 PDF 入口；可在网页复用 OCR 并生成新运行。
+更新后需重启服务加载后端；有运行中任务时先等其结束，避免中断。旧后端下选择新版会提示重启，不会静默运行旧版。
+
 数据录入页支持点击或拖入 PDF，再点击“导入 PDF 并开始解析”。后台执行
-`src/run_document_pdf.py`：全页文字 OCR 与表格 OCR 之后做一次全文提取和有预算的补全，
-复用现有模板导出，默认不启用独立表格分类。页面显示真实的版面、
+`src/document/run_document_pdf.py`：先调用 `pdf2doc.py` 完成六步预处理，自动方向校正和裁图后，
+全文与表格 OCR 在两个独立进程中同时执行；组装并导出结构化文档后，严格复用本轮证据运行
+dataagent 表格分类、全文证据检索、实验绑定、序列提取及有限修复，再导出原有 SDA 模板和数据集。页面显示真实的版面、
 OCR/抽取、模板、TST 和构建阶段，失败原因直接展示，运行日志可打开和刷新。
 每次运行使用新的产物目录；网页不会自动重跑已有专利。
+统一结果位于运行目录 `document/structured/`；录入列表和运行报告可打开结构化 JSON，
+报告也提供 Markdown。接口为 `/api/patents/<id>/structured.json`、`structured.md`、`structured.txt`。
+网页显示两路 OCR 的独立状态；单路结束不会提前进入文档组装。
 
 已有结果可选择“重新解析 PDF”完整重跑，或“复用 OCR 重新解析”跳过版面与表格
 OCR，只读取保存的原始 HTML/文字及证据，重新调用抽取和补全。OCR 缓存缺失、
 跨专利或不匹配时会报错，不自动回退到重新识别。两种操作都保留之前的运行目录，
 内置样例不会覆盖 `data/`、`results/` 原始产物，也保持删除保护。
-复用 OCR 重新解析时采用文档级提取；已有全文 OCR 可复用，否则额外执行全文文字 OCR。
+复用 OCR 重新解析时使用所选引擎，同时复用已保存的全文和表格 OCR；缺少全文 OCR 时提示先完整解析 PDF。
+抽取在输入准备阶段失败、尚未导出逐表结果时，也可从保存的 OCR 检查点或结构化目录恢复，不必重新运行 OCR。
 此模式在报告中明确标为“重新提取”，不当作整篇 PDF 首次解析耗时。
 
-上传资料按 `.studio/patents/<id>/runs/<run>/data/<id>` 组织，PDF 文字层保存为可追溯
-的本地正文，供 TST 使用；扫描页不被标记为已读取正文。复用 OCR 时保留原裁图输入，
-新运行单独准备正文与序列资料。正文检查检查本地资料，不代表已执行在线专利检索。
+标题、实验方法和序列正文从 `structured/page_ocr/pages.jsonl` 检索，保留原文、页码及来源。
+重新提取保留原裁图及 OCR，新的模型尝试和 SDA 导出写入新运行目录；不补读 PDF 文字层，不运行在线专利检索。
 
 ```bash
 SDA_STUDIO_PYTHON=/path/to/sda/bin/python \
@@ -64,8 +94,11 @@ bash studio/studio.sh start
 ```
 
 可设置 `SDA_STUDIO_PORT`、`SDA_STUDIO_OCR_BACKEND=vl|paddle`；CPU 可设 `SDA_STUDIO_OCR_DEVICE=cpu`。模型权重与 Codex 配置沿用 SDA 现有环境。上传解析会执行真实 OCR 和模型请求，错误写入 `.studio/patents/<id>/runs/<run>/pipeline.log`，也可通过 `/api/patents/<id>/log` 查看。
+全文后端由 `SDA_STUDIO_TEXT_OCR_BACKEND=paddle|vl` 配置，默认 paddle；表格后端默认 vl。
+`SDA_STUDIO_TEXT_WORKERS` / `SDA_STUDIO_TABLE_WORKERS` 默认均为 1，避免同设备重复加载过多模型。
+`SDA_STUDIO_OCR_EXECUTION=parallel|serial` 默认 parallel；显存受限时可选 serial，真实加速取决于设备与文档。
 
-上传的源文件和产物放在 `.studio/patents/`，删除上传专利时移入 `.studio/trash/`，现有 `data/` 和 `results/` 的示例受保护。服务停止会终止其解析子进程；重启后中断任务标为失败，保留产物，可手动重试。仍存活的旧进程结束前不会重复提交。
+上传的源文件和产物放在 `.studio/patents/`，删除上传专利时移入 `.studio/trash/`，现有 `data/` 和 `results/` 的示例受保护。`studio.sh restart` 在有排队或运行中的解析任务时拒绝重启，避免任务被中断。显式停止服务仍会终止其解析子进程；中断原因、退出码和日志位置会被记录，已有产物保留，可手动重试。缺少有效运行汇总不会被当作解析成功。仍存活的旧进程结束前不会重复提交。
 
 DataAgent 专属的 QuestionAgent 采集问答、ANARCI/ESM-2、所选记录的逐字段重解析尚未迁入
 SDA，WIPO XML 上传入口和在线正文下载也尚未接入。对应入口隐藏或禁用，未运行的检查

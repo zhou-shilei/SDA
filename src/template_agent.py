@@ -7,7 +7,7 @@ and explicitly reported CDR/FR regions are never substituted for one another.
 
 Slots carry value/status/required/provenance/candidates. Optional CDR/FR/full-chain
 slots do not generate tasks unless a source explicitly reports an incomplete row.
-TST completion can use get_slot/fill_slot, then resolve_catalog/refresh_missing.
+Sequence completion updates source-backed slots, then refreshes missing fields.
 An absent assay name stays an ``unnamed_assay`` issue on a separate anonymous
 entity; the plan never invents a name or an unsupported alias-resolution task.
 Explicit antigen/linker/nucleotide-only sequence entities retain their source
@@ -25,7 +25,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from costructure import get_document_id, normalize_region
+from units.document_fields import get_document_id, normalize_region
 
 
 SCHEMA_PATH = Path(__file__).resolve().parents[1] / "schemas" / "antibody.schema.json"
@@ -159,59 +159,6 @@ def _all_slots(entity: dict):
             yield f"METRIC.{field}", observation["observation_id"], observation[field]
 
 
-def get_slot(template: dict, task: dict) -> dict:
-    """Locate an allowed slot by entity/observation IDs and a fixed schema path."""
-    entity = next((item for item in template["entities"] if item["entity_id"] == task["entity_id"]), None)
-    if entity is None:
-        raise ValueError("Unknown completion entity_id")
-    path = task["field_path"]
-    for candidate_path, observation_id, slot in _all_slots(entity):
-        if candidate_path == path and observation_id == task.get("observation_id"):
-            return slot
-    raise ValueError(f"Unknown completion slot: {path}")
-
-
-def fill_slot(template: dict, task: dict, value: Any, provenance: list[dict] | dict) -> bool:
-    """Fill only a missing slot after a caller has checked evidence grounding.
-
-    Nonempty evidence is mandatory. Present/conflicting/unavailable slots remain
-    untouched. This helper validates schema types; textual entailment belongs to
-    the retrieval/completion agent, not this deterministic container.
-    """
-    slot = get_slot(template, task)
-    if slot["status"] != "missing" or not _empty(slot["value"]) or _empty(value):
-        return False
-    evidence = [provenance] if isinstance(provenance, dict) else provenance
-    if not isinstance(evidence, list) or not evidence or any(not isinstance(item, dict) or not item for item in evidence):
-        return False
-    if any(item.get("document_id", template["document_id"]) != template["document_id"] for item in evidence):
-        return False
-    path = task["field_path"]
-    if path.endswith("seq_id"):
-        value = _seq_id(value)
-        if value is None:
-            return False
-    elif path.startswith(("VH.", "VL.", "H_CHAIN.", "L_CHAIN.")):
-        if not isinstance(value, str) or not value.strip() or re.search(r"[^A-Za-z*.-]", value):
-            return False
-    elif path in {"METRIC.metric", "METRIC.unit", "METRIC.experiment_type", "METRIC.target"}:
-        if not isinstance(value, str) or not value.strip():
-            return False
-    elif path == "METRIC.value":
-        if isinstance(value, bool) or not isinstance(value, (str, int, float)):
-            return False
-        if isinstance(value, float) and not math.isfinite(value):
-            return False
-    elif path == "METRIC.conditions" and not isinstance(value, (str, list, dict)):
-        return False
-    try:
-        _validate_value(path, value)
-    except ValueError:
-        return False
-    slot.update(value=copy.deepcopy(value), status="present", provenance=copy.deepcopy(evidence))
-    return True
-
-
 def refresh_missing(template: dict) -> dict:
     """Rebuild the executable required-slot plan, without changing existing data."""
     tasks = []
@@ -306,52 +253,6 @@ def resolve_catalog(template: dict, catalog: dict) -> dict:
             slot.update(value=sequence, status="present")
             _add_unique(slot["provenance"], provenance)
     return refresh_missing(template)
-
-
-def template_to_tables(template: dict, original_tables: list[dict]) -> list[dict]:
-    """Build a derived legacy input without changing the original table evidence.
-
-    Fill only originally absent assay fields by stable source indices. Named
-    resolved sequence slots are added in a synthetic evidence table. When the
-    original WIPO listing was chosen over OCR, omit the corresponding original
-    OCR rows from this derived view; the template retains both source candidates.
-    """
-    tables = copy.deepcopy(original_tables)
-    synthetic = {"document_id": template["document_id"], "table_id": "_schema_completion",
-                 "source_type": "schema_completion", "sequence_records": [], "assay_records": []}
-    for entity in template["entities"]:
-        for observation in entity["METRIC"]:
-            source = observation["source"]
-            table_index, row_index = source["table_index"], source["record_index"]
-            row = tables[table_index]["assay_records"][row_index]
-            for field in OBSERVATION_FIELDS:
-                slot = observation[field]
-                if _empty(row.get(field)) and slot["status"] == "present":
-                    row[field] = copy.deepcopy(slot["value"])
-        if entity["name"] is None:
-            continue
-        for region, path in REGION_PATHS.items():
-            # CDRH/HCDR aliases refer to the same slot; emit it only once.
-            if region.startswith(("CDRH", "CDRL")):
-                continue
-            chain, field = path.split(".")
-            slot = entity[chain][field]
-            if slot["status"] != "present":
-                continue
-            authoritative = any("mapping_provenance" in item and item.get("seq_id")
-                                for item in slot["provenance"])
-            if authoritative:
-                for table in tables:
-                    table["sequence_records"] = [row for row in table.get("sequence_records", [])
-                        if not (_name(row.get("name")) == entity["name"]
-                                and REGION_PATHS.get(normalize_region(row.get("region"))) == path)]
-            seq_id = entity[chain]["seq_id"]["value"] if field == "sequence" else None
-            synthetic["sequence_records"].append({"name": entity["name"], "region": region,
-                "sequence": slot["value"], "seq_id": seq_id,
-                "provenance": copy.deepcopy(slot["provenance"]), "source_type": "schema_completion"})
-    if synthetic["sequence_records"]:
-        tables.append(synthetic)
-    return tables
 
 
 def export_dataset(template: dict) -> list[dict]:

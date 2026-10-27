@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 
 
-def prepare_document_input(directory, document_id, pdf, *, existing=None):
+def prepare_document_input(directory, document_id, pdf, *, existing=None, extract_text=True):
     directory = Path(directory)
     pdf = Path(pdf).resolve() if pdf is not None else None
     directory.mkdir(parents=True, exist_ok=True)
@@ -25,6 +25,8 @@ def prepare_document_input(directory, document_id, pdf, *, existing=None):
                 shutil.copyfile(original, directory / name)
         if (existing / "wipo").is_dir() and not (directory / "wipo").exists():
             shutil.copytree(existing / "wipo", directory / "wipo")
+    if not extract_text:
+        return
     # Existing native/web prose is more complete than text from PDF image placeholders.
     if any((directory / name).is_file() for name in ("patent_context.json", "patent_text.zh.txt", "patent_text.txt")):
         return

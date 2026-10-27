@@ -1,15 +1,9 @@
 Token 用量统计
 
-主流程、正文序列分支和 TST 分支均统计 Codex 实际返回的 token 用量。
-codexllm 使用 codex exec --json，从 turn.completed 的 usage 读取计数。
-chat() 的返回格式仍为助手文本。默认关闭独立分类，统一抽取阶段为 unified_extraction；
---classify-tables 开启旧分类分流时，保留 classification、assay_extraction、sequence_extraction。
-
-输出：_token_usage.json、_token_usage.txt；_timings.json 和 _batch_summary.json
-同时包含 token_usage，可按阶段、条目和专利查看。
-文本报告使用 K（千）/ M（百万）展示，保留最多两位小数；JSON 保留精确整数。
-TST 单独区分 tst_count、tst_extract、tst_verify，兼容正文检索的独立命令。
-单图 Graph 把累计用量放在返回状态 token_usage 中。
+当前记录文档提取、覆盖修补以及序列规划/核验的实际模型用量。
+codexllm 从 codex exec --json 的 turn.completed.usage 读取计数。
+输出 _token_usage.json/.txt，按阶段、条目和专利汇总；计时与批次报告也引用这些统计。
+文本报告使用 K/M 展示，JSON 保留精确整数。
 
 计数：total_tokens = input_tokens + output_tokens。
 cached_input_tokens 是输入的子集；reasoning_output_tokens 是输出的子集，不能再次相加。
@@ -21,7 +15,7 @@ TemplateAgent 的确定性处理不调用模型，因此没有 API token 消耗�
 所有请求都记录，包括重试、失败、超时和取消。
 CLI 没有返回用量时保留未知，并在 field_coverage 和 requests_without_usage 显示。
 零次模型调用显示零；有调用但用量未知时不估算为零。
-多专利共用一次分类请求的用量无法精确拆分，保留为 _shared_or_unknown。
+没有明确文档归属的请求保留为 _shared_or_unknown。
 若使用自定义 LLM，需由它接入 record_current_usage；这些统计不会估算未接入的服务。
 记录的是服务返回用量，不计算最终账单或估算未提供的价格。
 

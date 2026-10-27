@@ -14,7 +14,12 @@ dependencies:
       # VL 表格识别所需的文档解析依赖。
       - paddleocr[doc-parser]==3.7.0
       - paddlex==3.7.2
-      - langgraph==1.2.16
       # 表格 HTML 解析及原始 PDF 文本读取。
       - lxml
       - pymupdf
+      # dataagent 语义流程与输出协议。
+      - langgraph>=0.2
+      - langchain-core>=0.3
+      - pydantic>=2.0
+      - numpy
+      - opencv-python

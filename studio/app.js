@@ -1,7 +1,10 @@
-import { JobEtaEstimator, formatEtaDuration, formatEtaRange } from "./job_eta.js?v=20261023-orientation";
+import { JobEtaEstimator, formatEtaDuration, formatEtaRange } from "./job_eta.js?v=20261027-agent-strategy-v2";
 import { CollectionReviewPanel } from "./collection_review.js?v=20261022-review-controls";
 import { setupTableColumns } from "./table_columns.js";
 import { deriveDocumentId, patentNumber, patentDisplayName } from "./patent_identity.js";
+import { timeMetricMarkup, tokenMetricMarkup, setupMetricTooltips, completedRunUsage } from "./intake_metrics.js";
+
+let processingMetricTooltips = null;
 
 const jobEtaEstimator = new JobEtaEstimator({ storage: {
   getItem: (key) => window.localStorage.getItem(key),
@@ -23,11 +26,13 @@ const PATENT_RETRY_API = serverAssetUrl("api/patents/retry");
 const PATENT_PUBLISH_API = serverAssetUrl("api/patents/publish-records");
 const PATENT_REPARSE_API = serverAssetUrl("api/patents/reparse-records");
 const PATENT_ANALYZE_API = serverAssetUrl("api/patents/analyze");
+const PATENT_COMPARE_API = serverAssetUrl("api/patents/compare");
 const PATENT_DELETE_API = serverAssetUrl("api/patents/delete");
 const PATENT_TEXT_API = serverAssetUrl("api/patents/check-text");
 const HUMAN_REVIEWS_API = serverAssetUrl("api/reviews/human");
 const PDF_FORM_KINDS = ["text", "scanned", "ocr", "mixed", "unknown"];
 const cachedPdfForms = new Map();
+const completedUsageReports = new Map();
 const CELL_HIGHLIGHT_PADDING = Object.freeze({ top: 6, right: 4, bottom: 4, left: 8 });
 
 const TRANSLATIONS = {
@@ -173,12 +178,26 @@ const TRANSLATIONS = {
     "intake.startAgent": "导入 PDF 并开始解析",
     "intake.patentCount": "{count} 篇专利",
     "intake.review": "审阅",
+    "intake.reviewLoading": "正在加载审阅数据…",
+    "intake.reviewFailed": "审阅数据加载失败：{error}",
     "intake.waiting": "等待完成",
     "intake.retry": "重新解析 PDF",
     "intake.datasetPublished": "已推送 {count} 条",
     "intake.datasetNotPublished": "未推送",
     "intake.fileSelected": "{name} · {size}",
     "intake.uploading": "正在上传 PDF…",
+    "intake.engine": "解析引擎",
+    "intake.engine1": "dataagent1 · 多轮检索",
+    "intake.engine2": "dataagent2 · 分块提取",
+    "intake.stage.reader": "分块读取全文证据",
+    "intake.chunkProgress": "{current}/{total} 块",
+    "intake.stage.build": "构建审阅数据",
+    "intake.engineUnavailable": "后端尚未加载双引擎功能，请在现有任务结束后重启平台。",
+    "intake.compare": "新建对比",
+    "intake.compareQueued": "已新建 {engine} 对比任务，原任务及结果保留。",
+    "intake.currentStrategy": "当前运行：{engine}",
+    "intake.comparisonRun": "同 PDF 策略对比 · 复用 OCR",
+    "intake.strategyHelp": "选择新任务的策略，再点击新建对比；保留当前运行和结果。",
     "intake.queued": "已加入 Agent 解析队列。",
     "intake.duplicatePatent": "专利 {patent} 已存在，请在列表中打开已有记录。",
     "intake.retryQueued": "已加入整篇 PDF 重新解析队列，旧结果会保留。",
@@ -203,7 +222,11 @@ const TRANSLATIONS = {
     "intake.stage.crop": "表格裁剪",
     "intake.stage.render": "PDF 渲染",
     "intake.stage.agent": "表格识别与抽取",
-    "intake.stage.ocr": "表格 OCR 识别",
+    "intake.stage.ocr": "正文 / 表格 OCR",
+    "intake.stage.assembly": "文档结构组装",
+    "intake.stage.export": "结构化文档导出",
+    "intake.ocrBranches": "全文：{text} · 表格：{table}",
+    "intake.structuredDocument": "结构化文档",
     "intake.stage.extraction": "结构化数据抽取",
     "intake.stage.classify": "LLM 表格分类",
     "intake.stage.template": "Schema 模板与缺项检查",
@@ -216,7 +239,7 @@ const TRANSLATIONS = {
     "intake.logTitle": "解析任务日志",
     "intake.logRefresh": "刷新日志",
     "intake.logLoading": "正在读取日志…",
-    "intake.logReady": "已读取当前日志；任务运行时可刷新查看最新进度。",
+    "intake.logReady": "已读取当前日志；任务运行时自动刷新。",
     "intake.logEmpty": "尚无日志，任务可能仍在等待执行。",
     "intake.logFailed": "日志读取失败：{error}",
     "intake.stage.completed": "已完成",
@@ -255,6 +278,8 @@ const TRANSLATIONS = {
     "review.reparseFailed": "重新解析失败：{error}",
     "filter.all": "全部状态",
     "filter.experimentKeyword": "实验 keyword 筛选",
+    "filter.experimentLabel": "实验标签筛选",
+    "filter.unlabeledExperiment": "未标注",
     "filter.allExperimentKeywords": "全部实验 keyword",
     "experiment.keywordReview": "标签待复核",
     "experiment.reviewReasons": "待复核原因",
@@ -302,6 +327,20 @@ const TRANSLATIONS = {
     "reviewCheck.anarci": "ANARCI",
     "reviewCheck.esm2": "ESM-2",
     "reviewCheck.record": "记录一致性",
+    "reviewCheck.table_text_mismatch": "表格和文字不一致",
+    "reviewCheck.table_text_match": "表文一致",
+    "reviewCheck.image_corrected": "原图复核已修正",
+    "reviewCheck.question_answer": "问题与回答",
+    "reviewCheck.question": "问题",
+    "reviewCheck.answer": "回答",
+    "reviewCheck.applied": "已应用",
+    "reviewCheck.answered_without_change": "已回答，无需修改",
+    "reviewCheck.needs_review": "待复核",
+    "reviewCheck.rejected": "修改未通过校验",
+    "reviewCheck.table_gold_standard": "采用表格序列复识别结果；正文差异仅作提示",
+    "reviewCheck.table_unresolved": "表格原文尚不能输出有效序列，差异保留待复核",
+    "reviewCheck.table_value": "表格取值",
+    "reviewCheck.text_value": "文字取值",
     "reviewCheck.passed": "通过",
     "reviewCheck.error": "错误",
     "reviewCheck.manual_review": "待人工审核",
@@ -309,13 +348,29 @@ const TRANSLATIONS = {
     "reviewCheck.details": "审核详情",
     "reviewCheck.vhAnarci": "VH ANARCI",
     "reviewCheck.vlAnarci": "VL ANARCI",
+    "reviewCheck.esm2Scored": "ESM-2 已评分",
+    "reviewCheck.sitePerplexity": "最高位点伪困惑度",
+    "reviewCheck.siteThreshold": "位点风险阈值",
+    "reviewCheck.flaggedSites": "高困惑度位点",
+    "reviewCheck.risk": "异常风险",
+    "reviewCheck.siteRiskNote": "超过阈值的位点需要回查原图；模型风险提示不等同于确认序列错误。",
+    "reviewCheck.esm2Metrics": "ESM-2 序列评分",
+    "reviewCheck.meanPll": "平均掩码对数概率",
+    "reviewCheck.pseudoPerplexity": "伪困惑度",
+    "reviewCheck.minLogProbability": "最低位点对数概率",
+    "reviewCheck.bottomDecile": "最低 10% 位点均值",
+    "reviewCheck.noThresholds": "已评分，尚未配置通过/失败阈值",
+    "reviewCheck.anarciDomains": "ANARCI · IMGT 编号",
+    "reviewCheck.chainType": "链型",
+    "reviewCheck.domainCoverage": "编号覆盖率",
     "reviewCheck.message": "说明",
     "field.antibody_id": "原文名称",
     "field.vh": "VH",
     "field.vl": "VL",
     "field.ic50": "数值",
     "field.ic50_unit": "单位",
-    "field.experiment_group": "实验组",
+    "field.experiment_group": "实验标签",
+    "field.experiment_name": "实验名称",
     "field.experiment_keywords": "实验 keyword",
     "field.link_status": "复核状态",
     "field.humanReviewer": "人工审核",
@@ -325,7 +380,10 @@ const TRANSLATIONS = {
     "field.pdfFile": "PDF 文件",
     "field.collectedCount": "已收集条数",
     "field.pdfPages": "PDF 页数",
+    "field.processingTime": "处理用时",
+    "field.tokenUsage": "Token 用量",
     "field.agentStatus": "Agent 状态",
+    "field.agentStrategy": "Agent 策略",
     "field.datasetMembership": "数据库记录",
     "field.action": "操作",
     "field.generic": "字段",
@@ -678,12 +736,26 @@ const TRANSLATIONS = {
     "intake.startAgent": "Import PDF and start parsing",
     "intake.patentCount": "{count} patents",
     "intake.review": "Review",
+    "intake.reviewLoading": "Loading review data…",
+    "intake.reviewFailed": "Unable to load review data: {error}",
     "intake.waiting": "Waiting",
     "intake.retry": "Reparse PDF",
     "intake.datasetPublished": "{count} published",
     "intake.datasetNotPublished": "Not published",
     "intake.fileSelected": "{name} · {size}",
     "intake.uploading": "Uploading PDF…",
+    "intake.engine": "Extraction engine",
+    "intake.engine1": "dataagent1 · Multi-turn retrieval",
+    "intake.engine2": "dataagent2 · Chunk extraction",
+    "intake.stage.reader": "Reading document evidence",
+    "intake.chunkProgress": "{current}/{total} chunks",
+    "intake.stage.build": "Building review data",
+    "intake.engineUnavailable": "The backend needs to restart after active tasks finish to load engine selection.",
+    "intake.compare": "New comparison",
+    "intake.compareQueued": "Created a {engine} comparison. The original run and results are preserved.",
+    "intake.currentStrategy": "Current run: {engine}",
+    "intake.comparisonRun": "Same PDF comparison · OCR reused",
+    "intake.strategyHelp": "Select a strategy and create a comparison; the current run and results are preserved.",
     "intake.queued": "Added to the Agent processing queue.",
     "intake.duplicatePatent": "Patent {patent} already exists. Open its existing entry in the list.",
     "intake.retryQueued": "Queued full PDF parsing. Previous results will be retained.",
@@ -708,7 +780,11 @@ const TRANSLATIONS = {
     "intake.stage.crop": "Table cropping",
     "intake.stage.render": "PDF rendering",
     "intake.stage.agent": "Table recognition and extraction",
-    "intake.stage.ocr": "Table OCR",
+    "intake.stage.ocr": "Text / table OCR",
+    "intake.stage.assembly": "Document assembly",
+    "intake.stage.export": "Structured document export",
+    "intake.ocrBranches": "Text: {text} · Tables: {table}",
+    "intake.structuredDocument": "Structured document",
     "intake.stage.extraction": "Structured data extraction",
     "intake.stage.classify": "LLM table classification",
     "intake.stage.template": "Schema and missing-field checks",
@@ -721,7 +797,7 @@ const TRANSLATIONS = {
     "intake.logTitle": "Parsing task log",
     "intake.logRefresh": "Refresh log",
     "intake.logLoading": "Loading log…",
-    "intake.logReady": "Current log loaded. Refresh to see new progress while the task runs.",
+    "intake.logReady": "Current log loaded. Updates refresh automatically while the task runs.",
     "intake.logEmpty": "No log yet. The task may still be queued.",
     "intake.logFailed": "Unable to load log: {error}",
     "intake.stage.completed": "Completed",
@@ -760,6 +836,8 @@ const TRANSLATIONS = {
     "review.reparseFailed": "Reparse failed: {error}",
     "filter.all": "All statuses",
     "filter.experimentKeyword": "Experiment keyword filter",
+    "filter.experimentLabel": "Experiment label filter",
+    "filter.unlabeledExperiment": "Unlabeled",
     "filter.allExperimentKeywords": "All experiment keywords",
     "experiment.keywordReview": "Labels need review",
     "experiment.reviewReasons": "Reasons for review",
@@ -807,6 +885,20 @@ const TRANSLATIONS = {
     "reviewCheck.anarci": "ANARCI",
     "reviewCheck.esm2": "ESM-2",
     "reviewCheck.record": "Record evidence",
+    "reviewCheck.table_text_mismatch": "Table/text mismatch",
+    "reviewCheck.table_text_match": "Table/text consistent",
+    "reviewCheck.image_corrected": "Corrected from original image",
+    "reviewCheck.question_answer": "Questions and answers",
+    "reviewCheck.question": "Question",
+    "reviewCheck.answer": "Answer",
+    "reviewCheck.applied": "Applied",
+    "reviewCheck.answered_without_change": "Answered; no change needed",
+    "reviewCheck.needs_review": "Needs review",
+    "reviewCheck.rejected": "Change rejected by validation",
+    "reviewCheck.table_gold_standard": "Using the table sequence transcription; page-text differences are advisory",
+    "reviewCheck.table_unresolved": "The table source cannot yet yield a valid sequence; differences retained for review",
+    "reviewCheck.table_value": "Table value",
+    "reviewCheck.text_value": "Text value",
     "reviewCheck.passed": "Passed",
     "reviewCheck.error": "Error",
     "reviewCheck.manual_review": "Manual review",
@@ -814,13 +906,29 @@ const TRANSLATIONS = {
     "reviewCheck.details": "Review details",
     "reviewCheck.vhAnarci": "VH ANARCI",
     "reviewCheck.vlAnarci": "VL ANARCI",
+    "reviewCheck.esm2Scored": "ESM-2 scored",
+    "reviewCheck.sitePerplexity": "Maximum site pseudo-perplexity",
+    "reviewCheck.siteThreshold": "Site risk threshold",
+    "reviewCheck.flaggedSites": "High-perplexity positions",
+    "reviewCheck.risk": "Risk flag",
+    "reviewCheck.siteRiskNote": "Check flagged positions against the original source; a model risk flag does not confirm a sequence error.",
+    "reviewCheck.esm2Metrics": "ESM-2 sequence scores",
+    "reviewCheck.meanPll": "Mean masked log probability",
+    "reviewCheck.pseudoPerplexity": "Pseudo-perplexity",
+    "reviewCheck.minLogProbability": "Lowest position log probability",
+    "reviewCheck.bottomDecile": "Bottom 10% mean",
+    "reviewCheck.noThresholds": "Scored; pass/fail thresholds are not configured",
+    "reviewCheck.anarciDomains": "ANARCI · IMGT numbering",
+    "reviewCheck.chainType": "Chain type",
+    "reviewCheck.domainCoverage": "Numbering coverage",
     "reviewCheck.message": "Notes",
     "field.antibody_id": "Source name",
     "field.vh": "VH",
     "field.vl": "VL",
     "field.ic50": "Value",
     "field.ic50_unit": "Unit",
-    "field.experiment_group": "Experiment",
+    "field.experiment_group": "Experiment label",
+    "field.experiment_name": "Experiment name",
     "field.experiment_keywords": "Experiment keywords",
     "field.link_status": "Review status",
     "field.humanReviewer": "Human review",
@@ -830,7 +938,10 @@ const TRANSLATIONS = {
     "field.pdfFile": "PDF file",
     "field.collectedCount": "Collected records",
     "field.pdfPages": "PDF pages",
+    "field.processingTime": "Processing time",
+    "field.tokenUsage": "Token usage",
     "field.agentStatus": "Agent status",
+    "field.agentStrategy": "Agent strategy",
     "field.datasetMembership": "Database records",
     "field.action": "Action",
     "field.generic": "Field",
@@ -1078,13 +1189,17 @@ const DEFAULT_TAB_BY_FIELD = {
   link_status: "detection",
 };
 
+const startupParams = new URLSearchParams(location.search);
+const startupDocumentId = startupParams.get("document_id") || null;
+const startupPage = startupParams.get("view") || (startupDocumentId ? "review" : loadText("sda.studio.appPage", "review"));
+
 const state = {
-  appPage: ["dataset", "intake", "review"].includes(loadText("sda.studio.appPage", "review"))
-    ? loadText("sda.studio.appPage", "review")
-    : "dataset",
+  appPage: ["dataset", "intake", "review"].includes(startupPage) ? startupPage : "review",
   patents: [],
   selectedPatentIds: new Set(),
   patentDeleteInProgress: false,
+  patentEngineChoices: {},
+  pendingPatentComparisons: new Set(),
   patentMutationVersion: 0,
   patentActivationVersion: 0,
   allRecords: [],
@@ -1093,12 +1208,13 @@ const state = {
   publishDatasetId: "SDA",
   datasetCreateInProgress: false,
   datasetMutationVersion: 0,
-  activePatentId: null,
+  activePatentId: startupDocumentId,
   activePatent: null,
   pageAssetBase: SERVER_ROOT.href,
   datasetSearch: "",
   datasetStatus: [],
   datasetKeywordFilter: [],
+  datasetExperimentLabelFilter: [],
   datasetReviewerFilter: [],
   datasetUnitSort: "none",
   importFile: null,
@@ -1147,6 +1263,7 @@ const state = {
   search: "",
   status: [],
   keywordFilter: [],
+  experimentLabelFilter: [],
   reviewerFilter: [],
   unitSort: "none",
   corrections: loadJson("sda.studio.corrections", {}),
@@ -1297,6 +1414,7 @@ function openCollectionReview() {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     cacheDom();
+    processingMetricTooltips = setupMetricTooltips(dom.patentRows);
     bindEvents();
     document.getElementById("open-collection-review").addEventListener("click", openCollectionReview);
     setupTableColumns();
@@ -1348,6 +1466,7 @@ function cacheDom() {
     "dataset-search",
     "dataset-status-filter",
     "dataset-keyword-filter",
+    "dataset-experiment-label-filter",
     "dataset-reviewer-filter",
     "dataset-unit-sort",
     "dataset-overview-rows",
@@ -1361,6 +1480,7 @@ function cacheDom() {
     "pdf-drop-zone",
     "selected-pdf-name",
     "patent-pdf-input",
+    "patent-engine-select",
     "start-agent-button",
     "patent-log-dialog",
     "patent-log-title",
@@ -1373,6 +1493,7 @@ function cacheDom() {
     "record-search",
     "status-filter",
     "keyword-filter",
+    "experiment-label-filter",
     "reviewer-filter",
     "unit-sort",
     "review-publish-button",
@@ -1487,6 +1608,7 @@ function bindEvents() {
   });
   bindColumnFilter(dom.datasetStatusFilter, "datasetStatus", renderDatasetOverview);
   bindColumnFilter(dom.datasetKeywordFilter, "datasetKeywordFilter", renderDatasetOverview);
+  bindColumnFilter(dom.datasetExperimentLabelFilter, "datasetExperimentLabelFilter", renderDatasetOverview);
   bindColumnFilter(dom.datasetReviewerFilter, "datasetReviewerFilter", renderDatasetOverview);
   dom.datasetUnitSort.addEventListener("change", (event) => {
     state.datasetUnitSort = event.target.value;
@@ -1522,6 +1644,7 @@ function bindEvents() {
   });
   bindColumnFilter(dom.statusFilter, "status", renderGrid);
   bindColumnFilter(dom.keywordFilter, "keywordFilter", renderGrid);
+  bindColumnFilter(dom.experimentLabelFilter, "experimentLabelFilter", renderGrid);
   bindColumnFilter(dom.reviewerFilter, "reviewerFilter", renderGrid);
   dom.unitSort.addEventListener("change", (event) => {
     state.unitSort = event.target.value;
@@ -1683,6 +1806,21 @@ async function fetchPatentRegistry() {
       : [];
     // Cached artifacts also work while an older server finishes an active job.
     return await Promise.all(patents.map(async (patent) => {
+      if (!["queued", "processing"].includes(patent.status)
+          && patent.processing_metrics?.time?.scope === "cumulative"
+          && patent.processing_metrics?.tokens?.totals?.requests === 0) {
+        const usageKey = `${patent.document_id}:${patent.run_id || ""}:${patent.updated_at || ""}`;
+        try {
+          let report = completedUsageReports.get(usageKey);
+          if (!report) {
+            report = await fetchJson(serverAssetUrl(`api/patents/${encodeURIComponent(patent.document_id)}/run.json`), 5000);
+            if (report.document_id === patent.document_id) completedUsageReports.set(usageKey, report);
+          }
+          if (report.document_id === patent.document_id) {
+            patent = { ...patent, processing_metrics: completedRunUsage(patent.processing_metrics, report) };
+          }
+        } catch { /* Keep the available statistics if a legacy report is unavailable. */ }
+      }
       if (patent.pdf_form) return patent;
       const key = `${patent.document_id}:${patent.created_at || ""}`;
       try {
@@ -1762,7 +1900,13 @@ async function activatePatent(documentId) {
     validations: [],
     ocr: [],
   };
-  const entries = await Promise.all(
+  let entries;
+  if (patent.artifacts?.review) {
+    const review = await fetchJson(resolveArtifactUrl(patent.artifacts.review));
+    if (!Array.isArray(review.records) || !review.pages) throw new Error(`${documentId}: incomplete review data`);
+    entries = Object.entries(urls).map(([key]) => [key, review[key] ?? artifactDefaults[key]]);
+  } else {
+    entries = await Promise.all(
     Object.entries(urls).map(async ([key, url]) => {
       let value;
       if (!url && key in artifactDefaults) {
@@ -1771,14 +1915,15 @@ async function activatePatent(documentId) {
         try {
           value = await fetchJson(url);
         } catch (error) {
-          if (!(key in artifactDefaults)) throw error;
+          if (key === "records" || !(key in artifactDefaults)) throw error;
           console.warn(`Optional artifact unavailable for ${documentId}: ${key}`, error);
           value = artifactDefaults[key];
         }
       }
       return [key, value];
     }),
-  );
+    );
+  }
   if (activationVersion !== state.patentActivationVersion || !state.patents.some((item) => item.document_id === documentId)) return false;
   entries.forEach(([key, value]) => {
     state[key] = key === "records"
@@ -1832,6 +1977,10 @@ async function pollPatentJobs() {
     const patents = await fetchPatentRegistry();
     if (mutationVersion !== state.patentMutationVersion) return;
     state.patents = patents;
+    if (dom.patentLogDialog.open && !dom.patentLogRefresh.disabled
+        && ["queued", "processing"].includes(previousStatus.get(state.logPatentId))) {
+      void refreshPatentLog();
+    }
     const newlyCompleted = state.patents.some(
       (item) => item.status === "completed" && previousStatus.get(item.document_id) !== "completed",
     );
@@ -2048,6 +2197,7 @@ function openDatasetFolder(datasetId) {
   state.datasetSearch = "";
   state.datasetStatus = [];
   state.datasetKeywordFilter = [];
+  state.datasetExperimentLabelFilter = [];
   state.datasetReviewerFilter = [];
   state.datasetUnitSort = "none";
   dom.datasetSearch.value = "";
@@ -2142,6 +2292,7 @@ function filteredOverviewRecords() {
   const records = currentDatasetRecords().filter((record) => {
     if (!recordMatchesReviewChecks(record, state.datasetStatus)) return false;
     if (!recordMatchesAssayKeywords(record, state.datasetKeywordFilter)) return false;
+    if (!recordMatchesExperimentLabels(record, state.datasetExperimentLabelFilter)) return false;
     if (!recordMatchesHumanReviewers(record, state.datasetReviewerFilter)) return false;
     if (!state.datasetSearch) return true;
     const haystack = [
@@ -2165,6 +2316,9 @@ function renderDatasetOverview() {
   renderDatasetFolders();
   if (!state.activeDatasetId) return;
   const folderRecords = currentDatasetRecords();
+  state.datasetExperimentLabelFilter = renderExperimentLabelFilterMenu(
+    dom.datasetExperimentLabelFilter, folderRecords, state.datasetExperimentLabelFilter,
+  );
   dom.datasetEmptyState.hidden = folderRecords.length > 0;
   dom.datasetOverviewTable.hidden = folderRecords.length === 0;
   state.datasetKeywordFilter = renderKeywordFilterMenu(
@@ -2216,10 +2370,33 @@ function overviewEvidenceCount(record) {
 
 function overviewCell(record, value, field, className = "") {
   const display = value ?? "";
-  const title = typeof display === "string" && display.length > 24 ? display : "";
-  return `<td><button type="button" class="data-cell ${className}"
+  const conflictClass = sequenceConflictClass(record, field, display);
+  const title = [typeof display === "string" && display.length > 24 ? display : "",
+    conflictClass ? t(display ? "reviewCheck.table_gold_standard" : "reviewCheck.table_unresolved") : ""].filter(Boolean).join(" · ");
+  return `<td><button type="button" class="data-cell ${className} ${conflictClass}"
     data-patent-id="${escapeAttr(record._patent_id)}" data-record-id="${escapeAttr(record.record_id)}"
     data-field="${escapeAttr(field)}" title="${escapeAttr(title)}">${escapeHtml(display)}</button></td>`;
+}
+
+function experimentLabelValue(record) {
+  return String(record.experiment_group || record.assay_endpoint || "").trim();
+}
+
+function recordMatchesExperimentLabels(record, selectedValues) {
+  return !Array.isArray(selectedValues) || !selectedValues.length
+    || selectedValues.includes(`label:${experimentLabelValue(record)}`);
+}
+
+function renderExperimentLabelFilterMenu(menu, records, selectedValues) {
+  const counts = new Map();
+  records.forEach((record) => {
+    const label = experimentLabelValue(record);
+    counts.set(label, (counts.get(label) || 0) + 1);
+  });
+  const options = [...counts].sort(([left], [right]) => left.localeCompare(right)).map(([label, count]) => ({
+    value: `label:${label}`, label: label || t("filter.unlabeledExperiment"), count,
+  }));
+  return renderColumnFilterMenu(menu, options, selectedValues, t("filter.experimentLabel"));
 }
 
 function localizedAssayKeyword(keyword) {
@@ -2327,6 +2504,8 @@ function reviewCheckValue(record, source) {
 
 function recordMatchesReviewChecks(record, selectedValues) {
   if (!Array.isArray(selectedValues) || !selectedValues.length) return true;
+  if (selectedValues.includes("source:table_text_mismatch") && !record.sequence_source_conflicts?.length) return false;
+  if (selectedValues.includes("source:image_corrected") && !record.sequence_image_reviews?.length) return false;
   return REVIEW_CHECK_SOURCES.every((source) => {
     const filters = selectedValues.filter((value) => value.startsWith(`${source}:`));
     return !filters.length || filters.includes(reviewCheckValue(record, source));
@@ -2352,6 +2531,10 @@ function renderStatusFilterMenu(menu, records, selectedValues) {
       count: counts.get(`${source}:${status}`) || 0,
     }))
   );
+  options.push({value: "source:table_text_mismatch", label: t("reviewCheck.table_text_mismatch"),
+    count: records.filter((record) => record.sequence_source_conflicts?.length).length});
+  options.push({value: "source:image_corrected", label: t("reviewCheck.image_corrected"),
+    count: records.filter((record) => record.sequence_image_reviews?.length).length});
   return renderColumnFilterMenu(menu, options, selectedValues, t("filter.reviewStatus"));
 }
 
@@ -2646,6 +2829,12 @@ function renderPatentSelection() {
 }
 
 function onPatentSelectionChange(event) {
+  const strategy = event.target.closest("select[data-patent-strategy]");
+  if (strategy) {
+    state.patentEngineChoices[strategy.dataset.patentStrategy] = strategy.value;
+    renderPatentTable();
+    return;
+  }
   const input = event.target.closest("input[data-patent-select]");
   if (!input || input.disabled || state.patentDeleteInProgress) return;
   const patent = state.patents.find((item) => item.document_id === input.dataset.patentSelect);
@@ -2790,11 +2979,53 @@ function patentActionMarkup(patent) {
     || (patent.retry_available == null && !patent.builtin);
   if (terminal && canRetry) controls.push(button("retry", "intake.retry"));
   if (terminal && patent.analyze_available === true) controls.push(button("analyze", "intake.analyze"));
+  if (patent.artifacts?.structured_json) {
+    controls.push(`<a class="button patent-review-button" href="${escapeAttr(new URL(patent.artifacts.structured_json, new URL("../", location.href)).href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("intake.structuredDocument"))}</a>`);
+  }
   if (patent.log_available === true || patent.log_url || (!patent.builtin && patent.log_available !== false)) {
     controls.push(button("log", "intake.log"));
   }
   if (!controls.length) controls.push(button("review", "intake.waiting", true));
   return `<div class="patent-action-buttons">${controls.join("")}</div>`;
+}
+
+function patentStrategyMarkup(patent) {
+  const actual = patent.extraction_engine || "dataagent1";
+  const selected = state.patentEngineChoices[patent.document_id] || actual;
+  const available = patent.comparison_available ?? Boolean(patent.artifacts?.structured_json && patent.pipeline_available);
+  const busy = state.pendingPatentComparisons.has(patent.document_id) || state.patentDeleteInProgress;
+  return `<div class="patent-strategy-controls">
+    <select data-patent-strategy="${escapeAttr(patent.document_id)}" aria-label="${escapeAttr(t("field.agentStrategy"))}" title="${escapeAttr(t("intake.strategyHelp"))}" ${busy ? "disabled" : ""}>
+      <option value="dataagent1" ${selected === "dataagent1" ? "selected" : ""}>dataagent1</option>
+      <option value="dataagent2" ${selected === "dataagent2" ? "selected" : ""}>dataagent2</option>
+    </select>
+    <small>${escapeHtml(t("intake.currentStrategy", {engine: actual}))}</small>
+    <button type="button" class="button patent-review-button" data-patent-id="${escapeAttr(patent.document_id)}" data-action="compare" ${busy || !available ? "disabled" : ""}>${escapeHtml(t("intake.compare"))}</button>
+    ${patent.comparison_source_id ? `<small>${escapeHtml(t("intake.comparisonRun"))}</small>` : ""}
+  </div>`;
+}
+
+async function comparePatent(documentId) {
+  const patent = state.patents.find(p => p.document_id === documentId);
+  const engine = state.patentEngineChoices[documentId] || patent?.extraction_engine || "dataagent1";
+  state.pendingPatentComparisons.add(documentId);
+  renderPatentTable();
+  try {
+    const health = await fetchJson(serverAssetUrl("api/health"), 5000);
+    if (!health.agent_comparison) throw new Error(t("intake.engineUnavailable"));
+    const response = await fetch(PATENT_COMPARE_API, {method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({document_id: documentId, extraction_engine: engine})});
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+    state.patents = [...state.patents.filter(p => p.document_id !== payload.patent.document_id), payload.patent];
+    showToast(t("intake.compareQueued", {engine}), 5000);
+    schedulePatentPolling();
+  } catch (error) {
+    showToast(t("intake.importFailed", {error: error.message}), 6500);
+  } finally {
+    state.pendingPatentComparisons.delete(documentId);
+    renderPatentTable();
+  }
 }
 
 async function checkPatentText(documentId) {
@@ -2831,11 +3062,16 @@ function renderPatentTable() {
     const current = Number(patent.stage_current || 0);
     const total = Number(patent.stage_total || 0);
     const stageProgress = total > 0
-      ? t(patent.stage === "sequence_extract" ? "intake.batchProgress"
+      ? t(patent.stage === "reader" ? "intake.chunkProgress" : patent.stage === "sequence_extract" ? "intake.batchProgress"
         : ["agent", "classify", "ocr", "extraction"].includes(patent.stage) ? "intake.tableProgress"
         : ["template", "tst", "construct"].includes(patent.stage) ? "intake.batchProgress" : "intake.stageProgress", { current, total })
       : "";
     const stageLabel = complete ? "" : stageProgress ? `${stage} · ${stageProgress}` : stage;
+    const ocrBranches = patent.stage === "ocr" && patent.ocr_branches
+      ? t("intake.ocrBranches", {
+        text: t(`intake.status.${patent.ocr_branches.text || "queued"}`),
+        table: t(`intake.status.${patent.ocr_branches.table || "queued"}`),
+      }) : "";
     const errorTitle = status === "failed" ? patent.error || "" : "";
     const templateReview = complete && patent.review_required === true;
     const templateLabel = templateReview
@@ -2851,13 +3087,17 @@ function renderPatentTable() {
     return `<tr class="patent-row ${reviewable ? "is-clickable" : ""}" data-patent-id="${escapeAttr(patent.document_id)}">
       <td class="patent-select-column" title="${escapeAttr(selectionTitle)}"><input type="checkbox" data-patent-select="${escapeAttr(patent.document_id)}" aria-label="${escapeAttr(selectionTitle)}" ${deletable && !state.patentDeleteInProgress ? "" : "disabled"} /></td>
       <td><button type="button" class="patent-name-button" data-patent-id="${escapeAttr(patent.document_id)}" title="${escapeAttr(patentDisplayName(patent))}" ${reviewable && !state.patentDeleteInProgress ? "" : "disabled"}>${escapeHtml(patentDisplayName(patent))}</button><small title="${escapeAttr(patent.filename || "")}">${escapeHtml(patent.filename || "")}</small></td>
+      <td class="patent-strategy-cell">${patentStrategyMarkup(patent)}</td>
       <td class="number-column">${Number(patent.record_count || 0)}</td>
       <td class="number-column">${Number(patent.page_count || 0) || "—"}</td>
+      <td class="number-column processing-metric-cell">${timeMetricMarkup(patent.processing_metrics, patent.document_id, state.locale, now)}</td>
+      <td class="number-column processing-metric-cell">${tokenMetricMarkup(patent.processing_metrics, patent.document_id, state.locale)}</td>
       <td class="pdf-form-cell">${pdfFormMarkup(patent)}</td>
       <td class="patent-text-cell">${patentTextMarkup(patent)}</td>
       <td title="${escapeAttr(statusTitle)}">
         <div class="job-status-row"><span class="job-status job-${escapeAttr(status)}">${escapeHtml(t(`intake.status.${complete && patent.semantic_status === "partial" ? "partial" : status}`))}</span><small>${escapeHtml(stageLabel)}</small>${templateLabel ? `<small>${escapeHtml(templateLabel)}</small>` : ""}${patent.llm_model ? `<small>${escapeHtml(`${patent.llm_model} · ${patent.llm_effort || ""}`)}</small>` : ""}</div>
         ${complete ? "" : `<div class="job-progress ${status === "processing" ? "is-active" : ""}" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><span style="width:${progress}%"></span></div>`}
+        ${ocrBranches ? `<small>${escapeHtml(ocrBranches)}</small>` : ""}
         ${patentEtaMarkup(estimates.get(patent.document_id))}
         ${errorTitle ? `<small class="patent-task-error">${escapeHtml(errorTitle)}</small>` : ""}
       </td>
@@ -2872,6 +3112,7 @@ function renderPatentTable() {
     </tr>`;
   }).join("");
   renderPatentSelection();
+  processingMetricTooltips?.refresh();
 }
 
 async function publishSelectedRecords() {
@@ -2917,6 +3158,10 @@ async function publishSelectedRecords() {
 async function onPatentTableClick(event) {
   const button = event.target.closest("button[data-patent-id]");
   if (!button || button.disabled) return;
+  if (button.dataset.action === "compare") {
+    await comparePatent(button.dataset.patentId);
+    return;
+  }
   if (button.dataset.action === "log") {
     await openPatentLog(button.dataset.patentId);
     return;
@@ -2936,8 +3181,24 @@ async function onPatentTableClick(event) {
     await retryPatent(button.dataset.patentId);
     return;
   }
-  const loaded = await activatePatent(button.dataset.patentId);
-  if (loaded) switchAppPage("review");
+  if (state.activePatentId === button.dataset.patentId && state.records.length) {
+    switchAppPage("review");
+    return;
+  }
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = t("intake.reviewLoading");
+  button.setAttribute("aria-busy", "true");
+  try {
+    const loaded = await activatePatent(button.dataset.patentId);
+    if (loaded) switchAppPage("review");
+  } catch (error) {
+    showToast(t("intake.reviewFailed", {error: error.message}), 7000);
+  } finally {
+    button.disabled = false;
+    button.textContent = originalText;
+    button.removeAttribute("aria-busy");
+  }
 }
 
 function patentLogUrl(patent) {
@@ -2992,10 +3253,17 @@ async function refreshPatentLog() {
 
 async function retryPatent(documentId) {
   try {
+    const patent = state.patents.find(p => p.document_id === documentId);
+    const engine = state.patentEngineChoices[documentId] || patent?.extraction_engine || "dataagent1";
+    if (engine !== (patent?.extraction_engine || "dataagent1")) return await comparePatent(documentId);
+    if (engine === "dataagent2") {
+      const health = await fetchJson(serverAssetUrl("api/health"), 5000);
+      if (!health.extraction_engines?.includes(engine)) throw new Error(t("intake.engineUnavailable"));
+    }
     const response = await fetch(PATENT_RETRY_API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ document_id: documentId }),
+      body: JSON.stringify({ document_id: documentId, extraction_engine: engine }),
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
@@ -3017,10 +3285,17 @@ async function retryPatent(documentId) {
 
 async function analyzePatent(documentId) {
   try {
+    const patent = state.patents.find(p => p.document_id === documentId);
+    const engine = state.patentEngineChoices[documentId] || patent?.extraction_engine || "dataagent1";
+    if (engine !== (patent?.extraction_engine || "dataagent1")) return await comparePatent(documentId);
+    if (engine === "dataagent2") {
+      const health = await fetchJson(serverAssetUrl("api/health"), 5000);
+      if (!health.extraction_engines?.includes(engine)) throw new Error(t("intake.engineUnavailable"));
+    }
     const response = await fetch(PATENT_ANALYZE_API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ document_id: documentId }),
+      body: JSON.stringify({ document_id: documentId, extraction_engine: engine }),
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
@@ -3083,11 +3358,16 @@ async function startPatentImport(event) {
   }
   const form = new FormData();
   form.append("document_id", documentId);
+  form.append("extraction_engine", dom.patentEngineSelect.value);
   form.append("pdf", state.importFile, state.importFile.name);
   dom.startAgentButton.classList.add("loading");
   dom.startAgentButton.disabled = true;
   dom.startAgentButton.lastElementChild.textContent = t("intake.uploading");
   try {
+    if (dom.patentEngineSelect.value === "dataagent2") {
+      const health = await fetchJson(serverAssetUrl("api/health"), 5000);
+      if (!health.extraction_engines?.includes("dataagent2")) throw new Error(t("intake.engineUnavailable"));
+    }
     const response = await fetch(PATENT_IMPORT_API, { method: "POST", body: form });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
@@ -3116,6 +3396,9 @@ function formatFileSize(bytes) {
 }
 
 function renderGrid() {
+  state.experimentLabelFilter = renderExperimentLabelFilterMenu(
+    dom.experimentLabelFilter, state.records, state.experimentLabelFilter,
+  );
   state.keywordFilter = renderKeywordFilterMenu(dom.keywordFilter, state.records, state.keywordFilter);
   state.status = renderStatusFilterMenu(
     dom.statusFilter,
@@ -3280,32 +3563,48 @@ async function reparseSelectedRecords() {
   }
 }
 
+function sequenceConflictClass(record, field, value) {
+  if (!["vh", "vl"].includes(field)) return "";
+  const conflict = [...(record.sequence_source_conflicts || []), ...(record.sequence_image_reviews || [])]
+    .some((item) => item.chain?.toLowerCase() === field);
+  return conflict ? (value ? "sequence-source-conflict" : "sequence-source-unresolved") : "";
+}
+
 function gridCell(record, value, field, className = "") {
   const active = record.record_id === state.selectedRecordId && field === state.selectedField;
   const display = value ?? "";
   const reviewState = cellReviewState(record, field);
   const stateClass = cellReviewStateClass(reviewState);
   const stateHint = cellReviewStateHint(reviewState);
-  const title = [typeof display === "string" && display.length > 24 ? display : "", stateHint]
+  const conflictClass = sequenceConflictClass(record, field, display);
+  const title = [typeof display === "string" && display.length > 24 ? display : "", stateHint,
+    conflictClass ? t(display ? "reviewCheck.table_gold_standard" : "reviewCheck.table_unresolved") : ""]
     .filter(Boolean)
     .join(" · ");
-  return `<td><button type="button" class="data-cell ${className} ${stateClass} ${active ? "active-cell" : ""}"
+  return `<td><button type="button" class="data-cell ${className} ${stateClass} ${conflictClass} ${active ? "active-cell" : ""}"
     data-record-id="${escapeAttr(record.record_id)}" data-field="${escapeAttr(field)}"
     title="${escapeAttr(title)}">${escapeHtml(display)}</button></td>`;
 }
 
 function reviewCheckBadges(record) {
-  return REVIEW_CHECK_SOURCES.map((source) => {
+  const checks = REVIEW_CHECK_SOURCES.map((source) => {
     const status = reviewCheckStatus(record, source);
-    const sourceLabel = t(`reviewCheck.${source}`);
-    const statusLabel = t(`reviewCheck.${status}`);
+    const sourceLabel = source === "esm2" && status === "manual_review" && ["VH", "VL"].every((chain) => record.esm2_review?.chains?.[chain]?.metric_status === "scored")
+      ? t("reviewCheck.esm2Scored") : t(`reviewCheck.${source}`);
+    const statusLabel = t(`reviewCheck.${source === "esm2" && status === "error" ? "risk" : status}`);
     const accessibleLabel = `${sourceLabel}：${statusLabel}`;
     return `<span class="review-check-badge review-check-${escapeAttr(status)}" title="${escapeAttr(accessibleLabel)}" aria-label="${escapeAttr(accessibleLabel)}">${escapeHtml(sourceLabel)}</span>`;
   }).join("");
+  return checks + (record.sequence_image_reviews?.length
+    ? `<span class="review-check-badge review-check-passed">${escapeHtml(t("reviewCheck.image_corrected"))}</span>` : "")
+    + (record.sequence_source_conflicts?.length
+    ? `<span class="review-check-badge review-check-table_text_mismatch" title="${escapeAttr(t("reviewCheck.table_gold_standard"))}">${escapeHtml(t("reviewCheck.table_text_mismatch"))}</span>`
+    : record.sequence_table_text_status === "matched"
+    ? `<span class="review-check-badge review-check-passed">${escapeHtml(t("reviewCheck.table_text_match"))}</span>` : "");
 }
 
 function reviewCheckTitle(record) {
-  return REVIEW_CHECK_SOURCES.map((source) => {
+  const checks = REVIEW_CHECK_SOURCES.map((source) => {
     const review = (source === "record" ? record?.record_verification : record?.[`${source}_review`]) || {};
     const messages = Array.isArray(review.messages)
       ? review.messages.join(" ")
@@ -3313,6 +3612,8 @@ function reviewCheckTitle(record) {
     const label = `${t(`reviewCheck.${source}`)} · ${t(`reviewCheck.${reviewCheckStatus(record, source)}`)}`;
     return messages ? `${label}：${messages}` : label;
   }).join(" · ");
+  return [checks, ...(record.sequence_source_conflicts || []).map((conflict) =>
+    `${t("reviewCheck.table_text_mismatch")} · ${conflict.chain || ""}: ${conflict.message || ""}`)].join(" · ");
 }
 
 function gridStatusCell(record) {
@@ -3401,7 +3702,11 @@ function buildEvidence(record, field) {
       item.value_ref, item.endpoint, item.value, item.unit, item.operator, item.measurement_id,
       item.experiment_id, item.assay_protocol_id, item.condition_label, item.measurement_label, item.donor_id,
     ])}` : locationKey;
-    if (evidence.some((current) => current.key === key)) return;
+    const existingIndex = evidence.findIndex((current) => current.key === key);
+    if (existingIndex >= 0) {
+      if (item.segments?.length && !evidence[existingIndex].segments?.length) evidence[existingIndex] = { ...item, key };
+      return;
+    }
     evidence.push({ ...item, key });
   };
 
@@ -3521,7 +3826,8 @@ function buildEvidence(record, field) {
   evidence.sort((left, right) => {
     const leftIndex = order.indexOf(left.kind);
     const rightIndex = order.indexOf(right.kind);
-    return (leftIndex < 0 ? order.length : leftIndex) - (rightIndex < 0 ? order.length : rightIndex);
+    return (leftIndex < 0 ? order.length : leftIndex) - (rightIndex < 0 ? order.length : rightIndex)
+      || Number(Boolean(right.segments?.length)) - Number(Boolean(left.segments?.length));
   });
   return wantedChain ? evidence.filter((item) => item.chain === wantedChain) : evidence;
 }
@@ -4023,7 +4329,7 @@ function renderPageAnnotations(page, evidence, layer = dom.annotationLayer) {
     const row = ocrTable.rows?.[Number(evidence.row_index)] || [];
     const activeCell = chooseActiveCell(row, state.selectedField, currentRecord());
     row.forEach((cell) => {
-      const mappedBbox = mapCropBboxToPage(cell.bbox, candidate.bbox, ocrTable);
+      const mappedBbox = cellPageBbox(cell, candidate.bbox, ocrTable);
       if (!mappedBbox) return;
       const active = cell === activeCell;
       appendPageBox({
@@ -4128,14 +4434,43 @@ function normalizeBoxPadding(padding) {
   };
 }
 
+function validCellBbox(box) {
+  return Array.isArray(box) && box.length === 4 && box.every((value) => typeof value === "number" && Number.isFinite(value))
+    && box[0] < box[2] && box[1] < box[3];
+}
+
+function cellCropBbox(cell) {
+  if (validCellBbox(cell?.bbox_crop)) return cell.bbox_crop;
+  return cell?.coordinate_space !== "pdf_points" && validCellBbox(cell?.bbox) ? cell.bbox : null;
+}
+
+function cellPageBbox(cell, tableBbox, ocrTable) {
+  if (validCellBbox(cell?.bbox_pdf)) return cell.bbox_pdf;
+  if (cell?.coordinate_space === "pdf_points") return validCellBbox(cell.bbox) ? cell.bbox : null;
+  if (cell?.coordinate_space === "crop_pixels" && !ocrTable?.crop_to_pdf && !ocrTable?.bbox_padded) return null;
+  return mapCropBboxToPage(cellCropBbox(cell), tableBbox, ocrTable);
+}
+
 function mapCropBboxToPage(cellBbox, tableBbox, ocrTable) {
+  if (!validCellBbox(cellBbox)) return null;
+  const transform = ocrTable?.crop_to_pdf;
+  if (Array.isArray(transform) && transform.length === 6 && transform.every((value) => typeof value === "number" && Number.isFinite(value))) {
+    const [a, b, c, d, e, f] = transform;
+    const [x1, y1, x2, y2] = cellBbox;
+    const points = [[x1, y1], [x2, y1], [x2, y2], [x1, y2]].map(([x, y]) => [a * x + c * y + e, b * x + d * y + f]);
+    const box = [Math.min(...points.map((p) => p[0])), Math.min(...points.map((p) => p[1])),
+      Math.max(...points.map((p) => p[0])), Math.max(...points.map((p) => p[1]))];
+    return validCellBbox(box) ? box : null;
+  }
+  if (transform != null) return null;
+  tableBbox = ocrTable?.bbox_padded || tableBbox;
   if (
     !Array.isArray(cellBbox) ||
     cellBbox.length !== 4 ||
     !Array.isArray(tableBbox) ||
     tableBbox.length !== 4 ||
-    !Number(ocrTable?.width) ||
-    !Number(ocrTable?.height)
+    !(Number(ocrTable?.width) > 0) ||
+    !(Number(ocrTable?.height) > 0)
   ) {
     return null;
   }
@@ -4143,12 +4478,13 @@ function mapCropBboxToPage(cellBbox, tableBbox, ocrTable) {
   const [cx1, cy1, cx2, cy2] = cellBbox.map(Number);
   const tableWidth = tx2 - tx1;
   const tableHeight = ty2 - ty1;
-  return [
+  const mapped = [
     tx1 + (cx1 / ocrTable.width) * tableWidth,
     ty1 + (cy1 / ocrTable.height) * tableHeight,
     tx1 + (cx2 / ocrTable.width) * tableWidth,
     ty1 + (cy2 / ocrTable.height) * tableHeight,
   ];
+  return validCellBbox(mapped) ? mapped : null;
 }
 
 function renderTableCropAnnotations(ocrTable, evidence) {
@@ -4157,8 +4493,9 @@ function renderTableCropAnnotations(ocrTable, evidence) {
   const row = ocrTable.rows?.[Number(evidence.row_index)] || [];
   const activeCell = chooseActiveCell(row, state.selectedField, currentRecord());
   row.forEach((cell) => {
-    if (!Array.isArray(cell.bbox) || cell.bbox.length !== 4) return;
-    const [x1, y1, x2, y2] = cell.bbox;
+    const cropBox = cellCropBbox(cell);
+    if (!cropBox || !(ocrTable.width > 0) || !(ocrTable.height > 0)) return;
+    const [x1, y1, x2, y2] = cropBox;
     const box = document.createElement("div");
     const active = cell === activeCell;
     const padding = CELL_HIGHLIGHT_PADDING;
@@ -4427,9 +4764,15 @@ function renderSdaFields(record) {
   const slot = record?.sda_fields?.[field];
   if (!slot) return "";
   const citations = (slot.provenance || []).map((item) => `<p class="context-copy">${escapeHtml(item.quote || item.table_id || item.source_type || "")}</p>`).join("");
+  const failures = (record.sequence_ocr_failures || []).filter((item) => item.chain?.toLowerCase() === field)
+    .map((item) => `<p class="context-copy">${escapeHtml(item.message || "")}</p>`).join("");
+  const constantChain = {vh: "CH", vl: "CL"}[field];
+  const constants = (record.constant_regions || []).filter((item) => item.region === constantChain)
+    .map((item) => `<section class="inspector-section"><h3>${escapeHtml(item.region)}${item.seq_id ? ` · SEQ ID NO: ${escapeHtml(item.seq_id)}` : ""}</h3>
+      <p class="context-copy">${escapeHtml(item.sequence || "")}</p></section>`).join("");
   return `<section class="inspector-section"><h3>${escapeHtml(t("sda.fields"))}</h3>
     ${propertyList([[t("sda.status"), t(`sda.${slot.status || "missing"}`)], [t("sda.source"), slot.provenance?.length || 0]])}
-    ${citations || `<p class="context-copy">${escapeHtml(t("sda.noEvidence"))}</p>`}</section>`;
+    ${failures}${citations || `<p class="context-copy">${escapeHtml(t("sda.noEvidence"))}</p>`}</section>${constants}`;
 }
 
 function renderDetectionInspector(record, evidence) {
@@ -4496,7 +4839,72 @@ function renderSequenceReviewInspector(record) {
         [t("reviewCheck.vlAnarci"), anarci.chain_statuses?.VL || "—"],
         [t("reviewCheck.message"), messages],
       ])}
-    </section>`;
+    </section>
+    ${renderSequenceEvaluationDetails(record)}
+    ${(record.sequence_image_reviews || []).map((review) => `
+      <section class="inspector-section">
+        <h3>${escapeHtml(t("reviewCheck.image_corrected"))} · ${escapeHtml(review.chain || "")}</h3>
+        <p>${escapeHtml(review.sequence_rationale || review.message || "")}</p>
+      </section>`).join("")}
+    ${(record.question_answers || []).map((item) => `
+      <section class="inspector-section">
+        <h3>${escapeHtml(t("reviewCheck.question_answer"))} · ${escapeHtml((item.chains || []).join(" / "))}</h3>
+        ${propertyList([
+          [t("reviewCheck.question"), item.question],
+          [t("reviewCheck.answer"), item.answer || "—"],
+          [t("reviewCheck.message"), [t(`reviewCheck.${item.status}`), item.reason].filter(Boolean).join(" · ")],
+        ])}
+      </section>`).join("")}
+    ${(record.sequence_source_conflicts || []).map((conflict) => `
+      <section class="inspector-section">
+        <h3>${escapeHtml(t("reviewCheck.table_text_mismatch"))} · ${escapeHtml(conflict.chain || "")}</h3>
+        <p>${escapeHtml(t(record.sequence_image_reviews?.some((review) => review.chain === conflict.chain)
+          ? "reviewCheck.image_corrected" : conflict.sequence_status && conflict.sequence_status !== "resolved"
+          ? "reviewCheck.table_unresolved" : "reviewCheck.table_gold_standard"))}</p>
+        ${propertyList([
+          [t("reviewCheck.table_value"), `${conflict.table_ref}: ${conflict.table_quote}`],
+          [t("reviewCheck.text_value"), `${conflict.text_ref}: ${conflict.text_quote}`],
+          [t("reviewCheck.message"), [conflict.message, conflict.sequence_rationale].filter(Boolean).join(" ")],
+        ])}
+      </section>`).join("")}`;
+}
+
+function renderSequenceEvaluationDetails(record) {
+  const number = (value) => Number.isFinite(value) ? value.toFixed(4) : "—";
+  return ["VH", "VL"].map((chain) => {
+    const anarci = record.anarci_review?.chains?.[chain];
+    const esm2 = record.esm2_review?.chains?.[chain];
+    const domains = (anarci?.domains || []).map((domain) => `
+      <section class="inspector-section">
+        <h3>${escapeHtml(t("reviewCheck.anarciDomains"))} · ${chain}</h3>
+        ${propertyList([
+          [t("reviewCheck.chainType"), domain.chain_type || "—"],
+          [t("reviewCheck.domainCoverage"), Number.isFinite(domain.coverage) ? `${(domain.coverage * 100).toFixed(1)}%` : "—"],
+          ["HMM bitscore", number(domain.bitscore)],
+          ...Object.entries(domain.regions || {}),
+        ])}
+      </section>`).join("");
+    const scores = esm2?.metric_status === "scored" ? `
+      <section class="inspector-section">
+        <h3>${escapeHtml(t("reviewCheck.esm2Metrics"))} · ${chain}</h3>
+        ${propertyList([
+          [t("reviewCheck.meanPll"), number(esm2.mean_pll)],
+          [t("reviewCheck.pseudoPerplexity"), number(esm2.pseudo_perplexity)],
+          [t("reviewCheck.minLogProbability"), number(esm2.min_log_probability)],
+          [t("reviewCheck.bottomDecile"), number(esm2.bottom_decile_mean)],
+          [t("reviewCheck.sitePerplexity"), number(esm2.max_site_pseudo_perplexity)],
+          [t("reviewCheck.siteThreshold"), number(esm2.site_screening?.max_pseudo_perplexity)],
+          [t("reviewCheck.message"), esm2.thresholds || esm2.site_screening?.enabled ? esm2.message : t("reviewCheck.noThresholds")],
+        ])}
+        ${esm2.flagged_positions?.length ? `<h4>${escapeHtml(t("reviewCheck.flaggedSites"))}</h4>
+          <p>${escapeHtml(t("reviewCheck.siteRiskNote"))}</p>
+          <ul class="sequence-risk-sites">${esm2.flagged_positions.map((position) => `<li>
+            <span class="review-check-badge review-check-error">${chain} · ${escapeHtml(position.position)} ${escapeHtml(position.residue)}</span>
+            <span>PPL ${escapeHtml(number(position.pseudo_perplexity))} · P ${escapeHtml(Number.isFinite(position.probability) ? position.probability.toExponential(3) : "—")}</span>
+          </li>`).join("")}</ul>` : ""}
+      </section>` : "";
+    return domains + scores;
+  }).join("");
 }
 
 function renderExperimentInspector(record, evidence) {
@@ -4514,13 +4922,18 @@ function renderExperimentInspector(record, evidence) {
   const hasSummary = Boolean(
     record.assay_protocol_summary_zh || record.assay_protocol_summary_en,
   );
-  if (!passages.length && !hasSummary && !record.assay_keyword_status) return emptyInspector(t("experiment.none"));
+  if (!passages.length && !hasSummary && !record.assay_keyword_status
+      && !record.experiment_name && !assayKeywordValues(record).length) return emptyInspector(t("experiment.none"));
   const summaries = codexExperimentSummaries(context, record, passages);
   const reasons = assayKeywordReviewReasons(record);
   const facts = record.assay_experiment?.facts || [];
   return `
     <section class="inspector-section experiment-keywords-section">
       <h3>${escapeHtml(t("field.experiment_keywords"))}</h3>
+      ${propertyList([
+        [t("field.experiment_group"), record.assay_endpoint || record.experiment_group || "—"],
+        [t("field.experiment_name"), record.experiment_name || "—"],
+      ])}
       <div class="experiment-keyword-panel">${assayKeywordBadges(record)}</div>
       ${reasons.length ? `<div class="experiment-review-reasons"><strong>${escapeHtml(t("experiment.reviewReasons"))}</strong><ul>${reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul></div>` : ""}
       ${facts.length ? `<details class="experiment-fact-evidence"><summary>${escapeHtml(t("experiment.factEvidence"))}</summary>${facts.map(fact => `<article><strong>${escapeHtml(t(`experiment.dimension.${fact.field}`))} · ${escapeHtml(experimentFactLabel(record, fact))}</strong>${fact.evidence.map(citation => `<blockquote>${escapeHtml(citation.quote)}<small>${escapeHtml(citation.ref)}</small></blockquote>`).join("")}</article>`).join("")}</details>` : ""}
@@ -4873,6 +5286,7 @@ function exportCsv(scope) {
     const headers = [
       t("field.patentName"),
       t("field.pdfFile"),
+      t("field.agentStrategy"),
       t("field.collectedCount"),
       t("field.pdfPages"),
       t("field.pdfForm"),
@@ -4887,6 +5301,7 @@ function exportCsv(scope) {
       return [
         patentDisplayName(patent),
         patent.filename || "",
+        patent.extraction_engine || "dataagent1",
         Number(patent.record_count || 0),
         Number(patent.page_count || 0),
         t(`pdfForm.${pdfFormKind(patent)}`),
@@ -4918,6 +5333,7 @@ function exportCsv(scope) {
     t("reviewCheck.anarci"),
     t("reviewCheck.esm2"),
     t("reviewCheck.record"),
+    t("reviewCheck.table_text_mismatch"),
     t("field.humanReviewer"),
     t("field.evidence"),
   ];
@@ -4940,6 +5356,8 @@ function exportCsv(scope) {
       t(`reviewCheck.${reviewCheckStatus(record, "anarci")}`),
       t(`reviewCheck.${reviewCheckStatus(record, "esm2")}`),
       t(`reviewCheck.${reviewCheckStatus(record, "record")}`),
+      (record.sequence_source_conflicts || []).map((conflict) =>
+        `${conflict.chain || ""}: ${conflict.table_ref}=${conflict.table_quote}; ${conflict.text_ref}=${conflict.text_quote}`).join(" | "),
       recordReviewerNames(record).join(state.locale === "zh" ? "、" : ", "),
       aggregate ? overviewEvidenceCount(record) : buildEvidence(record, null).length,
     ];
@@ -5012,6 +5430,7 @@ function filteredRecords() {
   const records = state.records.filter((record) => {
     if (!recordMatchesReviewChecks(record, state.status)) return false;
     if (!recordMatchesAssayKeywords(record, state.keywordFilter)) return false;
+    if (!recordMatchesExperimentLabels(record, state.experimentLabelFilter)) return false;
     if (!recordMatchesHumanReviewers(record, state.reviewerFilter)) return false;
     if (!state.search) return true;
     const haystack = [

@@ -17,7 +17,7 @@ from time import perf_counter
 
 from template_agent import (REGION_PATHS as BASE_REGION_PATHS, _catalog_index, _observe, _slot,
                             refresh_missing, resolve_catalog, validate_template)
-from token_usage import usage_scope
+from units.token_usage import usage_scope
 
 
 SEQ_ID = re.compile(r"SEQ\s*ID\s*(?:NO\s*)?[.:：]?\s*(\d+)", re.I)

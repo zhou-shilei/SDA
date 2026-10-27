@@ -14,7 +14,7 @@ import pymupdf
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-import paten_ocr
+from document import pdf2doc as paten_ocr
 
 
 def prediction(text="原始 OQ 序列 1.34.4", score=0.35):
@@ -51,7 +51,8 @@ class PatentOCRTests(unittest.TestCase):
         self.engine = Mock()
         self.engine.predict.side_effect = lambda *_: iter([prediction()])
         self.stack = ExitStack()
-        self.create = self.stack.enter_context(patch.object(paten_ocr, "_create_ocr", return_value=self.engine))
+        self.stack.enter_context(patch.dict("os.environ", {"SDA_CACHE_ENABLED": "1"}))
+        self.create = self.stack.enter_context(patch.object(paten_ocr, "_create_page_ocr", return_value=self.engine))
         self.stack.enter_context(patch.object(paten_ocr, "_runtime_versions", return_value={"paddleocr": "test"}))
 
     def tearDown(self):
@@ -204,17 +205,17 @@ class PatentOCRTests(unittest.TestCase):
     def test_cli_failure_exit_status_and_argument_validation(self):
         with patch.object(paten_ocr, "ocr_pdf", return_value={"status": "partial", "successful_pages": 1,
                 "selected_page_count": 2, "cached_pages": 0, "timings": {"wall_seconds": 1}}):
-            self.assertEqual(paten_ocr.main([str(self.pdf), "--output-dir", str(self.output)]), 1)
+            self.assertEqual(paten_ocr.page_ocr_main([str(self.pdf), "--output-dir", str(self.output)]), 1)
         for values in (["0"], ["4"], ["3-1"], ["1,,2"], []):
             with self.subTest(values=values), self.assertRaises(ValueError):
-                paten_ocr.parse_pages(values, 3)
-        self.assertEqual(paten_ocr.parse_pages(["1-2", "2,3"], 3), [1, 2, 3])
+                paten_ocr.parse_ocr_pages(values, 3)
+        self.assertEqual(paten_ocr.parse_ocr_pages(["1-2", "2,3"], 3), [1, 2, 3])
         for kwargs in ({"device": "cuda:0"}, {"max_side": 0}, {"batch_size": True}, {"low_confidence": float("nan")}):
             with self.assertRaises(ValueError):
                 paten_ocr.OCRConfig(**kwargs)
 
     def test_cli_help_runs_outside_repository_without_loading_paddle(self):
-        result = subprocess.run([sys.executable, str(ROOT / "src/paten_ocr.py"), "--help"],
+        result = subprocess.run([sys.executable, str(ROOT / "src/document/paten_ocr.py"), "--help"],
                                 cwd=self.root, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("--force", result.stdout)

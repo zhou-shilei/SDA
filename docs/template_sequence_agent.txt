@@ -1,5 +1,8 @@
 TemplateAgent 序列证据循环
 
+本说明适用于显式选择 --extraction-mode document 的旧模式。
+默认 dataagent 主流程使用 src/dataagent/llm_sequence_agent.py，说明见 src/dataagent/README.md。
+
 确定性入口 TemplateAgent.run() 保持兼容；异步入口 TemplateAgent.complete() 在固定框架
 上执行本地检索、原文读取、关联提议、独立模型核验和覆盖检查。实现位于
 src/template_sequence_agent.py，document 模式默认在全文提取后运行。
@@ -20,7 +23,7 @@ sequence_components 按 role、region、parent_chain、order 表达 IgG/scFv/完
 排列；没有证据的连接位置和顺序保持 null。不会把父体/突变体、相似名称、共享序列的
 不同分子自动合并。每条关联都能回查具体原文；独立模型核验仍不是人工金标准。
 
-序列整理由 src/run_document_pdf.py 的完整文档流程调用，通过
+序列整理由 src/document/run_document_pdf.py 的完整文档流程调用，通过
 --template-agent-max-calls 和 --template-agent-context-chars 控制调用次数和上下文预算。
 --template-agent-max-calls 0 只生成清单审计，不调用该阶段的模型。
 所有实际请求记录耗时/token；数据、字段状态和证据随文档结果一起保存。

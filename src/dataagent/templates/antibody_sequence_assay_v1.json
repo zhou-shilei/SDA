@@ -1,0 +1,67 @@
+{
+  "template_id": "antibody-sequence-assay-v1",
+  "version": 1,
+  "construct_mapping": {
+    "headers": {
+      "construct": ["抗体", "antibody", "construct"],
+      "VH": ["vh", "重链", "heavy chain"],
+      "VL": ["vl", "轻链", "light chain"]
+    },
+    "seq_id_value_pattern": "^(?:SEQ\\s*ID\\s*NO\\s*:?\\s*)?(\\d+)$"
+  },
+  "sequence_definition": {
+    "label_patterns": [
+      "^\\s*>\\s*(?P<family>[A-Za-z]{1,12}\\d+)\\s*(?P<chain>VH|VL)\\s*(?P<variant>\\d+)\\s*:?.*$"
+    ],
+    "scope_patterns": {
+      "variable_heavy": ["\\bVH\\s*\\d+\\b", "重链可变区", "heavy\\s+chain\\s+variable"],
+      "variable_light": ["\\bVL\\s*\\d+\\b", "轻链可变区", "light\\s+chain\\s+variable"],
+      "full_heavy_chain": ["抗体重链", "antibody\\s+heavy\\s+chain"],
+      "full_light_chain": ["抗体轻链", "antibody\\s+light\\s+chain"],
+      "heavy_cdr": ["\\bHCDR\\s*[123]\\b"],
+      "light_cdr": ["\\bLCDR\\s*[123]\\b"],
+      "constant_region": ["恒定区", "constant\\s+region"]
+    },
+    "seq_id_pattern": "SEQ\\s*ID\\s*NO\\s*:?(?:<br>)?\\s*(\\d+)",
+    "variable_length": {
+      "VH": [70, 160],
+      "VL": [70, 140]
+    },
+    "page_scan_before": 3,
+    "page_scan_after": 0
+  },
+  "assay": {
+    "entity_headers": ["抗体", "antibody", "construct"],
+    "endpoints": ["IC50", "IC₅₀"],
+    "default_unit": "nM",
+    "document_profiles": {
+      "WO2020244544A1": {
+        "p0056-r0001": {
+          "experiment_id": "table_34_elisa_tslp_tslpr",
+          "label": "表 34 · ELISA 阻断 TSLP–TSLPR"
+        },
+        "p0063-r0001": {
+          "experiment_id": "table_37_elisa_tslp_tslpr",
+          "label": "表 37 · ELISA 阻断 TSLP–TSLPR"
+        },
+        "p0064-r0001": {
+          "experiment_id": "table_38_facs_surface_tslpr_il7r",
+          "label": "表 38 · FACS 细胞表面 TSLPR/IL7R 阻断"
+        },
+        "p0065-r0002": {
+          "experiment_id": "table_39_native_tslp_baf3_proliferation",
+          "label": "表 39 · 天然 TSLP 诱导 BaF3 增殖"
+        },
+        "p0065-r0003": {
+          "experiment_id": "table_40_tslp_fc_baf3_proliferation",
+          "label": "表 40 · TSLP-Fc 诱导 BaF3 增殖"
+        }
+      }
+    }
+  },
+  "relations": [
+    "construct.vh_seq_id -> sequence.seq_id",
+    "construct.vl_seq_id -> sequence.seq_id",
+    "assay.construct -> construct.name"
+  ]
+}

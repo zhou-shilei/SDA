@@ -1,44 +1,55 @@
 表格识别
 
-主流程默认使用 PaddleOCR-VL-1.6，在指定设备上用原生 Paddle 推理。
-输入应为单张表格裁图；关闭整页版面检测，使用 prompt_label="table"。
-extract_table_text(image_path) 仍返回字符串，但内容为保留 rowspan/colspan
-的原始 HTML。默认由统一表格提取 Agent 直接读取该 HTML，同时输出序列和实验记录。
-不在 OCR 层补字、纠正序列或按生物学常识改写模型输出。
+实现：src/document/pdf2doc.py；src/document/table_ocr.py 保留兼容入口。默认本地 PaddleOCR-VL-1.6，输入表格裁图，
+关闭整页版面检测并使用 prompt_label="table"，保留表格关系、rowspan/colspan 和单元格地址。
+默认 VL 路径随后调用 sequence_ocr.py：定位实际序列单元格，校正裁图方向，
+用 PP-OCRv6 medium 检测文字行并从原始像素重新裁行，再逐行识别、按顺序拼接、回填原单元格。
+裁图先保留完整笔画，再去除多余空白；不按抗体基序补字，不将 O 等非标准字符替换为残基。
+长序列检测框轻微跨过竖线时按文字主体归列，仍通过行标签及文字对齐验证归属。
+多行单元格按完整定位范围取行；SEQ ID 与序列被检测为同一行时，按原图分隔线/空白切开，
+不删除识别结果中的数字来伪造成功。裁行扩边不得越过观察到的列分隔线。
+当前序列复识别 revision=3；除了字符合法性，还校验相对原单元格的长度完整性。
 
-安装环境：
-  python -m pip install 'paddleocr[doc-parser]==3.7.0' 'paddlex==3.7.2'
-另需 environment.yml 中的 Paddle GPU 运行时。模型首次使用时由 PaddleX
-下载并缓存；后续在各工作进程中复用已初始化的实例。
+text/text_sha256 是回填后的有效表格；vl_text 保存原始 PPVL 转录。
+sequence_ocr 保存策略版本、逐单元格状态、实际行图片及哈希、坐标、原始识别文字和分数。
+行图片保存到原表格图片目录下的 sequence_ocr/ 子目录；原表格图片本身不变。
+无法唯一定位、图片缺失或含非标准残基时保留 failed，旧转录仅作审计，不能输出为有效序列。
+带“下划线/加粗表示……”的括号注释与残基正文分开识别，避免将整个单元格排除。
+复识别结果相对原单元格明显不完整时保留 failed，不把单行片段当成整条链。
+正文 OCR 仅作位置对应的字符差异对照，不覆盖或清空表格复识别结果；网页不一致标红，一致标绿。
+已解决序列的表文差异不进入 QuestionAgent；真正缺失的映射、边界或复识别失败仍保留待处理。
+含序列的旧纯 VL 缓存不能直接作为新流程缓存复用，需要重新运行 Table OCR。
+dataagent2 网页入口会在新输出目录重新识别旧修订的序列 OCR，保留旧文件；
+仍然失败的来源将状态和原因传给 Reader，并进入图片重识别队列，不占用文本问答预算。
 
-单图识别：
-  python src/table_ocr.py data/WO2025108394A1/WO2025108394A1_table-0007-page-0012.png
+运行日志：table-ocr JSON 行记录 UTC 时间、进程、表格/页码、VL 识别、序列定位、
+逐单元格复识别状态、失败原因及耗时；sda-ocr-progress 记录已处理/总表格数和失败数。
+这些日志实时写入网页任务的 pipeline.log；“查看日志”在任务运行时自动刷新，
+解析进度显示已处理表格数（包含失败表格），具体成功/失败以日志和保存的证据为准。
+网页默认端口 4182，地址 http://127.0.0.1:4182/studio/。
 
-主流程：
-  python src/graph.py --image-dir data/WO2025108394A1 --ocr-backend vl
-默认 OCR 独立进程数为 1，避免单卡同时加载多份 VL 模型；可通过
---ocr-workers 显式调整。提取并发由 --extraction-concurrency 控制。
-OCR 耗时继续记录在现有 _timings.json 中；初始化计入各进程首张图片请求。
+单图：
+  python src/document/table_ocr.py /path/to/table.png --device gpu:0
 
-独立表格分类默认关闭：
-  python src/graph.py --image-dir data/WO2025108394A1
-OCR 后保留已验证的续表表头上下文，一次抽取 assay_records 与 sequence_records；
-不因 other 标签跳过表格，也不把混合表限制为一种记录。结果可同时为空。
-固定 schema、WIPO 序列核验和后续正文补全继续执行。
+复用已有表格和全文 OCR 进行提取（默认 dataagent）：
+  python src/graph.py --image-dir /path/to/crops --output-dir /path/to/results \
+    --text-pages-jsonl /path/to/text_ocr/pages.jsonl \
+    --reuse-table-ocr-from /path/to/table/results
 
-需要对照旧的“分类后分流”时显式开启：
-  python src/graph.py --image-dir data/WO2025108394A1 --classify-tables
-该模式沿用 sequence/assay/other/uncertain 分类及原分流行为；other 不进入表格抽取。
---no-classify-tables 可显式关闭；分类批大小、字符预算和并发参数仅在开启时生效。
-Python 批处理配置为 PipelineConfig(classify_tables=True)，默认 False；
-单图 Graph 输入 state 的 classify_tables 默认为 False，也可显式设置为 True。
-时间与 token 报告中，默认模型抽取用量记为 unified_extraction，不产生分类请求；
-旧模式保留 classification、assay_extraction、sequence_extraction 的用量阶段。
+dataagent 使用已有表格 HTML 和全文 OCR，执行表格分类、标题/实验方法检索、序列及实验关联，不重复识别。
+语义入口增加 sequence-style-v1 按需图片复核：有样式说明的序列单元格，以及带突变样式
+脚注的表格会读取原图。原图及原始 OCR 不改写；独立 sequence_styles.json 保存图片哈希、
+下划线/加粗的残基范围、原文注释和单元格坐标。可定位注释时只读取表格相关上部裁图。
+只有明确标注 VH/VL 的连续样式范围才能成为可变区；突变加粗不能自动变成域边界。
+dataagent1 和 dataagent2 共用这份证据。dataagent2 按已有完整链编号映射复用明确域，
+编号仍标为 full_chain，不冒充新的 VH/VL 编号；网页显示原图复核说明和来源。
+此阶段会产生独立模型请求，用量纳入共享阶段；离线 rules 模式不执行。
+完整 PDF 入口的 --table-ocr-workers / --table-ocr-batch-size 控制预处理 OCR。
+显式选择 --extraction-mode document 可保留旧全文提取路径；其 --ocr-workers / --ocr-batch-size 控制旧调度器。
+--ocr-backend paddle 可选择普通 OCR；复杂表格结构建议保留默认 VL。
 
-需要旧的普通 OCR 时：
-  python src/graph.py --image-dir data/WO2025108394A1 --ocr-backend paddle
-普通 OCR 保留 GPU 失败后用 CPU 重试的行为。VL 的初始化/推理失败
-直接上报给现有流水线重试和错误记录，不自动切换模型。
-
-VL 能更好保留合并单元格，但本次序列表实测仍有漏字、替换等字符错误。
-HTML 正确恢复分组不代表序列逐字准确；序列核验仍需单独处理。
+运行环境见 environment.yml；并发与实际模型 batch 的区别见 docs/table_ocr_parallel.txt。
+序列表补充：完整可见表格线与 HTML 物理行列数量一致时，按可见规则定位整格；
+下划线必须跨越名称列才能视为行分隔线，避免把可变区样式切成表格行。
+无名称的续表首行也保留独立来源，不从相邻编号推断归属。
+dataagent2 会在新目录重试过期或失败的序列 OCR；仍失败的单元格交给独立原图复核。

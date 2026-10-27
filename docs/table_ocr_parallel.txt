@@ -27,7 +27,7 @@ worker_pid、初始化时间和整批推理耗时。整批时间在多张结果�
 批次中所有原始 OCR 状态先发布，再核验跨页续表，避免同批续表等待自己的上文而阻塞。
 已有表格 OCR 缓存仍走原有复用路线，不重新调用模型。
 
-完整 PDF 流程通过 src/run_document_pdf.py 的 --table-ocr-workers 和
+完整 PDF 流程通过 src/document/run_document_pdf.py 的 --table-ocr-workers 和
 --table-ocr-batch-size 设置表格 OCR。主入口及模块关系见 docs/pdf_pipeline.txt。
 
 历史测速报告保存在 validation_results/table_ocr_parallel/。独立测速脚本已从 src 清理，

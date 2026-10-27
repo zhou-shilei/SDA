@@ -12,7 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from pipeline import BatchPipeline, PipelineConfig
-import table_ocr
+import document.pdf2doc as table_ocr
 
 
 class TableOCRBatchTests(unittest.TestCase):
@@ -100,7 +100,7 @@ class TableOCRBatchTests(unittest.TestCase):
 
     def pipeline(self):
         config = PipelineConfig(extraction_mode="document", text_pages_jsonl="unused.jsonl",
-            ocr_workers=2, ocr_batch_size=3, retries=0, text_sequences=False)
+            ocr_workers=2, ocr_batch_size=3, retries=0, document_template_agent=False)
         pipeline = BatchPipeline(self.root, self.root / "out", config)
         pipeline.crop_metadata = {str(p): m for p, m in zip(self.images, self.metadata)}
         return pipeline

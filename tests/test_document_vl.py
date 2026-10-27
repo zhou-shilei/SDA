@@ -13,8 +13,8 @@ import pymupdf
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-import paten_ocr
-from document_vl import normalise_result
+from document import pdf2doc as paten_ocr
+from document.document_vl import normalise_result
 
 
 TABLE = '<table><tr><td rowspan="2">m8</td><td>HCDR1</td><td>QOIL</td></tr><tr><td>HCDR2</td><td>ABC</td></tr></table>'
@@ -71,9 +71,10 @@ class DocumentVLTests(unittest.TestCase):
         self.engine = Mock()
         self.engine.predict.side_effect = lambda *_args, **_kwargs: iter([prediction()])
         self.stack = ExitStack()
-        self.create = self.stack.enter_context(patch.object(paten_ocr, "_create_ocr", return_value=self.engine))
+        self.create = self.stack.enter_context(patch.object(paten_ocr, "_create_page_ocr", return_value=self.engine))
         self.stack.enter_context(patch.object(paten_ocr, "_runtime_versions", return_value={"paddleocr": "test"}))
-        self.stack.enter_context(patch.dict("os.environ", {"SDA_VL_MODEL_DIR": "", "SDA_LAYOUT_MODEL_DIR": ""}))
+        self.stack.enter_context(patch.dict("os.environ", {
+            "SDA_VL_MODEL_DIR": "", "SDA_LAYOUT_MODEL_DIR": "", "SDA_CACHE_ENABLED": "1"}))
 
     def tearDown(self):
         self.stack.close()
@@ -136,14 +137,12 @@ class DocumentVLTests(unittest.TestCase):
         self.engine.predict.side_effect = lambda *_args, **_kwargs: iter([prediction()])
         self.assertEqual(self.run_ocr()["cached_pages"], 0)
 
-    def test_import_into_page_evidence_and_completion_keeps_html_and_block_addresses(self):
-        from page_evidence import PageEvidenceStore
+    def test_completion_keeps_html_and_block_addresses(self):
         from schema_pipeline import load_completion_document
 
         self.run_ocr()
         pages = self.output / "pages.jsonl"
-        store = PageEvidenceStore("WO123", self.data, self.root / "evidence-test", pages_jsonl=pages)
-        page = store.read_page_evidence(1, force_ocr=True)
+        page = json.loads(pages.read_text().splitlines()[0])
         self.assertEqual(page["lines"][1]["text"], TABLE)
         self.assertEqual(page["blocks"][1]["block_id"], "p0001-b0002")
         self.assertEqual(page["width"], 200)

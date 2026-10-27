@@ -60,6 +60,21 @@ case "${1:-start}" in
     rm -f "$pid_file"
     ;;
   restart)
+    if running; then
+      "$studio_python" - "$state_dir/jobs.json" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+jobs = json.loads(path.read_text()) if path.exists() else {}
+active = [identity for identity, job in jobs.items()
+          if job.get("status") in {"queued", "processing"}]
+if active:
+    print("SDA Studio 暂不重启：解析任务仍在运行（" + ", ".join(active) + "）。请等待完成后重启。", file=sys.stderr)
+    sys.exit(1)
+PY
+    fi
     bash "$0" stop
     bash "$0" start
     ;;

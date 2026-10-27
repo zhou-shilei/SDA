@@ -1,6 +1,9 @@
 PDF 结构化文档解析（默认 VL）
 
-入口：src/paten_ocr.py。默认 --backend vl，使用本地 PP-DocLayoutV3 + PaddleOCR-VL-1.6
+独立整页 OCR 兼容入口：src/document/paten_ocr.py；实现已迁入 src/document/pdf2doc.py。
+统一执行加载、方向校正、版面与裁图、正文/表格 OCR、组装及导出可使用：
+  python src/document/pdf2doc.py --input /path/to/source.pdf --output-dir /path/to/new/output --device gpu:0
+以下参数和缓存说明针对独立整页 OCR 入口。默认 --backend vl，使用本地 PP-DocLayoutV3 + PaddleOCR-VL-1.6
 恢复版面、阅读顺序和表格 HTML，输出结构化 Markdown。--backend paddle 可选 PP-OCRv6
 普通逐行文字识别。仅识别 PDF 渲染图片，不读取文字层，不调用远程模型服务，
 不提取序列归属或实验数据，不做跨页表格拼接。PDF 原件保持不变。
@@ -23,16 +26,16 @@ inference.pdiparams、inference.yml；VL 目录包含 model.safetensors、配置
 每个目录需要 inference.json、inference.pdiparams、inference.yml。
 
 全篇识别：
-  python src/paten_ocr.py --input data/WO2025108394A1/source.pdf \
+  python src/document/paten_ocr.py --input data/WO2025108394A1/source.pdf \
     --document-id WO2025108394A1 \
     --output-dir results/pdf_ocr/WO2025108394A1 --device gpu:0
 
 抽样：
-  python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+  python src/document/paten_ocr.py data/WO2025108394A1/source.pdf \
     --output-dir validation_results/paten_ocr_vl/sample --pages 1-3 10,11 --device gpu:0
 
 普通 OCR 核验：
-  python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+  python src/document/paten_ocr.py data/WO2025108394A1/source.pdf \
     --backend paddle --output-dir results/pdf_ocr_check/WO2025108394A1 --device gpu:0
 
 重复执行同一命令即可续跑：成功且校验通过的页面直接复用，失败、损坏和过期页面
@@ -89,12 +92,12 @@ full_document_ocr_complete 另行表示全篇页面是否齐全，不能据此�
 有失败页退出码 1；Ctrl-C 保存已完成页、标记 pending 后退出码 130。
 
 Python 接口：
-  from paten_ocr import OCRConfig, ocr_pdf
+  from document.paten_ocr import OCRConfig, ocr_pdf
   summary = ocr_pdf(pdf, output_dir, config=OCRConfig(device="gpu:0"))
   # 可选普通 OCR：OCRConfig(device="gpu:0", backend="paddle")
 
 普通 OCR 单 GPU 加速（以下参数及历史基准针对 --backend paddle）：
-  ../envs/sda/bin/python src/paten_ocr.py data/WO2025108394A1/source.pdf \
+  ../envs/sda/bin/python src/document/paten_ocr.py data/WO2025108394A1/source.pdf \
     --output-dir results/pdf_ocr/WO2025108394A1 --device gpu:0 \
     --backend paddle --batch-size 6 --workers 6 --render-prefetch 4
 

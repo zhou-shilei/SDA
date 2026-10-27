@@ -1,4 +1,4 @@
-const STAGES = ["orientation", "layout", "crop", "render", "agent", "classify", "template", "sequence_extract"];
+const STAGES = ["layout", "ocr", "assembly", "export", "extraction", "template", "tst", "construct"];
 const STORAGE_KEY = "sda.studio.jobTiming.v1";
 
 function timestamp(value) {
@@ -13,6 +13,11 @@ function median(values) {
 
 function stagePlan(patent) {
   const operation = patent.timing?.operation || patent.operation;
+  if (patent.extraction_engine === "dataagent2") {
+    const semantic = ["classify", "template", "reader", "tst", "build"];
+    return ["analyze", "compare"].includes(operation) ? semantic : ["layout", "ocr", "assembly", "export", ...semantic];
+  }
+  if (["analyze", "compare"].includes(operation)) return ["extraction", "template", "tst", "construct"];
   if (["semantic_refresh", "collection_review"].includes(operation)) return ["classify", "template", "sequence_extract"];
   if (operation === "reparse") return ["agent"];
   return STAGES;
@@ -40,7 +45,7 @@ export class JobEtaEstimator {
   profile(patent, stage) {
     const profile = patent.timing?.profile || {};
     if (stage === "layout") return profile.layout || "layout-unknown";
-    if (["classify", "template", "sequence_extract"].includes(stage)) return `${profile.model || "unknown"}:${profile.effort || "unknown"}`;
+    if (["classify", "template", "sequence_extract", "reader", "tst", "build"].includes(stage)) return `${patent.extraction_engine || "dataagent1"}:${profile.model || "unknown"}:${profile.effort || "unknown"}`;
     return "cpu";
   }
 

@@ -1,8 +1,10 @@
 PDF 到表格/插图裁图
 
-入口及实现：src/pdf2fig.py。渲染、三种检测后端、同类框融合、并行推理和原 PDF
-高清裁图均在此文件中；原 src/patent_layout 已合并并移除。
-方向校正：src/pdf_orientation.py；续表上下文：src/document_context.py、src/table_continuation.py。
+核心实现：src/document/pdf2doc.py。渲染、三种检测后端、同类框融合、并行推理和原 PDF
+高清裁图均已迁入此文件；src/document/pdf2fig.py 保留旧导入和命令行入口。
+pdf2fig.py 保持仅裁图；pdf2doc.py 默认执行到结构化文档导出，添加 --layout-only 可使用相同的裁图参数仅运行前处理与裁图。
+原 src/patent_layout 已合并并移除。
+方向校正核心：src/document/pdf2doc.py（src/document/pdf_orientation.py 保留兼容入口）；续表上下文：src/document/document_context.py、src/document/table_continuation.py。
 实现最初迁移自 dataagent 的 patent_layout、pdf_orientation 和 document_context。
 原文件哈希：schemas/pdf2fig_source_manifest.json。运行不导入或调用 dataagent 项目。
 
@@ -23,7 +25,7 @@ SDA_TESSERACT=/path/to/tesseract 和 SDA_TESSDATA=/path/to/tessdata。
 或设置 SDA_PP_LAYOUT_MODEL_DIR / SDA_YOLO_LAYOUT_MODEL / SDA_TATR_LAYOUT_MODEL_DIR。
 
 全篇 PDF 转表格图片（项目根目录执行；输出目录必须是新目录或空目录）：
-  python src/pdf2fig.py --input data/WO2025108394A1/source.pdf \
+  python src/document/pdf2fig.py --input data/WO2025108394A1/source.pdf \
     --document-id WO2025108394A1 --output-dir data/pdf2fig/WO2025108394A1 \
     --pp-model-dir /path/to/PP-DocLayoutV3 --device cpu
 
@@ -62,7 +64,7 @@ Paddle 与 Torch 可在独立进程/解释器中运行，避免 CUDA/动态库�
 默认不会读取 dataagent 的 .studio 配置。
 
 复用已有 regions.json，不运行检测模型：
-  python src/pdf2fig.py --input data/WO2025108394A1/source.pdf \
+  python src/document/pdf2fig.py --input data/WO2025108394A1/source.pdf \
     --document-id WO2025108394A1 --output-dir validation_results/pdf2fig_reuse \
     --regions-json /path/to/regions.json
 兼容 dataagent 的 patent-layout-regions/v1；存在源 PDF 哈希时强制核对。

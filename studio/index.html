@@ -8,7 +8,7 @@
       content="SeqDataAgent"
     />
     <title>SeqDataAgent</title>
-    <link rel="stylesheet" href="./styles.css?v=20261024-pdf-workflow" />
+    <link rel="stylesheet" href="./styles.css?v=20261027-agent-strategy-v2" />
   </head>
   <body>
     <div id="app" class="app-shell" aria-busy="true">
@@ -93,7 +93,17 @@
                       </select>
                     </div>
                   </th>
-                  <th data-i18n="field.experiment_group">实验组</th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.experiment_group">实验标签</span>
+                      <details id="dataset-experiment-label-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选实验标签" data-i18n-title="filter.experimentLabel">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
                   <th class="filterable-header">
                     <div class="column-header-content">
                       <span data-i18n="field.experiment_keywords">实验 keyword</span>
@@ -160,7 +170,9 @@
             <table class="patent-table" data-resizable-table="patents">
               <colgroup>
                 <col style="width: 44px" /><col style="width: 280px" />
+                <col style="width: 172px" />
                 <col style="width: 120px" /><col style="width: 104px" />
+                <col style="width: 132px" /><col style="width: 140px" />
                 <col style="width: 140px" />
                 <col style="width: 190px" />
                 <col style="width: 400px" /><col style="width: 160px" />
@@ -170,8 +182,11 @@
                 <tr>
                   <th class="patent-select-column"><input id="select-all-patents" type="checkbox" aria-label="选择全部可删除专利" data-i18n-aria-label="intake.selectAll" /></th>
                   <th data-i18n="field.patentName">专利号</th>
+                  <th data-i18n="field.agentStrategy">Agent 策略</th>
                   <th class="number-column" data-i18n="field.collectedCount">已收集条数</th>
                   <th class="number-column" data-i18n="field.pdfPages">PDF 页数</th>
+                  <th class="number-column" data-i18n="field.processingTime">处理用时</th>
+                  <th class="number-column" data-i18n="field.tokenUsage">Token 用量</th>
                   <th data-i18n="field.pdfForm" data-i18n-title="pdfForm.help" title="按文字的保存方式自动判断；表格和插图不单独作为分类。">PDF 形式</th>
                   <th data-i18n="field.patentText" data-i18n-title="patentText.help" title="检查当前专利的本地正文和 PDF 文字资料。">本地正文资料</th>
                   <th data-i18n="field.agentStatus">Agent 状态</th>
@@ -192,6 +207,13 @@
               </span>
             </button>
             <input id="patent-pdf-input" class="sr-only" type="file" accept="application/pdf,.pdf" />
+            <label class="import-engine-label" for="patent-engine-select">
+              <span data-i18n="intake.engine">解析引擎</span>
+              <select id="patent-engine-select" name="extraction_engine">
+                <option value="dataagent1" data-i18n="intake.engine1">dataagent1 · 多轮检索</option>
+                <option value="dataagent2" data-i18n="intake.engine2">dataagent2 · 分块提取</option>
+              </select>
+            </label>
             <button id="start-agent-button" class="button button-primary import-submit" type="submit" disabled>
               <span aria-hidden="true">▶</span>
               <span data-i18n="intake.startAgent">导入 PDF 并开始解析</span>
@@ -289,7 +311,17 @@
                       </select>
                     </div>
                   </th>
-                  <th data-i18n="field.experiment_group">实验组</th>
+                  <th class="filterable-header">
+                    <div class="column-header-content">
+                      <span data-i18n="field.experiment_group">实验标签</span>
+                      <details id="experiment-label-filter" class="column-filter-menu">
+                        <summary class="column-filter-trigger" title="筛选实验标签" data-i18n-title="filter.experimentLabel">
+                          <span aria-hidden="true">▾</span><span class="column-filter-count" hidden>0</span>
+                        </summary>
+                        <div class="column-filter-popover"></div>
+                      </details>
+                    </div>
+                  </th>
                   <th class="filterable-header">
                     <div class="column-header-content">
                       <span data-i18n="field.experiment_keywords">实验 keyword</span>
@@ -557,6 +589,6 @@
         </form>
       </dialog>
     </div>
-    <script type="module" src="./app.js?v=20261024-pdf-workflow"></script>
+    <script type="module" src="./app.js?v=20261027-agent-strategy-v2"></script>
   </body>
 </html>

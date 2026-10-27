@@ -1,0 +1,300 @@
+{
+  "target_id": "IL13",
+  "version": 1,
+  "aliases": [
+    "IL-13",
+    "IL 13",
+    "interleukin-13",
+    "白细胞介素13"
+  ],
+  "target_patterns": [
+    "(?<![a-z])(?:h|hu|m|cyno)?IL[- ]?13(?![a-z0-9])",
+    "interleukin[- ]?13",
+    "白细胞介素[- ]?13"
+  ],
+  "description": "Maintained target-specific labels; membership does not constitute experimental evidence.",
+  "labels": [
+    {
+      "key": "human",
+      "label_zh": "人",
+      "label_en": "Human",
+      "category": "species",
+      "patterns": [
+        "\\bhuman\\b",
+        "\\bhIL[- ]?13\\b",
+        "\\bhIL[- ]?13R\\b",
+        "人源",
+        "人\\s*IL[- ]?13"
+      ],
+      "aliases": [
+        "homo sapiens"
+      ]
+    },
+    {
+      "key": "cynomolgus",
+      "label_zh": "食蟹猴",
+      "label_en": "Cynomolgus",
+      "category": "species",
+      "patterns": [
+        "cynomolgus",
+        "cyno(?:IL[- ]?13|IL[- ]?13R|IL[- ]?7R)?",
+        "食蟹猴"
+      ],
+      "aliases": [
+        "cynomolgus monkey",
+        "cyno",
+        "NHP"
+      ]
+    },
+    {
+      "key": "mouse",
+      "label_zh": "老鼠",
+      "label_en": "Mouse",
+      "category": "species",
+      "patterns": [
+        "\\bmouse\\b",
+        "\\bmurine\\b",
+        "\\bmIL[- ]?13\\b",
+        "小鼠",
+        "老鼠"
+      ],
+      "aliases": [
+        "murine",
+        "mus musculus"
+      ]
+    },
+    {
+      "key": "protein",
+      "label_zh": "蛋白",
+      "label_en": "Protein",
+      "category": "system"
+    },
+    {
+      "key": "cell",
+      "label_zh": "细胞",
+      "label_en": "Cell",
+      "category": "system"
+    },
+    {
+      "key": "protein_blocking_elisa_ic50",
+      "label_zh": "阻断 ELISA·IC50",
+      "label_en": "Blocking ELISA·IC50",
+      "category": "method",
+      "endpoint": "IC50",
+      "system": "protein",
+      "requires": [
+        [
+          "\\bELISA\\b"
+        ],
+        [
+          "block(?:ing|ade)?",
+          "inhibition of binding",
+          "阻\\s*断"
+        ]
+      ]
+    },
+    {
+      "key": "protein_binding_elisa_ec50",
+      "label_zh": "结合 ELISA·EC50",
+      "label_en": "Binding ELISA·EC50",
+      "category": "method",
+      "endpoint": "EC50",
+      "system": "protein",
+      "requires": [
+        [
+          "\\bELISA\\b"
+        ],
+        [
+          "bind",
+          "结\\s*合"
+        ]
+      ]
+    },
+    {
+      "key": "kinexa_kd",
+      "label_zh": "KinExA·KD",
+      "label_en": "KinExA·KD",
+      "category": "method",
+      "endpoint": "KD",
+      "system": "protein",
+      "requires": [
+        [
+          "KinExA",
+          "kinetic exclusion"
+        ]
+      ]
+    },
+    {
+      "key": "spr_kd",
+      "label_zh": "SPR·KD",
+      "label_en": "SPR·KD",
+      "category": "method",
+      "endpoint": "KD",
+      "system": "protein",
+      "requires": [
+        [
+          "\\bSPR\\b",
+          "surface plasmon resonance",
+          "Biacore"
+        ]
+      ]
+    },
+    {
+      "key": "bli_kd",
+      "label_zh": "BLI·KD",
+      "label_en": "BLI·KD",
+      "category": "method",
+      "endpoint": "KD",
+      "system": "protein",
+      "requires": [
+        [
+          "\\bBLI\\b",
+          "bio[- ]?layer interferometry",
+          "Octet"
+        ]
+      ]
+    },
+    {
+      "key": "cell_reporter_ic50",
+      "label_zh": "报告细胞·IC50",
+      "label_en": "Reporter cell·IC50",
+      "category": "method",
+      "endpoint": "IC50",
+      "system": "cell",
+      "requires": [
+        [
+          "reporter",
+          "luciferase",
+          "报告细胞",
+          "荧光素酶"
+        ]
+      ]
+    },
+    {
+      "key": "primary_cell_cytokine_ic50",
+      "label_zh": "原代细胞·IC50",
+      "label_en": "Primary cell·IC50",
+      "category": "method",
+      "endpoint": "IC50",
+      "system": "cell",
+      "requires": [
+        [
+          "primary.*cell",
+          "dendritic",
+          "\\bmDCs?\\b",
+          "原代",
+          "树突状"
+        ]
+      ]
+    },
+    {
+      "key": "flow_cytometry_ic50",
+      "label_zh": "流式细胞术·IC50",
+      "label_en": "Flow cytometry·IC50",
+      "category": "method",
+      "endpoint": "IC50",
+      "system": "cell",
+      "requires": [
+        [
+          "\\bFACS\\b",
+          "flow cytometry",
+          "fluorescence[- ]activated cell sorting",
+          "流\\s*式"
+        ]
+      ]
+    },
+    {
+      "key": "cell_proliferation_ic50",
+      "label_zh": "细胞增殖·IC50",
+      "label_en": "Cell proliferation·IC50",
+      "category": "method",
+      "endpoint": "IC50",
+      "system": "cell",
+      "requires": [
+        [
+          "proliferation",
+          "cell viability",
+          "CellTiter",
+          "增\\s*殖",
+          "细胞活力"
+        ]
+      ]
+    },
+    {
+      "category": "endpoint",
+      "key": "ic50",
+      "label_zh": "IC50",
+      "label_en": "IC50",
+      "aliases": [
+        "IC50"
+      ]
+    },
+    {
+      "category": "endpoint",
+      "key": "ic90",
+      "label_zh": "IC90",
+      "label_en": "IC90",
+      "aliases": [
+        "IC90"
+      ]
+    },
+    {
+      "category": "endpoint",
+      "key": "ec50",
+      "label_zh": "EC50",
+      "label_en": "EC50",
+      "aliases": [
+        "EC50"
+      ]
+    },
+    {
+      "category": "endpoint",
+      "key": "kd",
+      "label_zh": "KD",
+      "label_en": "KD",
+      "aliases": [
+        "KD"
+      ]
+    },
+    {
+      "category": "endpoint",
+      "key": "koff",
+      "label_zh": "koff",
+      "label_en": "koff",
+      "aliases": [
+        "koff"
+      ]
+    },
+    {
+      "category": "sample",
+      "key": "donor",
+      "label_zh": "供者",
+      "label_en": "Donor",
+      "patterns": [
+        "\\bDonor\\s*\\d+\\b",
+        "independent donors?",
+        "供者"
+      ]
+    },
+    {
+      "category": "cell_model",
+      "key": "ht29",
+      "label_zh": "HT-29 细胞",
+      "label_en": "HT-29 cells",
+      "patterns": [
+        "\\bHT[- ]?29\\b"
+      ]
+    },
+    {
+      "category": "readout",
+      "key": "stat6_phosphorylation",
+      "label_zh": "STAT6 磷酸化",
+      "label_en": "STAT6 phosphorylation",
+      "patterns": [
+        "STAT6 phosphorylation",
+        "phosphorylat\\w* STAT6",
+        "\\bpSTAT6\\b"
+      ]
+    }
+  ]
+}

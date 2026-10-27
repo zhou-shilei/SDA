@@ -269,6 +269,14 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .patent-table td { height: 58px; padding: 8px 16px; overflow: hidden; border-right: 1px solid #eff1f6; border-bottom: 1px solid #edf0f6; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .patent-table { min-width: 920px; }
 .patent-table td.pdf-form-cell { overflow: visible; }
+.patent-strategy-controls { display: grid; justify-items: start; gap: 4px; }
+.patent-strategy-controls select { width: 136px; max-width: 100%; padding: 4px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); }
+.patent-strategy-controls small { margin: 0 !important; }
+.processing-metric { max-width: 100%; padding: 4px 2px; border: 0; border-radius: 4px; color: var(--text); background: transparent; font: inherit; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; cursor: help; }
+.processing-metric:hover { color: var(--primary); background: var(--primary-soft); }
+.processing-metric:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.processing-metric-tooltip { position: fixed; z-index: 2000; width: max-content; max-width: min(480px, calc(100vw - 24px)); max-height: calc(100vh - 24px); overflow: auto; padding: 13px 16px; border: 1px solid var(--border-strong); border-radius: 9px; color: var(--text); background: #fff; box-shadow: 0 6px 24px #18223824; font-size: 12px; font-weight: 400; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+.processing-metric-tooltip[hidden] { display: none; }
 .pdf-form-badge { position: relative; display: inline-block; padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 650; white-space: nowrap; cursor: help; }
 .pdf-form-text { color: #24704f; background: #eaf7f0; }
 .pdf-form-scanned { color: #9a5b16; background: #fff4df; }
@@ -338,6 +346,7 @@ a.patent-text-found:hover { text-decoration: underline; }
 
 .patent-import-form {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 12px 16px;
   border-top: 1px solid var(--border);
@@ -365,6 +374,8 @@ a.patent-text-found:hover { text-decoration: underline; }
 .pdf-drop-zone small { overflow: hidden; color: var(--muted); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
 .import-submit { min-width: 128px; min-height: 52px; }
 .import-submit.loading { cursor: wait; }
+.import-engine-label { display: grid; gap: 4px; color: var(--muted); font-size: 11px; }
+.import-engine-label select { max-width: 100%; min-height: 32px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); }
 
 .studio-main {
   display: grid;
@@ -957,6 +968,9 @@ html.resizing-table-column * { cursor: col-resize !important; user-select: none 
 .review-check-passed { border-color: #b9dfca; color: #26704e; background: #e8f6ee; }
 .review-check-error { border-color: #edbec9; color: #b43c58; background: #fff0f3; }
 .review-check-manual_review { border-color: #efd3a0; color: #95600d; background: #fff4dc; }
+.review-check-table_text_mismatch { border-color: #edbec9; color: #b43c58; background: #fff0f3; }
+.data-cell.sequence-source-conflict { border-color: #edbec9; background: #fff0f3; box-shadow: inset 3px 0 #b43c58; }
+.data-cell.sequence-source-unresolved { border-color: #edbec9; background: #fff0f3; box-shadow: inset 3px 0 #b43c58; }
 .review-check-inspector { display: flex; flex-wrap: wrap; gap: 7px; }
 .review-check-inspector .review-check-badge { min-height: 25px; padding: 4px 9px; font-size: 10px; }
 
@@ -1717,9 +1731,24 @@ html.resizing-table-column * { cursor: col-resize !important; user-select: none 
   html,
   body { overflow: auto; }
   .app-shell { min-width: 760px; min-height: 1040px; }
+  .patent-import-form { max-width: calc(100vw - 32px); }
   .pdf-drop-zone { width: min(420px, calc(100% - 140px)); }
   .evidence-workspace { grid-template-columns: 1fr; overflow: auto; gap: 16px; }
   .viewer-panel,
   .inspector-panel { min-height: 680px; }
   #vertical-splitter { display: none; }
+}
+.sequence-risk-sites {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0;
+  list-style: none;
+}
+
+.sequence-risk-sites li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
 }

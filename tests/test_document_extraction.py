@@ -9,12 +9,12 @@ import unittest
 from unittest.mock import AsyncMock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from document_extraction import (load_input, template_from_payload, coverage_audit, value_matches,
+from document.document_extraction import (load_input, template_from_payload, coverage_audit, value_matches,
                                  validate_payload, merge_repair, extract_document, guard_entity_assignments)
-from document_extraction import normalize_references
-from document_extraction import deduplicate_ocr_measurements, complete_sequence_citations
-from document_extraction import seed_explicit_variable_rows
-from document_extraction import validate_shape
+from document.document_extraction import normalize_references
+from document.document_extraction import deduplicate_ocr_measurements, complete_sequence_citations
+from document.document_extraction import seed_explicit_variable_rows
+from document.document_extraction import validate_shape
 from template_agent import export_dataset, validate_template
 from pipeline import PipelineConfig
 
@@ -59,12 +59,27 @@ class DocumentExtractionTests(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
+    def test_sequence_mapping_prose_does_not_concatenate_other_chains(self):
+        data = payload()
+        data['entities'][0]['SEQUENCE_LINKS'] = [{'region': 'L_chain', 'seq_id': 120,
+            'SOURCE_REFS': ['ocr:p0001-l0001']}]
+        self.sources['ocr:p0001-l0001']['text'] = 'AB-2a uses SEQ ID NO:120\nACDEFGHIKLMNPQRSTVWYACD\nLMNPQRSTVWYACDEFGHIKLM'
+        template = template_from_payload('DOC', data, self.sources)
+        target = next(e for e in template['entities'] if e.get('original_entity_id') == 'e1')
+        self.assertIsNone(target['L_CHAIN']['sequence']['value'])
+        self.assertEqual(target['L_CHAIN']['seq_id']['value'], 120)
+        self.sources['literal'] = {**self.sources['ocr:p0001-l0001'], 'text': 'ACDEFGHIKLMNPQRSTVWYACD'}
+        data['entities'][0]['SEQUENCE_LINKS'][0]['SOURCE_REFS'].append('literal')
+        template = template_from_payload('DOC', data, self.sources)
+        target = next(e for e in template['entities'] if e.get('original_entity_id') == 'e1')
+        self.assertEqual(target['L_CHAIN']['sequence']['value'], 'ACDEFGHIKLMNPQRSTVWYACD')
+
     def test_schema_rejects_boolean_sequence_id(self):
         with self.assertRaisesRegex(ValueError, "Invalid JSON type"):
             validate_shape(True, {"type": ["integer", "null"]})
 
     def test_usage_does_not_double_count_cached_or_reasoning_tokens(self):
-        from token_usage import parse_codex_events
+        from units.token_usage import parse_codex_events
         result = parse_codex_events(json.dumps({"type": "turn.completed", "usage": {
             "input_tokens": 100, "cached_input_tokens": 40, "output_tokens": 20, "reasoning_output_tokens": 5}}))
         self.assertEqual(result["usage"]["total_tokens"], 120)
@@ -161,7 +176,7 @@ class DocumentExtractionTests(unittest.TestCase):
         llm = type("LLM", (), {})()
         llm.chat = AsyncMock(return_value=json.dumps(expected))
         config = PipelineConfig(extraction_mode="document", text_pages_jsonl=str(self.pages),
-                                text_sequences=False, page_evidence=False, document_repair_rounds=0)
+                                document_template_agent=False, document_repair_rounds=0)
         pipeline = BatchPipeline(inputs, self.root / "out", config, llm)
         evidence = {"text": self.tables[0]["table_text"], "page": 1}
         with patch("pipeline.extract_table_evidence", return_value=evidence), ThreadPoolExecutor(1) as pool:
@@ -184,12 +199,15 @@ class DocumentExtractionTests(unittest.TestCase):
         (result / "dataset.json").write_text(json.dumps({"document_id": "DOC", "status": "partial", "records": export_dataset(template)}))
         workspace = Workspace(self.root)
         data = workspace.bundle("DOC")
-        self.assertEqual(data["records"][0]["experiment_group"], "binding")
+        self.assertEqual(data["records"][0]["experiment_group"], "IC50")
+        self.assertEqual(data["records"][0]["experiment_name"], "binding")
         self.assertEqual(data["records"][0]["assay_method"], "SPR")
         self.assertEqual(data["records"][0]["antibody_id"], "A alias")
         self.assertEqual(data["records"][0]["canonical_antibody_id"], "A")
         self.assertEqual(data["records"][0]["experiment_id"], "exp1")
         self.assertTrue(data["records"][0]["assay_keywords"])
+        self.assertEqual({(k["category"], k["key"]) for k in data["records"][0]["assay_keywords"]},
+                         {("species", "human"), ("system", "protein")})
         self.assertEqual(data["run"], {})
 
     def test_wrong_entity_assignment_cannot_borrow_another_molecules_sequence(self):
@@ -205,6 +223,18 @@ class DocumentExtractionTests(unittest.TestCase):
         self.assertIsNone(assigned["VL"])
         self.assertEqual(issues[0]["kind"], "entity_assignment_conflict")
         self.assertEqual(data["records"][0]["ENTITY_ID"], "e1")
+
+    def test_experiment_keywords_keep_species_and_system_separate_from_endpoint_and_method(self):
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from studio.sda_data import experiment_keywords
+        from units.domain_knowledge import load_domain_knowledge
+        keywords = experiment_keywords({"SPECIES": "human, 小鼠, 食蟹猴", "SYSTEM": "cell",
+            "KEYWORDS": ["IC50", "SPR", "protein"], "TAGS": ["EC50"]}, {},
+            load_domain_knowledge()["groups"])
+        self.assertEqual({(k["category"], k["key"]) for k in keywords},
+                         {("species", "human"), ("species", "mouse"),
+                          ("species", "cynomolgus"), ("system", "cell")})
+        self.assertEqual(experiment_keywords({}, {}, load_domain_knowledge()["groups"]), [])
 
     def test_later_header_in_a_mixed_table_does_not_hide_earlier_result_cells(self):
         data = payload()
@@ -286,7 +316,7 @@ class DocumentExtractionTests(unittest.TestCase):
 
     def test_resume_initializes_usage_with_prior_actual_events(self):
         from pipeline import BatchPipeline
-        from token_usage import TokenUsageRecorder
+        from units.token_usage import TokenUsageRecorder
         out=self.root/'out';out.mkdir()
         usage=TokenUsageRecorder()
         usage.record({'input_tokens':100,'output_tokens':20,'cached_input_tokens':30},stage='document_extraction',item_id='DOC')
@@ -301,7 +331,7 @@ class DocumentExtractionTests(unittest.TestCase):
 
     def test_document_llm_passes_native_output_schema_to_codex_and_records_usage(self):
         from agent import codexllm
-        from token_usage import TokenUsageRecorder
+        from units.token_usage import TokenUsageRecorder
         usage=TokenUsageRecorder()
         spec={'type':'object','properties':{'links':{'type':'array','items':{'type':'string'}}},'required':['links'],'additionalProperties':False}
         events=[{'type':'item.completed','item':{'type':'agent_message','text':'{"links": []}'}},

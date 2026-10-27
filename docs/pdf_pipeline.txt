@@ -1,26 +1,53 @@
 PDF 到 dataset 主流程
 
 完整运行：
-  ../envs/sda/bin/python src/run_document_pdf.py /path/to/source.pdf \
+  ../envs/sda/bin/python src/document/run_document_pdf.py /path/to/source.pdf \
     --document-id WO2026086808A1 --run-dir /path/to/new/run --device gpu:0
 
 输出：<run-dir>/results/<document-id>/dataset.json。
 同目录包含 template.completed.json、逐表 OCR、证据、覆盖/缺失清单和 report.html。
+预处理现在统一调用 pdf2doc.py，输出 <run-dir>/structured/document.json、document.md、document.txt、pages.jsonl。
+自动方向校正和裁图后，正文 / 表格 OCR 分进程同时执行，组装与导出等待两路完成。
+网页默认全文 --text-backend paddle、表格 --table-backend vl，每路一个模型进程；
+--text-workers / --table-ocr-workers 可调整数量，--ocr-execution serial 可切回串行。
+后续 graph.py 通过 --reuse-table-ocr-from 读取本轮严格校验的证据，表格 OCR 请求数为 0。
+默认 extraction-mode=dataagent：表格分类与全文 OCR 索引并行，随后检索标题/实验方法，
+建立实体和实验关系、提取 VH/VL、关联测量、校验及有限修复。
+检索只读取已生成的 page_ocr/pages.jsonl，不重复 OCR，也不另读 PDF 文字层。
+两路 OCR 汇合后按原文和行列关系匹配单元格文字框；cells/grid 保存 bbox_crop、bbox_pdf、
+bbox_source（方向映射可用时）及 precision/location_status，table_ocr 复用产物同时保留这些位置。
+重复值需要同行锚点及空间顺序支持，无法确认的单元格保持 unlocated。网页使用 bbox_pdf 高亮工作 PDF。
+结果由 dataagent/main_pipeline.py 转为 antibody-dataset-2.0，保留原网页、覆盖审计及兼容导出；
+原生输出保存在 results/<id>/dataagent/<attempt>/。
+<run-dir>/data/<id> 与 text_ocr 保留兼容路径，分别指向 structured/layout 和 structured/page_ocr。
+方向待复核但 OCR 完整时允许继续并保留 partial；全文或表格证据不完整时不启动业务抽取。
 
 入口和调用关系：
-  studio/server.py           网页上传、任务状态与后台命令
-  src/run_document_pdf.py    PDF 流程编排、检查点续跑、运行报告
-  src/pdf2fig.py             版面检测与表格裁图
-  src/paten_ocr.py           全页 OCR；document_vl.py 提供 VL 后端
-  src/graph.py              表格/文档处理的命令行与图入口
-  src/pipeline.py           OCR 调度、逐表抽取或文档级抽取
-  src/document_extraction.py 文档抽取、响应 schema、证据校验、覆盖修补
-  src/agent.py              模型适配与各类语义抽取
-  src/schema_pipeline.py    固定模板、证据补全、dataset 导出
-  src/template_agent.py     字段状态、来源、实体装载和测量导出
-  src/template_sequence_agent.py 序列证据检索与关联
+  studio/server.py                   网页上传、重分析与后台命令
+  src/document/run_document_pdf.py   PDF 流程编排、检查点续跑、运行报告
+  src/document/pdf2doc.py            PDF 到结构化文档的六步实现及独立 CLI，不执行后续 dataset 语义提取
+  src/document/pdf2fig.py            版面检测与裁图的兼容命令行入口
+  src/document/paten_ocr.py          整页 OCR，document_vl.py 提供 VL 后端
+  src/graph.py                       主流程分发，默认 dataagent；可显式选择旧 document 模式
+  src/dataagent/agent/graph.py        表格分类、实验规划、序列提取与校验图
+  src/dataagent/sda_inputs.py         已有表格及全文 OCR 适配、索引和取证
+  src/dataagent/main_pipeline.py      SDA 模板、测量、证据导出及输入检查点/用量报告
+  src/pipeline.py                    旧 document 模式的表格 OCR 和全文调度
+  src/document/document_extraction.py 旧全文提取；新主流程复用其中的模板转换和覆盖审计
+  src/agent.py                       Codex CLI 适配、请求产物与用量记录
+  src/schema_pipeline.py             模板、序列补全调度与 dataset 导出
+  src/template_agent.py              字段状态、来源、实体装载和测量导出
+  src/template_sequence_agent.py     序列证据检索、来源关联与单独核验
+  src/units/document_fields.py       文档编号、区域标签及分组公共函数
+  src/units/domain_knowledge.py      允许使用的领域词汇读取
+  src/units/timing.py、token_usage.py 耗时与模型用量
 
-其余 src 模块为上述流程的 OCR、续表、方向、序列目录、正文证据、计时和 token 依赖。
-文档级与逐表模式均保留；本次目录清理不改变上传任务选择的抽取模式。
-测速、独立审计、对照模型、网页正文补录及单独序列重放脚本已移除。
-历史实验数据与输出保存在 baseline/、validation_results/；这些归档不参与正式入口依赖。
+只运行到结构化文本：
+  ../envs/sda/bin/python src/document/paten_ocr.py /path/to/source.pdf \
+    --output-dir /path/to/ocr --device gpu:0 --backend vl
+
+默认使用迁入的 dataagent 图。原 SDA 的一次全文提取通过 --extraction-mode document 保留，
+旧单图 LangGraph、同名拼接、全文序列扫描、页面局部序列映射和 TST 补全不再作为默认链路。
+--resume --run-dir 依据原运行模式续跑；dataagent 模式校验同批 OCR，再复用模型缓存。
+原始 PDF、历史结果和 validation_results/ 对照产物不参与运行时依赖。
+独立页 OCR 不调用外部 LLM；文档语义提取和序列核验需要 Codex CLI。
