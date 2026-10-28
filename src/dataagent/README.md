@@ -193,3 +193,26 @@ python -m unittest discover -s tests -p test_dataagent_migration.py -v
 
 测试包括完整规则图、使用脚本化模型响应运行真实输出协议及证据校验、跨文档/哈希拒绝、
 合并单元格来源、缺失坐标和零表格。脚本化响应不代表真实模型的语义准确率。
+
+## 最大并发表格试跑
+
+`--llm-workers 0` 表示原图复核对所有候选表同时发起请求，表格分类每张表单独调用、
+全部并发；此模式跳过分类粗筛，不再使用多表批次。正数 1–8 保留有限并发配置。
+两种模式都保留来源校验、每表失败信息和按原文顺序输出；本地 GPU OCR 并发独立配置。
+原图复核的各表检查点保存在 `sequence_style_tables/`，聚合报告 `sequence_styles.json`
+记录实际 worker 数和墙钟耗时。
+
+对现有 `shared_seed/` 的 OCR 快照可独立运行真实模型对照，不覆盖原结果：
+
+```bash
+PYTHONPATH=src python -m dataagent.benchmark_table_parallel \
+  --source /path/to/shared_seed --output /path/to/new_trial --workers 0
+```
+
+试跑沿用原图复核记录的模型和推理强度，禁用推理结果缓存；先全部并发复核，再全部并发分类。
+`benchmark.json` 包含历史耗时、实际阶段耗时、覆盖缺项及标签变化。这里只测复核和分类，
+不包含 PDF/OCR、全篇模板和 Reader，也尚未将分类提前接到单表 OCR 完成事件。
+
+49-WOother 的真实试跑将这两个阶段从 21.9 分钟降到 5.7 分钟；总 token 增加约 47%，
+7 个序列单元格转录仍需原图复核。范围、用量及结果核对见
+[试验记录](../../docs/table_semantic_parallel_20261029.txt)。

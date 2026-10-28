@@ -26,7 +26,7 @@ def main() -> int:
     parser.add_argument("--llm-effort", choices=("low", "medium", "high", "xhigh", "max"), default=None)
     parser.add_argument("--llm-batch-size", type=int, default=4)
     parser.add_argument("--no-classification-triage", action="store_true", help="Use detailed classification for every crop")
-    parser.add_argument("--llm-workers", type=int, help="concurrent table-classification batches (1-8); default: DATASETAGENT_LLM_WORKERS or 6")
+    parser.add_argument("--llm-workers", type=int, help="0: all tables concurrently; 1-8: bounded batches; default: DATASETAGENT_LLM_WORKERS or 6")
     parser.add_argument("--sequence-workers", type=int, help="concurrent sequence batches (1-8); default: DATASETAGENT_SEQUENCE_WORKERS or 3")
     parser.add_argument("--llm-timeout", type=int, default=600)
     parser.add_argument("--max-repair-rounds", type=int, default=2, help="bounded evidence-repair rounds; 0 disables automatic repair")

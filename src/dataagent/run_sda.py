@@ -46,7 +46,7 @@ def run_from_ocr(document_id, table_ocr, pdf_ocr, output_dir, *, layout_manifest
             from .llm_runtime import CodexProvider
             provider = CodexProvider(cache_dir=output_dir / "style_requests", model=config.llm_model,
                 effort=config.llm_effort, timeout=config.llm_timeout, audit_path=output_dir / "llm_calls.jsonl")
-            review = review_prepared(inputs, provider, output_dir)
+            review = review_prepared(inputs, provider, output_dir, max_workers=config.llm_workers)
             inputs["sequence_style_review"] = review["summary"]
             inputs["warnings"].extend({"code": "sequence_style_review_pending", **item} for item in review["failures"])
             json_write(prepared, inputs)
@@ -97,7 +97,7 @@ def main(argv=None):
     parser.add_argument("--semantic-provider", choices=("codex", "rules"), default=None)
     parser.add_argument("--llm-model")
     parser.add_argument("--llm-effort", choices=("low", "medium", "high", "xhigh", "max"))
-    parser.add_argument("--llm-workers", type=int)
+    parser.add_argument("--llm-workers", type=int, help="0 表示逐表全部并发；1–8 限制模型并发数")
     parser.add_argument("--sequence-workers", type=int)
     parser.add_argument("--llm-timeout", type=int)
     parser.add_argument("--max-repair-rounds", type=int)

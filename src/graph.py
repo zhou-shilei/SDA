@@ -24,7 +24,7 @@ def main(argv=None):
     parser.add_argument("--semantic-provider", choices=("codex", "rules"))
     parser.add_argument("--llm-model")
     parser.add_argument("--llm-effort", choices=("low", "medium", "high", "xhigh", "max"))
-    parser.add_argument("--llm-workers", type=int)
+    parser.add_argument("--llm-workers", type=int, help="0 表示原图复核/分类逐表全部并发；1–8 限制并发")
     parser.add_argument("--sequence-workers", type=int,
                         help="dataagent2 默认同时调用所有 chunk（0）；正数显式限制并发")
     parser.add_argument("--reader-chunk-chars", type=int, default=24000,

@@ -180,11 +180,11 @@ class LLMTableClassificationAgent:
         self, provider: CodexProvider, *, image_roots: list[Path],
         batch_size: int = 4, max_workers: int = 6, coarse_triage: bool = False,
     ) -> None:
-        if not 1 <= batch_size <= 8 or not 1 <= max_workers <= 8:
-            raise ValueError("Classification batch_size and max_workers must be between 1 and 8")
+        if not 1 <= batch_size <= 8 or not 0 <= max_workers <= 8:
+            raise ValueError("Classification batch_size must be 1–8; max_workers must be 0–8 (0 means all tables)")
         self.provider = provider
         self.image_roots = image_roots
-        self.batch_size = batch_size
+        self.batch_size = 1 if max_workers == 0 else batch_size
         self.max_workers = max_workers
         self.coarse_triage = coarse_triage
 
@@ -341,10 +341,10 @@ class LLMTableClassificationAgent:
 
         ocr_results = [t for t in ocr_results if target_table_ids is None or table_id(t) in target_table_ids]
         identities = [table_id(table) for table in ocr_results]
-        routing = self.coarse_triage and target_table_ids is None and len(ocr_results) > 8
+        routing = self.coarse_triage and self.max_workers != 0 and target_table_ids is None and len(ocr_results) > 8
         dispatch_size = max(8, self.batch_size) if routing else self.batch_size
         batches = [ocr_results[start:start + dispatch_size] for start in range(0, len(ocr_results), dispatch_size)]
-        workers = min(self.max_workers, len(batches))
+        workers = min(self.max_workers or len(batches), len(batches))
         ordered: dict[str, dict[str, Any]] = {}
         results: list[dict[str, Any]] = []
         started = time.monotonic()

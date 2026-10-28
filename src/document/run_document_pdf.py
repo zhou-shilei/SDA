@@ -99,8 +99,8 @@ def run_pdf(pdf, run_dir, *, document_id=None, device="gpu:0", text_workers=1,
         raise ValueError("OCR backend 必须为 paddle 或 vl")
     if extraction_mode not in {"dataagent", "dataagent2", "document"}:
         raise ValueError("extraction_mode 必须为 dataagent、dataagent2 或 document")
-    if llm_workers is not None and not 1 <= llm_workers <= 8:
-        raise ValueError("表格种子模型并发数必须介于 1 和 8")
+    if llm_workers is not None and not 0 <= llm_workers <= 8:
+        raise ValueError("表格种子模型并发数必须介于 0 和 8；0 表示逐表全部并发")
     if sequence_workers is not None:
         if extraction_mode == "dataagent2" and sequence_workers < 0:
             raise ValueError("Reader 并发数必须非负，0 表示所有 chunk 同时调用")
@@ -405,7 +405,7 @@ def main():
     parser.add_argument("--ocr-execution", choices=("parallel", "serial"), default="parallel")
     parser.add_argument("--extraction-mode", choices=("dataagent", "dataagent2", "document"), default="dataagent")
     parser.add_argument("--semantic-provider", choices=("codex", "rules"), default=None)
-    parser.add_argument("--llm-workers", type=int, help="表格分类/种子构建并发数（1–8）")
+    parser.add_argument("--llm-workers", type=int, help="表格分类/原图复核并发数（0 全部并发；1–8 限制并发）")
     parser.add_argument("--sequence-workers", type=int,
                         help="dataagent2 默认所有 chunk 同时调用（0）；dataagent 序列并发数为 1–8")
     parser.add_argument("--reader-chunk-chars", type=int, default=24000)

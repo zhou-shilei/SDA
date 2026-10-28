@@ -5,10 +5,13 @@ derive a variable region from antibody motifs or mutation similarity.
 """
 from __future__ import annotations
 
+import copy
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import hashlib
 import json
 from pathlib import Path
 import re
+import time
 from typing import Literal
 
 from lxml import html
@@ -225,7 +228,68 @@ def style_image(prepared, table, cells, output):
                     "original_image_sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "image_crop_bounds": bounds}
 
 
-def review_prepared(prepared, provider, output):
+def review_prepared(prepared, provider, output, *, max_workers=0):
+    """Review independent tables concurrently; 0 starts every candidate at once.
+
+    Workers keep their own checkpoints and table copies. Only this coordinator
+    mutates the prepared input or writes the aggregate report.
+    """
+    from dataagent.llm_runtime import json_write
+
+    if not isinstance(max_workers, int) or isinstance(max_workers, bool) or max_workers < 0:
+        raise ValueError("Style workers must be nonnegative; 0 means all candidate tables")
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    candidates = [(index, table) for index, table in enumerate(prepared["tables"])
+                  if style_candidates(prepared, table)[0]]
+    identities = [table["source_id"] for _, table in candidates]
+    if len(set(identities)) != len(identities):
+        raise ValueError("Style review table identifiers must be unique")
+    workers = min(max_workers or len(candidates), len(candidates))
+    started, completed = time.monotonic(), {}
+
+    def checkpoint(status):
+        ordered = [completed[index] for index, _ in candidates if index in completed]
+        report = {"version": 1, "tables": [], "sources": [], "failures": []}
+        for result in ordered:
+            for key in ("tables", "sources", "failures"):
+                report[key].extend(result[key])
+        report["summary"] = {
+            "reviewed_cells": len(report["sources"]),
+            "explicit_domains": sum(bool(s["sequence_style"]["domain"]) for s in report["sources"]),
+            "failures": len(report["failures"]),
+        }
+        report["performance"] = {
+            "status": status, "configured_workers": max_workers, "workers": workers,
+            "total_tables": len(candidates), "completed_tables": len(completed),
+            "elapsed_seconds": round(time.monotonic() - started, 3),
+        }
+        json_write(output / "sequence_styles.json", report)
+        return report
+
+    def review_one(table):
+        local = {"tables": [copy.deepcopy(table)],
+                 "document_blocks": prepared.get("document_blocks", [])}
+        local["tables"][0].pop("sequence_style_sources", None)
+        directory = output / "sequence_style_tables" / hashlib.sha256(table["source_id"].encode()).hexdigest()[:16]
+        result = _review_prepared_serial(local, provider, directory)
+        return result, local["tables"][0].get("sequence_style_sources", [])
+
+    checkpoint("running")
+    if candidates:
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="sequence-style") as pool:
+            pending = {pool.submit(review_one, table): (index, table) for index, table in candidates}
+            for future in as_completed(pending):
+                index, table = pending[future]
+                result, sources = future.result()
+                completed[index] = result
+                table["sequence_style_sources"] = sources
+                checkpoint("running")
+                print(f"sequence-style-progress {len(completed)}/{len(candidates)} workers={workers}", flush=True)
+    return checkpoint("completed")
+
+
+def _review_prepared_serial(prepared, provider, output):
     """Review printed styles and failed raster OCR, preserving original evidence."""
     from PIL import Image
     from dataagent.llm_runtime import json_write
