@@ -8,13 +8,14 @@ import re
 
 from .provider import compact, digest
 from .sequence_notation import AA, fragment as sequence_fragment, residues
+from .structure import CHAIN_REGIONS, normalize_region
+from .relation_index import build_index
 
-CHAIN_REGIONS = ("VH", "VL", "H_CHAIN", "L_CHAIN", "CH", "CL")
 
 
 def fact_region(fact):
     """Read legacy 'other' constant labels without changing their provenance."""
-    region = fact["region"]
+    region = normalize_region(fact["region"])
     if region != "other":
         return region
     name = fact.get("name") or ""
@@ -72,12 +73,16 @@ class Ledger:
     def __init__(self, data):
         self.data, self.sources = data, data["sources"]
         self.entities = {e["id"]: copy.deepcopy(e) for e in data["seed"]["entities"]}
-        self.facts = {k: [] for k in ("mentions", "links", "sequences", "experiments", "observations", "relations", "issues")}
+        self.facts = {k: [] for k in ("mentions", "links", "sequences", "experiments", "observations", "relations", "annotations", "issues")}
         self.keys = {k: set() for k in self.facts}
         self.rejections = []
-        for k in ("links", "experiments", "observations"):
-            for fact in data["seed"][k]:
-                self.add(k, copy.deepcopy(fact))
+        for k in ("links", "experiments", "observations", "annotations"):
+            for fact in data["seed"].get(k, []):
+                fact = copy.deepcopy(fact)
+                if k == "links":
+                    fact.setdefault("original_region", fact["region"])
+                    fact["region"] = normalize_region(fact["region"])
+                self.add(k, fact)
         if data.get("style_definitions"):
             from .contracts import empty_response
             response = empty_response()
@@ -121,11 +126,21 @@ class Ledger:
             except (ValueError, KeyError) as exc:
                 self.rejections.append({"chunk": chunk, "kind": "new_items", "error": str(exc), "fact": new})
         for kind in self.facts:
-            for raw in response[kind]:
+            for raw in response.get(kind, []):
                 fact = copy.deepcopy(raw)
                 try:
                     refs = fact.get("refs", [fact["s"]] if "s" in fact else [])
                     require(refs)
+                    if kind in ("links", "sequences"):
+                        fact.setdefault("original_region", fact["region"])
+                        fact["region"] = normalize_region(fact["region"])
+                    if kind == "annotations":
+                        if not fact["value"].strip():
+                            raise ValueError("Empty annotation")
+                        if fact["subject_type"] == "item":
+                            fact["subject"] = self.item_id(fact["subject"])
+                        elif fact["subject"] not in {e["id"] for e in self.facts["experiments"]}:
+                            raise ValueError("Annotation references unknown experiment")
                     if "items" in fact:
                         fact["items"] = [self.item_id(x) for x in fact["items"]]
                     if "item" in fact:
@@ -160,6 +175,9 @@ class Ledger:
                         if fact["unit"] and not any(fact["unit"] in self.sources[r]["text"] for r in refs):
                             raise ValueError("Measurement unit lacks literal source support")
                         fact["table"] = self.sources[fact["s"]]["table_id"]
+                        for field in ("condition", "donor", "replicate"):
+                            if fact.get(field) and not any(normalized(fact[field]) in normalized(self.sources[r]["text"]) for r in refs):
+                                raise ValueError(f"Observation {field} lacks literal source support")
                     if kind == "experiments" and fact.get("table"):
                         if fact["table"] not in {s["table_id"] for s in self.sources.values()}:
                             raise ValueError("Unknown result table")
@@ -199,8 +217,13 @@ class Ledger:
             item["sequences"] = {}
             relatives = families[find(key)]
             links = [l for l in self.facts["links"] if l["item"] in relatives]
+            item["sequence_links"] = copy.deepcopy(links)
+            item["annotations"] = [copy.deepcopy(a) for a in self.facts["annotations"]
+                                   if a["subject_type"] == "item" and a["subject"] in relatives]
             for chain in CHAIN_REGIONS:
                 matching = [l for l in links if fact_region(l) == chain]
+                direct_mapping = bool(matching)
+                direct_numbers = sorted({l["seq"] for l in matching if l.get("seq") is not None})
                 # A variable-domain SEQ ID and a full-chain SEQ ID are separate
                 # namespaces of scope, even when both belong to one antibody.
                 # Full-chain ownership is a fallback only when no domain mapping exists.
@@ -232,9 +255,11 @@ class Ledger:
                         "validation": "literal characters checked; ownership and boundaries are model judgments"}
                 else:
                     item["sequences"][chain] = {"status": "conflict" if len(values) > 1 or len(numbers) > 1 else "missing",
-                        "value": None, "seq_ids": sorted(numbers),
+                        "value": None, "seq_ids": direct_numbers,
                         "reason": "conflicting mappings/definitions" if len(values) > 1 or len(numbers) > 1 else
                                   "definition/boundary missing" if matching else "mapping missing"}
+                    if not direct_numbers and numbers and chain in ("VH", "VL"):
+                        item["sequences"][chain].update(source_chain_seq_ids=sorted(numbers), seq_id_scope="full_chain")
                     failed_sources = sorted({p["s"] for rejected in self.rejections
                         if rejected["kind"] == "sequences"
                         and fact_region(rejected["fact"]) == chain
@@ -255,28 +280,63 @@ class Ledger:
                     if failed_sources:
                         item["sequences"][chain].update(reason="table sequence OCR failed", failure_kind="ocr_failure",
                             failed_source_ids=failed_sources, recovery_action="rerun_table_sequence_ocr")
+                slot = item["sequences"][chain]
+                if chain in ("VH", "VL") and slot["status"] == "supported" and (
+                    not direct_mapping or any(d.get("seq") == slot.get("seq_id") and
+                        fact_region(d) == ("H_CHAIN" if chain == "VH" else "L_CHAIN") for d in definitions)):
+                    slot["seq_id_scope"] = "full_chain"
+                    slot.setdefault("boundary_method", "document_boundary")
+                slot["mapping_status"] = "conflict" if len(direct_numbers) > 1 else "supported" if direct_mapping else "missing"
+                slot["mapping_seq_ids"] = direct_numbers
+                slot["evidence_role"] = ("direct_variable" if chain in ("VH", "VL", "VHH") and slot.get("seq_id_scope") != "full_chain"
+                                         else "derived_variable" if chain in ("VH", "VL", "VHH") else "supporting")
             item["missing"] = [c for c in ("VH", "VL") if item["sequences"][c]["status"] != "supported"]
             item["relations"] = [r for r in self.facts["relations"] if key in (r["subject"], r["object"])]
             output.append(item)
         # A physical value cell / endpoint is one observation; duplicate reads are merged.
         observations, measurement_conflicts = {}, []
-        for raw in self.facts["observations"]:
-            key = (raw["s"], metric_key(raw["metric"]), raw["value"])
+        rows = copy.deepcopy(self.facts["observations"])
+        qualified = defaultdict(list)
+        for row in rows:
+            if any(row.get(k) for k in ("condition", "donor", "replicate")):
+                qualified[(row["s"], metric_key(row["metric"]), row["value"], row["item"])].append(row)
+        for raw in rows:
+            # A newly documented donor/condition enriches the original seed
+            # cell; do not retain an extra anonymous copy of the same value.
+            if not any(raw.get(k) for k in ("condition", "donor", "replicate")):
+                enriched = [r for r in qualified[(raw["s"], metric_key(raw["metric"]), raw["value"], raw["item"])]
+                            if not raw.get("experiment") or r.get("experiment") == raw["experiment"]]
+                if enriched:
+                    for r in enriched:
+                        r["refs"] = sorted(set(r["refs"] + raw["refs"]))
+                    continue
+            key = (raw["s"], metric_key(raw["metric"]), raw["value"], raw.get("condition"), raw.get("donor"), raw.get("replicate"))
             if key in observations and observations[key]["item"] != raw["item"]:
                 measurement_conflicts.append({"kind": "measurement_owner_conflict", "candidates": [observations[key], raw]})
             elif key not in observations:
                 observations[key] = copy.deepcopy(raw)
             else:
                 observations[key]["refs"] = sorted(set(observations[key]["refs"] + raw["refs"]))
-                if not observations[key].get("experiment"):
+                if observations[key].get("experiment") and raw.get("experiment") and observations[key]["experiment"] != raw["experiment"]:
+                    measurement_conflicts.append({"kind": "measurement_experiment_conflict", "candidates": [observations[key], raw]})
+                elif not observations[key].get("experiment"):
                     observations[key]["experiment"] = raw.get("experiment")
         for conflict in measurement_conflicts:
             r = conflict["candidates"][0]
-            observations.pop((r["s"], metric_key(r["metric"]), r["value"]), None)
-        experiments = self.facts["experiments"]
+            observations.pop((r["s"], metric_key(r["metric"]), r["value"], r.get("condition"), r.get("donor"), r.get("replicate")), None)
+        experiments = copy.deepcopy(self.facts["experiments"])
+        for e in experiments:
+            e["annotations"] = [copy.deepcopy(a) for a in self.facts["annotations"]
+                                if a["subject_type"] == "experiment" and a["subject"] == e["id"]]
         for o in observations.values():
             if not o.get("experiment"):
-                matches = {e["id"] for e in experiments if e.get("table") and e["table"] == o.get("table")}
+                # A matching table alone cannot choose between species/column groups.
+                # A shared *header* address can; ignore the value address itself.
+                context = {sid for sid in o["refs"] if sid != o["s"] and self.sources[sid]["kind"] == "cell"
+                           and self.sources[sid]["table_id"] == o.get("table")}
+                table_matches = [e for e in experiments if e.get("table") and e["table"] == o.get("table")]
+                exact = {e["id"] for e in table_matches if context & set(e.get("refs", []))}
+                matches = exact or {e["id"] for e in table_matches}
                 if len(matches) == 1:
                     o["experiment"] = next(iter(matches))
         experiment_ids = {e["id"] for e in experiments}
@@ -287,7 +347,8 @@ class Ledger:
             if o.get("experiment") not in experiment_ids:
                 return None
             return (find(o["item"]), o["experiment"], metric_key(o["metric"]), o["value"].strip(),
-                    normalized(o.get("unit") or ""), self.sources[o["s"]]["page"])
+                    normalized(o.get("unit") or ""), self.sources[o["s"]]["page"],
+                    o.get("condition"), o.get("donor"), o.get("replicate"))
 
         cells = defaultdict(list)
         for key, o in observations.items():
@@ -309,6 +370,8 @@ class Ledger:
         records = [{"id": digest(k)[:16], **v, "experiment_status": "supported" if v.get("experiment") in experiment_ids else "missing"}
                    for k, v in observations.items()]
         return {"document_id": self.data["document_id"], "entities": output,
+                "links": copy.deepcopy(self.facts["links"]), "annotations": copy.deepcopy(self.facts["annotations"]),
+                "relation_index": build_index(self.data, entities=output, facts=self.facts),
                 "sequences": definitions, "experiments": experiments, "observations": records,
                 "relations": self.facts["relations"], "conflicts": conflicts + measurement_conflicts,
                 "issues": self.facts["issues"], "rejected_facts": self.rejections,

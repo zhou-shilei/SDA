@@ -107,7 +107,10 @@ class ParallelReaderTests(unittest.TestCase):
                     def generate(self, stage, instructions, payload):
                         with lock:
                             started.append(payload["chunk"])
-                            datasets.append(copy.deepcopy(payload["seed_dataset"]))
+                            self_snapshot = {"items": payload["items"], "document": payload["relation_index"]["document"]}
+                            datasets.append(copy.deepcopy(self_snapshot))
+                            if "seed_dataset" in payload:
+                                raise AssertionError("Reader repeats full seed dataset")
                         # Any hidden 3/8-worker cap prevents this rendezvous.
                         all_started.wait()
                         return empty_response(), {}
@@ -130,7 +133,8 @@ class ParallelReaderTests(unittest.TestCase):
                 self.assertEqual(len(started), 23)
                 self.assertTrue(expected_seed["entities"])
                 self.assertEqual(data["seed"], expected_seed)
-                self.assertEqual(datasets, [expected_seed] * 23)
+                self.assertEqual(datasets, [{"items": [[e["id"], [e["name"]]] for e in expected_seed["entities"]],
+                    "document": data["document_id"]}] * 23)
 
     def test_empty_source_document_does_not_create_a_zero_worker_pool(self):
         class FakeProvider:

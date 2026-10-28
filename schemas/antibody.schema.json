@@ -77,6 +77,9 @@
     },
     "sequence_audit": {
       "type": "object"
+    },
+    "relation_index": {
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -439,6 +442,10 @@
             "string",
             "null"
           ]
+        },
+        "annotations": {
+          "type": "array",
+          "items": {"type": "object"}
         }
       },
       "additionalProperties": false

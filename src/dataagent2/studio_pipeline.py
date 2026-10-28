@@ -16,6 +16,7 @@ from time import perf_counter
 from .inputs import load_input, read
 from .pipeline import run
 from .provider import Provider, write_json
+from .structure import CDR_REGIONS, FR_REGIONS, parent_region
 
 
 def collect_usage(seed_dir, reader_dir, document_id):
@@ -67,7 +68,9 @@ def export_result(data, final, seed_dir, output):
             sources[ref] = {**copy.deepcopy(sources[addressed[sid]]),
                 "ref": ref, "source_id": ref, "source_ref": data["sources"][sid]["source_ref"], "original_ref": addressed[sid],
                 "source_char_start": fragment["start"], "source_char_end": fragment["end"],
-                "text": fragment["quote"], "quote": fragment["quote"]}
+                "text": fragment["quote"], "quote": fragment["quote"],
+                "evidence_role": sequence.get("evidence_role", "supporting"),
+                "boundary_method": sequence.get("boundary_method"), "seq_id_scope": sequence.get("seq_id_scope")}
             if fragment.get("notation"):
                 sources[ref].update(sequence_notation=copy.deepcopy(fragment["notation"]),
                                     normalized_sequence=fragment["sequence"])
@@ -93,6 +96,8 @@ def export_result(data, final, seed_dir, output):
             else:
                 entity["SEQUENCE_LINKS"].append({"region": "H_chain" if chain == "H_CHAIN" else "L_chain",
                     "seq_id": sequence.get("seq_id"), "SOURCE_REFS": citations})
+        # Unresolved and atomic mappings are attached after TemplateAgent so
+        # that ownership prose can never be mistaken for sequence characters.
         entities.append(entity)
     # Several chunks can describe the same experiment. Keep its stable identity
     # and all variants; conflicting metadata must not overwrite another source.
@@ -101,7 +106,14 @@ def export_result(data, final, seed_dir, output):
         experiment_groups[experiment["id"]].append(experiment)
     experiments, experiment_issues = [], []
     for identity, variants in experiment_groups.items():
-        experiment = {"id": identity, "NAME": identity, "KEYWORDS": [], "TAGS": [],
+        labels = list(dict.fromkeys(e.get("label") for e in variants if e.get("label")))
+        annotations = [a for a in final.get("annotations", []) if a["subject_type"] == "experiment" and a["subject"] == identity]
+        tags = [{"category": a["category"], "key": a["value"], "label_zh": a["value"], "label_en": a["value"],
+                 "evidence": provenance(refs(a["refs"]), sources)} for a in annotations]
+        experiment = {"id": identity, "NAME": labels[0] if len(labels) == 1 else identity,
+            "KEYWORDS": tags, "TAGS": list(dict.fromkeys(a["value"] for a in annotations)),
+            "ANNOTATIONS": tags, "PROTOCOL_IDS": list(dict.fromkeys(e.get("protocol") for e in variants if e.get("protocol"))),
+            "REGION_IDS": list(dict.fromkeys(e.get("region_id") for e in variants if e.get("region_id"))),
             "EVIDENCE": refs([sid for e in variants for sid in e.get("refs", [])]),
             "SOURCE_VARIANTS": copy.deepcopy(variants)}
         ambiguous = []
@@ -117,7 +129,7 @@ def export_result(data, final, seed_dir, output):
     names = {e["id"]: e["NAME"] for e in entities}
     records = [{"ENTITY_ID": o["item"], "NAME": names[o["item"]], "METRIC": o["metric"],
         "VALUE": o["value"], "UNIT": o.get("unit"), "TARGET": None, "METHOD": None,
-        "CONDITIONS": None, "EXPERIMENT_ID": o.get("experiment"),
+        "CONDITIONS": o.get("condition"), "EXPERIMENT_ID": o.get("experiment"),
         "CELL_REFS": refs([o["s"]]) if data["sources"][o["s"]]["kind"] == "cell" else [],
         "EVIDENCE": {"MEASUREMENT": refs([o["s"]]), "CONTEXT": refs(o.get("refs", []))}, "NOTES": None}
         for o in final["observations"]]
@@ -142,7 +154,38 @@ def export_result(data, final, seed_dir, output):
     native_items = {item["id"]: item for item in final["entities"]}
     for exported in template["entities"]:
         item = native_items[exported["original_entity_id"]]
-        for chain in ("CH", "CL"):
+        exported["annotations"] = [{**copy.deepcopy(a), "evidence": provenance(refs(a["refs"]), sources)}
+                                   for a in item.get("annotations", [])]
+        # Materialize all accepted atomic regions directly from the grounded
+        # fragments. Short CDR/FR sequences need no arbitrary 20-aa threshold.
+        from template_agent import _observe, _slot
+        for link in item.get("sequence_links", []):
+            region = link["region"]
+            parent = parent_region(region)
+            if region in ("VH", "VL", "H_CHAIN", "L_CHAIN"):
+                slot = exported[region]["seq_id"]
+            elif parent:
+                path = parent + "." + region
+                entry = next((l for l in exported["sequence_links"] if l["field_path"] == path), None)
+                if entry is None:
+                    entry = {"field_path": path, "seq_id": _slot()}
+                    exported["sequence_links"].append(entry)
+                slot = entry["seq_id"]
+            else:
+                continue
+            for evidence in provenance(refs(link.get("refs", [])), sources):
+                _observe(slot, link.get("seq"), evidence)
+        for region in (*CDR_REGIONS, *FR_REGIONS):
+            sequence = item["sequences"].get(region, {})
+            if sequence.get("status") == "supported":
+                citations = fragment_refs(sequence)
+                for evidence in provenance(list(dict.fromkeys(citations + refs(sequence.get("mapping_refs", [])))), sources):
+                    _observe(exported[parent_region(region)][region], sequence["value"], evidence)
+        # TemplateAgent must not fill an absent definition from a mapping quote.
+        for region in ("VH", "VL", "H_CHAIN", "L_CHAIN"):
+            if item["sequences"][region]["status"] != "supported":
+                exported[region]["sequence"] = _slot(required=exported[region]["sequence"]["required"])
+        for chain in ("CH", "CL", "CH1", "CH2", "CH3", "CH4", "VHH", "scFv", "Fab", "Fc", "linker", "other"):
             sequence = item["sequences"].get(chain, {})
             if sequence.get("status") != "supported":
                 continue
@@ -171,6 +214,9 @@ def export_result(data, final, seed_dir, output):
                                           f"对应完整链 SEQ ID NO:{sequence.get('seq_id')}。",
                     "evidence_refs": list(entity_ref for p in exported[chain]["sequence"].get("provenance", [])
                                           for entity_ref in [e.get("ref") for e in p.get("extraction_evidence", [])] if entity_ref)})
+        for observation, raw in zip(exported["METRIC"], [o for o in final["observations"] if o["item"] == item["id"]]):
+            observation["source"].update({k: raw.get(k) for k in ("condition", "donor", "replicate") if raw.get(k)})
+    template["relation_index"] = copy.deepcopy(final.get("relation_index", {}))
     if final["rejected_facts"]:
         template["issues"].append({"kind": "dataagent2_rejected_facts", "count": len(final["rejected_facts"]),
                                   "message": "部分候选事实未通过来源校验；详见 dataagent2/dataset.json。"})
@@ -182,6 +228,7 @@ def export_result(data, final, seed_dir, output):
         "status": status, "extraction_mode": "dataagent2", "extraction_engine": "dataagent2",
         "entities": structured_entities(template), "records": export_dataset(template),
         "experiments": template["experiments"], "relations": template["relations"],
+        "relation_index": template["relation_index"],
         "summary": template["summary"], "issues": template["issues"], "coverage": coverage,
         "reader_coverage": final["reader_coverage"], "warnings": data["input_warnings"],
         "limitations": ["原文字符校验不等于归属、边界或生物学验证；未解决项目保留待复核。"],

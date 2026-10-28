@@ -5,6 +5,8 @@ import csv
 import json
 from pathlib import Path
 
+from .structure import CHAIN_REGIONS, normalize_region
+
 
 def write_csv(path, rows, fields):
     with path.open("w", encoding="utf-8-sig", newline="") as stream:
@@ -30,27 +32,32 @@ def export(dataset_path, output):
                            r["relation"] == "tested_in" and r["subject"] == entity["id"] and r["object"] in experiment_ids)
         row = {"item": entity["id"], "name": entity["name"], "role": entity["role"],
                "experiment_ids": json.dumps(sorted(experiments)), "experiment_missing": not experiments,
-               "observation_count": len(observations)}
-        for chain in ("VH", "VL", "CH", "CL"):
+               "observation_count": len(observations), "annotations": json.dumps(entity.get("annotations", []), ensure_ascii=False)}
+        for chain in CHAIN_REGIONS:
             sequence = entity["sequences"].get(chain, {"status": "missing"})
+            ids = sequence.get("mapping_seq_ids", sequence.get("seq_ids", []))
+            mapping_refs = [r for link in entity.get("sequence_links", []) if normalize_region(link["region"]) == chain for r in link.get("refs", [])]
             row.update({chain: sequence.get("value") or "", chain + "_status": sequence["status"],
-                chain + "_seq_id": sequence.get("seq_id"),
+                chain + "_seq_id": sequence.get("seq_id", ids[0] if len(ids) == 1 else None),
+                chain + "_seq_ids": json.dumps(ids),
+                chain + "_source_chain_seq_ids": json.dumps(sequence.get("source_chain_seq_ids", [])),
                 chain + "_seq_id_scope": sequence.get("seq_id_scope", "as_recorded"),
                 chain + "_boundary_method": sequence.get("boundary_method", ""),
-                chain + "_refs": json.dumps(sorted(set(sequence.get("definition_refs", []) + sequence.get("mapping_refs", []))))})
+                chain + "_refs": json.dumps(sorted(set(sequence.get("definition_refs", []) + sequence.get("mapping_refs", []) + mapping_refs)))})
         row["missing_values"] = json.dumps([c for c in ("VH", "VL") if not row[c]] + ([] if experiments else ["experiment"]))
         row["missing_explicit_domains"] = json.dumps(entity.get("missing_explicit_domains", entity["missing"]))
         items.append(row)
     fields = ["item", "name", "role"]
-    for chain in ("VH", "VL", "CH", "CL"):
-        fields += [chain, chain + "_status", chain + "_seq_id", chain + "_seq_id_scope", chain + "_boundary_method", chain + "_refs"]
-    fields += ["experiment_ids", "experiment_missing", "observation_count", "missing_values", "missing_explicit_domains"]
+    for chain in CHAIN_REGIONS:
+        fields += [chain, chain + "_status", chain + "_seq_id", chain + "_seq_ids", chain + "_source_chain_seq_ids",
+                   chain + "_seq_id_scope", chain + "_boundary_method", chain + "_refs"]
+    fields += ["experiment_ids", "experiment_missing", "observation_count", "missing_values", "missing_explicit_domains", "annotations"]
     write_csv(output / "items.csv", items, fields)
     write_csv(output / "observations.csv", measurements,
-              ["id", "item", "item_name", "experiment", "experiment_status", "metric", "value", "unit", "s", "refs"])
-    experiments = [{**e, "refs": json.dumps(e["refs"])} for e in dataset["experiments"]]
+              ["id", "item", "item_name", "experiment", "experiment_status", "metric", "value", "unit", "condition", "donor", "replicate", "s", "refs"])
+    experiments = [{**e, "refs": json.dumps(e["refs"]), "annotations": json.dumps(e.get("annotations", []), ensure_ascii=False)} for e in dataset["experiments"]]
     write_csv(output / "experiments.csv", experiments,
-              ["id", "table", "method", "target", "species", "system", "conditions", "refs"])
+              ["id", "label", "protocol", "region_id", "table", "method", "target", "species", "system", "conditions", "annotations", "refs"])
     return {"items": len(items), "observations": len(measurements), "experiment_profiles": len(experiments),
             "output": str(output.resolve())}
 

@@ -26,7 +26,7 @@ def structured_entities(template):
     entities = []
     for entity in template["entities"]:
         item = {"entity_id": entity["entity_id"], "NAME": entity["name"]}
-        for key in ("original_entity_id", "aliases", "construct_type", "notes", "other_sequences", "sequence_links", "sequence_components"):
+        for key in ("original_entity_id", "aliases", "construct_type", "notes", "other_sequences", "sequence_links", "sequence_components", "annotations"):
             if key in entity:
                 item[key] = copy.deepcopy(entity[key])
         for chain in ("VH", "VL", "H_CHAIN", "L_CHAIN"):

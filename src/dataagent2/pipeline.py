@@ -15,6 +15,8 @@ from .inputs import CHUNKING_REVISION, make_chunks, read, source_row, source_ocr
 from .ledger import Ledger, normalized
 from .provider import compact, digest, write_json
 from .quality import audit_dataset
+from .relation_index import chunk_index, REVISION as INDEX_REVISION
+from .structure import TAG_CATEGORIES, TAG_VOCABULARY
 
 
 def catalog(data):
@@ -24,10 +26,9 @@ def catalog(data):
 def reader_payload(data, chunk):
     ids = chunk["context"] + chunk["core"]
     payload = {"document": data["document_id"], "chunk": chunk["id"],
-            "seed_dataset": copy.deepcopy(data["seed"]),
+            "relation_index": chunk_index(data, chunk),
+            "tag_categories": list(TAG_CATEGORIES), "tag_vocabulary": TAG_VOCABULARY,
             "items": catalog(data),
-            "prior_links": [[l["item"], l["region"], l["seq"]] for l in data["seed"]["links"]],
-            "experiment_ids": [[e["id"], e["table"], e["method"]] for e in data["seed"]["experiments"]],
             "existing_observation_sources": sorted({o["s"] for o in data["seed"]["observations"] if o["s"] in ids}),
             "context_only_sources": chunk["context"],
             "sources": [source_row(data["sources"][sid]) for sid in ids]}
@@ -49,10 +50,11 @@ def question_tasks(dataset, data):
     for e in dataset["entities"]:
         for chain in e["missing"]:
             current = e["sequences"][chain]
-            ids = current.get("seq_ids", [])
-            key = ("seq", tuple(ids), chain) if ids else ("item", e["id"])
+            ids = current.get("seq_ids", []) or current.get("source_chain_seq_ids", [])
+            scope = current.get("seq_id_scope", "as_recorded")
+            key = ("seq", tuple(ids), chain, scope) if ids else ("item", e["id"])
             question = grouped.setdefault(key, {"id": "q" + digest(key)[:12], "targets": [],
-                "seq_ids": ids, "kind": "boundary_or_definition" if ids else "identity_or_mapping"})
+                "seq_ids": ids, "seq_id_scope": scope, "kind": "boundary_or_definition" if ids else "identity_or_mapping"})
             question["targets"].append({"item": e["id"], "chain": chain})
             if current.get("failure_kind") == "ocr_failure":
                 question.update(kind="ocr_failure", recovery_action="rerun_table_sequence_ocr")
@@ -196,7 +198,8 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
         "source_transmissions_planned": sum(len(c["core"]) + len(c["context"]) for c in chunks),
         "seed_entities": len(data["seed"]["entities"]), "seed_observations": len(data["seed"]["observations"]),
         "chunking_revision": CHUNKING_REVISION, "reader_workers": workers,
-        "reader_seed_policy": "Complete table seed dataset, fixed across all chunk requests",
+        "reader_seed_policy": "Compact source-backed relation index; fixed initial snapshot across parallel chunks",
+        "relation_index_revision": INDEX_REVISION,
         "baseline": data["baseline"], "max_questions": max_questions,
         "seed_policy": "Only original table/template output. sequence_extraction, resolved_sequences, repaired exports, answers and human inheritance are excluded."}
     write_json(output / "manifest.json", manifest)

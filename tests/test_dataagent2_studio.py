@@ -50,10 +50,12 @@ class ScriptedProvider(Provider):
             "parts": [{"s": sid, "start": SEQUENCE[:16], "end": SEQUENCE[-16:]}], "refs": [sid]}]
         result["experiments"] = [{"id": "e1", "table": "table-1", "method": "ELISA",
             "target": None, "species": None, "system": None, "conditions": None,
+            "label": None, "protocol": None, "region_id": None,
             "refs": [rows["Table 1. Binding inhibition IC50 by ELISA"]]}]
         if self.duplicate_experiment:
             result["experiments"].append({**result["experiments"][0], "method": "Binding ELISA"})
         result["observations"] = [{"item": name, "experiment": "e1", "metric": "IC50",
+            "condition": None, "donor": None, "replicate": None,
             "value": value, "unit": "nM", "s": rows[value], "refs": [rows[value], rows["IC50 (nM)"]]}
             for name, value in (("Ab1", "0.5"), ("Ab2", "1.2"))]
         result["relations"] = [{"subject": "Ab1", "relation": "tested_in", "object": "e1", "refs": [rows["Ab1"]]}]
@@ -88,7 +90,7 @@ class Dataagent2StudioTests(unittest.TestCase):
             return run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
                 table_ocr=self.case.table_path, extract_sequences=False, **options)
 
-    def test_reader_starts_after_table_seed_and_receives_complete_dataset(self):
+    def test_reader_starts_after_table_seed_and_receives_relation_index(self):
         seed_finished = threading.Event()
         testcase = self
 
@@ -114,9 +116,10 @@ class Dataagent2StudioTests(unittest.TestCase):
         class SeededProvider(ScriptedProvider):
             def generate(self, stage, instructions, payload):
                 testcase.assertTrue(seed_finished.is_set())
-                testcase.assertEqual(payload["seed_dataset"], load_input(testcase.output / "shared_seed")["seed"])
-                testcase.assertEqual(len(payload["seed_dataset"]["entities"]), 2)
-                testcase.assertEqual(len(payload["seed_dataset"]["observations"]), 2)
+                testcase.assertNotIn("seed_dataset", payload)
+                testcase.assertEqual(len(payload["relation_index"]["items"]), 2)
+                testcase.assertEqual(len(payload["relation_index"]["observations"]), 2)
+                testcase.assertNotIn("value", payload["relation_index"]["observations"][0])
                 testcase.assertTrue(payload["items"])
                 return super().generate(stage, instructions, payload)
 
@@ -126,7 +129,7 @@ class Dataagent2StudioTests(unittest.TestCase):
                 table_ocr=self.case.table_path, extract_sequences=False)
         self.assertNotEqual(report["status"], "failed", report["errors"])
         manifest = json.loads((self.output / "dataagent2/manifest.json").read_text())
-        self.assertIn("Complete table seed dataset", manifest["reader_seed_policy"])
+        self.assertIn("Compact source-backed relation index", manifest["reader_seed_policy"])
         self.assertEqual(manifest["reader_workers"], len(manifest["chunks"]))
         self.assertEqual(manifest["request_interval_seconds"], 0)
         self.assertTrue(seed_finished.is_set())
@@ -211,6 +214,54 @@ class Dataagent2StudioTests(unittest.TestCase):
         with patch.object(workspace, "bundle", side_effect=AssertionError("Registry loaded complete review provenance")):
             patent = next(p for p in workspace.patents() if p["document_id"] == "DOC")
         self.assertEqual(patent["record_count"], 2)
+
+    def test_atomic_regions_partial_mapping_and_experiment_labels_reach_review_graph(self):
+        for n, text in enumerate(["Ab1 CDRH1 SEQ ID NO 11: GFTFSSYA", "Ab1 FRH1 SEQ ID NO 12: EVQLVESGGG",
+                                  "Ab1 VL SEQ ID NO 99"], 4):
+            self.case.page["lines"].append({"line_id": f"p0001-l{n:04d}", "text": text, "bbox": [40, 500 + n, 550, 510 + n]})
+        self.case.write_inputs()
+
+        class RichProvider(ScriptedProvider):
+            def generate(self, stage, instructions, payload):
+                result, meta = super().generate(stage, instructions, payload)
+                rows = {r[6]: r[0] for r in payload["sources"]}
+                for region, seq, text, value in [
+                    ("CDRH1", 11, "Ab1 CDRH1 SEQ ID NO 11: GFTFSSYA", "GFTFSSYA"),
+                    ("FRH1", 12, "Ab1 FRH1 SEQ ID NO 12: EVQLVESGGG", "EVQLVESGGG")]:
+                    sid = rows[text]
+                    result["links"].append({"item": "Ab1", "region": region, "seq": seq, "name": None, "refs": [sid]})
+                    result["sequences"].append({"region": region, "seq": seq, "name": None,
+                        "parts": [{"s": sid, "start": value[:4], "end": value[-4:]}], "refs": [sid]})
+                result["links"].append({"item": "Ab1", "region": "VL", "seq": 99, "name": None,
+                    "refs": [rows["Ab1 VL SEQ ID NO 99"]]})
+                sid = rows["Table 1. Binding inhibition IC50 by ELISA"]
+                result["annotations"] = [{"subject_type": "experiment", "subject": "e1", "category": "method",
+                    "value": "ELISA", "refs": [sid]}, {"subject_type": "experiment", "subject": "e1", "category": "purpose",
+                    "value": "blocking", "refs": [sid]}]
+                result["experiments"][0].update(label="Binding inhibition", protocol="binding_method")
+                return result, meta
+
+        with patch("dataagent.run_sda.run_from_ocr", side_effect=self.seed), \
+             patch("dataagent2.studio_pipeline.Provider", RichProvider):
+            report = run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
+                table_ocr=self.case.table_path, extract_sequences=False)
+        self.assertNotEqual(report["status"], "failed", report["errors"])
+        template = json.loads((self.output / "template.completed.json").read_text())
+        ab = next(e for e in template["entities"] if e["name"] == "Ab1")
+        self.assertEqual(ab["VH"]["CDRH1"]["value"], "GFTFSSYA")
+        self.assertEqual(ab["VH"]["FRH1"]["value"], "EVQLVESGGG")
+        self.assertEqual(ab["VL"]["seq_id"]["value"], 99)
+        self.assertIsNone(ab["VL"]["sequence"]["value"])
+        self.assertTrue(template["relation_index"]["links"])
+        bundle = Workspace(self.root)._build("DOC", self.output, self.root)
+        row = next(r for r in bundle["records"] if r["antibody_id"] == "Ab1")
+        self.assertEqual(row["experiment_group"], "Binding inhibition")
+        self.assertEqual(row["assay_protocol_id"], "binding_method")
+        self.assertEqual({k["category"] for k in row["assay_keywords"]}, {"method", "purpose"})
+        self.assertTrue(all(k["evidence"] for k in row["assay_keywords"]))
+        self.assertTrue(any(s.get("region") == "FRH1" and s["seq_id"] == 12 for s in row["sda_sources"]))
+        self.assertTrue(any(s.get("region") == "CDRH1" and s["seq_id"] == 11 for s in row["sda_sources"]))
+        self.assertTrue(any(s.get("region") == "VL" and s["seq_id"] == 99 and s["sequence_status"] == "missing" for s in row["sda_sources"]))
 
     def test_three_letter_sequence_export_preserves_printed_provenance(self):
         from dataagent2.sequence_notation import THREE_LETTER

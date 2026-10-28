@@ -36,11 +36,16 @@ def compact(value):
 
 
 def experiment_keywords(experiment, observation, groups):
-    """Display only supported species and assay systems; endpoints have their own column."""
+    """Preserve cited experiment labels and legacy supported species/system labels."""
     supplied = [*experiment.get("KEYWORDS", []), *experiment.get("TAGS", []),
                 *observation.get("keywords", [])]
-    output = []
+    output = [copy.deepcopy(tag) for tag in experiment.get("ANNOTATIONS", [])
+              if isinstance(tag, dict) and tag.get("evidence") and tag.get("category") and tag.get("key")]
     for category, group, field in (("species", "species", "SPECIES"), ("system", "systems", "SYSTEM")):
+        if experiment.get("ANNOTATIONS") and not experiment.get(field):
+            continue
+        if any(tag["category"] in (("species", "antigen_species") if category == "species" else (category,)) for tag in output):
+            continue
         raw = experiment.get(field) or []
         values = re.split(r"[,，;；、|]", raw) if isinstance(raw, str) else list(raw)
         if not values:
@@ -55,6 +60,45 @@ def experiment_keywords(experiment, observation, groups):
                     "label_zh": "human" if definition["key"] == "human" else definition.get("label_zh", definition["key"]),
                     "label_en": definition.get("label_en", definition["key"])})
     return output
+
+
+def sequence_graph_sources(entity, tables):
+    """Project the canonical sequence slots and mapping-only nodes into review evidence."""
+    from dataagent2.structure import CDR_REGIONS, FR_REGIONS, parent_region
+    links = {link["field_path"]: link["seq_id"] for link in entity.get("sequence_links", [])}
+    nodes = []
+    regions = [("VH", "VH", "sequence"), ("VL", "VL", "sequence"),
+               *((r, parent_region(r), r) for r in (*CDR_REGIONS, *FR_REGIONS)),
+               ("H_CHAIN", "H_CHAIN", "sequence"), ("L_CHAIN", "L_CHAIN", "sequence")]
+    for region, parent, field in regions:
+        slot = entity.get(parent, {}).get(field, {})
+        number = entity.get(parent, {}).get("seq_id", {}) if field == "sequence" else links.get(parent + "." + field, {})
+        if not slot_value(slot) and slot_value(number) is None and number.get("status") != "conflict":
+            continue
+        scope = ("heavy_cdr" if "H" in region else "light_cdr") if region in CDR_REGIONS else (
+            "heavy_framework" if "H" in region else "light_framework") if region in FR_REGIONS else (
+            "variable_heavy" if region == "VH" else "variable_light" if region == "VL" else
+            "full_heavy_chain" if region == "H_CHAIN" else "full_light_chain")
+        citations = list(flatten_provenance(slot.get("provenance", []) + number.get("provenance", [])))
+        citations += [p for candidate in number.get("candidates", []) for p in flatten_provenance(candidate.get("provenance", []))]
+        for p in citations:
+            sid = p.get("table_id")
+            page = p.get("page") or p.get("pdf_page") or tables.get(sid, {}).get("page")
+            ref = p.get("ref") or p.get("source_ref") or p.get("source_id") or p.get("evidence_ref") or ""
+            match = re.search(r":R(\d+)C(\d+)$", str(ref))
+            if not sid and not page:
+                continue
+            node = {"kind": scope, "scope": scope, "chain": "VH" if parent in ("VH", "H_CHAIN") else "VL",
+                "region": region, "seq_id": slot_value(number), "label": region,
+                "table_id": sid or f"text:p{page}:{ref}", "page": page,
+                "row_index": int(match[1]) if match else p.get("row"),
+                "col_index": int(match[2]) if match else p.get("column"),
+                "source_bbox": p.get("bbox_pdf") or p.get("bbox"),
+                "detail": p.get("quote") or p.get("text", ""), "mapping_status": number.get("status"),
+                "sequence_status": slot.get("status"), "evidence_role": p.get("evidence_role", "supporting")}
+            if node not in nodes:
+                nodes.append(node)
+    return nodes
 
 
 def attach_table_text_comparison(record, ocr):
@@ -355,14 +399,17 @@ class Workspace:
                           "vh": slot_value(entity.get("VH", {}).get("sequence")),
                           "vl": slot_value(entity.get("VL", {}).get("sequence")),
                           "ic50": value, "ic50_unit": unit, "assay_endpoint": metric,
-                          "experiment_group": metric or "",
+                          "experiment_group": experiment.get("NAME") if "PROTOCOL_IDS" in experiment else metric or "",
                           "experiment_name": experiment.get("NAME") or observation.get("label"),
                           "assay_condition": slot_value(observation.get("conditions")),
                           "antigen_target": slot_value(observation.get("target")),
                           "assay_method": observation.get("method") or slot_value(observation.get("experiment_type")),
                           "experiment_id": observation.get("exp_id"),
+                          "assay_protocol_id": ", ".join(experiment.get("PROTOCOL_IDS", [])),
+                          "donor_id": source.get("donor"), "replicate_id": source.get("replicate"),
+                          "entity_annotations": copy.deepcopy(entity.get("annotations", [])),
                           "assay_keywords": keywords,
-                          "species": [k["key"] for k in keywords if k["category"] == "species"],
+                          "species": [k["key"] for k in keywords if k["category"] in ("species", "antigen_species")],
                           "assay_system": next((k["key"] for k in keywords if k["category"] == "system"), None),
                           "entity_aliases": entity.get("aliases", []), "construct_type": entity.get("construct_type"),
                           "evidence": [], "sda_sources": [],
@@ -402,16 +449,21 @@ class Workspace:
                             if cited_cell:
                                 ri, ci = map(int, cited_cell.groups())
                             record["sda_sources"].append({"kind": "variable_heavy" if chain == "VH" else "variable_light",
+                                                           "scope": "variable_heavy" if chain == "VH" else "variable_light",
+                                                           "evidence_role": provenance.get("evidence_role", "direct_variable"),
                                                            "table_id": sid, "page": tables[sid].get("page"),
                                                            "row_index": ri, "col_index": ci, "chain": chain,
                                                            "label": chain, "detail": provenance.get("quote", "")})
                         elif provenance.get("page") or provenance.get("pdf_page"):
                             page_number = provenance.get("page") or provenance.get("pdf_page")
                             record["sda_sources"].append({"kind": "variable_heavy" if chain == "VH" else "variable_light",
+                                                           "scope": "variable_heavy" if chain == "VH" else "variable_light",
+                                                           "evidence_role": provenance.get("evidence_role", "direct_variable"),
                                                            "table_id": f"text:p{page_number}:{provenance.get('line_id', '')}",
                                                            "page": page_number, "chain": chain, "label": chain,
                                                            "source_bbox": provenance.get("bbox_pdf") or provenance.get("bbox"),
                                                            "detail": provenance.get("quote", "")})
+                record["sda_sources"].extend(sequence_graph_sources(entity, tables))
                 record["link_status"] = "linked" if record["vh"] and record["vl"] else "unmatched"
                 evaluation = entity.get("sequence_evaluation", {})
                 for tool in ("agent", "anarci", "esm2"):

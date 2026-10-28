@@ -141,12 +141,27 @@ def load_input(native_dir, reference_result=None):
                       "seq": link["seq_id"], "name": None, "refs": refs(link.get("evidence_refs", [])),
                       "original_refs": link.get("evidence_refs", []), "origin": "template_seed"})
     experiments = []
+    annotations = []
     for profile in template.get("assay_template", {}).get("region_profiles", []):
         experiments.append({"id": profile.get("experiment_id") or profile["protocol_id"],
             "table": profile["table_id"], "region_id": profile.get("region_id"),
             "method": profile.get("method"), "target": None,
             "species": ",".join(profile.get("species", [])), "system": profile.get("system"),
-            "conditions": None, "refs": refs(profile.get("evidence_refs", [])), "origin": "template_seed"})
+            "conditions": profile.get("conditions"), "refs": refs(profile.get("evidence_refs", [])), "origin": "template_seed",
+            "label": profile.get("label"), "protocol": profile.get("protocol_id")})
+        experiment = experiments[-1]
+        keywords = list(profile.get("keywords", []))
+        keywords += [{"category": category, "key": value} for category, values in (
+            ("method", [profile.get("method")]), ("system", [profile.get("system")]),
+            ("antigen_species", profile.get("species", [])), ("endpoint", profile.get("endpoints", [])))
+                     for value in values if value]
+        for keyword in keywords:
+            if isinstance(keyword, dict) and keyword.get("key") and experiment["refs"]:
+                category = {"species": "antigen_species"}.get(keyword.get("category"), keyword.get("category", "other"))
+                from .structure import TAG_CATEGORIES
+                annotations.append({"subject_type": "experiment", "subject": experiment["id"],
+                    "category": category if category in TAG_CATEGORIES else "other", "value": keyword["key"],
+                    "refs": experiment["refs"], "origin": "template_seed"})
     observations = []
     measurements = read(native / "assay_measurements.json", [])
     name_index = defaultdict(set)
@@ -177,7 +192,8 @@ def load_input(native_dir, reference_result=None):
             for e in reference.get("entities", []) for c in ("VH", "VL")),
         "current_reference_entities": len(reference.get("entities", [])),
         "note": "Historical model total excludes local OCR; later repaired reference is not ground truth. Shared stages are reused, not rerun."}
-    seed = {"entities": entities, "links": links, "experiments": experiments, "observations": observations}
+    seed = {"entities": entities, "links": links, "experiments": experiments, "observations": observations,
+            "annotations": annotations}
     signature = digest({"document_id": document_id, "sources": sources, "seed": seed})
     return {"document_id": document_id, "pdf_sha256": prepared.get("pdf_sha256"),
             "sources": sources, "seed": seed, "signature": signature,

@@ -1,7 +1,8 @@
 """Small model contracts. Source text and document coordinates stay on the host."""
 
-REGIONS = ["VH", "VL", "H_CHAIN", "L_CHAIN", "CH", "CL", "HCDR1", "HCDR2", "HCDR3",
-           "LCDR1", "LCDR2", "LCDR3", "scFv", "linker", "other"]
+from .structure import CHAIN_REGIONS, REGION_ALIASES, TAG_CATEGORIES
+
+REGIONS = list(dict.fromkeys([*CHAIN_REGIONS, *REGION_ALIASES]))
 TAGS = ["entity", "sequence_mapping", "sequence_definition", "experiment",
         "measurement", "structure", "alias", "uncertain", "other"]
 
@@ -32,11 +33,17 @@ SCHEMA = obj({
                              "parts": array(obj({"s": I, "start": S, "end": S})),
                              "refs": REFS})),
     "experiments": array(obj({"id": S, "table": N, "method": N, "target": N,
-                               "species": N, "system": N, "conditions": N, "refs": REFS})),
+                               "species": N, "system": N, "conditions": N, "refs": REFS,
+                               "label": N, "protocol": N, "region_id": N})),
     "observations": array(obj({"item": S, "experiment": N, "metric": S,
-                                "value": S, "unit": N, "s": I, "refs": REFS})),
+                                "value": S, "unit": N, "s": I, "refs": REFS,
+                                "condition": N, "donor": N, "replicate": N})),
+    "annotations": array(obj({"subject_type": {"type": "string", "enum": ["item", "experiment"]},
+                               "subject": S, "category": {"type": "string", "enum": list(TAG_CATEGORIES)},
+                               "value": S, "refs": REFS})),
     "relations": array(obj({"subject": S, "relation": {"type": "string", "enum": [
-        "same_entity", "variant_of", "component_of", "has_component", "tested_in"]},
+        "same_entity", "variant_of", "humanized_from", "back_mutated_from", "affinity_matured_from",
+        "component_of", "has_component", "tested_in"]},
                              "object": S, "refs": REFS})),
     "issues": array(obj({"kind": {"type": "string", "enum": [
         "missing_mapping", "missing_definition", "boundary", "ocr_conflict",
@@ -51,7 +58,10 @@ Source rows are [source_integer,PDF_page,kind,table_id_or_null,row_or_null,colum
 The host stores original text, page, coordinates and source identity; cite only source integers in refs.
 Mention significant relevant paragraphs/rows, not every OCR line. Tags are MULTI-label.
 items lists compact item IDs; new names must be declared in new_items with literal name evidence.
-seed_dataset is the complete rough table dataset shared unchanged by every Reader chunk.
+relation_index is a compact projection of the initial source-backed graph. Each parallel chunk
+shares the same initial snapshot. It omits residue strings and measurement values deliberately.
+The outer items catalogue contains ALL known IDs/names; the index contains relevant item relationships,
+sequence definitions (including unassigned ones), experiments, labels and local measurement addresses.
 Use it as the starting point: complete missing sequence mappings/definitions and experimental facts
 using this chunk's sources. Return additions and source-supported conflicts, not a replacement dataset.
 Its entities, links, experiments and measurements are prior context, not new evidence. Cite only
@@ -63,6 +73,10 @@ evidence. Explicit aliases/format equivalence can use same_entity; a mutation is
 Include controls and newly named measured constructs. Do not invent chains for a molecule with none.
 links means named construct + chain/domain -> SEQ ID or explicitly named unnumbered definition.
 Full heavy/light chains use H_CHAIN/L_CHAIN, NEVER VH/VL. CDRs and constant domains are not VH/VL.
+Extract each explicitly disclosed CDRH1-3, CDRL1-3, FRH1-4 and FRL1-4 independently, even if
+the complete VH/VL is absent. HCDR1/CDRH1 and HFR1/FRH1 are equivalent spellings; prefer CDRH1/FRH1.
+Directly disclosed VH/VL is primary variable-region evidence. Whole H/L, CDR and FR are separate
+supporting definitions; never concatenate them or invent numbering boundaries to fill a VH/VL.
 Use CH/CL for explicitly labeled heavy/light constant regions.
 source_sequence_ocr contains status/error for addressed table sources. Failed/stale sources are
 audit-only: do not use their old text for sequence definitions. Report an ocr_conflict referencing
@@ -89,9 +103,22 @@ Table cell characters take priority over a differing page OCR of the SAME sequen
 ocr_conflict issue; this is an OCR source convention, not independent verification of PDF truth.
 experiments identifies method/target/species/system/conditions and explicit result-table associations.
 Use stable short IDs based on the example/subsection, reusing supplied experiment IDs where supported.
+label is a readable experiment name; protocol identifies the reusable method, not a physical run.
+Preserve region_id from the index for table column/row groups. Same method, tags, endpoint or table
+does NOT prove the same experiment. Reuse one ID for an explicitly continued experiment; keep distinct
+source-supported experiment scopes separate. Never invent independent runs or replicate numbers.
+annotations attaches source-supported multi-label descriptors to an item or experiment. Extract
+format/isotype/valency, discovery status/strategy/organism/platform/engineering, target/type/gene,
+antigen species (separate from cell host), purpose/method/system/cell model/sample/readout/endpoint,
+epitope type/evidence, function and competition when disclosed. Use concise canonical terms with refs;
+unknown terms retain literal wording. A vocabulary or an existing tag is NOT new evidence.
+Do not confuse antibody discovery methodology with the assay used to measure a result.
 observations only for actual measured endpoints. value is an EXACT source substring, unit requires
 source support; concentrations, assay input amounts and ratios must not become antibody measurements.
 Reuse existing observations by source address; do not retell whole tables already represented in seeds.
+An existing addressed measurement may be returned to supply a newly evidenced experiment association;
+keep its value and unit unchanged. condition/donor/replicate describe that observation only and require
+explicit support in refs. Different conditions, donors or repeats stay distinct even with equal values.
 Cross-paragraph context belongs to the current section; source refs must support each association.
 Earlier or later chunks can supply definitions. Do not guess missing information to finish a chunk.
 All categories can coexist; a chunk without relevant facts can return all empty arrays.

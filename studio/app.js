@@ -3696,11 +3696,11 @@ function buildEvidence(record, field) {
 
   const add = (item) => {
     if (!item?.table_id) return;
-    const locationKey = `${item.kind}:${item.table_id}:${item.row_index ?? ""}:${item.col_index ?? ""}:${item.chain ?? ""}:${item.seq_id ?? ""}`;
+    const locationKey = `${item.kind}:${item.table_id}:${item.row_index ?? ""}:${item.col_index ?? ""}:${item.chain ?? ""}:${item.seq_id ?? ""}:${item.region ?? ""}`;
     // A shared cell can have conflicting interpretations; keep those reviewable.
     const key = item.kind === "assay" ? `${locationKey}:${JSON.stringify([
       item.value_ref, item.endpoint, item.value, item.unit, item.operator, item.measurement_id,
-      item.experiment_id, item.assay_protocol_id, item.condition_label, item.measurement_label, item.donor_id,
+      item.experiment_id, item.assay_protocol_id, item.condition_label, item.measurement_label, item.donor_id, item.replicate_id,
     ])}` : locationKey;
     const existingIndex = evidence.findIndex((current) => current.key === key);
     if (existingIndex >= 0) {
@@ -3759,6 +3759,7 @@ function buildEvidence(record, field) {
     add({
       kind,
       scope,
+      region: item.cdr_name || item.region || "",
       label: `${sequenceScopeLabel(scope, item.chain)}${item.cdr_name ? ` · ${item.cdr_name}` : ""} · SEQ ${item.seq_id}`,
       detail: t("viewer.row", { row: Number(item.row_index) + 1 }),
       table_id: item.table_id,
@@ -3804,6 +3805,7 @@ function buildEvidence(record, field) {
       condition_label: assay.condition_label ?? record.assay_condition ?? "",
       measurement_label: assay.measurement_label ?? record.assay_measurement_label ?? "",
       donor_id: assay.donor_id ?? record.donor_id ?? "",
+      replicate_id: assay.replicate_id ?? record.replicate_id ?? "",
       species: assay.species ?? record.species ?? [],
       assay_method: assay.assay_method ?? record.assay_method ?? "",
       assay_system: assay.assay_system ?? record.assay_system ?? "",
@@ -3898,9 +3900,9 @@ function buildReviewParameters(record) {
         || assayKeywordIdentity(a).localeCompare(assayKeywordIdentity(b)));
       const keywordIds = keywords.map(assayKeywordIdentity).sort();
       const target = text(item.antigen_target);
-      const groupKey = JSON.stringify([target, keywordIds]);
+      const groupKey = JSON.stringify([target, keywordIds, text(item.experiment_id) || `source:${item.table_id}`]);
       if (!groups.has(groupKey)) {
-        groups.set(groupKey, {label: [target, keywords.length
+        groups.set(groupKey, {label: [item.experiment_group, target, keywords.length
           ? keywords.map(localizedAssayKeyword).join(" · ") : t("map.assayUnclassified")].filter(Boolean).join(" · "), leaves: []});
       }
       // Keywords describe an assay type, not a unique observation. Only an
@@ -3913,7 +3915,7 @@ function buildReviewParameters(record) {
         : ["source", item.table_id, item.value_ref || item.key];
       const key = JSON.stringify([groupKey, identity, endpoint, item.value, text(item.unit), item.operator,
         text(item.experiment_id), text(item.assay_protocol_id), text(item.condition_label),
-        text(item.measurement_label), text(item.donor_id), (Array.isArray(item.species) ? [...item.species] : [item.species]).sort(),
+        text(item.measurement_label), text(item.donor_id), text(item.replicate_id), (Array.isArray(item.species) ? [...item.species] : [item.species]).sort(),
         text(item.assay_method), text(item.assay_system)]);
       if (!measurements.has(key)) {
         const label = `${endpoint === "KD" ? "Kd" : endpoint} · ${item.operator === "=" ? "" : item.operator}${item.value ?? "—"} ${item.unit}`.trim();
@@ -3949,8 +3951,12 @@ function buildReviewMap(record) {
       all.filter((item) => item.scope === (field === "vl" ? "full_light_chain" : "full_heavy_chain"))),
     leaf(t(`map.${field === "vl" ? "constantLight" : "constantHeavy"}`), field,
       all.filter((item) => item.scope === "constant_region" && item.chain === chain)),
-    ...["heavy_cdr", "light_cdr"].filter((scope) => all.some((item) => item.scope === scope && item.chain === chain))
-      .map((scope) => leaf(sequenceScopeLabel(scope), field, all.filter((item) => item.scope === scope && item.chain === chain))),
+    ...Array.from({length: 3}, (_, i) => `CDR${chain === "VH" ? "H" : "L"}${i + 1}`)
+      .concat(Array.from({length: 4}, (_, i) => `FR${chain === "VH" ? "H" : "L"}${i + 1}`))
+      .filter((region) => all.some((item) => item.region === region && item.chain === chain))
+      .map((region) => leaf(region, field, all.filter((item) => item.region === region && item.chain === chain))),
+    ...["heavy_cdr", "light_cdr"].filter((scope) => all.some((item) => item.scope === scope && item.chain === chain && !item.region))
+      .map((scope) => leaf(sequenceScopeLabel(scope), field, all.filter((item) => item.scope === scope && item.chain === chain && !item.region))),
   ];
   const parameters = buildReviewParameters(record);
   const nameSources = all.filter((item) => item.kind === "entity_header");
@@ -3999,8 +4005,9 @@ function renderEvidenceStrip() {
       ${leaf.measurement ? `<small class="map-source-count">${escapeHtml(t("map.sourceCount", {count: leaf.sources.length}))}</small>` : ""}
       <div class="map-source-list">${nodes}</div></div>`;
   };
+  const itemLabels = [...new Set((record.entity_annotations || []).map((item) => item.value).filter(Boolean))].join(" · ");
   dom.evidenceStrip.innerHTML = `<div class="review-map-tree" style="zoom:${state.mapZoom}">
-    <div class="map-root"><small>${escapeHtml(t("map.root"))}</small><strong>${escapeHtml(effectiveValue(record, "antibody_id") || "—")}</strong></div>
+    <div class="map-root"><small>${escapeHtml(t("map.root"))}</small><strong>${escapeHtml(effectiveValue(record, "antibody_id") || "—")}</strong>${itemLabels ? `<small>${escapeHtml(itemLabels)}</small>` : ""}</div>
     <div class="map-branches">${buildReviewMap(record).map((group, index) => {
       const collapsed = state.mapCollapsedGroups.has(group.id);
       return `<section class="map-branch map-branch-${group.id}">

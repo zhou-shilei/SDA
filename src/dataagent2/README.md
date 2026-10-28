@@ -10,11 +10,52 @@ Studio 上传现在可选择 dataagent2。集成适配器 `studio_pipeline.py` �
 OCR 来源和原图样式复核固定后，先完成表格分类/模板并生成粗略 dataset，再启动全文 Reader。
 Reader 默认有多少个 chunk 就同时发起多少个独立调用；不再继承旧序列 Agent 的 3 路默认值、
 8 路上限或 `DATASETAGENT_SEQUENCE_WORKERS`。
-每个 chunk 的请求都在 `seed_dataset` 中携带同一份完整粗略 dataset（实体、编号映射、实验和测量），
-以及当前块的来源和边界上下文，用正文证据补全并输出新增事实或冲突。
+每个 chunk 携带全局名称目录和 `relation_index`：相关实体的链编号映射、序列定义状态、
+实验目录及本块测量地址；完整序列和已存测量数值不在索引中重复发送。
+索引来自同一个初始快照，结合当前块来源和边界上下文，输出新增事实或冲突。
 程序从这份 dataset 初始化 Ledger，按文档顺序合并各 chunk 的补充，再生成缺口问题。
 各 chunk 不接收其他 chunk 的增量结果。单独运行 benchmark 时种子已存在，直接并发补全。
 本次模型用量包含实际重跑的共享阶段及新版请求，不加入 benchmark 的历史基线成本。
+
+## 关系索引、区域和标签
+
+`structure.py` 统一 Reader、Ledger 和网页的区域名。完整保留 VH/VL、H/L、CH/CL/CH1–4、
+CDRH1–3/CDRL1–3、FRH1–4/FRL1–4，以及 VHH/scFv/Fab/Fc/linker 等构件。
+兼容 HCDR/HFR 等原文写法并保留 `original_region`。CDR/FR 可独立披露，不填充完整 VH/VL；
+本版不新增程序编号或计算裁剪。已有原图边界提取标记为 `derived_variable`，
+原文明示的 VH/VL 标记为 `direct_variable`，辅助区域为 `supporting`。
+`mapping_status`、`mapping_seq_ids` 与序列解析状态独立；未知 VH 的完整重链候选编号放在
+`source_chain_seq_ids`，不冒充 VH 自身编号。原始 `links`、各实体 `sequence_links` 和
+完整 `relation_index` 随 dataset 保留，未解析的编号和短 CDR/FR 也会进入网页证据节点。
+
+标签覆盖 POISK 的格式、发现状态/策略、来源物种/平台/工程、靶点、表位与竞争维度，
+并补充同型/价数及实验目的、抗原物种、细胞宿主物种、体系、模型、样本、读出、终点。
+`TAG_VOCABULARY` 是标准写法示例，不是事实证据；允许保留有来源的新术语。
+`annotations` 每项必须关联 item/experiment、category、value、refs，未知实验的标签会被拒绝。
+标签依据保留到导出和网页筛选。抗体发现方法与实验测量方法是独立类别。
+
+实验 identity 与分类标签分离：`id` 标识原文支持的实验范围，`protocol` 是可复用方法，
+`region_id` 保留表格分区。只有同表唯一实验，或独立表头引用唯一指向实验时，主机才补归属；
+同标签/同指标不合并实验。同一来源的显式实验归属冲突会报告并挂起；
+不同 condition/donor/replicate 的结果独立保留，未知重复次数不猜测。
+网页按 experiment ID 分组，条件/供者/重复号参与测量身份。
+
+本版修改了请求与响应契约，旧版本请求缓存不能冒充新版本命中。请使用新的运行目录；
+原有运行产物不被迁移或重写。Reader 并行和后续问答预算策略沿用现有配置，
+此次没有宣称消除重复阅读或已验证抽取质量提升。
+
+审阅 CSV 同步导出全部区域；`*_seq_ids` 保存域自身的编号，`*_source_chain_seq_ids`
+单独保存完整链候选编号。实验 CSV 保留标签依据、方案和区域，测量 CSV 保留条件、供者和重复号。
+
+### 本次离线验证
+
+148 项 Python 回归及 3 项 Node 专项检查通过，覆盖并行 Reader、缓存重放、字符校验、
+短 CDR/FR、未解析映射、同表多实验、实验归属冲突和供者/条件区分。
+另用 `49-WOother` 保存的 63 个旧 Reader 响应回放当前主机合并规则：逐项核对原文一致性，
+不调用模型、不修改历史产物，230 条测量和 32 条已支持的 VH/VL 保持不变；
+未关联实验的测量从 122 条降到 22 条。新的 SDA 导出也保留全部 230 条测量。
+同一篇文档的 Reader payload JSON 总字符数从 3,712,143 降到 2,583,410（约 30.4%）；
+这不是 token 或耗时实测，也不是人工核验的准确率。新提示词的抽取质量仍需要独立验证。
 完整 PDF 命令可指定 `src/document/run_document_pdf.py ... --extraction-mode dataagent2`；
 已有 OCR 可用 `src/graph.py ... --extraction-mode dataagent2`。网页集成依赖 SDA 完整运行环境。
 两个入口均可用 `--sequence-workers 0 --llm-workers 6 --reader-chunk-chars 24000`。
