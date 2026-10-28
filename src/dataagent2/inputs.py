@@ -9,6 +9,25 @@ import re
 
 from .provider import compact, digest
 
+CHUNKING_REVISION = 2
+
+
+def split_text(text, max_chars=8000):
+    """Lossless spans, preferring paragraph/line/word boundaries near the limit."""
+    start = 0
+    while len(text) - start > max_chars:
+        stop = start + max_chars
+        floor = start + max_chars // 2
+        for pattern in (r"\n\s*\n", r"\n", r"\s+"):
+            matches = list(re.finditer(pattern, text[floor:stop]))
+            if matches:
+                stop = floor + matches[-1].end()
+                break
+        yield start, text[start:stop]
+        start = stop
+    if start < len(text):
+        yield start, text[start:]
+
 
 def read(path, default=None):
     path = Path(path)
@@ -42,7 +61,7 @@ def load_input(native_dir, reference_result=None):
         if not isinstance(text, str) or not text.strip():
             return
         # Preserve every character of long OCR blocks, with reversible offsets.
-        segments = [(0, text)] if len(text) <= 9000 else [(i, text[i:i + 8000]) for i in range(0, len(text), 8000)]
+        segments = split_text(text)
         for start, value in segments:
             sid = len(sources) + 1
             sources[sid] = {"id": sid, "source_ref": ref, "text": value, "page": page,
@@ -182,38 +201,95 @@ def source_ocr_status(sources, ids):
 def make_chunks(data, max_chars=24000, overlap_chars=700):
     if max_chars < 3000:
         raise ValueError("Chunk budget must be at least 3000 characters")
+    if overlap_chars < 0:
+        raise ValueError("Overlap budget must be nonnegative")
     sources = data["sources"]
     ordered = sorted(sources, key=lambda k: (sources[k]["page"] or 0,
-                    sources[k]["kind"] != "text", sources[k]["table_id"] or "", k))
-    chunks, current, size = [], [], 0
+        sources[k]["kind"] != "text", sources[k]["table_id"] or "",
+        sources[k]["row"] if sources[k]["row"] is not None else -1,
+        sources[k]["column"] if sources[k]["column"] is not None else -1, k))
+    sizes = {sid: len(compact(source_row(sources[sid]))) + 1 for sid in ordered}
+    context_budget = min(overlap_chars + 2000, max_chars // 4) if overlap_chars else 0
+    # One extra character accounts for the source array's brackets/commas.
+    source_budget = max_chars - 1
+    core_budget = source_budget - context_budget
+
+    # Keep a small table together. For larger tables, keep physical rows
+    # together; only a row larger than the full budget may split between cells.
+    units = []
     for sid in ordered:
-        n = len(compact(source_row(sources[sid])))
-        if current and size + n > max_chars:
+        source = sources[sid]
+        key = (source["page"], source["table_id"]) if source["table_id"] else ("text", sid)
+        if units and units[-1][0] == key:
+            units[-1][1].append(sid)
+        else:
+            units.append((key, [sid]))
+    groups = []
+    for _, ids in units:
+        if sum(sizes[s] for s in ids) <= core_budget or not sources[ids[0]]["table_id"]:
+            groups.append(ids)
+            continue
+        rows = []
+        for sid in ids:
+            row = sources[sid]["row"]
+            if rows and row is not None and sources[rows[-1][0]]["row"] == row:
+                rows[-1].append(sid)
+            else:
+                rows.append([sid])
+        for row in rows:
+            groups.extend([[sid] for sid in row] if sum(sizes[s] for s in row) > source_budget else [row])
+
+    chunks, current, size = [], [], 0
+    for group in groups:
+        n = sum(sizes[s] for s in group)
+        first = sources[group[0]]
+        new_page = current and sources[current[-1]]["page"] != first["page"]
+        heading = first["kind"] == "text" and bool(re.match(
+            r"^\s*(?:(?i:examples?\s+\d+\b)|实施例\s*\d+|[A-Z][A-Z \d-]{4,70}$)", first["text"]))
+        if current and (size + n > core_budget or ((new_page or heading) and size >= core_budget * .65)):
             chunks.append({"id": f"c{len(chunks) + 1}", "core": current})
             current, size = [], 0
-        current.append(sid)
+        current.extend(group)
         size += n
     if current:
         chunks.append({"id": f"c{len(chunks) + 1}", "core": current})
-    previous = []
+
+    positions = {sid: i for i, sid in enumerate(ordered)}
+    headers = defaultdict(list)
+    for sid in ordered:
+        source = sources[sid]
+        if source["table_id"] and source["row"] in (0, 1):
+            headers[source["table_id"]].append(sid)
     for chunk in chunks:
-        context, used = [], 0
-        for sid in reversed(previous[-12:]):
-            n = len(compact(source_row(sources[sid])))
-            if used + n > overlap_chars:
-                break
-            context.insert(0, sid)
-            used += n
-        # If a table crosses a chunk boundary, include its original headers.
-        tables = {sources[k]["table_id"] for k in chunk["core"] if sources[k]["table_id"]}
-        for sid in ordered:
-            s = sources[sid]
-            if s["table_id"] in tables and s["row"] in (0, 1) and sid not in chunk["core"] and sid not in context:
-                n = len(compact(source_row(s)))
-                if used + n <= overlap_chars + 2000:
-                    context.append(sid)
-                    used += n
-        chunk["context"] = context
-        previous = chunk["core"]
+        core = set(chunk["core"])
+        remaining = min(context_budget, max(0, source_budget - sum(sizes[s] for s in core)))
+        context = []
+
+        def include(sid, budget):
+            nonlocal remaining
+            if sid in core or sid in context:
+                return 0
+            if sizes[sid] <= min(remaining, budget):
+                context.append(sid)
+                remaining -= sizes[sid]
+                return sizes[sid]
+            return 0
+
+        # Headers take priority over prose overlap for a continuation table.
+        for table in dict.fromkeys(sources[s]["table_id"] for s in chunk["core"] if sources[s]["table_id"]):
+            for sid in headers[table]:
+                include(sid, remaining)
+        # Supply both sides of a boundary without requiring another chunk's
+        # model response. Every source still has exactly one owning core.
+        for neighbors in (reversed(ordered[max(0, positions[chunk["core"][0]] - 12):positions[chunk["core"][0]]]),
+                          iter(ordered[positions[chunk["core"][-1]] + 1:positions[chunk["core"][-1]] + 13])):
+            used = 0
+            for sid in neighbors:
+                used += include(sid, max(0, overlap_chars // 2 - used))
+        chunk["context"] = sorted(context, key=positions.__getitem__)
+        chunk["source_characters"] = 1 + sum(sizes[s] for s in chunk["core"] + context)
+        # An indivisible source may exceed a deliberately small user budget.
+        # Preserve it and report it, rather than silently truncate its text.
+        chunk["oversized_source_ids"] = [s for s in chunk["core"] if sizes[s] > source_budget]
     assert sorted(k for c in chunks for k in c["core"]) == sorted(sources)
     return chunks

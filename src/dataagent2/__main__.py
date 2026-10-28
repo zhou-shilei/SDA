@@ -19,18 +19,20 @@ def main():
     parser.add_argument("--model", default="gpt-6.1-sol")
     parser.add_argument("--effort", default="xhigh")
     parser.add_argument("--chunk-chars", type=int, default=24000)
-    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--workers", type=int, default=0,
+                        help="Reader concurrency; 0 (default) starts all chunks together")
     parser.add_argument("--document-workers", type=int, default=1)
     parser.add_argument("--max-questions", type=int, default=8)
     parser.add_argument("--question-chars", type=int, default=14000)
     parser.add_argument("--max-chunks", type=int, help="Smoke test only, not a full cost comparison")
     parser.add_argument("--timeout", type=int, default=600)
-    parser.add_argument("--request-interval", type=float, default=65,
+    parser.add_argument("--request-interval", type=float, default=0,
                         help="Minimum seconds between model attempt starts, shared across documents")
     parser.add_argument("--plan-only", action="store_true", help="Inspect input sizes; no model calls/token estimates")
     args = parser.parse_args()
-    if min(args.workers, args.document_workers, args.timeout) < 1 or args.max_questions < 0 or args.request_interval < 0:
-        parser.error("Worker counts/timeout must be positive, question budget nonnegative")
+    if (args.workers < 0 or min(args.document_workers, args.timeout) < 1
+            or args.max_questions < 0 or args.request_interval < 0):
+        parser.error("Reader workers/question budget/interval must be nonnegative; document workers/timeout must be positive")
     if args.native_dir and len(args.documents) != 1:
         parser.error("--native-dir requires exactly one document")
     args.output.mkdir(parents=True, exist_ok=True)

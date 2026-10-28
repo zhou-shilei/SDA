@@ -25,7 +25,10 @@ def main(argv=None):
     parser.add_argument("--llm-model")
     parser.add_argument("--llm-effort", choices=("low", "medium", "high", "xhigh", "max"))
     parser.add_argument("--llm-workers", type=int)
-    parser.add_argument("--sequence-workers", type=int)
+    parser.add_argument("--sequence-workers", type=int,
+                        help="dataagent2 默认同时调用所有 chunk（0）；正数显式限制并发")
+    parser.add_argument("--reader-chunk-chars", type=int, default=24000,
+                        help="dataagent2 每块来源字符预算，含边界上下文，最少 3000")
     parser.add_argument("--ocr-device", default=defaults.ocr_device, help="cpu 或 gpu:0 等单设备")
     parser.add_argument("--ocr-backend", choices=OCR_BACKENDS, default=defaults.ocr_backend)
     parser.add_argument("--reuse-table-ocr-from", help="复用指定目录的原始表格 OCR，严格校验身份与内容")
@@ -49,7 +52,7 @@ def main(argv=None):
     image_dir, output_dir = arguments.pop("image_dir"), arguments.pop("output_dir")
     dataagent_options = {key: arguments.pop(key) for key in (
         "structured_dir", "document_id", "dataagent_resume", "semantic_provider", "llm_model", "llm_effort",
-        "llm_workers", "sequence_workers")}
+        "llm_workers", "sequence_workers", "reader_chunk_chars")}
     if arguments["extraction_mode"] in {"dataagent", "dataagent2"}:
         if arguments["extraction_mode"] == "dataagent2":
             from dataagent2.studio_pipeline import run_studio_pipeline as run_dataagent_pipeline
@@ -65,6 +68,7 @@ def main(argv=None):
             resume=dataagent_options["dataagent_resume"], semantic_provider=dataagent_options["semantic_provider"],
             repair_rounds=arguments["document_repair_rounds"],
             extract_sequences=arguments["document_template_agent"] and arguments["template_agent_max_calls"] != 0,
+            **({"chunk_chars": dataagent_options["reader_chunk_chars"]} if arguments["extraction_mode"] == "dataagent2" else {}),
             **{key: dataagent_options[key] for key in ("llm_model", "llm_effort", "llm_workers", "sequence_workers")
                if dataagent_options[key] is not None})
     else:

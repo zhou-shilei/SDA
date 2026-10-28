@@ -7,11 +7,21 @@
 Studio 上传现在可选择 dataagent2。集成适配器 `studio_pipeline.py` 复用 SDA 的 OCR 输入、
 表格分类/模板与网页导出接口，再执行本目录的 Reader 和有限问答；不会执行旧序列 Agent 或修复。
 网页每次使用新运行目录，将原始新版结果保存在结果目录的 `dataagent2/`，并另外导出 SDA 审阅格式。
+OCR 来源和原图样式复核固定后，先完成表格分类/模板并生成粗略 dataset，再启动全文 Reader。
+Reader 默认有多少个 chunk 就同时发起多少个独立调用；不再继承旧序列 Agent 的 3 路默认值、
+8 路上限或 `DATASETAGENT_SEQUENCE_WORKERS`。
+每个 chunk 的请求都在 `seed_dataset` 中携带同一份完整粗略 dataset（实体、编号映射、实验和测量），
+以及当前块的来源和边界上下文，用正文证据补全并输出新增事实或冲突。
+程序从这份 dataset 初始化 Ledger，按文档顺序合并各 chunk 的补充，再生成缺口问题。
+各 chunk 不接收其他 chunk 的增量结果。单独运行 benchmark 时种子已存在，直接并发补全。
 本次模型用量包含实际重跑的共享阶段及新版请求，不加入 benchmark 的历史基线成本。
 完整 PDF 命令可指定 `src/document/run_document_pdf.py ... --extraction-mode dataagent2`；
 已有 OCR 可用 `src/graph.py ... --extraction-mode dataagent2`。网页集成依赖 SDA 完整运行环境。
+两个入口均可用 `--sequence-workers 0 --llm-workers 6 --reader-chunk-chars 24000`。
+`--sequence-workers 0`（默认）表示全部 chunk 同时调用；只有显式指定正数才限制 Reader 并发。
+后两个参数分别调整表格种子阶段并发和来源字符预算。
 
-代码及 29 项离线测试完成。实测记录见 [STATUS.md](benchmarks/live_20261026/STATUS.md)
+历史实测记录见 [STATUS.md](benchmarks/live_20261026/STATUS.md)
 及 BENCHMARK_REPORT.md；续跑期间的实时进度以每篇输出目录中的 progress.json
 和 token_usage.json 为准。服务曾返回 429，成功请求均已缓存。
 
@@ -23,6 +33,10 @@ Studio 上传现在可选择 dataagent2。集成适配器 `studio_pipeline.py` �
 2. 为 OCR 正文行和表格单元格建立本地整数地址。来源、页码、坐标和字符保存在
    `sources.json`。模型不复述这些字段，也不输出长解释或完整序列。
 3. 按文档顺序分块，每个来源恰好属于一个主块。少量相邻上下文和跨块表头可重复。
+   默认每块来源 JSON 预算 24000 字符，包含上下文预留；小表整体保留，大表优先按完整物理行拆分，
+   在已有块接近预算时优先使用页边界和实验标题边界。跨块附带预算内的表头和前后相邻正文。
+   超长 OCR 来源优先在段落、换行或空白处切分，保留所有字符及 `source_offset`。
+   单个不可拆来源超过用户设置的小预算时，完整保留并在 manifest 的 `oversized_source_ids` 中标出。
    每块一次请求同时输出多标签、编号关系、定义片段、实验、测量和问题。
 4. 模型用短的原文起止锚点定位序列。单字母序列只移除空白和 `<br>`；
    标准三字母缩写（如 `Glu Val Gln Leu`）由程序确定性转换成 `EVQL`，
@@ -73,7 +87,7 @@ PYTHONPATH=src python -m dataagent2 --plan-only \
 PYTHONPATH=src python -m dataagent2 \
   --documents WO2026086808A1 WO2024020591A9 \
   --model gpt-6.1-sol --effort xhigh \
-  --workers 1 --document-workers 1 --max-questions 8 \
+  --workers 0 --document-workers 1 --max-questions 8 \
   --output src/dataagent2/benchmarks/live_20261026
 
 # 随时生成当前进度和结果表，不调用模型。
@@ -93,8 +107,10 @@ PYTHONPATH=src python -m dataagent2.supervise \
 重复相同命令会复用内容哈希匹配的已完成请求，实际历史调用仍保留在用量中。
 输入、提示词或模型变化时需换输出目录。`--max-chunks 1` 可冒烟测试，但不生成
 完整流程的节省比例。`--native-dir`、`--reference-result` 可指定其他保存的输入。
-默认串行调用；模型实际尝试的开始时间至少间隔 65 秒，缓存不等待。
-可通过 `--request-interval` 调整，所有文档共享间隔。服务返回 429 时等待 45 秒后
+默认每个计划读取的 chunk 使用一个 Reader worker，请求启动间隔为 0，所有 chunk 同时调用；
+Studio 同样移除原有的 65 秒启动等待。`--workers 0` 为全部并发，显式指定正数才限制并发。
+独立 CLI 可通过 `--workers`、`--document-workers` 和 `--request-interval` 调整并发及节流，
+设置正间隔时所有文档共享该间隔，缓存不等待。服务返回 429 时等待 45 秒后
 至多重试一次，并遵守请求间隔。失败原因优先记录
 模型事件中的服务错误，避免被 CLI 启动警告掩盖。
 持续限流或认证失败会停止本进程后续的新模型调用；重新运行即可从缓存续跑。
@@ -148,6 +164,8 @@ PYTHONPATH=src python -m dataagent2.export_rows \
 ## 输出和对比口径
 
 - `manifest.json` / `seed.json` / `sources.json`：输入、分块和模板种子。
+  `seed.json` 是所有 chunk 使用的同一份完整粗略 dataset；manifest 保存分块修订、worker 数和种子策略。
+  每次请求的 `requests/*/input.json` 中可核对实际发送的 `payload.seed_dataset` 和 `payload.sources`。
 - `requests/*/input.json`、各 attempt 的 `events.jsonl`：完整请求和原始模型用量。
 - `calls.jsonl` / `token_usage.json`：每次实际尝试，成功、失败和重试均保留。
   只累加 `turn.completed` 的 usage；未知值不估为零。总量=input+output，

@@ -78,7 +78,7 @@ def event_error(stdout):
 
 
 class Provider:
-    def __init__(self, output, *, model="gpt-6.1-sol", effort="xhigh", timeout=600, request_interval=65):
+    def __init__(self, output, *, model="gpt-6.1-sol", effort="xhigh", timeout=600, request_interval=0):
         self.output = Path(output)
         self.model, self.effort, self.timeout = model, effort, timeout
         self.request_interval = max(0, request_interval)
@@ -93,6 +93,8 @@ class Provider:
         global NEXT_REQUEST_AT
         if SERVICE_STOP.is_set():
             raise RuntimeError("Model service circuit open; resume this command later")
+        if not self.request_interval:
+            return
         with ADMISSION_LOCK:
             now = time.monotonic()
             start = max(now, NEXT_REQUEST_AT)

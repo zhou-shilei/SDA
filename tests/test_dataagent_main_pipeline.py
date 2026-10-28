@@ -337,6 +337,45 @@ class DataagentMainTests(unittest.TestCase):
 
 
 class DataagentPDFEntryTests(unittest.TestCase):
+    def test_dataagent2_pdf_entry_forwards_parallel_settings(self):
+        case = web_fixtures.WebDocumentFlowTests()
+        case.setUp()
+        self.addCleanup(case.tearDown)
+        old_fake = case.fake_process
+        commands = []
+
+        def process(command, **kwargs):
+            if str(command[1]).endswith("/graph.py"):
+                commands.append(list(map(str, command)))
+                code = graph.main(list(map(str, command[2:])))
+
+                class Process:
+                    import io
+                    stdout = io.StringIO()
+
+                    def wait(self):
+                        return code
+
+                    def terminate(self):
+                        pass
+
+                return Process()
+            return old_fake(command, **kwargs)
+
+        with patch.object(runner.subprocess, "Popen", process), \
+             patch("dataagent.page_index.build_page_index", side_effect=AssertionError("Unexpected OCR")):
+            report = runner.run_pdf(case.case.source, case.root / "parallel", document_id="demo", device="cpu",
+                text_backend="vl", extraction_mode="dataagent2", semantic_provider="rules",
+                llm_workers=2, sequence_workers=23, reader_chunk_chars=6000)
+        self.assertNotEqual(report["status"], "failed")
+        for flag, expected in (("--sequence-workers", "23"), ("--llm-workers", "2"),
+                               ("--reader-chunk-chars", "6000"), ("--extraction-mode", "dataagent2")):
+            self.assertEqual(commands[0][commands[0].index(flag) + 1], expected)
+        self.assertTrue(report["template_agent"]["seed_before_reader"])
+        self.assertEqual(report["template_agent"]["reader_chunk_chars"], 6000)
+        dataset = json.loads((Path(report["result_dir"]) / "dataset.json").read_text())
+        self.assertEqual(dataset["extraction_engine"], "dataagent2")
+
     def test_fresh_pdf_entry_calls_real_dataagent_after_existing_ocr(self):
         case = web_fixtures.WebDocumentFlowTests()
         case.setUp()

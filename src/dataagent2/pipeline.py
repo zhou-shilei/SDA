@@ -11,7 +11,7 @@ import time
 
 from .contracts import INSTRUCTIONS
 from .export_rows import export as export_rows
-from .inputs import make_chunks, read, source_row, source_ocr_status
+from .inputs import CHUNKING_REVISION, make_chunks, read, source_row, source_ocr_status
 from .ledger import Ledger, normalized
 from .provider import compact, digest, write_json
 from .quality import audit_dataset
@@ -24,6 +24,7 @@ def catalog(data):
 def reader_payload(data, chunk):
     ids = chunk["context"] + chunk["core"]
     payload = {"document": data["document_id"], "chunk": chunk["id"],
+            "seed_dataset": copy.deepcopy(data["seed"]),
             "items": catalog(data),
             "prior_links": [[l["item"], l["region"], l["seq"]] for l in data["seed"]["links"]],
             "experiment_ids": [[e["id"], e["table"], e["method"]] for e in data["seed"]["experiments"]],
@@ -170,14 +171,20 @@ def compare_reference(dataset, reference):
             "note": "Exact-name comparison to later repaired outputs, NOT accuracy. Reference answers never enter prompts."}
 
 
-def run(data, provider, output, *, chunk_chars=24000, workers=3, max_questions=8, question_chars=14000,
+def run(data, provider, output, *, chunk_chars=24000, workers=None, max_questions=8, question_chars=14000,
         max_chunks=None):
+    if workers is not None and workers < 0:
+        raise ValueError("Reader workers must be nonnegative; 0 means all chunks")
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     chunks = make_chunks(data, chunk_chars)
+    scheduled = chunks[:max_chunks] if max_chunks else chunks
+    # One worker per scheduled chunk by default; do not inherit executor or
+    # legacy sequence-agent concurrency caps. Explicit positive limits opt in.
+    workers = workers or max(1, len(scheduled))
     signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS, "chunk_chars": chunk_chars,
-                        "model": provider.model, "effort": provider.effort})
+                        "model": provider.model, "effort": provider.effort, "chunking_revision": CHUNKING_REVISION})
     existing = read(output / "manifest.json", {})
     if existing and existing.get("signature") != signature:
         raise ValueError("Output belongs to different inputs/settings; choose a fresh output directory")
@@ -188,12 +195,13 @@ def run(data, provider, output, *, chunk_chars=24000, workers=3, max_questions=8
         "unique_sources": len(data["sources"]), "unique_source_text_characters": sum(len(s["text"]) for s in data["sources"].values()),
         "source_transmissions_planned": sum(len(c["core"]) + len(c["context"]) for c in chunks),
         "seed_entities": len(data["seed"]["entities"]), "seed_observations": len(data["seed"]["observations"]),
+        "chunking_revision": CHUNKING_REVISION, "reader_workers": workers,
+        "reader_seed_policy": "Complete table seed dataset, fixed across all chunk requests",
         "baseline": data["baseline"], "max_questions": max_questions,
         "seed_policy": "Only original table/template output. sequence_extraction, resolved_sequences, repaired exports, answers and human inheritance are excluded."}
     write_json(output / "manifest.json", manifest)
     write_json(output / "sources.json", data["sources"])
     write_json(output / "seed.json", data["seed"])
-    scheduled = chunks[:max_chunks] if max_chunks else chunks
     ledger, completed, failed, skipped = Ledger(data), {}, {}, {}
     merge_index, merged_successes = 0, 0
 
@@ -247,7 +255,7 @@ def run(data, provider, output, *, chunk_chars=24000, workers=3, max_questions=8
                 "failed": len(failed), "skipped": len(skipped), "total": len(chunks)}), flush=True)
             if chunk["id"] not in skipped or len(completed) + len(failed) + len(skipped) == len(scheduled):
                 print(f"{data['document_id']}: read {len(completed)}/{len(chunks)} failed={len(failed)} skipped={len(skipped)} tokens={provider.usage()['total_tokens']}", flush=True)
-    # The growing ledger above already consumed each successful chunk once.
+    # The growing ledger consumed each successful chunk once on top of the seed.
     first = ledger.assemble()
     write_json(output / "dataset.first_pass.json", first)
     write_json(output / "facts.first_pass.json", ledger.facts)

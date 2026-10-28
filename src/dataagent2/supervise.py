@@ -37,7 +37,7 @@ def supervise(output, documents, *, rounds=4, cooldown=300, initial_delay=300, i
 
 def _supervise(output, documents, *, rounds, cooldown, initial_delay, interval):
     command = [sys.executable, "-m", "dataagent2", "--documents", *documents,
-               "--output", str(output), "--workers", "1", "--document-workers", "1",
+               "--output", str(output), "--workers", "0", "--document-workers", "1",
                "--request-interval", str(interval), "--max-questions", "8"]
     root = Path(__file__).resolve().parents[2]
     env = {**os.environ, "PYTHONPATH": str(root / "src") + os.pathsep + os.environ.get("PYTHONPATH", "")}

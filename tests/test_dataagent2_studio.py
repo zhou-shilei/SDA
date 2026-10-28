@@ -79,14 +79,108 @@ class Dataagent2StudioTests(unittest.TestCase):
             "usage": {"input_tokens": 30, "output_tokens": 10, "total_tokens": 40}}) + "\n")
         return state
 
-    def invoke(self):
+    def invoke(self, **options):
         with patch("dataagent.run_sda.run_from_ocr", side_effect=self.seed), \
              patch("dataagent.agent.graph.build_graph", side_effect=AssertionError("Old full graph invoked")), \
              patch("dataagent.agent.graph.sequence_extract_node", side_effect=AssertionError("Old sequence agent invoked")), \
              patch("dataagent.agent.graph.repair_evidence_node", side_effect=AssertionError("Old repair invoked")), \
              patch("dataagent2.studio_pipeline.Provider", ScriptedProvider):
             return run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
+                table_ocr=self.case.table_path, extract_sequences=False, **options)
+
+    def test_reader_starts_after_table_seed_and_receives_complete_dataset(self):
+        seed_finished = threading.Event()
+        testcase = self
+
+        def seed(*args, **kwargs):
+            state = self.seed(*args, **kwargs)
+            # Rules mode produces no semantic seed. Supply representative
+            # table-stage output so this checks real dataset propagation.
+            directory = Path(args[3])
+            sources = load_input(directory)["sources"]
+            by_text = {s["text"]: s["source_ref"] for s in sources.values()}
+            template = json.loads((directory / "document_template.json").read_text())
+            template["entity_template"] = {"entities": [{"entity_id": name, "canonical_name": name,
+                "raw_names": [name], "role": "antibody", "evidence_refs": [by_text[name]]}
+                for name in ("Ab1", "Ab2")]}
+            write_json(directory / "document_template.json", template)
+            write_json(directory / "assay_measurements.json", [{"antibody_id": name, "metric": "IC50",
+                "value": float(value), "raw_text": value, "unit": "nM", "value_ref": by_text[value],
+                "header_refs": [by_text["IC50 (nM)"]], "source_table": "table-1"}
+                for name, value in (("Ab1", "0.5"), ("Ab2", "1.2"))])
+            seed_finished.set()
+            return state
+
+        class SeededProvider(ScriptedProvider):
+            def generate(self, stage, instructions, payload):
+                testcase.assertTrue(seed_finished.is_set())
+                testcase.assertEqual(payload["seed_dataset"], load_input(testcase.output / "shared_seed")["seed"])
+                testcase.assertEqual(len(payload["seed_dataset"]["entities"]), 2)
+                testcase.assertEqual(len(payload["seed_dataset"]["observations"]), 2)
+                testcase.assertTrue(payload["items"])
+                return super().generate(stage, instructions, payload)
+
+        with patch("dataagent.run_sda.run_from_ocr", side_effect=seed), \
+             patch("dataagent2.studio_pipeline.Provider", SeededProvider):
+            report = run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
                 table_ocr=self.case.table_path, extract_sequences=False)
+        self.assertNotEqual(report["status"], "failed", report["errors"])
+        manifest = json.loads((self.output / "dataagent2/manifest.json").read_text())
+        self.assertIn("Complete table seed dataset", manifest["reader_seed_policy"])
+        self.assertEqual(manifest["reader_workers"], len(manifest["chunks"]))
+        self.assertEqual(manifest["request_interval_seconds"], 0)
+        self.assertTrue(seed_finished.is_set())
+        final = json.loads((self.output / "dataagent2/dataset.json").read_text())
+        self.assertEqual(len(final["entities"]), 2)
+        self.assertEqual(len(final["observations"]), 2)
+        self.assertFalse(final["rejected_facts"])
+
+    def test_seed_failure_does_not_start_reader(self):
+        with patch("dataagent.run_sda.run_from_ocr", side_effect=RuntimeError("seed failed")), \
+             patch("dataagent2.studio_pipeline.Provider") as provider:
+            report = run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
+                table_ocr=self.case.table_path)
+        self.assertEqual(report["status"], "failed")
+        self.assertIn("seed failed", report["errors"]["DOC"])
+        provider.assert_not_called()
+
+    def test_reader_workers_above_legacy_eight_worker_limit_are_accepted(self):
+        with patch.dict("os.environ", {"DATASETAGENT_SEQUENCE_WORKERS": "23"}):
+            report = self.invoke(sequence_workers=23)
+        self.assertNotEqual(report["status"], "failed", report["errors"])
+        manifest = json.loads((self.output / "dataagent2/manifest.json").read_text())
+        self.assertEqual(manifest["reader_workers"], 23)
+
+    def test_seeded_parallel_reader_can_replay_cached_calls(self):
+        from dataagent2.contracts import SCHEMA
+        from dataagent2.provider import digest
+        from dataagent2.replay import replay
+
+        class CachedProvider(ScriptedProvider):
+            def generate(self, stage, instructions, payload):
+                result, meta = super().generate(stage, instructions, payload)
+                fingerprint = {"stage": stage, "instructions": instructions, "payload": payload,
+                               "schema": SCHEMA, "model": self.model, "effort": self.effort}
+                folder = self.output / "requests" / digest(fingerprint)
+                write_json(folder / "input.json", fingerprint)
+                write_json(folder / "validated.json", result)
+                return result, meta
+
+        with patch("dataagent.run_sda.run_from_ocr", side_effect=self.seed), \
+             patch("dataagent2.studio_pipeline.Provider", CachedProvider):
+            report = run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
+                table_ocr=self.case.table_path, extract_sequences=False, sequence_workers=2)
+        self.assertNotEqual(report["status"], "failed", report["errors"])
+        reader = self.output / "dataagent2"
+        expected = json.loads((reader / "dataset.json").read_text())
+        with patch("dataagent2.provider.subprocess.Popen", side_effect=AssertionError("Replay called model")):
+            result = replay(reader)
+        actual = json.loads((reader / "dataset.checkpoint.json").read_text())
+        self.assertEqual(result["model_calls_made"], 0)
+        self.assertEqual(result["coverage"]["completed_chunks"], 1)
+        for field in ("entities", "observations", "rejected_facts"):
+            self.assertEqual(actual[field], expected[field])
+        self.assertEqual(json.loads((reader / "manifest.json").read_text())["reader_workers"], 2)
 
     def test_fresh_ocr_runs_new_reader_and_exports_sequences_measurements_and_provenance(self):
         report = self.invoke()

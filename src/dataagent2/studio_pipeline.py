@@ -313,14 +313,18 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
     error, dataset = None, {}
     try:
         table_ocr = refresh_table_sequences(table_ocr, output / "table_ocr.refreshed.jsonl", image_dir=image_dir)
-        seed_options = {k: v for k, v in options.items() if k in ("llm_model", "llm_effort", "llm_workers")}
+        seed_options = {k: v for k, v in options.items()
+                        if k in ("llm_model", "llm_effort", "llm_workers", "llm_timeout")}
+        # The seed graph never runs the legacy sequence agent. Its 1–8 worker
+        # setting (including its environment default) must not constrain Reader.
+        seed_options["sequence_workers"] = 1
+        # Complete the rough table dataset before any Reader request. All
+        # chunks receive this same snapshot, without other chunks' additions.
         seed_state = run_from_ocr(identity, table_ocr, pages, seed_dir, image_dir=image_dir,
             layout_manifest=layout if layout.is_file() else None, seed_only=True,
             semantic_provider=semantic_provider or "codex", **seed_options)
         data = load_input(seed_dir)
         config = seed_state["config"]
-        provider = Provider(reader_dir, model=config["llm_model"], effort=config["llm_effort"],
-                            timeout=config["llm_timeout"])
         # rules is exclusively an offline integration check, matching dataagent1.
         if semantic_provider == "rules":
             from .ledger import Ledger
@@ -329,8 +333,11 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
                 "total_sources": len(data["sources"]), "core_sources_read": 0, "scope": "Offline rules check; reader not run"})
             write_json(reader_dir / "dataset.json", final)
         else:
-            report = run(data, provider, reader_dir, workers=options.get("sequence_workers") or 1,
-                         max_questions=options.get("max_answer_questions") if extract_sequences else 0)
+            provider = Provider(reader_dir, model=config["llm_model"], effort=config["llm_effort"],
+                                timeout=config["llm_timeout"], request_interval=0)
+            report = run(data, provider, reader_dir, workers=options.get("sequence_workers"),
+                chunk_chars=options.get("chunk_chars", 24000),
+                max_questions=options.get("max_answer_questions") if extract_sequences else 0)
             final = read(reader_dir / "dataset.json")
             if not report["benchmark_complete"]:
                 error = "dataagent2 全文读取或问答请求未完成；已保存部分结果及原始请求记录"

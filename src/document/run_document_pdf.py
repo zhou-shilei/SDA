@@ -87,7 +87,8 @@ def run_pdf(pdf, run_dir, *, document_id=None, device="gpu:0", text_workers=1,
             repair_rounds=2, catalog=None, on_stage=None, template_agent=True,
             template_agent_max_calls=12, template_agent_context_chars=24000,
             table_ocr_workers=1, table_ocr_batch_size=1, text_backend="paddle",
-            table_backend="vl", ocr_parallel=True, extraction_mode="dataagent", semantic_provider=None):
+            table_backend="vl", ocr_parallel=True, extraction_mode="dataagent", semantic_provider=None,
+            llm_workers=None, sequence_workers=None, reader_chunk_chars=24000):
     """网页和 CLI 共用：统一六步预处理，再复用证据进行业务抽取。"""
     started = perf_counter()
     if template_agent_max_calls < 0 or template_agent_context_chars < 4000:
@@ -98,6 +99,15 @@ def run_pdf(pdf, run_dir, *, document_id=None, device="gpu:0", text_workers=1,
         raise ValueError("OCR backend 必须为 paddle 或 vl")
     if extraction_mode not in {"dataagent", "dataagent2", "document"}:
         raise ValueError("extraction_mode 必须为 dataagent、dataagent2 或 document")
+    if llm_workers is not None and not 1 <= llm_workers <= 8:
+        raise ValueError("表格种子模型并发数必须介于 1 和 8")
+    if sequence_workers is not None:
+        if extraction_mode == "dataagent2" and sequence_workers < 0:
+            raise ValueError("Reader 并发数必须非负，0 表示所有 chunk 同时调用")
+        if extraction_mode != "dataagent2" and not 1 <= sequence_workers <= 8:
+            raise ValueError("序列模型并发数必须介于 1 和 8")
+    if reader_chunk_chars < 3000:
+        raise ValueError("Reader chunk 字符预算至少为 3000")
     pdf, run_dir = Path(pdf).resolve(), Path(run_dir).resolve()
     identity = document_id or pdf.stem
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{2,79}", identity):
@@ -132,7 +142,8 @@ def run_pdf(pdf, run_dir, *, document_id=None, device="gpu:0", text_workers=1,
     report["table_ocr"] = {"workers": table_ocr_workers, "submission_batch_size": table_ocr_batch_size, "backend": table_backend}
     if extraction_mode == "dataagent2":
         report["template_agent"] = {"enabled": True, "implementation": "dataagent2.Reader + bounded questions",
-                                    "shared_stages": ["table_classification", "document_template"]}
+                                    "shared_stages": ["table_classification", "document_template"],
+                                    "seed_before_reader": True, "reader_chunk_chars": reader_chunk_chars}
     report["text_ocr"] = {"workers": text_workers, "backend": text_backend}
     report["ocr_execution"] = "parallel" if ocr_parallel else "serial"
     if catalog:
@@ -208,8 +219,13 @@ def run_pdf(pdf, run_dir, *, document_id=None, device="gpu:0", text_workers=1,
               "--template-agent-context-chars", template_agent_context_chars]
         if extraction_mode in {"dataagent", "dataagent2"}:
             graph_args.extend(["--structured-dir", structured, "--document-id", identity])
+            for flag, value in (("--llm-workers", llm_workers), ("--sequence-workers", sequence_workers)):
+                if value is not None:
+                    graph_args.extend([flag, value])
             if semantic_provider:
                 graph_args.extend(["--semantic-provider", semantic_provider])
+        if extraction_mode == "dataagent2":
+            graph_args.extend(["--reader-chunk-chars", reader_chunk_chars])
         if not template_agent:
             graph_args.append("--no-document-template-agent")
         phase("document_extraction", graph_args)
@@ -389,6 +405,10 @@ def main():
     parser.add_argument("--ocr-execution", choices=("parallel", "serial"), default="parallel")
     parser.add_argument("--extraction-mode", choices=("dataagent", "dataagent2", "document"), default="dataagent")
     parser.add_argument("--semantic-provider", choices=("codex", "rules"), default=None)
+    parser.add_argument("--llm-workers", type=int, help="表格分类/种子构建并发数（1–8）")
+    parser.add_argument("--sequence-workers", type=int,
+                        help="dataagent2 默认所有 chunk 同时调用（0）；dataagent 序列并发数为 1–8")
+    parser.add_argument("--reader-chunk-chars", type=int, default=24000)
     parser.add_argument("--table-ocr-workers", type=int, default=None)
     parser.add_argument("--table-ocr-batch-size", type=int, default=None,
                         help="表格图片提交批大小；native VL 实际模型 batch 可能仍为 1")
@@ -416,7 +436,8 @@ def main():
                      table_ocr_batch_size=1 if args.table_ocr_batch_size is None else args.table_ocr_batch_size,
                      text_backend=args.text_backend, table_backend=args.table_backend,
                      ocr_parallel=args.ocr_execution == "parallel", extraction_mode=args.extraction_mode,
-                     semantic_provider=args.semantic_provider)
+                     semantic_provider=args.semantic_provider, llm_workers=args.llm_workers,
+                     sequence_workers=args.sequence_workers, reader_chunk_chars=args.reader_chunk_chars)
     print(json.dumps({k: result[k] for k in ("status", "wall_seconds", "records", "experiments")}, ensure_ascii=False))
     return 0
 

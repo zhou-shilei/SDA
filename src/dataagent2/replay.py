@@ -22,9 +22,12 @@ def replay(output, *, finalize=False):
     except (KeyError, ValueError, OSError):
         reference = None
     data = load_input(manifest["native_input"], reference)
-    signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS,
+    settings = {"input": data["signature"], "instructions": INSTRUCTIONS,
                         "chunk_chars": manifest["chunk_chars"], "model": manifest["model"],
-                        "effort": manifest["effort"]})
+                        "effort": manifest["effort"]}
+    if "chunking_revision" in manifest:
+        settings["chunking_revision"] = manifest["chunking_revision"]
+    signature = digest(settings)
     if signature != manifest["signature"]:
         raise ValueError("Original inputs/settings changed; replay would mix experiments")
     ledger, completed = Ledger(data), []

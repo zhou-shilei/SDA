@@ -51,6 +51,11 @@ Source rows are [source_integer,PDF_page,kind,table_id_or_null,row_or_null,colum
 The host stores original text, page, coordinates and source identity; cite only source integers in refs.
 Mention significant relevant paragraphs/rows, not every OCR line. Tags are MULTI-label.
 items lists compact item IDs; new names must be declared in new_items with literal name evidence.
+seed_dataset is the complete rough table dataset shared unchanged by every Reader chunk.
+Use it as the starting point: complete missing sequence mappings/definitions and experimental facts
+using this chunk's sources. Return additions and source-supported conflicts, not a replacement dataset.
+Its entities, links, experiments and measurements are prior context, not new evidence. Cite only
+sources supplied in this request for new facts; the host retains the original seed evidence.
 Do not output existing item cards, sequences or observations merely because they appear in seed facts.
 Extract new facts supported by this input, including confirmation/conflict of seed links.
 Never merge similar names, mutants, species, isotypes or shared sequence users without explicit identity

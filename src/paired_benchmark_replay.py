@@ -49,9 +49,12 @@ def replay_bounded(source, output, questions=8):
     provider = SavedResponses(source)
     manifest = provider.manifest
     data = load_input(manifest["native_input"])
-    original_signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS,
+    settings = {"input": data["signature"], "instructions": INSTRUCTIONS,
                                  "chunk_chars": manifest["chunk_chars"], "model": provider.model,
-                                 "effort": provider.effort})
+                                 "effort": provider.effort}
+    if "chunking_revision" in manifest:
+        settings["chunking_revision"] = manifest["chunking_revision"]
+    original_signature = digest(settings)
     if original_signature != manifest["signature"]:
         raise ValueError("Original extraction inputs, prompt or settings changed")
     output.mkdir(parents=True, exist_ok=True)
