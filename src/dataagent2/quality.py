@@ -2,8 +2,7 @@
 
 from collections import Counter
 
-from .ledger import residues
-from .provider import digest
+from .sequence_notation import validate_fragment
 
 
 def audit_dataset(dataset, sources):
@@ -17,11 +16,12 @@ def audit_dataset(dataset, sources):
             pieces = []
             for fragment in slot.get("fragments", []):
                 source = sources[fragment["s"]]
-                quote = source["text"][fragment["start"]:fragment["end"]]
-                if (quote != fragment["quote"] or digest(source["text"]) != fragment["source_sha256"]
-                        or residues(quote) != fragment["sequence"]):
+                try:
+                    value, _ = validate_fragment(fragment, source)
+                except (ValueError, KeyError):
                     errors.append({"kind": "sequence_source_mismatch", "item": entity["id"], "chain": chain, "s": fragment["s"]})
-                pieces.append(residues(quote))
+                    value = ""
+                pieces.append(value)
             if "".join(pieces) != slot["value"]:
                 errors.append({"kind": "sequence_reconstruction_mismatch", "item": entity["id"], "chain": chain})
     records = []

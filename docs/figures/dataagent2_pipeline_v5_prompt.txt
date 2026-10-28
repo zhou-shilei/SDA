@@ -1,0 +1,28 @@
+Use case: precise-object-edit.
+Image 1 is the edit target: the existing three-lane dataagent2 scientific architecture figure. Make the following narrow, coordinated corrections while preserving the entire original composition, dimensions, typography, colors, icons, all other text, all other nodes and connections.
+
+1. Rename ONLY the purple MIDDLE-ROW agent (currently "TemplateAgent" with subtitle "Chunk-wise filling") to exactly:
+"ReaderAgent"
+"Chunk-wise extraction"
+Preserve its box, icon, position, size and font style. The TOP-ROW TemplateAgent with subtitle "Dataset initialization" must remain exactly unchanged.
+
+2. Rename the MIDDLE-ROW blue node currently labeled "Dataset-guided chunking" to exactly:
+"Document"
+"chunking"
+(two lines, centered). Preserve this node's position, icon, box and surrounding data arrows. There must be NO "Dataset-guided chunking" text remaining.
+
+3. Reconnect the TEAL guidance arrow labeled "Entities, fields & mappings":
+Currently this arrow exits the bottom of Dataset, runs left across the inter-row whitespace, and then points down into the chunking node. REMOVE this long leftward guidance path and its downward arrow into Document chunking.
+Replace it with a clearly distinct SHORT downward teal guidance arrow FROM Dataset TO ReaderAgent, entering the TOP-LEFT area of ReaderAgent. The arrow must point INTO ReaderAgent.
+Suggested routing in the 1774x887 source: start at the bottom-left portion of Dataset, about x1415,y243, descend through the white corridor near x1415 to ReaderAgent's top edge at y425, with downward arrowhead. A tiny orthogonal elbow near the beginning is fine. Place the label "Entities, fields & mappings" in nearby open white space to the LEFT of this new downward arrow, with no overlap over chunk cards, other arrows, lane headings or boxes. It may be broken into two short lines for readability.
+Keep the EXISTING independent teal "Validated fills" arrow UPWARD FROM ReaderAgent TO Dataset, around x1505, completely intact. These must now be TWO parallel but distinct arrows with opposite directions: downward Dataset -> ReaderAgent on the left, upward ReaderAgent -> Dataset on the right. Never combine them into a single bidirectional line. Keep all arrow endpoints and labels readable.
+
+Hard preservation requirements:
+- QuestionAgent and its subtitle "Lightweight model" must stay EXACTLY as in the original.
+- AnswerAgent, Question / Answer messages, Action, Proposed update, Targeted retrieval, Unresolved gaps, Apply validated updates, stop-condition label and legend must stay unchanged.
+- The full upper initialization pipeline, PDF OCR branch, OCR evidence block, three chunk cards, and their outgoing arrows into the newly named ReaderAgent must remain unchanged.
+- Retain exactly one PDF OCR node.
+- Keep the middle lane heading "(b) Template-guided extraction" unchanged.
+- Do not add agents or stages. Do not crop or change background.
+- Erase removed arrow segments cleanly without affecting existing labels or background.
+Only these naming corrections and the guidance-arrow endpoint should change. Produce a crisp publication-quality image with accurately spelled complete text and no crossing arrows over labels.

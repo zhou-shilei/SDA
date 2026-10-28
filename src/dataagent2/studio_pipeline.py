@@ -68,6 +68,9 @@ def export_result(data, final, seed_dir, output):
                 "ref": ref, "source_id": ref, "source_ref": data["sources"][sid]["source_ref"], "original_ref": addressed[sid],
                 "source_char_start": fragment["start"], "source_char_end": fragment["end"],
                 "text": fragment["quote"], "quote": fragment["quote"]}
+            if fragment.get("notation"):
+                sources[ref].update(sequence_notation=copy.deepcopy(fragment["notation"]),
+                                    normalized_sequence=fragment["sequence"])
             result.append(ref)
         return result
 

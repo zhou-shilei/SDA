@@ -1,0 +1,29 @@
+Use case: precise-object-edit.
+Asset type: final publication polish of a scientific architecture figure.
+Image 1 is the EDIT TARGET. The architecture is approved. Improve ONLY the connector routing and visual order. Preserve every existing node, all existing text verbatim, all icons, all three rows and lane headings, node colors, logical connections, arrow directions, and the stop-condition note. Do not invent or remove stages, change agent names, or modify QuestionAgent / Lightweight model.
+
+PRIMARY GOAL: Make this figure noticeably cleaner by drawing uniform thin ORTHOGONAL connectors with deliberate routing corridors, well-spaced arrowheads, and readable labels. No diagonal or curved data arrows. Use a white background, crisp lines, no gradients or shadows. Maintain the wide landscape composition and generous whitespace. Slight spacing adjustments are allowed only to prevent overlaps; preserve the established overall placement of boxes.
+
+EXACT LINE CLEANUP:
+1) CHUNKS TO READER — replace the three current curved converging lines to ReaderAgent with a tidy orthogonal collection bus. Each of the three chunk cards has a short horizontal outgoing segment from its RIGHT edge. Join those segments to ONE vertical spine in the white corridor between the chunk cards and ReaderAgent (approximately x1335 in the 1774x887 source). From that spine's center draw ONE horizontal right-pointing arrow into the center-left edge of ReaderAgent. Use tiny filled junction dots where needed to clarify connection; no extra arrowheads or arrows pointing back into chunks. All three chunks must still clearly feed ReaderAgent.
+2) CHUNKING TO CHUNKS — keep a matching orthogonal fan-out spine to the LEFT of the three chunk cards. Document chunking connects horizontally to the spine, and three short straight arrows enter Chunk 1, Chunk 2 and Chunk N at their left edges. Make the two spines visually balanced; keep all arrows clear of card borders and labels.
+3) DATASET TO READER AND BACK — keep TWO visibly separate teal vertical lanes between Dataset and ReaderAgent. LEFT lane points DOWN from Dataset into ReaderAgent; label "Entities, fields & mappings" in the open space to the left of the lane above the chunk cards. RIGHT lane points UP from ReaderAgent into Dataset; label "Validated fills" in open whitespace to the right of this lane. Use parallel straight lanes with a comfortable clear gap, distinct arrowheads at the target box borders, and no overlapping or bidirectional combined lines.
+4) READER TO QUESTIONAGENT — route "Unresolved gaps" as a clean right-angle connector from ReaderAgent's bottom to QuestionAgent's top, through the empty corridor between rows (b) and (c). Keep its horizontal segment at one consistent height. Place the label just ABOVE its horizontal segment, never sitting on the line.
+5) ACTION FEEDBACK — keep Action -> Dataset as ONE continuous teal right-margin return rail, outside all workflow boxes. It leaves the TOP of Action, runs upward along the far-right corridor, and turns LEFT into the RIGHT side of Dataset. The line should be continuous, never broken to fit a label. Place "Apply validated updates" along the OUTSIDE RIGHT of this rail in the large unused vertical strip between Dataset and Action; rotate this single-line label 90 degrees if necessary so it does not collide with ReaderAgent, the gap connector, or Action. Allow a slightly wider outer right margin if needed. Do not route this feedback through ReaderAgent or QuestionAgent.
+6) QUESTION AND ANSWER — keep the two orange opposite-direction arrows between QuestionAgent and AnswerAgent. Use straight parallel horizontal arrows with adequate separation. "Question" sits above the upper leftward arrow; "Answer" sits below the lower rightward arrow.
+7) EVIDENCE — keep the gray dashed vertical OCR evidence -> AnswerAgent connector, with uniform short dash lengths and label "Targeted retrieval" clearly to the side. No other dashed lines.
+8) PREPROCESSING — keep the two branches from Preprocessing orthogonal and tidy: upper goes to Table detection & crops, lower goes to PDF OCR. The downward PDF OCR connection must not touch the lane heading. Maintain a single PDF OCR node.
+9) INITIALIZATION — straighten and align all top-row arrows: PDF -> Preprocessing -> Table detection & crops -> Table OCR -> TemplateAgent -> Dataset. Short uniformly sized arrowheads, consistent strokes, horizontal alignment.
+10) LEGEND — keep all four existing legend labels and arrow types, update their stroke weights to match the cleaned connectors. Light gray lane separators should remain subordinate to arrows.
+
+TEXT THAT MUST REMAIN UNCHANGED:
+TemplateAgent / Dataset initialization
+ReaderAgent / Chunk-wise extraction
+Document / chunking
+QuestionAgent / Lightweight model
+AnswerAgent / Evidence-grounded
+Action / Validate & apply
+Dataset / n items / Entities / SEQ IDs / Assays / Measurements
+All other labels, existing row headings, chunk labels, OCR evidence content and stop condition.
+
+VISUAL STANDARD: journal-quality diagram, orderly wiring, minimal visual clutter, balanced negative space, no crossed connectors, no arrow passing over text or through a box, no tiny labels, no new explanatory prose. Keep all arrow semantics exactly as in Image 1. Output one finished figure with polished connectors and fully legible original text.

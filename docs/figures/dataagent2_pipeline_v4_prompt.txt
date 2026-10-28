@@ -1,0 +1,66 @@
+Use case: infographic-diagram.
+Asset type: a polished scientific paper architecture figure.
+Reference image: the user's handwritten sketch is a TOPOLOGY REFERENCE, not an image to reproduce literally. Mentally rotate the sketch into readable landscape orientation. Create a NEW clean landscape figure based on its architecture, with no grid paper or handwriting. This new reference supersedes the earlier simple Query-chain diagrams.
+
+Primary request: faithfully clarify the user's architecture: tables initialize a dataset; that dataset guides extraction from full-document OCR chunks; a second TemplateAgent invocation fills the dataset; a lightweight QuestionAgent exchanges questions and answers with AnswerAgent and invokes an Action to update the dataset. Show all these relationships cleanly, using a tidy THREE-ROW scientific flow diagram.
+
+Style: publication-quality flat vector-like raster figure, high resolution, wide landscape about 2:1, pure white background. Crisp readable English labels. Thin consistent dark charcoal outlines, restrained pale blue, teal, lavender, and amber fills. Straight orthogonal arrows routed through whitespace with clear arrowheads and no crossings over text. Equal font sizing, strong alignment, ample spacing. Small restrained line icons for a PDF, text, table, database and chunk cards. Agents should use a small abstract module/LLM icon, not robot mascots. No 3D, gradients, shadows, giant title, marketing decoration, benchmark numbers, or long explanatory paragraphs.
+
+MAIN ORGANIZATION:
+Three horizontal workflow lanes, each with a small dark-gray lane label at far left:
+"(a) Dataset initialization"
+"(b) Template-guided extraction"
+"(c) Targeted completion"
+Lane labels are modest, not large panels. Use thin light-gray separators between lanes if helpful. Preserve plenty of routing room between rows.
+
+ROW (a), TOP:
+At far left a PDF document icon labeled "PDF".
+A rightward arrow to "Preprocessing", with subtitle "Orientation & layout".
+After Preprocessing visibly split into TWO branches:
+  UPPER TABLE BRANCH continues in row (a):
+  "Table detection & crops" -> "Table OCR" -> "TemplateAgent" with subtitle "Dataset initialization" -> "Dataset" with subtitle "n items".
+  LOWER TEXT BRANCH descends into row (b) and leads to "PDF OCR".
+The Dataset is an important database-cylinder node near the upper-right. Its contents are represented by a small tasteful table with labels "Entities", "SEQ IDs", "Assays", "Measurements". This is the central evolving structured dataset, not a static terminal output.
+
+ROW (b), MIDDLE:
+The PDF OCR branch feeds an "OCR evidence" store drawn as a clean page/document:
+inside it show three separated document sections with short exact labels "Sections", "SEQ IDs", "Experiments", a few thin gray text lines, and two subtle colored highlight spans. No actual sequence strings, no made-up results.
+From OCR evidence, solid arrow right to "Dataset-guided chunking".
+From Dataset in the TOP ROW, draw a distinct downward teal arrow into Dataset-guided chunking, labeled "Entities, fields & mappings". This clearly shows that the initialized dataset GUIDES interpretation/chunk extraction.
+Dataset-guided chunking outputs a small stack/fan of THREE text cards labeled "Chunk 1", "Chunk 2", "Chunk N". Each card can have a few minimal text lines. From these chunk cards, arrows converge on another "TemplateAgent" node, with subtitle "Chunk-wise filling". This is the same agent role invoked at a different stage; the two TemplateAgent nodes must be visually consistent.
+From this middle-row TemplateAgent, draw a clear TEAL feedback arrow UP to the Dataset in row (a), labeled "Validated fills". It should enter the dataset separately from the dataset-guidance outgoing arrow. The upper incoming/outgoing arrows must remain distinct and unambiguous.
+Do NOT place a Reader, Query, or Ledger box in this row; use the user's TemplateAgent abstraction.
+
+ROW (c), BOTTOM:
+From the middle-row TemplateAgent draw a downward arrow labeled "Unresolved gaps" to "QuestionAgent", subtitle "Lightweight model".
+Place "AnswerAgent" to the LEFT of QuestionAgent. Connect them with TWO separated horizontal directional arrows:
+- QuestionAgent -> AnswerAgent, label "Question".
+- AnswerAgent -> QuestionAgent, label "Answer".
+No single double-headed arrow; make both message directions explicit and their labels readable.
+From the OCR evidence store in row (b), draw a thin DASHED dark-gray evidence connector DOWN to AnswerAgent, label "Targeted retrieval". It should not pass through other nodes.
+To the RIGHT of QuestionAgent, place "Action", subtitle "Validate & apply".
+Connect QuestionAgent -> Action with a rightward arrow, label "Proposed update".
+From Action draw a long, clean TEAL feedback arrow along the OUTER RIGHT margin and UP into Dataset, label "Apply validated updates". This closes the refinement loop. It should not touch or cross the independent "Validated fills" arrow from TemplateAgent.
+Below the completion row, a tiny stop-condition chip: "Stop: resolved, no evidence, or budget reached".
+
+Suggested left-to-right geometry:
+Row a: PDF at 5%, Preprocessing at 17%, table-crops at 32%, Table OCR at 46%, initial TemplateAgent at 61%, Dataset at 80%.
+Row b: PDF OCR at 28%, OCR evidence at 42%, dataset-guided chunking at 59%, chunk cards at 73%, fill TemplateAgent at 88%.
+Row c: AnswerAgent at 58%, QuestionAgent at 78%, Action at 93%.
+These are guides; adjust spacing to keep all text and arrow routing clean. Do not compress labels into small boxes. Keep the three rows clearly readable.
+
+LEGEND in a small unobtrusive corner:
+Solid dark arrow: "Data flow".
+Solid teal arrow: "Dataset update / guidance".
+Dashed gray arrow: "Evidence retrieval".
+The question/answer arrows may use a muted amber or terracotta accent to distinguish messages from data flow, while retaining high contrast.
+
+Scientific precision:
+- Initial Dataset comes from table OCR and the initial TemplateAgent, not from QuestionAgent.
+- PDF OCR provides the full-document evidence, not a second independently initialized dataset.
+- Chunk extraction is guided by the initialized dataset, and validated fills update that SAME dataset.
+- QuestionAgent generates questions for missing/ambiguous fields, AnswerAgent answers from retrieved OCR evidence, QuestionAgent then proposes an action, and the Action applies validated changes.
+- Show bounded refinement, not an endless uncontrolled agent loop.
+- Do not invent a new training phase, learned loss, biological validation, performance gains, or any implementation claim.
+- Preserve the user's topology while improving visual hierarchy, naming consistency and arrow clarity.
+Render ONE finished figure with sharp, correctly spelled text, no clipping or overlapping labels.

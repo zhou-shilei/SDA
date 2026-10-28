@@ -5,10 +5,8 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-import re
-
-from .ledger import AA, residues
 from .provider import digest, write_json
+from .sequence_notation import fragment as sequence_fragment, validate_fragment
 
 
 def slice_fragments(fragments, sources, start, end):
@@ -21,21 +19,12 @@ def slice_fragments(fragments, sources, start, end):
         quote = source["text"][fragment["start"]:fragment["end"]]
         if quote != fragment["quote"] or digest(source["text"]) != fragment["source_sha256"]:
             raise ValueError("Source text or fragment identity changed")
-        positions = []
-        for match in re.finditer(r"<br\s*/?>|\s+|.", quote, flags=re.S | re.I):
-            token = match.group()
-            if token.isspace() or re.fullmatch(r"<br\s*/?>", token, re.I):
-                continue
-            if token not in AA:
-                raise ValueError("Cannot derive a domain from invalid literal residues")
-            positions.append((match.start(), match.end()))
-        if residues(quote) != fragment["sequence"] or len(positions) != len(fragment["sequence"]):
-            raise ValueError("Full-chain fragment residue mismatch")
+        _, positions = validate_fragment(fragment, source)
         low, high = max(0, start - cursor), min(len(positions), end - cursor)
         if low < high:
             a, b = positions[low][0], positions[high - 1][1]
-            output.append({**fragment, "start": fragment["start"] + a,
-                "end": fragment["start"] + b, "quote": quote[a:b], "sequence": residues(quote[a:b])})
+            output.append(sequence_fragment(fragment["s"], source["text"], fragment["start"] + a,
+                fragment["start"] + b, fragment.get("notation", {}).get("encoding")))
         cursor += len(positions)
     if end > cursor or sum(len(f["sequence"]) for f in output) != end - start:
         raise ValueError("Domain extends beyond supplied literal full-chain fragments")

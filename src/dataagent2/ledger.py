@@ -7,8 +7,8 @@ import copy
 import re
 
 from .provider import compact, digest
+from .sequence_notation import AA, fragment as sequence_fragment, residues
 
-AA = set("ACDEFGHIKLMNPQRSTVWY")
 CHAIN_REGIONS = ("VH", "VL", "H_CHAIN", "L_CHAIN", "CH", "CL")
 
 
@@ -37,10 +37,6 @@ def metric_key(metric):
     return value if value in ("KD", "kd") else value.casefold()
 
 
-def residues(text):
-    return re.sub(r"\s+", "", re.sub(r"<br\s*/?>", "", text, flags=re.I))
-
-
 def ground_sequence(parts, sources):
     fragments, covered = [], defaultdict(list)
     for part in parts:
@@ -64,14 +60,9 @@ def ground_sequence(parts, sources):
             start, stop = candidates[0]
         if any(start < b and a < stop for a, b in covered[sid]):
             raise ValueError("Overlapping sequence fragments")
-        quote = text[start:stop]
-        value = residues(quote)
-        if not value or set(value) - AA:
-            raise ValueError("Noncanonical characters in literal sequence; no OCR correction allowed")
+        fragment = sequence_fragment(sid, text, start, stop)
         covered[sid].append((start, stop))
-        fragments.append({"s": sid, "start": start, "end": stop,
-                          "quote": quote, "sequence": value,
-                          "source_sha256": digest(text)})
+        fragments.append(fragment)
     if not fragments:
         raise ValueError("Sequence definition requires literal fragments")
     return "".join(f["sequence"] for f in fragments), fragments

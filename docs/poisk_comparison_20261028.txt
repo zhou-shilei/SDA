@@ -1,0 +1,56 @@
+POISK 与 SDA 对照核查
+核查日期：2026-10-28（Asia/Shanghai）
+
+判断
+POISK 与我们从专利构建“抗体序列—靶点—实验结果”数据的目标高度重合。其主要下游研究问题是共折叠模型能否区分真实结合者与诱饵；SDA 当前的重点是从 PDF/OCR 恢复更完整、可追溯的实验记录。任务侧重点存在差异，但不能把“LLM 抽取抗体专利”“链配对”“有实验条件”“有来源”“有审计”作为我们独有能力。
+
+一、原文及版本
+论文：Can Folding Models Tell Binders from Bluffers? Evidence from POISK: The Patent-Derived Antibody Dataset。
+作者：Daria Tupikina、Andrea Roncoli、Alexander Bujotzek、Brennan Abanades；Roche / Prescient Design。
+DOI：https://doi.org/10.64898/2026.10.24.761513
+阅读了 35 页 v1 PDF，发布日期 2026-10-26。封面标注 NeurIPS 2026 Evaluations and Datasets track；本次引用使用已获取的 bioRxiv v1，不将会议标注自行解释为正式 proceedings 版本。
+论文中：10,110 篇美国专利，89,074 条记录、78,174 个独特抗体；共折叠基准是 11,247 个正例加同数推定负例。
+论文指向 v1.0.1：https://zenodo.org/records/19883049
+当前公开 v1.1：https://zenodo.org/records/21775623
+当前 v1.1 有 93,193 行、47 列；项目索引含 10,010 个不同 patent_id。这些当前发布版数字不能与论文数字混用。发布说明称修复历史错误，折叠预测仍基于 v1.0.1。
+
+二、他们怎么做（论文 §2.1、附录 A/B/C，以及公开 extractor.md / auditor.md）
+1. 从 GenBank 获取 70–1000 aa 的候选重链、κ/λ 轻链，ANARCI 识别抗体，关联美国专利。这是序列数据库驱动的入口，不是从任意 PDF 全面发现序列。
+2. 使用 gemini-3-pro-preview；每篇专利一个抽取请求，输入整篇 Markdown 与待调查 SEQ ID 清单，按 JSON schema 返回记录。抽取阶段无工具。
+3. 提取抗体身份、重轻链编号与配对、靶点、实验亲和力及方法/条件、表位和发现方式。用 similar_antibody_seq_ids 合并具有相同属性的编号范围；有不同性质的克隆应另列记录。
+4. 实际序列字段从 GenBank 按编号取得；缺失抗原序列时查询 UniProt。其方法在干净序列的获取和靶点补充上有明确优势，我们的 OCR 复制不能替代原始序列核验。
+5. 每条记录再发一个同模型审计请求：先删除 source_text，要求通过限制到该专利的 file search 重新查找支持，每记录最多 25 次搜索。按 CONFIRMED / PLAUSIBLE / REVIEW 标记；论文说明排除被标记字段并删除配对错误记录，而完整发布版仍保留多级 verdict，应按具体发布层区分。
+6. 抽取提示词要求来源引用，但包装 source_text/value 在 schema 中均非必填。当前 47 列公开表没有逐字段原文引用列，保留的是 patent_id、audit.flags、audit.reasoning 等。审计解释可含表号和证据描述；不能据此声称他们没有来源追溯。
+
+三、质量证据的含义
+附录 B 人工审计共 40 条记录，由单名有经验的标注者检查：基准子集 19/20 条全字段正确，全量随机样本 18/20；字段级为 181/184。发现的错误包括链存在但被记为缺失、物种标签不准确。作者明确不把这个小样本当作全库精确准确率。人工检查已抽取记录主要验证记录正确性，不能测出整篇专利漏掉了多少抗体及实验。
+附录 C：11,247 个基准正例中 5,967（53.1%）含报告的亲和力字段；全库记录数不等于定量实验值条数。
+我们从 v1.1 的索引复算：has_affinity=42,093；has_epitope=27,950；has_vh=93,193；has_vl=86,435；CONFIRMED=53,746、PLAUSIBLE=21,953、REVIEW=17,494。这些是官方索引的可用性标志及模型审计标签，不是独立核验结果，也不意味着每条 affinity 都是标准化 KD。
+论文把 KD、KA、IC50、EC50 在部分下游分析中归到 pAffinity。SDA 应保留指标类型、量纲、条件与不等号，不能仅因都可写浓度就当成同一生物学量；KA 若为缔合常数还应单独检查量纲。
+负例来自 OAS 近邻及回退的生殖系还原/CDRH3 采样，不是实验确认不结合者。结构判别准确率不能解释为信息抽取准确率。
+
+四、本地同族专利实证：WO2024020591A9 → US12110324B2
+同族关系可查：https://patents.google.com/patent/WO2024020591A9/en
+美国文本：https://patents.google.com/patent/US12110324B2/en
+在 v1.1 全部 93,193 条索引记录中，patent_id 精确等于 12110324 的只有 1 条：unique_record_id=084642，Reference Antibody，Prior Art，KinExA 2.15 pM，CONFIRMED，SEQ ID 81/82。已获取完整记录，similar_antibody_seq_ids 为空。
+美国专利本身也明确包含 AB-1–AB-14。Table 9 的人 TSLP KD 包括：AB-1 0.208 pM、AB-2 0.123 pM、AB-5 0.14 pM；同表还列食蟹猴 TSLP 与结合/解离速率。
+SDA 保存的 src/dataagent2/benchmarks/live_20261026/WO2024020591A9/dataset.json 已包含上述三项人 TSLP KD，并分别保留对应实验、来源单元格及其他指标。
+因此：这个同族案例存在可直接复核的公开记录覆盖缺口；不只是因为 WO 和 US 文件编号不同，美国文本中也有这些实验。
+结论边界：未执行全库精确序列匹配，也未穷尽该家族所有美国后续申请，不排除同抗体在其他专利号下出现；不能将此一例推广为全库召回率或声称 SDA 整体更准确。SDA 旧基准里的该专利仍有 VH 冲突、缺链和未解决问题；243 条 observations 含定性/复用记录，不能与 POISK 的 1 条抗体记录直接作数量比值。
+
+五、最值得验证的优势
+A. 整篇专利完整召回：不以已入库 GenBank 序列为唯一入口，查清各构建体、变体、格式、物种与条件对应的全部实验。以上同族是首个案例；需扩展到独立样本。
+B. 实验数据表示：实体、实验、observation 分开，metric/value/unit/qualifier 分开；同一个抗体有多实验、多条件、多测量，KD 与 kd、IC50/EC50 分开保存。POISK 公开 affinity_value 是自由文本加 method/conditions，不应称它完全不含实验结构。
+C. 字段证据及冲突定位：正文行/表格单元格的地址、位置、原文锚点、拒绝事实和冲突留痕，比只有自然语言审计结论更便于程序检查；是否减少人工复核时间仍需实验。
+D. 长文档成本：有界主扫描联合抽取、本地合并、共享 SEQ ID 缺口去重、定向问答可降低重复读取。对方是一篇抽取加每条记录检索审计，可能有较多重复，但目前没有同输入同质量对照，不能声称我们更省。现有本地基准有未知用量及历史口径差异。
+E. 中文、近期 WO、扫描 PDF/复杂表格的适用范围可作为扩展方向；来源地域和语言本身不能证明方法更优，数据新颖性需要同族和序列去重。
+当前 dataagent2 的自动问答主要覆盖 VH/VL 映射/定义/边界，实验缺口尚未全面自动补全。不能将设计目标全部写成已完成能力。
+
+六、下一步可执行评测
+从 POISK 同时覆盖的 10–20 个专利家族构建独立、穷尽的实体—实验—结果金标准；把已知 WO/US 同族的实质文本差异记录下来。另设一个严格相同 US 文本的 POISK 提示词基线与 SDA 流程对照，用相同模型或同时报告模型差异；公开数据比较与方法对照分开。
+报告：抗体/构建体 precision/recall，VH/VL 精确正确与配对，metric/value/unit/qualifier 与条件绑定，完整记录正确率，证据位置，冲突和未解决率，输入/输出 token、失败重试、审计开销与人工时间。OCR、外部序列库和前置模板成本说明是否计入。
+最保守定位：在已有大规模抗体专利数据资源基础上，研究长篇专利内实验记录的完整恢复、细粒度证据约束和质量—成本权衡。
+
+随附文件
+papers/poisk/：论文 PDF/文本、公开抽取及审计提示词、字段说明、当前索引 manifest、匹配记录与检索统计、provenance.json。
+未下载全量 CSV（234 MB）或大规模折叠结构。索引来源校验和与 Zenodo v1.1 CSV 的 MD5 一致：f0c1f098abf1756e4b9891aa4dc028ee。

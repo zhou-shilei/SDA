@@ -118,6 +118,40 @@ class Dataagent2StudioTests(unittest.TestCase):
             patent = next(p for p in workspace.patents() if p["document_id"] == "DOC")
         self.assertEqual(patent["record_count"], 2)
 
+    def test_three_letter_sequence_export_preserves_printed_provenance(self):
+        from dataagent2.sequence_notation import THREE_LETTER
+        from dataagent2.quality import audit_dataset
+        self.invoke()
+        seed = self.output / "shared_seed"
+        data = load_input(seed)
+        codes = {residue: name.title() for name, residue in THREE_LETTER.items()}
+        printed = " ".join(codes[residue] for residue in SEQUENCE)
+        sid = next(s for s, source in data["sources"].items()
+                   if source["text"] == "Ab1 VH variable sequence: " + SEQUENCE)
+        data["sources"][sid]["text"] = "Ab1 VH variable sequence: " + printed
+        response = empty_response()
+        response["new_items"] = [{"name": "Ab1", "refs": [sid]}]
+        response["links"] = [{"item": "Ab1", "region": "VH", "seq": None, "name": "Ab1 VH", "refs": [sid]}]
+        response["sequences"] = [{"region": "VH", "seq": None, "name": "Ab1 VH", "refs": [sid],
+                                  "parts": [{"s": sid, "start": printed[:30], "end": printed[-30:]}]}]
+        ledger = Ledger(data)
+        ledger.apply(response, list(data["sources"]), "c1")
+        final = ledger.assemble()
+        final.update(status="partial", reader_coverage={})
+        self.assertFalse(audit_dataset(final, data["sources"])["literal_errors"])
+        output = self.root / "three-letter-review"
+        output.mkdir()
+        export_result(data, final, seed, output)
+        template = json.loads((output / "template.completed.json").read_text())
+        ab1 = next(e for e in template["entities"] if e["name"] == "Ab1")
+        self.assertEqual(ab1["VH"]["sequence"]["value"], SEQUENCE)
+        sources = json.loads((output / "document_sources.json").read_text())
+        fragment = next(s for k, s in sources.items() if k.startswith("dataagent2:fragment:"))
+        self.assertEqual(fragment["quote"], printed)
+        self.assertEqual(fragment["normalized_sequence"], SEQUENCE)
+        self.assertEqual(fragment["sequence_notation"]["encoding"], "three_letter")
+        self.assertEqual(fragment["page"], 1)
+
     def test_reader_failure_preserves_partial_dataset_and_unknown_usage(self):
         with patch.object(ScriptedProvider, "fail", True):
             report = self.invoke()

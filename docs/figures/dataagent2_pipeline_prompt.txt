@@ -1,0 +1,57 @@
+Use case: infographic-diagram.
+Asset type: a publication-quality scientific methods figure for a research paper, depicting the IMPLEMENTED dataagent2 patent extraction pipeline. Create one polished, high-resolution landscape image, approximately 2.2:1 aspect ratio, pure white background, crisp flat vector-like rendering and legible English typography.
+
+Primary request: Draw an accurate, elegant four-panel architecture diagram. All arrows and grouping must express the implemented flow described below. The full figure should fit a double-column academic paper, with restrained pale blue, teal, lavender and amber section accents, dark charcoal text, thin uniform strokes, generous whitespace, aligned boxes, and small professional line-art document/table/graph icons. Use bold sans-serif panel headings and compact readable body labels. No 3D, gradients, shadows, photographic elements, robot mascots, watermarks, invented performance statistics, or decorative scientific imagery. Make text sharp, spelled correctly, and avoid overcrowding. No enormous presentation-style headline. A small overall title is acceptable: "dataagent2: Evidence-grounded patent extraction".
+
+COMPOSITION: Four adjacent panels, ordered left to right, connected by clear right-facing arrows. Each panel has a small bold panel letter and title. Under all four panels place a slim shared provenance rail, with small connectors to relevant modules, labeled "Source IDs · PDF pages · coordinates · original OCR text". This rail represents stored evidence, not an additional model stage. Leave wide clean outside margins.
+
+PANEL (a), pale blue accent, exact heading "Evidence preparation".
+Top: patent PDF icon labeled "Patent PDF", arrow to "Orientation & layout".
+Then split into TWO PARALLEL branches, visually side by side within the panel:
+"Full-text OCR"
+"Table OCR" with smaller sublabel "VL structure + line OCR".
+Merge both branches into an evidence/document icon labeled "Structured OCR".
+Next a small conditional side callout: "Sequence OCR / style review when needed".
+Below, a box labeled "Shared classification & template", containing three short lines:
+"Entities & SEQ ID mappings"
+"Assay context"
+"Table measurements"
+An arrow from this box enters panel b; the structured OCR also visibly supplies panel b. Show a small quiet dotted input arrow labeled "Reuse saved OCR" that joins Structured OCR; this is an alternate entry, not a cyclic loop.
+
+PANEL (b), pale teal accent, exact heading "Chunked Reader".
+At top: "Address evidence", with a tiny example source table:
+"ID | Page | Kind | Text"
+"17 | 3 | text | ..."
+"42 | 8 | cell | ..."
+Below: stack of three small adjacent text cards labeled "Chunk 1", "Chunk 2", "Chunk N". A small bracket or note says "Ordered chunks + limited context".
+Arrow to a clearly marked model box labeled "Reader (LLM)".
+Inside or directly beneath the box, compact label "One request per chunk".
+Outputs in two simple lines: "Entities · mappings · sequences" and "Experiments · measurements · relations".
+Include the important concise callout "Sequence output: source ID + start/end anchors". Show anchor brackets on a small source strip, visually explaining span selection instead of full-sequence generation.
+Do not imply the Reader receives a growing full fact history. It receives the current chunk and seed metadata.
+
+PANEL (c), pale lavender accent, exact heading "Evidence ledger".
+Mark this panel with a small tag "Program".
+An upper box "Validate & copy source spans", with sublabel "Exact characters; whitespace removal".
+Next a box "Merge facts in document order".
+Under it, a clean tiny three-node relationship schematic:
+"Antibody" -> "VH / VL" -> "SEQ ID"
+with a separate tiny "Measurement" node attached to "Antibody"; no fabricated concrete experimental values.
+At bottom three quiet compact lines:
+"Shared definitions, distinct entities"
+"Full chains kept separate from VH / VL"
+"Conflicts & rejected facts retained"
+This is local deterministic bookkeeping and literal validation, not an LLM model and not biological validation.
+
+PANEL (d), muted amber accent, exact heading "Gap resolution & outputs".
+Upper small box labeled "Generate gap questions" with small tag "Program".
+Below three compact gap labels: "Mapping · definition · boundary".
+Next box "Targeted evidence retrieval", arrow to "Answer (LLM)".
+Small note "One answer per selected question". Do NOT draw an unlimited recurrent agent loop. Questions are generated after a complete Reader pass; groups may share a SEQ ID.
+A small dashed side output from the questions box labeled "OCR failure -> image re-OCR required"; do not connect OCR-failure questions into the text Answer box.
+After Answer, show "Provenance & linkage audit".
+Final clean output group labeled "SDA dataset + Studio review", illustrated with a tiny table and two document sheets, and sublabel "Sequences · assays · measurements · evidence".
+Small separate amber status chip "Unresolved gaps retained".
+
+BOTTOM FOOTNOTE, discreet but readable: "Literal provenance checks do not establish biological correctness."
+Scientific constraints: The shared template stage is reused from dataagent1; do not depict running the entire dataagent1 extraction or repair graph. Sequence anchors are copied from stored OCR by the program; do not portray model-generated residue correction. Do not show ANARCI or ESM2 as part of the default pipeline. This is an architecture figure, with no benchmark numbers, accuracy claims or cost-reduction claims. Avoid unnecessary implementation file paths, JSON schemas, vendor branding, large paragraphs, excessive arrows, or visual clutter.

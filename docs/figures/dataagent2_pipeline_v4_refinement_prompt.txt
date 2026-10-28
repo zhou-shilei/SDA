@@ -1,0 +1,24 @@
+Use case: precise-object-edit.
+Image 1 is the edit target: a scientific three-row architecture figure. Preserve the design, all three lane labels, colors, sizes, typography, database, agents, most connections and all text EXCEPT the TWO precise topology corrections below.
+
+CORRECTION 1 — ONE PDF OCR stage:
+There are currently TWO boxes labeled "PDF OCR". Remove the UPPER duplicate PDF OCR box in row (a), including its blue rounded rectangle, document icon and text. This is the box immediately below "Table detection & crops", at about x460..660, y208..284 in the 1774x887 image. Replace it with clean white background.
+Keep the LOWER "PDF OCR" box in row (b), around x450..614, y429..516, intact.
+Draw one clean dark-gray orthogonal branch from the LOWER output of Preprocessing directly DOWN to the TOP of the retained lower PDF OCR box. This branch may run from x410,y177 to x429,y177, then x429,y247, then x533,y247, then x533,y424 with its arrowhead pointing down into the retained PDF OCR. There must be NO intermediate OCR box in row a.
+Preserve the upper Preprocessing -> Table detection & crops branch. The final image should contain exactly ONE visible label "PDF OCR", in the middle row.
+
+CORRECTION 2 — UNRESOLVED GAPS COME FROM TEMPLATEAGENT:
+The current arrow labeled "Unresolved gaps" incorrectly starts at the bottom of the Chunk N card.
+REMOVE the vertical connection that begins at Chunk N and goes down to QuestionAgent. Keep the Chunk N card, its incoming chunking connection and its outgoing connection to TemplateAgent unchanged.
+Create a new clean dark-gray ORTHOGONAL arrow beginning at the BOTTOM edge of the purple MIDDLE-ROW TemplateAgent box (the one subtitled "Chunk-wise filling"). Route it DOWN into the open gap between rows b and c, then LEFT, then DOWN into the TOP of the blue QuestionAgent box. For example start around x1515,y527, descend to y642, go left to x1233,y642, then down to y689, with arrowhead on QuestionAgent. Label this new connector "Unresolved gaps", placing the text beside the horizontal run with a white margin so no line crosses text.
+Do not connect this arrow to Chunk N. It must visibly start at TemplateAgent and end at QuestionAgent.
+
+All other content stays unchanged, especially:
+- Dataset -> Dataset-guided chunking teal guidance
+- middle TemplateAgent -> Dataset "Validated fills" teal return
+- QuestionAgent -> AnswerAgent "Question" and reverse "Answer" orange arrows
+- OCR evidence -> AnswerAgent dashed "Targeted retrieval"
+- QuestionAgent -> Action "Proposed update"
+- Action -> Dataset outer teal "Apply validated updates" loop
+- the stop-condition label and legend.
+Do not add any nodes, stages, text or decorations. Do not crop the canvas. Restore any removed-background areas seamlessly to white. Keep thin professional strokes and complete legible labels.

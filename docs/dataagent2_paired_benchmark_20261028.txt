@@ -1,0 +1,72 @@
+dataagent2 与三家公开抗体抽取结果的配对序列试评
+2026-10-28（Asia/Shanghai）
+
+比较对象
+本地 dataagent2、POISK v1.1、ABCurator 的公开 ABDataCorpus 输出、ABPairDB v1.0 下载记录。
+ABCurator 的公开语料库输出与 ABDataBench README 模型榜单的逐篇预测不是同一产物。
+
+正式三篇
+US20150183856A1 / US9598483B2：DLL4；MLCK-1、MLCK-2、MLCK-3、MLCK-4。
+US20100221263A1 / US7988970B2：Sclerostin；86、88、89。
+US20110262448A1 / US8268970B2：Mesothelin；3C10、6A4、7B1。
+每个案例都有明确的具名抗体及 VH/VL 关系，三家均有现成公开输出。
+dataagent2 和 ABCurator 使用 A1 文档；POISK、ABPairDB 使用同一申请的 B2 授权版。
+同申请关系已核对原专利的 Publications 表；它不自动意味着全文或实验数据完全相同。
+
+评测单位和范围
+一个具名抗体的一条预测必须同时包含正确的 VH 和 VL；不同记录的正确单链不能重新拼对。
+分别报告 VH 精确恢复、VL 精确恢复、成对输出覆盖和无歧义成对精确恢复。
+仅移除空白；不改残基、不转换相似字符、不自动裁剪边界。
+只在这些具名参考抗体范围内统计；未标注的其他预测不自动记为假阳性。
+完整链、CDR、恒定区及单独的 SEQ ID 不能代替完整 VH/VL 对。
+模型执行尚未完成与执行完成但缺少正确配对分别保存，前者不计作零分。
+本地正式试评统一采用独立 CLI 默认的每篇最多8个定向补全问题；全文 Reader 全部读完。
+前两篇采集时已完成网页入口的全部问答（21/20次），第三篇发现该入口产生59个问题。
+因此将正式质量口径统一为8问：以完整请求哈希核对已保存响应，重放原始组装流程，
+不重新调用模型，不按参考答案筛选问题，不修改序列。额外采集日志及开销另行保留。
+
+参考答案
+参考由助手核对原始 A1 PDF 的具名抗体—链—SEQ ID 映射、图像及序列表建立。
+每条链保留编号、PDF 页码和原图哈希，不从竞品预测复制参考。
+这是本次案例试评的源文献参考，仍需独立人工复核，不是 ABDataBench 官方人工金标准。
+助手核对前已接触竞品输出，此参考审计不是盲评。
+DLL4 的图1与序列表存在打印差异；精确匹配以序列表为固定参照，冲突另外保留。
+不能把所有未命中该参照的差异都直接解释为抽取错误。
+
+本地运行
+调用已有 src/document/run_document_pdf.py --extraction-mode dataagent2。
+实际执行 PDF 预处理、正文及表格 OCR、共享分类与模板、Reader、问答和导出。
+OCR 部分失败和接受部分结果的情况保留在原 run_summary，Reader 完整指读完所提供的 OCR 来源。
+使用现有默认模型及推理档位；不向抽取阶段输入参考答案或竞品结果。
+未改动 dataagent2 的抽取实现。
+
+全部产物目录
+runs/competitor_pilot_20261028/
+  REPORT.txt：当前报告；本地流程全部完成前显示未完成。
+  paired_summary.csv / paired_scores.json：汇总和逐抗体、逐链结果。
+  selection.json：选样、公开版本、输入及源码校验和。
+  gold.source_verified.json / build_source_reference.py：源文献参考和构建依据。
+  sources/：公开下载、原始专利、源图像及元数据。
+  baselines/<公开号>/：三家的原始预测与统一的配对序列适配结果。
+  dataagent2/<公开号>/：本地完整流程、请求审计和实际用量。
+    results/<公开号>/dataagent2_bounded8/：统一8问预算下的原流程缓存重放和正式评分输入。
+  budget_stop.json：第三篇采集在统一预算后结束的原因与保存响应数。
+
+重新生成结果表（不调用模型）
+python src/paired_benchmark.py prepare
+python src/paired_benchmark.py evaluate
+
+生成某篇的统一预算结果（只读原始缓存，不发模型请求；缓存缺失时失败）：
+PYTHONPATH=src python src/paired_benchmark_replay.py <原生dataagent2目录> <新的dataagent2_bounded8目录>
+
+评测逻辑验证
+python -m unittest discover -s tests -p 'test_paired_benchmark*.py' -v
+验证跨记录拼链不能算对、冲突候选不能算无歧义成功、重复同一对不虚增歧义、
+边界缺字不自动修复、异常参考字符隔离，以及人源化抗体/突变体身份不混并。
+缓存命中和缺失分别验证；缺失时不能悄悄补发模型请求。
+
+公开来源
+https://github.com/GAIR-NLP/ABDataBench
+https://huggingface.co/datasets/GAIR/ABDataCorpus
+https://zenodo.org/records/21775623
+https://abpairdb.kaist.ac.kr/download/

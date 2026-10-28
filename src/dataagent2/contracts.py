@@ -68,7 +68,13 @@ Do not transcribe full sequences into JSON. Each part selects original text usin
 anchors (roughly 8-20 characters, copied INCLUDING spacing). Both empty means the WHOLE source text is
 residues/whitespace/<br>. Otherwise start and end delimit the desired substring inclusively.
 Anchors must uniquely locate a substring; use a longer anchor when repeated. Select separate parts for
-separate OCR lines/cells, in residue order. The host concatenates, removing ONLY whitespace and <br>.
+separate OCR lines/cells, in residue order. For one-letter sequences the host removes only whitespace
+and <br>. Standard three-letter amino-acid codes such as Glu Val Gln Leu are also accepted: select
+their exact printed text. The host deterministically maps complete standard codes to EVQL and retains
+each original token and character span. Three-letter codes may be separated by whitespace, <br> or
+single hyphens. Select only residues: exclude numbering, SEQ ID labels and prose with exact anchors.
+Unknown/ambiguous codes, modified residues, OCR substitutions and partial codes remain unresolved.
+All-uppercase text retains its single-letter interpretation; do not infer a different encoding.
 Never omit uncertain residues, change case, substitute characters, infer motifs or remove punctuation.
 You may select VH/VL from a full-chain definition ONLY with explicit document boundary support;
 cite boundary evidence too. Otherwise retain the complete H_CHAIN/L_CHAIN and report boundary issue.

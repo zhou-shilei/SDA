@@ -1,0 +1,202 @@
+可直接发送给 GPT Pro 的文献检索与 Related Work 写作提示词
+整理日期：2026-10-26；依据本地代码的静态阅读与初步联网检索。
+使用方式：复制以下“提示词正文”全部内容。正文已包含代码摘要，无须让 GPT Pro 访问本地路径。
+
+==================== 提示词正文 ====================
+
+请作为熟悉科学文献信息抽取、数据库系统、LLM agents 与抗体数据挖掘的研究者，为下面的方法进行联网文献检索，制作阅读清单，并帮助我撰写论文的 Related Work。重点是准确定位最接近的已有工作及方法差异，而非替我预设创新成立。
+
+请以实际检索日期为截止日期，优先覆盖 2023 年以来的研究，并保留必要的早期代表作。优先使用论文原文、出版社、ACL Anthology、arXiv 和作者官方项目。预印本、正式发表论文、仅有项目网站或代码仓库的资源必须区分；核对标题、作者、年份、版本和链接。不要编造文献或实验结论。若只能阅读摘要，请明确标注，不能据摘要断言正文没有某项机制。
+
+一、研究任务与设计目标
+
+我们从抗体专利中构建可追溯的结构化实验数据集。上游已有两路同源 OCR：
+1. PDFOCR：整篇专利的页面正文 OCR，包含行、页码、原文及可用的坐标。
+2. TableOCR：表格 OCR，包含单元格文本、行列结构、表头及来源位置。
+
+设计层面先利用 TableOCR 构建粗略 dataset1，再结合 PDFOCR 补全缺失的 VH、VL、指标及实验信息，得到 dataset2。需要恢复的并非孤立字段，而是如下相互关联的记录：
+“抗体/构建体身份—重轻链配对—SEQ ID—序列定义及可变区边界—实验—指标—测量值—单位—来源证据”。
+
+metric 包括 IC50、EC50、KD 等；实验信息包括方法、靶点、物种、实验体系和条件。不同指标不能笼统视为同一种亲和力，KD 与解离速率 kd 也需区分。实验投入浓度、配比等不能当成抗体性能测量值。
+
+专利中的信息经常跨段落、表格与章节分布：一个位置出现构建体名称，另一处给出 SEQ ID，另一处给出完整链，结果表给出测量，正文解释实验条件。别名、突变体、IgG 格式、多特异性抗体及共享序列会进一步增加关联难度。
+
+我们的目标是在保留字段质量、完整性和来源依据的前提下，减少重复读取长文档、重复输出长序列和重复处理同一缺口造成的 token 成本。目前这只是需要实验检验的效率目标，不代表已经证明等质量节省。
+
+二、与本地代码一致的实现摘要
+
+本地同时存在旧版 dataagent 与新的 dataagent2。论文讨论的新效率方案主要依据 dataagent2；不要把两版功能混成一个已完成的系统。
+
+A. dataset1 的实际来源
+dataagent2 读取已保存的 sda_input.json、document_template.json 和原始表格测量，构成种子状态 seed：实体、别名、序列编号关系、实验模板、原始表格测量。它排除了旧流程后续的序列提取、修复、人工继承和 AnswerAgent 答案。
+需要注意：旧版文档模板构建接口允许输入正文方法页、表格上下文及序列段落，因此不能未经隔离和核对就称当前 seed 为严格的“仅 TableOCR 数据”。设计目标的 table-first dataset1 和实验实际复用的 template/table seed 应清楚区分。
+命名约定：本提示词中的 dataset1 指初始 seed；dataset.first_pass.json 是阅读全文分块后的中间结果；dataset.json 对应补全后的 dataset2。不能将 first_pass 误称为最初 dataset1。
+
+B. 对原始证据建立本地地址
+正文 OCR 行和表格单元格被登记为整数 source ID。主机保存原文、页码、坐标、表格 ID、行列及来源身份；模型引用短 source ID，无须把整套来源元数据反复生成出来。
+模型输入仍含页码、类型、表格和行列等紧凑定位字段，以及原始文本；不是输入只有 source ID。
+
+C. 对 OCR 证据作一次有界的主扫描
+按文档顺序对正文行和表格单元格分块，每个来源恰好属于一个主块，少量相邻上下文和跨块表头可以重复。默认主块预算约 24,000 字符，属于字符预算，不是 24,000 token。
+每个主块的正常成功处理用一次逻辑模型请求，在同一 JSON 响应中完成多标签标注和事实抽取。标签包括：entity、sequence_mapping、sequence_definition、experiment、measurement、structure、alias、uncertain、other。
+响应包括 mentions、new_items、links、sequences、experiments、observations、relations、issues。一个来源可以承担多个角色，所以不是互斥分类；也不是先独立分类、再为每类重新读全文。
+每个 Reader 请求使用紧凑的种子实体目录、已有编号关系、实验 ID、当前块已存在的测量来源与当前证据。它不携带完整的持续增长 dataset，也不将前一块完整输出作为下一块的推理记忆。块可并发处理，本地按文档顺序合并，因此“一次主扫描”不等于一个 LLM 调用或严格串行的递归阅读。
+“读过所有提供的 OCR 来源”只表示输入覆盖，不证明语义抽取完整，也不证明 OCR 与 PDF 完全一致。问答、上下文重叠和失败重试仍可能再次读取部分证据。
+
+D. 模型定位，程序逐字复制
+长氨基酸序列不要求模型完整重写。模型返回 source ID 加短的原文 start/end 锚点，主机验证唯一定位并截取、拼接原文，只移除空白和 <br>。
+不存在、歧义、重叠的锚点及非标准残基字符会被拒绝并记录，不能通过常见基序或模型常识补猜残基。
+这是来源片段选择和确定性物化：能验证“字符来自该 OCR 片段”，不能独立证明 OCR 字符正确、实体归属正确或 VH/VL 边界正确。
+
+E. 本地事实账本与受约束合并
+本地程序累积和去重事实、关联共享 SEQ ID 定义、保留每条映射的证据，并将事实合并为数据集。共享序列不自动意味着两个构建体身份相同。
+支持的关系类型包含 same_entity、variant_of、component_of、has_component、tested_in；名称相似、突变关系或共享序列本身不能支持 same_entity。
+完整重轻链 H_CHAIN/L_CHAIN、CDR 和 VH/VL 分开表示。没有原文边界证据时不把完整链直接当成可变区。多特异性分子保留组件关系。
+测量与实验仅在明确且唯一的匹配下合并；问题、冲突、被拒事实和未补全字段被保留。
+表格 OCR 与正文 OCR 字符冲突时，当前新版本采用表格字符优先的来源策略并保留冲突；这不是断言 TableOCR 比原图更真实。
+
+F. 缺口驱动的 QuestionAgent → AnswerAgent
+新版本的 QuestionAgent 是本地确定性问题生成模块，不是另一次必须调用 LLM 的提问服务。它根据缺失 VH/VL 的映射、定义与边界生成问题；相同 SEQ ID 与链类型的定义缺口合并，并优先处理影响多个槽位的问题。
+AnswerAgent 只回答预算内的问题。主机按照已知来源地址、SEQ ID、实体名称、边界定义证据和局部上下文，进行规则打分与定向检索；它不是已实现的向量检索器、学习检索器或置信度驱动策略。
+每题证据默认约 14,000 字符，问题数默认最多 8 个，可配置。每题至多一次逻辑回答，传输失败可有限重试；这不是无限多轮反思。
+回答继续遵守同一个结构化事实协议。主机先在候选状态验证修改，不能静默覆盖已有受支持的 VH/VL；证据不足时保留问题，不强行填值。
+当前新版本的自动问答只覆盖 VH/VL 缺口。主扫描能够抽取实验与测量并保存相关 issues，但实验/指标问题尚未全部接入自动问答队列。全面自动补全实验与指标属于设计范围或后续扩展，不能写成已实现结果。
+旧版 dataagent 有基于 LLM 的 QuestionAgent，以及可读取表格裁图、复核 OCR、提出实验修改的 AnswerAgent；这些能力应单独描述，不能默认属于新版本。
+
+G. 审阅输出与计算边界候选
+输出保留数据集、原始来源、事实、冲突、问题、回答、拒绝记录和真实模型调用用量，并导出 items.csv、observations.csv、experiments.csv。
+另有可选 ANARCI/IMGT 完整链编号与可变区切片，单独标为 computed_domain。当前审阅 CSV 可能来自包含这类计算候选的导出，而非纯原文明示版本。
+计算边界候选与原文明示的 supported VH/VL 必须分别报告。不能把计算候选、逐字符相同或旧修复结果当成人工金标准准确率。
+
+三、希望检索的文献方向
+
+请围绕下列六个方向检索，并按与上述具体机制的接近程度排序：
+
+1. 抗体专利/文献中的序列、配对、靶点、测量及实验语境抽取。
+   关注从序列表建立序列库与从正文/表格恢复“实体—序列—实验—结果”之间的差异，寻找真正直接相关的系统与评估集。
+
+2. 表格与正文联合信息抽取、跨段落/跨表关联、文档级 n 元关系抽取与模板填充。
+   区分回答单个给定问题和穷尽构建整个数据集，区分已有干净文本与存在 OCR 冲突的输入。
+
+3. 面向长文档的 schema-guided 抽取、同一请求中的多标签标注与多类事实抽取、分块主扫描及本地增量合并。
+   同时寻找数据库领域的 LLM ETL、semantic operators、operator fusion、projection、materialization、增量视图与 provenance 相关研究。请判断这些术语是否真正适合当前实现，不能只因直觉相似就强行套用。
+
+4. 缺口/不确定性驱动的检索、问题分解、核验问答、反思及 agentic document understanding。
+   重点比较何时触发、如何构造问题、检索什么、问题是否去重、是否改变结构化状态以及如何决定接受修改。
+   若当前方法只是缺失值触发，就不要称为已经实现了校准不确定性或最优价值信息调度。
+
+5. 低 token 成本的信息抽取和管线优化。
+   分别比较减少重复读入、减少输出序列重写、缩短引用、规则承担合并、共享问题去重及检索预算。区分我们的方法与 token pruning/prompt compression、换小模型、缓存和并发加速。
+
+6. 来源约束的抽取、span/pointer selection、evidence attribution、可验证的结构化修改及冲突保留。
+   重点查找“LLM 选择原文位置，程序复制原值”的先例；来源字符校验与语义/生物学正确性要分开。
+
+四、初步核实过的检索入口
+
+以下是起点而非完整清单。请继续核验正式版本、正文机制及引用信息，不要仅依这些页面写最终结论。
+
+【抗体领域】
+1. Data mining patented antibody sequences（PAD，2021）
+   https://doi.org/10.1080/19420862.2021.1892366
+   研究专利抗体序列挖掘；请进一步检查其序列来源、配对方式、功能元数据与测量关联范围。
+2. The Patent and Literature Antibody Database (PLAbDab): an evolving reference set of functionally diverse, literature-annotated antibody sequences and structures
+   https://pmc.ncbi.nlm.nih.gov/articles/PMC10767817/
+   在线发表与期刊卷期年份需区分，核对其配对及功能注释构建方式。
+3. ABPairDB 官方资源
+   https://abpairdb.kaist.ac.kr/about/
+   官方介绍包含从美国专利利用 LLM/RAG 挖掘抗体、抗原与定量实验结果及语境。请追查对应论文及实际管线；若找不到论文，作为项目资源列出。
+4. ABDataBench: A Benchmark for Structured Antibody Data Extraction from Scientific Literature
+   https://github.com/GAIR-NLP/ABDataBench
+   官方仓库介绍了覆盖论文、专利及补充材料的结构化抗体数据抽取评估。请核验是否有论文及其评估协议。若属于我们的已有工作，应标为本团队背景/评估资源，而非外部独立先例；目前不要猜测作者归属。
+
+【结构化文档抽取与效率】
+5. DocETL: Agentic Query Rewriting and Evaluation for Complex Document Processing（PVLDB 2025）
+   https://www.vldb.org/pvldb/vol18/p3035-shankar.pdf
+   https://arxiv.org/abs/2410.12189
+   对照文档任务分解、管线重写与验证。请勿把原版直接概括为已同时完成成本与准确率优化。
+6. Multi-Objective Agentic Rewrites for Unstructured Data Processing（MOAR）
+   https://arxiv.org/abs/2512.02289
+   对照成本/质量多目标优化，核对检索日的正式发表状态及版本。
+7. Palimpzest: Optimizing AI-Powered Analytics with Declarative Query Processing（CIDR 2025）
+   https://vldb.org/cidrdb/papers/2025/p12-liu.pdf
+   对照模型/执行计划选择与成本、时延、质量权衡。
+8. Language Models Enable Simple Systems for Generating Structured Views of Heterogeneous Data Lakes（EVAPORATE）
+   https://arxiv.org/abs/2304.09433
+   对照 LLM 直接抽取与生成程序后执行的成本分配。请核对正式发表信息。
+9. LLMLingua: Compressing Prompts for Accelerated Inference of Large Language Models（EMNLP 2023）
+   https://aclanthology.org/2023.emnlp-main.825/
+   作为压缩已有输入的效率路线对照，不能把我们的结构化引用和减少重复读取直接等同于其方法。
+
+【跨来源关系与问答补全】
+10. SciREX: A Challenge Dataset for Document-Level Information Extraction（ACL 2020）
+    https://aclanthology.org/2020.acl-main.670/
+    对照跨文档内部位置的实体与 n 元关系抽取。
+11. TAT-QA: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance（ACL-IJCNLP 2021）
+    https://aclanthology.org/2021.acl-long.254/
+    对照表格/正文联合证据和片段选择；注意其金融数值问答任务与抗体数据集构建不同。
+12. DocAgent: An Agentic Framework for Multi-Modal Long-Context Document Understanding（EMNLP 2025）
+    https://aclanthology.org/2025.emnlp-main.893/
+    对照文档结构、动态阅读、核验角色和记忆机制。
+13. Active Retrieval Augmented Generation（EMNLP 2023，FLARE）
+    https://aclanthology.org/2023.emnlp-main.495/
+    对照按信息需要触发检索；其生成置信度触发与我们的 schema 缺口触发不可混为一谈。
+14. Chain-of-Verification Reduces Hallucination in Large Language Models（Findings of ACL 2024）
+    https://aclanthology.org/2024.findings-acl.212/
+    对照初始结果、核验问题、回答和最终结果的流程；检查其问题独立性设置与我们答案输入已知事实的差别。
+
+五、请按下面顺序交付
+
+A. 方法定位与最接近工作
+先用中文约 300–500 字准确概括任务和实现，再选出最接近的 5 篇/项工作，解释“接近到哪一层、哪些关键点不同、哪些还需要读正文确认”。不要只列 RAG、多智能体和 OCR 综述。
+
+B. 阅读清单
+给出约 18–25 篇经核验的相关文献，质量与相关性优先，不为凑数加入弱相关文章。每篇包含：准确标题、作者、年份/发表状态、一手链接、研究问题、核心机制、对应本方法的具体模块、任务与评估差异、阅读优先级。
+其中最值得精读的 8 篇给出正文应阅读的章节/图表及阅读问题。未获取全文时注明，不能编造章节号。
+数据库/项目无论文时独立列为资源，避免混入正式论文数量。
+
+C. 可审查的对照矩阵
+对最接近的约 8–12 项工作与当前方法进行比较，至少覆盖：输入是否含表格+正文、输出是 QA 还是完整结构化记录、跨位置实体/序列/实验关联、多标签/多事实联合处理、有界主扫描、缺口触发检索、问题共享去重、片段定位后程序复制、证据引用、修改校验/冲突保留、成本指标和质量评估。
+只根据原文填“有/无/部分/未说明”；未说明不等于没有。请在矩阵关键判断处给出原文章节或链接依据。
+
+D. 创新边界
+请直接回答：
+1. 哪些机制已有明确先例，例如分块、RAG、问题分解、结构化 JSON、核验问答、来源引用？
+2. 哪些组合可能构成本文可研究的贡献？请将其表述为待验证假设，而非宣称首次提出。
+3. 本方法与 CoVe、主动 RAG、DocETL/MOAR、通用文档 agents、已有抗体专利数据库的差别分别是什么？
+4. 当前实现最容易被审稿人质疑的地方是什么？哪些需要代码扩展，哪些主要需要更严格的评估？
+可考虑但不预设成立的贡献候选是：“面向抗体实验记录的单次主扫描联合抽取 + 本地来源可追溯事实合并 + 共享缺口去重的预算内证据问答 + 原文字段的程序物化与验证”。
+
+E. Related Work 草稿
+给出一份中文写作提纲和约 800–1,100 英文词的 Related Work 草稿，按 3–4 个有明确逻辑的主题组织。引用必须可映射到核实的参考文献，综述正文应比较问题设定和机制，避免罗列论文摘要。
+最后给出 2–3 句保守、可辩护的方法定位表达。不要使用 first、novel、state-of-the-art 等词，除非有充分证据。
+
+F. 支撑效率与质量主张的评估建议
+建议一组可执行基线与消融，例如 table-only（严格隔离正文）、全文一次长上下文抽取、逐字段重复检索、按缺口检索补全、分类与抽取分离/融合、长序列重写/片段复制、共享缺口去重开关、问答开关和证据预算变化。
+请明确哪些基线是文献方法的实际复现，哪些只是我们自己的控制实验。
+成本应报告输入/输出 token、调用次数、失败与重试、缓存口径及必要时的时延；OCR 和前置模板成本应说明纳入与否，字符预算不能充当真实 token 用量。
+质量应覆盖实体归属、VH/VL 逐字符正确性与配对、实验绑定、metric/value/unit、结构化记录完整性、来源正确性、冲突及未解决率；原文明示和 computed_domain 分开评估。以人工审阅样本作为质量依据，不把后续修复输出作为金标准。
+我们目前的本地实测存在未完成文档、未知请求用量、复用前置成本以及历史基线修复范围不一致的问题，不能据已有记录写出等质量的节省比例。
+
+G. 引文与追溯
+提供拟用于草稿的已核验 BibTeX、按优先级排序的阅读路线，以及仍需人工核查的事项。若无法确认作者、会议、年份、资源论文或某项机制，请明确保留待核实，不补猜。
+
+输出以中文分析为主，论文标题保持原文，Related Work 草稿使用英文。请保持具体、批判和可验证。
+
+==================== 提示词正文结束 ====================
+
+本地核对索引（仅供我们回查，不依赖 GPT Pro 访问）
+
+- src/dataagent2/README.md：新流程概览、覆盖限制、计算域候选与用量口径。
+- src/dataagent2/inputs.py:32：原始证据、模板/测量种子及参考结果隔离。
+- src/dataagent2/inputs.py:143：有界分块、主来源唯一归属、上下文和表头重叠。
+- src/dataagent2/contracts.py:3：区域、标签、结构化响应及模型约束。
+- src/dataagent2/pipeline.py:23：Reader 实际输入；只含紧凑 seed 信息和当前证据。
+- src/dataagent2/pipeline.py:34：确定性缺口队列、共享问题合并与排序。
+- src/dataagent2/pipeline.py:48：规则打分、原地址定向检索及字符预算。
+- src/dataagent2/pipeline.py:214：first_pass、预算内问答、候选修改验证和最终输出。
+- src/dataagent2/ledger.py:31：原文锚点验证与序列逐字物化。
+- src/dataagent2/ledger.py:154：事实与种子组装、实验/观察关联、冲突及缺失状态。
+- src/dataagent2/export_rows.py:18：items / observations / experiments CSV 导出。
+- src/dataagent2/domain_probe.py、augment_domains.py：与原文明示结果分开的计算边界候选。
+- src/dataagent/llm_table_agents.py:742：旧模板接口允许正文方法页、上下文和序列段落输入。
+- src/dataagent/question_agent.py:69、answer_agent.py:146、question_workflow.py：旧版 LLM 提问、含图片回答与受约束修改；不等同于新流程。

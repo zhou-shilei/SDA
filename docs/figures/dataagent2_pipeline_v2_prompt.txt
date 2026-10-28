@@ -1,0 +1,50 @@
+Use case: infographic-diagram.
+Asset type: a clean, publication-quality architecture figure for a scientific paper.
+Primary request: REDRAW the previous dataagent2 figure from scratch following the user's supplied topology. This should be a concise horizontal scientific pipeline with TWO OCR branches and an explicit Query -> QuestionAgent -> AnswerAgent -> Action chain. The previous four large panels and explanatory cards were the wrong structure. Replace that layout entirely.
+
+Canvas: wide landscape, approximately 2.4:1, pure white background, high-resolution, extremely sharp readable English labels. Flat vector-like scientific illustration, restrained thin dark-gray outlines, clean orthogonal directional arrows, minimal blue / teal / pale orange / lavender fills. Lots of whitespace. Small tasteful outline icons integrated into nodes. Uniform typography and node sizes. This is a compact methods figure, not a dashboard or poster. NO large title, NO four-column panels, NO long explanatory prose, NO large footer, NO source-address tables, NO code snippets, NO giant rounded containers, NO gradients, shadows, 3D or watermark.
+
+MANDATORY GRAPH TOPOLOGY, with deliberate placement so the dual branch is immediately clear:
+The leftmost "PDF" node is a small outlined document icon, at x~5%, y~50%.
+Arrow right to a single "Preprocessing" node at x~17%, y~50%, with subtitle "(Orientation)".
+After preprocessing, draw a visible split junction into TWO distinct horizontal lanes.
+UPPER LANE at y~25%: "PDF OCR" at x~30% -> "Query" at x~44% -> a small elegant stacked document outline labeled "Retrieved evidence" at x~60%. Carry an arrow from Retrieved evidence rightwards then down into the TOP of "AnswerAgent" on the lower main chain. Label this connector "Context". Make it visually obvious that PDF OCR supplies the evidence used by AnswerAgent.
+LOWER LANE at y~65%: "Table OCR" at x~30% -> "Dataset" at x~42% -> "Query" at x~53% -> "QuestionAgent" at x~65% -> "AnswerAgent" at x~77% -> "Action" at x~88%.
+Below the upper lane Query, add very small short text "Search document evidence".
+Below the lower lane Query, add very small short text "Find missing fields".
+Below QuestionAgent add a small short label "Generate questions".
+Below AnswerAgent add a small short label "Answer with evidence".
+Below Action add a small short label "Apply validated updates".
+Dataset should be drawn with a simple database cylinder or a table icon, all other stages as clean small rectangles with modest corner rounding. Preprocessing can contain a small rotate-page icon. PDF OCR can contain a text-line icon; Table OCR a tiny grid. QuestionAgent, AnswerAgent and Action must remain distinct boxes with correctly spelled labels.
+The incoming main arrows between Dataset -> Query -> QuestionAgent -> AnswerAgent -> Action are SOLID, rightward, unambiguous, and evenly spaced.
+
+OUTPUT AND FEEDBACK:
+From Action, draw a short rightward arrow to a small table/document icon at x~97%, y~65%, labeled on two lines "Updated" / "dataset".
+From Action also draw a thin DASHED feedback arrow DOWN to y~88%, LEFT underneath the full lower chain, then UP into Dataset. This arrow must be clean, must not cross nodes, and must point into Dataset. Center a small label on this return path: "Update dataset; continue with remaining questions".
+Place a small subtle note by the return arrow: "Bounded by the question budget". This depicts finite refinement, not an unbounded autonomous loop.
+Do not add a feedback arrow into PDF OCR. Do not merge the two Query nodes. Do not omit Action. Do not insert the previous Reader/Ledger subpanels between the user's requested stages.
+
+Visible text, verbatim:
+"PDF"
+"Preprocessing"
+"(Orientation)"
+"PDF OCR"
+"Table OCR"
+"Dataset"
+"Query" (appears twice, one per lane)
+"Retrieved evidence"
+"Context"
+"Search document evidence"
+"Find missing fields"
+"QuestionAgent"
+"Generate questions"
+"AnswerAgent"
+"Answer with evidence"
+"Action"
+"Apply validated updates"
+"Updated"
+"dataset"
+"Update dataset; continue with remaining questions"
+"Bounded by the question budget"
+
+All text must be legible, short, correctly spelled, and not overlap arrows. Enlarge the drawing canvas if necessary instead of squeezing nodes. The most prominent visual is the lower main workflow, and the upper PDF OCR branch provides a clearly connected supporting evidence stream. Aim for the visual clarity and restrained styling of an academic machine learning methods architecture diagram. This is a conceptual pipeline abstraction, so do not invent performance statistics, benchmark results, biological accuracy claims, or extra implementation stages.
