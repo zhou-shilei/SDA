@@ -28,10 +28,13 @@ def digest(value):
 
 
 def response_schema(stage, *, action_record_refs=False, payload=None):
+    if stage == "answer" and payload and "workflow_revision" in payload:
+        from .followup import ANSWER_SCHEMA
+        return ANSWER_SCHEMA
     if stage == "action_accounting":
         from .action_accounting import SCHEMA_ACCOUNTING
         return SCHEMA_ACCOUNTING
-    if stage == "action":
+    if stage in {"action", "answer_action"}:
         if action_record_refs:
             from .action_record_refs import SCHEMA_ACTION_RECORD_REFS, record_reference_schema
             return record_reference_schema(payload) if payload is not None else SCHEMA_ACTION_RECORD_REFS
@@ -92,13 +95,15 @@ def event_error(stdout):
 
 class Provider:
     def __init__(self, output, *, model="gpt-6.1-sol", effort="xhigh", timeout=600,
-                 action_timeout=None, action_record_refs=None, action_effort=None, request_interval=0):
+                 action_timeout=None, action_record_refs=None, action_effort=None, request_interval=0,
+                 answer_effort="medium"):
         self.output = Path(output)
         self.model, self.effort, self.timeout = model, effort, timeout
         # Complete-dataset output is much larger than one Reader's proposals.
         self.action_timeout = max(timeout, 1800) if action_timeout is None else action_timeout
         self.action_record_refs = action_record_refs
         self.action_effort = action_effort
+        self.answer_effort = answer_effort
         self.request_interval = max(0, request_interval)
         self.lock = threading.RLock()
         self.calls = []
@@ -154,9 +159,11 @@ class Provider:
     def generate(self, stage, instructions, payload):
         record_refs = self.action_record_refs
         if record_refs is None:
-            record_refs = stage == "action" and "output_encoding" in payload
+            record_refs = stage in {"action", "answer_action"} and "output_encoding" in payload
         schema = response_schema(stage, action_record_refs=record_refs, payload=payload)
-        effort = self.action_effort if stage in {"action", "action_accounting"} and self.action_effort else self.effort
+        effort = self.action_effort if stage in {"action", "answer_action", "action_accounting"} and self.action_effort else self.effort
+        if stage == "answer" and payload.get("workflow_revision") and self.answer_effort:
+            effort = self.answer_effort
         fingerprint = {"stage": stage, "instructions": instructions, "payload": payload,
                        "schema": schema, "model": self.model, "effort": effort}
         key = digest(fingerprint)
@@ -184,6 +191,7 @@ class Provider:
                 "-c", f'model_reasoning_effort="{effort}"', "--sandbox", "read-only",
                 "--ephemeral", "--json", "--disable", "shell_tool", "--disable", "multi_agent",
                 "--disable", "skill_search", "-c", 'web_search="disabled"', "--skip-git-repo-check",
+                "--disable", "plugins", "--disable", "remote_plugin", "--disable", "apps",
                 "--cd", str(run.resolve()), "--output-schema", str((folder / "schema.json").resolve()),
                 "--output-last-message", str(answer.resolve()), "--ignore-user-config", "-"]
             started_at_unix = time.time()
@@ -193,7 +201,7 @@ class Provider:
                 proc = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE, text=True, start_new_session=True, env=os.environ.copy())
                 try:
-                    stdout, stderr = proc.communicate(prompt, timeout=self.action_timeout if stage == "action" else self.timeout)
+                    stdout, stderr = proc.communicate(prompt, timeout=self.action_timeout if stage in {"action", "answer_action"} else self.timeout)
                 except subprocess.TimeoutExpired:
                     os.killpg(proc.pid, signal.SIGKILL)
                     stdout, stderr = proc.communicate()

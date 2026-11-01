@@ -91,7 +91,7 @@ def request_coverage(directory):
             call = json.loads(line)
         except ValueError:
             continue  # A live JSONL tail can be incomplete.
-        if not isinstance(call, dict) or call.get("stage") not in {"reader", "action", "answer"}:
+        if not isinstance(call, dict) or call.get("stage") not in {"reader", "action", "answer", "answer_action"}:
             continue
         identity = call.get("attempt_id")
         if not isinstance(identity, str) or identity in seen or number(call.get("seconds")) is None:
@@ -112,7 +112,8 @@ def request_coverage(directory):
         for start, finish in sorted(spans):
             total += max(0.0, finish - max(start, end))
             end = max(end, finish)
-        result.append({"stage": {"reader": "dataagent2_reader", "action": "dataagent2_action", "answer": "dataagent2_questions"}[stage],
+        result.append({"stage": {"reader": "dataagent2_reader", "action": "dataagent2_action", "answer": "dataagent2_questions",
+                                  "answer_action": "dataagent2_answer_action"}[stage],
                        "seconds": total, "basis": "request_coverage", "requests": len(spans)})
     return result
 
@@ -151,6 +152,7 @@ def extraction_stages(directory, runtime=None):
     order = ["sequence_ocr_refresh", "discover", "context", "triage", "select", "extract",
              "index_document", "classify_tables", "assay_method_context", "template",
              "dataagent2_input", "dataagent2_prepare", "dataagent2_reader", "dataagent2_merge",
-             "dataagent2_action", "dataagent2_gap_detection", "dataagent2_questions", "dataagent2_export", "result_export"]
+             "dataagent2_action", "dataagent2_gap_detection", "dataagent2_questions", "dataagent2_answer_action",
+             "dataagent2_export", "result_export"]
     result.sort(key=lambda row: order.index(row["stage"]) if row["stage"] in order else len(order))
     return result

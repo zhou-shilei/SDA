@@ -101,12 +101,23 @@ def action_response(payload):
             "seed_changes": [], "conflicts": []}
 
 
+def empty_answer(payload):
+    return {"question_id": payload["question"]["id"], "status": "unresolved", "actions": [],
+            "answer": "Fixture evidence does not establish the requested domain ownership.",
+            "refs": [payload["sources"][0][0]] if payload["sources"] else [],
+            "missing_evidence": ["No confirmed domain ownership statement is supplied."]}
+
+
 class GroundingTests(unittest.TestCase):
     def test_all_questions_can_run_and_pending_file_is_refreshed(self):
         class FakeProvider:
             model, effort = "test", "test"
 
             def generate(self, stage, instructions, payload):
+                if stage == "action":
+                    return action_response(payload), {}
+                if stage == "answer":
+                    return empty_answer(payload), {}
                 return empty_response(), {}
 
             def usage(self):
@@ -436,6 +447,9 @@ class PipelineTests(unittest.TestCase):
                 stages.append(stage)
                 if stage == "answer":
                     assert payload["question"]["kind"] != "ocr_failure"
+                    return empty_answer(payload), {}
+                if stage == "action":
+                    return action_response(payload), {}
                 return empty_response(), {}
 
             def usage(self):
@@ -445,11 +459,11 @@ class PipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             report = run(data, FakeProvider(), Path(tmp), max_questions=1)
             answers = json.loads((Path(tmp) / "answers.json").read_text())
-        self.assertEqual(stages, ["reader", "answer"])
+        self.assertEqual(stages, ["reader", "action", "answer"])
         self.assertEqual(report["questions_attempted"], 1)
         self.assertEqual(report["questions_requiring_image_ocr"], 1)
         self.assertTrue(any(a["status"] == "requires_image_ocr" for a in answers))
-        self.assertFalse(next(a for a in answers if a["status"] == "applied")["resolved"])
+        self.assertFalse(next(a for a in answers if a["status"] == "no_change")["resolved"])
 
     def test_partial_ledger_is_persisted_in_order_without_double_applying_rejections(self):
         class FakeProvider:

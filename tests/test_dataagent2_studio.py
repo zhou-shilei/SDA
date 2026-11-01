@@ -531,6 +531,9 @@ class EngineUploadTests(unittest.TestCase):
                 server.update_progress("new-doc", 'sda-dataagent2-progress {"phase":"reader","completed":2,"total":5}')
                 job = workspace.jobs()["new-doc"]
                 self.assertEqual((job["stage"], job["stage_current"], job["stage_total"]), ("reader", 2, 5))
+                server.update_progress("new-doc", 'sda-dataagent2-progress {"phase":"action","completed":0,"total":1}')
+                job = workspace.jobs()["new-doc"]
+                self.assertEqual((job["stage"], job["stage_current"], job["stage_total"]), ("action", 0, 1))
             finally:
                 server.shutdown()
                 server.server_close()

@@ -20,12 +20,14 @@ def main():
     parser.add_argument("--effort", default="xhigh")
     parser.add_argument("--action-effort", default="medium", help="Reasoning effort for full-dataset consolidation")
     parser.add_argument("--action-timeout", type=int, default=1800)
+    parser.add_argument("--answer-effort", default="medium", help="Reasoning effort for focused gap answers")
+    parser.add_argument("--answer-workers", type=int, default=4, help="Parallel Answers on one fixed Dataset2")
     parser.add_argument("--chunk-chars", type=int, default=24000)
     parser.add_argument("--workers", type=int, default=0,
                         help="Reader concurrency; 0 (default) starts all chunks together")
     parser.add_argument("--document-workers", type=int, default=1)
     parser.add_argument("--max-questions", type=int, default=8)
-    parser.add_argument("--question-chars", type=int, default=14000)
+    parser.add_argument("--question-chars", type=int, default=8000, help="Soft source budget; required evidence stays complete")
     parser.add_argument("--max-chunks", type=int, help="Smoke test only, not a full cost comparison")
     parser.add_argument("--timeout", type=int, default=600)
     parser.add_argument("--request-interval", type=float, default=0,
@@ -33,7 +35,8 @@ def main():
     parser.add_argument("--plan-only", action="store_true", help="Inspect input sizes; no model calls/token estimates")
     args = parser.parse_args()
     if (args.workers < 0 or min(args.document_workers, args.timeout) < 1
-            or args.max_questions < 0 or args.request_interval < 0 or args.action_timeout < 1):
+            or args.max_questions < 0 or args.request_interval < 0 or args.action_timeout < 1
+            or args.answer_workers < 1 or args.question_chars < 1):
         parser.error("Reader workers/question budget/interval must be nonnegative; document workers/timeout must be positive")
     if args.native_dir and len(args.documents) != 1:
         parser.error("--native-dir requires exactly one document")
@@ -57,9 +60,10 @@ def main():
         output.mkdir(exist_ok=True)
         provider = Provider(output, model=args.model, effort=args.effort, timeout=args.timeout,
                             request_interval=args.request_interval, action_effort=args.action_effort,
-                            action_timeout=args.action_timeout)
+                            action_timeout=args.action_timeout, answer_effort=args.answer_effort)
         return run(data, provider, output, chunk_chars=args.chunk_chars, workers=args.workers,
-                   max_questions=args.max_questions, question_chars=args.question_chars, max_chunks=args.max_chunks)
+                   max_questions=args.max_questions, question_chars=args.question_chars, max_chunks=args.max_chunks,
+                   answer_workers=args.answer_workers)
 
     reports, errors = [], {}
     with ThreadPoolExecutor(max_workers=args.document_workers) as pool:

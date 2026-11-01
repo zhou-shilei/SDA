@@ -105,8 +105,8 @@ def source_ids(value):
     return found
 
 
-def build_action_payload(data, chunks, completed):
-    initial = business_dataset(Ledger(data))
+def build_action_payload(data, chunks, completed, *, initial=None):
+    initial = business_dataset(Ledger(data)) if initial is None else copy.deepcopy(initial)
     actions = []
     for chunk in chunks:
         if chunk["id"] not in completed:
@@ -362,7 +362,14 @@ def validate_action_result(data, payload, response):
     if ledger.rejections:
         semantic_errors.append("ActionAgent dataset contains ungrounded facts: " + str(ledger.rejections))
     try:
-        domain_summary = validate_domain_reviews(payload, response, ledger.assemble())
+        assembled = ledger.assemble()
+        domain_summary = validate_domain_reviews(payload, response, assembled)
+        by_id = {e["id"]: e for e in assembled["entities"]}
+        for protected in payload.get("protected_domains", []):
+            slot = by_id[protected["item"]]["sequences"][protected["region"]]
+            if slot["status"] != "supported" or slot["value"] != protected["value"]:
+                semantic_errors.append("Answer integration changed an already supported domain: "
+                                       + str((protected["item"], protected["region"])))
     except (ValueError, KeyError, TypeError) as error:
         semantic_errors.append(str(error))
     if semantic_errors:
@@ -381,6 +388,7 @@ def validate_action_result(data, payload, response):
     ledger.action_metadata = {"status": "validated", "revision": REVISION,
         "action_count": len(actions), "seed_change_count": len(response["seed_changes"]),
         "domain_review": domain_summary}
+    ledger.domain_reviews = copy.deepcopy(response["domain_reviews"])
     return ledger
 
 
@@ -388,12 +396,17 @@ def run_action_agent(data, chunks, completed, provider, output):
     if set(completed) != {chunk["id"] for chunk in chunks}:
         raise ValueError("ActionAgent requires every Reader chunk to finish successfully")
     payload = build_action_payload(data, chunks, completed)
-    write_json(output / "action_agent.input.json", payload)
-    if not payload["reader_actions"]:
+    if not payload["reader_actions"] and not payload["initial_dataset"]["entities"]:
         metadata = {"status": "not_needed", "reason": "Readers returned no proposals", "revision": REVISION}
         write_json(output / "action_agent.json", metadata)
         write_json(output / "action_agent.dataset.json", payload["initial_dataset"])
         return Ledger(data), metadata
+    return run_action_payload(data, payload, provider, output)
+
+
+def run_action_payload(data, payload, provider, output, *, stage="action", instructions=ACTION_INSTRUCTIONS):
+    """The same complete-dataset contract for Reader and Answer consolidation."""
+    write_json(output / "action_agent.input.json", payload)
     original = copy.deepcopy(payload)
     if feedback := getattr(provider, "action_feedback", None):
         payload = {**original, "validation_errors": [feedback]}
@@ -412,8 +425,8 @@ def run_action_agent(data, chunks, completed, provider, output):
             "input_hash": digest(original), "request_hash": digest(request),
             "request_encoding": request.get("input_encoding"),
             "response_encoding": "explicit_record_references" if record_refs else "full_records"})
-        instructions = ACTION_INSTRUCTIONS + ("\nOUTPUT REPRESENTATION:\n" + OUTPUT_ENCODING if record_refs else "")
-        response, meta = provider.generate("action", instructions, request)
+        prompt = instructions + ("\nOUTPUT REPRESENTATION:\n" + OUTPUT_ENCODING if record_refs else "")
+        response, meta = provider.generate(stage, prompt, request)
         write_json(output / f"action_agent.response.raw.{attempt + 1}.json", response)
         if record_refs:
             from .action_record_refs import expand_record_refs
@@ -445,7 +458,7 @@ def run_action_agent(data, chunks, completed, provider, output):
                 raise ValueError("ActionAgent failed complete-dataset validation: " + str(exc)) from exc
             payload = {**original, "validation_errors": [str(exc)]}
             continue
-        metadata = {**ledger.action_metadata, "attempt": attempt + 1, "provider": meta,
+        metadata = {**ledger.action_metadata, "stage": stage, "attempt": attempt + 1, "provider": meta,
                     "input_hash": digest(original), "response_hash": digest(response),
                     "request_encoding": request.get("input_encoding"), "request_hash": digest(request),
                     "response_encoding": "explicit_record_references" if record_refs else "full_records"}
@@ -459,4 +472,5 @@ def run_action_agent(data, chunks, completed, provider, output):
         write_json(output / "domain_review.json", {"summary": ledger.action_metadata["domain_review"],
             "input": original["domain_review_input"], "reviews": response["domain_reviews"]})
         write_json(output / "action_agent.json", metadata)
+        ledger.action_metadata = metadata
         return ledger, metadata

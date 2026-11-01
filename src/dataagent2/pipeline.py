@@ -18,6 +18,8 @@ from .quality import audit_dataset
 from .structure import TAG_CATEGORIES, TAG_VOCABULARY
 from .timing import PhaseTimings
 from .action_agent import ACTION_INSTRUCTIONS, REVISION as ACTION_REVISION, run_action_agent
+from .followup import (REVISION as FOLLOWUP_REVISION, ANSWER_INSTRUCTIONS as FOCUSED_ANSWER_INSTRUCTIONS,
+                       ANSWER_ACTION_INSTRUCTIONS, run_followup)
 
 
 READER_INPUT_REVISION = 2
@@ -190,8 +192,10 @@ def compare_reference(dataset, reference):
             "note": "Exact-name comparison to later repaired outputs, NOT accuracy. Reference answers never enter prompts."}
 
 
-def run(data, provider, output, *, chunk_chars=24000, workers=None, max_questions=8, question_chars=14000,
-        max_chunks=None):
+def run(data, provider, output, *, chunk_chars=24000, workers=None, max_questions=8, question_chars=8000,
+        max_chunks=None, answer_workers=4):
+    if answer_workers < 1 or question_chars < 1 or (max_questions is not None and max_questions < 0):
+        raise ValueError("Invalid Answer concurrency, evidence budget or question limit")
     if workers is not None and workers < 0:
         raise ValueError("Reader workers must be nonnegative; 0 means all chunks")
     output = Path(output)
@@ -209,14 +213,22 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
                             "model": provider.model, "effort": provider.effort, "chunking_revision": CHUNKING_REVISION,
                             "reader_input_revision": READER_INPUT_REVISION,
                             "reader_initial_dataset_hash": digest(initial_dataset(data)),
-                            "action_agent_revision": ACTION_REVISION, "action_instructions": ACTION_INSTRUCTIONS})
+                            "action_agent_revision": ACTION_REVISION, "action_instructions": ACTION_INSTRUCTIONS,
+                            "followup_revision": FOLLOWUP_REVISION,
+                            "focused_answer_instructions": FOCUSED_ANSWER_INSTRUCTIONS,
+                            "answer_action_instructions": ANSWER_ACTION_INSTRUCTIONS,
+                            "answer_effort": getattr(provider, "answer_effort", None) or provider.effort,
+                            "question_chars": question_chars, "max_questions": max_questions})
         existing = read(output / "manifest.json", {})
         if existing and existing.get("signature") != signature:
             raise ValueError("Output belongs to different inputs/settings; choose a fresh output directory")
         manifest = {"version": 1, "signature": signature, "document_id": data["document_id"],
             "pdf_sha256": data["pdf_sha256"], "native_input": data["native_dir"], "model": provider.model,
             "effort": provider.effort, "chunk_chars": chunk_chars, "chunks": chunks,
-            "request_interval_seconds": getattr(provider, "request_interval", None), "answer_retrieval_revision": 4,
+            "request_interval_seconds": getattr(provider, "request_interval", None), "answer_retrieval_revision": 5,
+            "followup_revision": FOLLOWUP_REVISION, "answer_workers": answer_workers, "question_chars": question_chars,
+            "answer_effort": getattr(provider, "answer_effort", None) or provider.effort,
+            "followup_policy": "Action domain reviews -> parallel focused Answer proposals on fixed Dataset2 -> LLM Action -> complete Dataset3",
             "unique_sources": len(data["sources"]), "unique_source_text_characters": sum(len(s["text"]) for s in data["sources"].values()),
             "source_transmissions_planned": sum(len(c["core"]) + len(c["context"]) for c in chunks),
             "seed_entities": len(data["seed"]["entities"]), "seed_observations": len(data["seed"]["observations"]),
@@ -312,64 +324,30 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
         first = ledger.assemble()
         write_json(output / "dataset.first_pass.json", first)
         write_json(output / "facts.first_pass.json", ledger.facts)
-        questions = question_tasks(first, data)
-        write_json(output / "questions.initial.json", questions)
-        write_json(output / "questions.json", questions)
-    answers = []
-    text_questions = [q for q in questions if q["kind"] != "ocr_failure"]
+    followup = {"revision": FOLLOWUP_REVISION, "integration": {"status": "not_run_incomplete_read"},
+                "questions": [], "remaining": [], "answers": [], "workers": answer_workers}
+
+    def emit_followup(phase, current, total):
+        print("sda-dataagent2-progress " + compact({"phase": phase, "completed": current, "total": total}), flush=True)
+        write_json(output / "progress.json", {"document": data["document_id"], "phase": phase,
+            "completed": current, "total": total, "usage": provider.usage(),
+            "elapsed_seconds": round(time.monotonic() - started, 2)})
+
+    if len(completed) == len(chunks) and not failed and not skipped and action_complete:
+        ledger, followup = run_followup(data, ledger, provider, output, max_questions=max_questions,
+            question_chars=question_chars, workers=answer_workers, timings=timings, emit=emit_followup)
+    questions, answers = followup["questions"], followup["answers"]
     image_questions = [q for q in questions if q["kind"] == "ocr_failure"]
-    question_limit = len(text_questions) if max_questions is None else max_questions
-    print("sda-dataagent2-progress " + compact({"phase": "questions", "completed": 0,
-        "total": min(len(text_questions), question_limit)}), flush=True)
-    # Don't diagnose apparent gaps from an incomplete smoke run or failed document pass.
-    with timings.measure("dataagent2_questions"):
-        if len(completed) == len(chunks) and not failed and action_complete:
-            answers.extend({"id": q["id"], "status": "requires_image_ocr", "failed_source_ids": q["failed_source_ids"]}
-                           for q in image_questions)
-            for question in text_questions[:question_limit]:
-                current = ledger.assemble()
-                by_id = {e["id"]: e for e in current["entities"]}
-                if all(by_id[t["item"]]["sequences"][t["chain"]]["status"] == "supported" for t in question["targets"]):
-                    continue
-                payload, allowed = question_payload(question, ledger, question_chars)
-                if not allowed:
-                    answers.append({"id": question["id"], "status": "no_evidence"})
-                    continue
-                before = current["summary"]["variable_chains"]
-                try:
-                    response, meta = provider.generate("answer", INSTRUCTIONS + "\n" + ANSWER_INSTRUCTIONS, payload)
-                    # Stage changes. Conflicting new evidence cannot silently erase supported results.
-                    candidate = copy.deepcopy(ledger)
-                    candidate.apply(response, allowed, question["id"])
-                    after = candidate.assemble()
-                    originals = {(e["id"], c): e["sequences"][c]["value"] for e in current["entities"] for c in ("VH", "VL")
-                                 if e["sequences"][c]["status"] == "supported"}
-                    incompatible = any(originals.get((e["id"], c)) and originals[e["id"], c] != e["sequences"][c]["value"]
-                                       for e in after["entities"] for c in ("VH", "VL"))
-                    if incompatible:
-                        answers.append({"id": question["id"], "status": "conflicting_patch", "proposed_response": response})
-                    else:
-                        ledger = candidate
-                        answers.append({"id": question["id"], "status": "applied", "meta": meta,
-                                        "added_chains": after["summary"]["variable_chains"] - before,
-                                        "resolved": all(next(e for e in after["entities"] if e["id"] == t["item"])
-                                                        ["sequences"][t["chain"]]["status"] == "supported"
-                                                        for t in question["targets"])})
-                except Exception as exc:
-                    answers.append({"id": question["id"], "status": "failed", "error": str(exc)})
-                write_json(output / "answers.json", answers)
-                print(f"{data['document_id']}: question {question['id']} {answers[-1]['status']} tokens={provider.usage()['total_tokens']}", flush=True)
-                print("sda-dataagent2-progress " + compact({"phase": "questions", "completed": len(answers) - len(image_questions),
-                    "total": min(len(text_questions), question_limit)}), flush=True)
+    followup_complete = followup["integration"]["status"] in {"validated", "not_needed"}
     with timings.measure("dataagent2_export"):
         final = ledger.assemble()
-        unresolved = question_tasks(final, data)
+        unresolved = followup["remaining"] if action_complete else question_tasks(final, data)
         write_json(output / "questions.json", unresolved)
         final["reader_coverage"] = {"total_chunks": len(chunks), "completed_chunks": len(completed),
             "failed_chunks": failed, "skipped_chunks": skipped,
             "core_sources_read": sum(len(c["core"]) for c in chunks if c["id"] in completed),
             "total_sources": len(data["sources"]), "scope": "All supplied PDF OCR lines and table cells, not PDF recall or semantic accuracy"}
-        final["status"] = "partial" if failed or len(completed) < len(chunks) or not action_complete or any(e["missing"] for e in final["entities"]) or final["conflicts"] else "source_supported"
+        final["status"] = "partial" if failed or len(completed) < len(chunks) or not action_complete or not followup_complete or any(e["missing"] for e in final["entities"]) or final["conflicts"] else "source_supported"
         write_json(output / "dataset.json", final)
         write_json(output / "quality_audit.json", audit_dataset(final, ledger.sources))
         export_rows(output / "dataset.json", output / "review.formal")
@@ -381,13 +359,15 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
     shared = data["baseline"]["shared_stage_tokens"]
     complete_read = len(completed) == len(chunks) and not failed
     answer_failures = sum(a["status"] == "failed" for a in answers)
-    complete_benchmark = complete_read and action_complete and not answer_failures
+    complete_benchmark = complete_read and action_complete and followup_complete and not answer_failures
     total = shared + usage["total_tokens"] if complete_benchmark else None
     old = data["baseline"]["total_tokens"]
     report = {"document_id": data["document_id"], "status": final["status"],
         "new_model_usage": usage, "reused_stage_historical_tokens": shared,
         "reader_complete": complete_read, "benchmark_complete": complete_benchmark,
         "action_complete": action_complete, "action_agent": action_status,
+        "followup_revision": FOLLOWUP_REVISION, "answer_action": followup["integration"],
+        "followup_complete": followup_complete, "answer_workers": answer_workers,
         "question_api_failures": answer_failures,
         "comparable_model_total_tokens": total,
         "historical_baseline_tokens": old,
@@ -395,8 +375,8 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
         "first_pass": first["summary"], "final": final["summary"],
         "coverage": final["reader_coverage"], "question_count": len(questions),
         "unresolved_question_count": len(unresolved),
-        "questions_attempted": sum(a["status"] != "requires_image_ocr" for a in answers),
-        "questions_requiring_image_ocr": len(image_questions), "questions_remaining": len(question_tasks(final, data)),
+        "questions_attempted": sum(a["status"] not in {"requires_image_ocr", "deferred_budget"} for a in answers),
+        "questions_requiring_image_ocr": len(image_questions), "questions_remaining": len(unresolved),
         "reference_comparison": comparison["counts"], "baseline": data["baseline"],
         "elapsed_seconds": round(time.monotonic() - started, 3),
         "limitations": ["Comparison reuses historical table classification/template costs; no new OCR or table-template calls.",

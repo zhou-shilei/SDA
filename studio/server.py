@@ -272,8 +272,8 @@ class StudioServer(ThreadingHTTPServer):
         if line.startswith("sda-dataagent2-progress "):
             event = json.loads(line.removeprefix("sda-dataagent2-progress "))
             current, total = int(event["completed"]), int(event["total"])
-            stage, base, span = {"reader": ("reader", 76, 12), "questions": ("tst", 90, 6),
-                                 "export": ("build", 98, 0)}[event["phase"]]
+            stage, base, span = {"reader": ("reader", 76, 12), "action": ("action", 88, 2), "questions": ("tst", 90, 6),
+                                 "answer_action": ("action", 96, 2), "export": ("build", 98, 0)}[event["phase"]]
             changes = {"stage": stage, "stage_current": current, "stage_total": total,
                        "progress": base + round(span * min(current, total) / max(1, total))}
         elif line.startswith("PDF stage="):

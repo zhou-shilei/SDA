@@ -387,10 +387,12 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
             provider = Provider(reader_dir, model=config["llm_model"], effort=config["llm_effort"],
                                 timeout=config["llm_timeout"], request_interval=0,
                                 action_effort=options.get("action_effort", "medium"),
-                                action_timeout=options.get("action_timeout"))
+                                action_timeout=options.get("action_timeout"),
+                                answer_effort=options.get("answer_effort", "medium"))
             report = run(data, provider, reader_dir, workers=options.get("sequence_workers"),
                 chunk_chars=options.get("chunk_chars", 24000),
-                max_questions=options.get("max_answer_questions") if extract_sequences else 0)
+                max_questions=options.get("max_answer_questions") if extract_sequences else 0,
+                answer_workers=options.get("answer_workers", 4), question_chars=options.get("question_chars", 8000))
             final = read(reader_dir / "dataset.json")
             if not report["benchmark_complete"]:
                 error = "dataagent2 全文读取、ActionAgent 整合或问答请求未完成；已保存部分结果及原始请求记录"

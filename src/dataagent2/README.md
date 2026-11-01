@@ -147,9 +147,19 @@ CDRH1–3/CDRL1–3、FRH1–4/FRL1–4，以及 VHH/scFv/Fab/Fc/linker 等构�
    并交代每条建议的去向、初始事实修正和剩余冲突。程序核对原文、引用与完整性后生成审阅视图。
    完整链不自动裁成 VH/VL；表格/正文冲突保留记录，字符优先采用表格是来源策略，
    不代表表格 OCR 一定正确。
-6. QuestionAgent 的问题队列由缺口确定性生成，按共享 SEQ ID 合并；AnswerAgent
-   只读取预算内的定向证据，每题至多一次逻辑回答。模型传输失败至多重试一次。
-   有限问题预算未覆盖的问题仍保存，不宣称全部补全。
+6. Action① 的 `domain_reviews` 同时给出具体证据缺口。程序只对 `unresolved`
+   行分组排队（共享编号或同一实体的无编号缺口），排除 `supported` 和 `not_applicable`，
+   不再调用额外的 Question LLM。`question_plan.json` 保存完整复核依据和排除项。
+7. Answer 默认 4 路并行，读取同一份固定 Dataset2 的定向上下文及原文，使用独立的小型
+   Schema/prompt，默认 medium 推理。只返回答案、证据和少量 `add_link`、
+   `add_sequence_definition`、`add_relation`、`record_conflict`，不再复述测量、实验和段落 mentions。
+   原文软预算默认 8000 字符；必要的完整链、域、恒定区和标签/映射证据整组保留，
+   即使超预算也不截断序列，超额会显式记录。其他检索命中按完整表格行/邻近正文组加入。
+8. Answer 只提出建议；程序在临时副本核对来源与字面序列，不提交业务变更。
+   存在有效建议时，LLM Action② 一次接收**完整业务 Dataset2**、所有 Answer actions
+   和对应原文，输出完整 Dataset3，逐条说明采纳/拒绝/冲突，并重新复核域覆盖。
+   没有建议则跳过第二次模型调用，Dataset3 保留 Dataset2。失败时保留 Dataset2，不能宣称整合完成。
+   Action② 使用相同的来源、事实保留和完整输出校验；已有受支持 VH/VL 不能被静默替换或降级。
 
 本版自动问答只覆盖 VH/VL 映射、定义和边界缺口；实验缺口与其他模型问题会保存，
 尚未实现对应的自动问答队列。完整链和可变区分别编号时，优先采用明确的域映射；
@@ -158,7 +168,9 @@ CDRH1–3/CDRL1–3、FRH1–4/FRL1–4，以及 VHH/scFv/Fab/Fc/linker 等构�
 表格复识别状态通过 `source_sequence_ocr` 同时传给 Reader 和定向回答。
 已映射序列的 OCR 失败明确记录为 `ocr_failure`，带来源地址和
 `recovery_action=rerun_table_sequence_ocr`；这些任务不消耗文本回答预算，
-也不计为已尝试的回答。回答的 `applied` 仅表示接纳响应，`resolved` 单独记录是否真正补全。
+也不计为已尝试的回答。新回答的 `proposed` 表示有待 Action② 审议的建议，
+`no_change` 表示没有新建议；`resolved` 以最终 Dataset3 的实际域状态另行记录。
+`deferred_budget` 保留预算未覆盖的问题。旧运行的 `applied` 不应解释为已经解决问题。
 Studio 入口会将过期修订的表格序列从原图重新识别到新文件，再建立模板种子。
 当前修订中仍失败的表格也会在新运行中额外重试一次；原图和裁行产物写入新目录。
 完整可见表格线与物理 HTML 行列一一对应时，用原图规则定位整个单元格，
@@ -166,10 +178,63 @@ Studio 入口会将过期修订的表格序列从原图重新识别到新文件�
 本地 OCR 仍失败的序列进入独立原图复核，单个复核失败不会丢弃同表其他有效结果。
 Studio 默认对本轮所有文本问题各回答一次；独立 CLI 仍尊重 `--max-questions`。
 `questions.initial.json` 保存首轮队列，`questions.json` 保存最终剩余问题。
+`dataset2.business.json` 和 `dataset3.business.json` 保存两份完整业务数据，不含时间/token/日志。
+`answers/<question_id>/input.json` / `response.json` 保存每题实际输入输出，`answer_actions.json`
+保存待整合建议。`answer_action/` 内保存 Action② 完整请求、返回和校验，
+`answer_action.json` 保存最终状态。`answer_action` 阶段的实际用量和耗时独立统计。
+独立 CLI 可设置 `--answer-workers`、`--answer-effort`、`--question-chars`；Studio 使用同样默认值。
+新旧流程签名不同，继续旧输出目录会拒绝混用；旧记录仍可回放，新回放直接校验和使用
+已保存的 Action② 完整输出，不再将 Answer 逐条应用到业务数据。
 `quality_audit.json` 逐条检查序列片段、测量值和单位的字符来源，并列出测量与 VH/VL 的关联缺口；
 这些校验不代表原图逐字符的独立人工验收。相似名称只用于检索，不用于自动合并实体。
 明确的 CH/CL 定义保留在实体中，经 SDA `other_sequences` 和审核 CSV 导出，
 网页序列证据面板在对应 VH/VL 下显示已有的 CH/CL；恒定区不会填入 VH/VL。
+
+## 49-Sructure 新问答流程实测
+
+复用网页运行 `8439a5cbc001475793d73794a86deb85` 已校验的 Dataset2，独立运行新问答。
+原始 PDF、OCR、Template、62 个 Reader 和 Action① 均未重跑；既有网页业务结果没有被覆盖。
+模型均为 `gpt-6.1-sol`；旧 Answer 使用 xhigh 串行执行，新 Answer 使用 medium、4 路并行。
+本次同时调整了问题规划、证据检索、Schema、prompt 和推理预算，数字反映整套方案的变化。
+
+| 指标 | 旧问答 | 新问答与可选 Action② |
+| --- | ---: | ---: |
+| 问题数 | 24 | 21 |
+| 输入 token | 506,574 | 306,557 |
+| 输出 token（含推理） | 37,211 | 3,477 |
+| 总 token | 543,785 | 310,034 |
+| 用时 | 1,470.24 秒 | 71.77 秒 |
+| 新增受支持域 / 完整配对 | 0 / 0 | 0 / 0 |
+| 最终受支持域 / 完整配对 | 75 / 31 | 75 / 31 |
+| 正式测量记录 | 251 | 251 |
+
+总 token 减少约 43.0%；这里的耗时只覆盖问答与可选整合，不代表整篇 PDF 的处理耗时。
+新的问题计划保留 Action① 的 29 个 unresolved 域复核，分组成 21 个问题，
+排除已经标为 not_applicable 的 6 个域复核。21 个回答均为 `unresolved`、`actions=[]`，
+因此 Action② 按设计跳过，Dataset3 与 Dataset2 的业务内容哈希完全一致。
+这次没有额外补回 VH/VL，不能把速度改善解释为准确率提升。
+
+完整业务底稿的 257 条测量候选全部保留；其中正式视图展示 251 条，另 6 条仍待复核。
+字面来源错误为 0，既有域和测量无丢失。旧问答额外添加的两条无名称 TSLP 定义，
+与 Dataset2 已有的命名定义在编号、区域、序列和引用上重复；本轮没有重复添加，
+没有损失独立序列定义。真实样本未触发 Action② 模型调用；有建议时的整合、失败回退、
+历史冲突/拒绝记录保留、缓存回放及篡改检测由离线回归场景验证。
+
+复现实验与静态网页使用仓库脚本，运行数据和生成快照保存在被 Git 忽略的本地目录：
+
+```bash
+python try/agent_handoff/rerun_followup.py \
+  --baseline /path/to/saved/dataagent2 \
+  --output try/agent_handoff/runs/focused-followup
+
+python try/agent_handoff/build_followup_page.py \
+  --experiment try/agent_handoff/runs/focused-followup \
+  --output try/agent_handoff/snapshots/focused-followup
+```
+
+实验脚本核对 Dataset2 请求/输出哈希和 OCR 来源身份，保留每题实际请求、回答、
+模型用量、配置和代码快照。网页展示完整流向、原始文件、prompt、逐题缺口和原文证据，
+明确区分复用阶段、真实执行阶段与本轮跳过的 Action②。
 
 ## 运行
 
