@@ -12,7 +12,7 @@ from dataagent2.contracts import empty_response
 from dataagent2.inputs import load_input, make_chunks, source_row, split_text
 from dataagent2.pipeline import run
 from dataagent2.provider import Provider, compact, write_json
-from dataagent2.test_dataagent2 import fixture, response
+from dataagent2.test_dataagent2 import action_response, fixture, response
 
 
 class ChunkBoundaryTests(unittest.TestCase):
@@ -107,10 +107,10 @@ class ParallelReaderTests(unittest.TestCase):
                     def generate(self, stage, instructions, payload):
                         with lock:
                             started.append(payload["chunk"])
-                            self_snapshot = {"items": payload["items"], "document": payload["relation_index"]["document"]}
+                            self_snapshot = payload["initial_dataset"]
                             datasets.append(copy.deepcopy(self_snapshot))
-                            if "seed_dataset" in payload:
-                                raise AssertionError("Reader repeats full seed dataset")
+                            if "relation_index" in payload:
+                                raise AssertionError("Reader still filters the initial dataset")
                         # Any hidden 3/8-worker cap prevents this rendezvous.
                         all_started.wait()
                         return empty_response(), {}
@@ -133,8 +133,8 @@ class ParallelReaderTests(unittest.TestCase):
                 self.assertEqual(len(started), 23)
                 self.assertTrue(expected_seed["entities"])
                 self.assertEqual(data["seed"], expected_seed)
-                self.assertEqual(datasets, [{"items": [[e["id"], [e["name"]]] for e in expected_seed["entities"]],
-                    "document": data["document_id"]}] * 23)
+                self.assertEqual(datasets, [expected_seed] * 23)
+                self.assertEqual(manifest["reader_input_revision"], 2)
 
     def test_empty_source_document_does_not_create_a_zero_worker_pool(self):
         class FakeProvider:
@@ -162,6 +162,8 @@ class ParallelReaderTests(unittest.TestCase):
             model, effort = "test", "test"
 
             def generate(self, stage, instructions, payload):
+                if stage == "action":
+                    return action_response(payload), {}
                 if payload["chunk"] in ("c1", "c2"):
                     first_two.wait()
                 if payload["chunk"] == "c1":

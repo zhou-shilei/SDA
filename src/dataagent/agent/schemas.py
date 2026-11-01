@@ -140,7 +140,7 @@ class AgentConfig(BaseModel):
     llm_batch_size: int = Field(default=4, ge=1, le=8)
     classification_triage: bool = True
     llm_workers: int = Field(default_factory=lambda: int(os.environ.get("DATASETAGENT_LLM_WORKERS", "6")), ge=0, le=8, validate_default=True,
-                             description="0 starts one classification request per table; positive values limit workers")
+                             description="Image-style review / legacy classification workers; integrated TemplateAgent uses one document request")
     sequence_workers: int = Field(default_factory=lambda: int(os.environ.get("DATASETAGENT_SEQUENCE_WORKERS", "3")), ge=1, le=8, validate_default=True)
     extract_sequences: bool = True
     question_answer_enabled: bool = True

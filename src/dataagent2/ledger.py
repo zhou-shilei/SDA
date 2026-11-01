@@ -373,7 +373,8 @@ class Ledger:
                 "links": copy.deepcopy(self.facts["links"]), "annotations": copy.deepcopy(self.facts["annotations"]),
                 "relation_index": build_index(self.data, entities=output, facts=self.facts),
                 "sequences": definitions, "experiments": experiments, "observations": records,
-                "relations": self.facts["relations"], "conflicts": conflicts + measurement_conflicts,
+                "relations": self.facts["relations"], "conflicts": conflicts + measurement_conflicts + copy.deepcopy(getattr(self, "action_conflicts", [])),
+                "action_agent": copy.deepcopy(getattr(self, "action_metadata", {})),
                 "issues": self.facts["issues"], "rejected_facts": self.rejections,
                 "summary": {"entities": len(output), "seed_entities": len(self.data["seed"]["entities"]),
                     "variable_chains": sum(e["sequences"][c]["status"] == "supported" for e in output for c in ("VH", "VL")),
@@ -387,5 +388,5 @@ class Ledger:
                     "observations": len(records), "experiments": len({e["id"] for e in experiments}),
                     "merged_text_observation_sources": merged_sources,
                     "missing_experiment_observations": sum(o["experiment_status"] == "missing" for o in records),
-                    "sequence_definitions": len(definitions), "conflicts": len(conflicts) + len(measurement_conflicts),
+                    "sequence_definitions": len(definitions), "conflicts": len(conflicts) + len(measurement_conflicts) + len(getattr(self, "action_conflicts", [])),
                     "rejected_facts": len(self.rejections)}}

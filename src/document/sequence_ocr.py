@@ -21,7 +21,7 @@ from lxml import html
 from .cell_geometry import crop_matrix, locate_grid, transform_box, valid_box
 
 VERSION = "ppvl16-ppocrv6-sequence-v1"
-REVISION = 5
+REVISION = 6
 AA = frozenset("ACDEFGHIKLMNPQRSTVWY")
 
 
@@ -52,7 +52,7 @@ def sequence_candidates(grid):
     headers = {}
     for row in (grid or {}).get("physical", [])[:3]:
         for cell in row:
-            if (len(cell["text"]) < 80 and not sequence_body(cell["text"])
+            if (cell.get("colspan", 1) == 1 and len(cell["text"]) < 80 and not sequence_body(cell["text"])
                     and re.search(r"amino.?acid|氨基酸|\bsequence\b|\b[HL]?(?:CDR|FR)[1-4]?\b", cell["text"], re.I)
                     and not re.search(r"SEQ\s*ID", cell["text"], re.I)):
                 headers[cell["column"]] = cell["row"]
@@ -102,6 +102,34 @@ def models(device, threads, root):
 def rotation_to_source(angle, width, height):
     return {0: [1, 0, 0, 1, 0, 0], 90: [0, 1, -1, 0, width, 0],
             180: [-1, 0, 0, -1, width, height], 270: [0, -1, 1, 0, 0, height]}[angle]
+
+
+def localize_orientation(original, grid, ocr, prediction):
+    """Check a proposed crop rotation against literal table labels, not residues."""
+    import numpy as np
+    proposed = int(prediction["label_names"][0])
+    if proposed not in {0, 90, 180, 270}:
+        raise ValueError("Invalid crop orientation")
+    key = lambda text: re.sub(r"\s+", "", plain(text)).casefold()
+    labels = {key(cell["text"]) for row in grid["physical"] for cell in row
+              if cell["text"].strip() and len(cell["text"]) <= 80 and not sequence_body(cell["text"])}
+    choices = []
+    for angle in ([proposed, 0] if proposed else [0]):
+        image = original.rotate(angle, expand=True)
+        raw = list(ocr.predict(input=np.asarray(image)[:, :, ::-1]))[0]
+        texts, boxes = list(raw["rec_texts"]), list(raw["rec_boxes"])
+        if len(texts) != len(boxes):
+            raise ValueError("Text-line OCR identity mismatch")
+        lines = [{"text": str(t), "bbox": [float(x) for x in b], "coordinate_space": "crop_pixels"}
+                 for t, b in zip(texts, boxes)]
+        matched = sorted(labels & {key(t) for t in texts})
+        choices.append((angle, image, lines, matched))
+    chosen = choices[0]
+    # Two distinct printed labels are required to override the classifier.
+    if len(choices) > 1 and len(choices[1][3]) >= 2 and len(choices[1][3]) > len(chosen[3]):
+        chosen = choices[1]
+    return (*chosen[:3], [{"rotation_counterclockwise": angle, "matched_labels": matches}
+                          for angle, _, _, matches in choices])
 
 
 def line_crop(image, box, *, min_left=None, max_right=None):
@@ -376,22 +404,17 @@ def refine(evidence, *, device="gpu:0", threads=4, model_root=None, model_provid
         ocr, recognizer, orientation = (model_provider or models)(device, threads, str(root))
         log("sequence_models_ready", seconds=round(perf_counter() - started, 3))
         prediction = list(orientation.predict(input=np.asarray(original)[:, :, ::-1], batch_size=1))[0]
-        angle = int(prediction["label_names"][0])
-        if angle not in {0, 90, 180, 270}:
-            raise ValueError("Invalid crop orientation")
-        image = original.rotate(angle, expand=True)
+        proposed_angle = int(prediction["label_names"][0])
+        log("sequence_localization_start", classifier_rotation_counterclockwise=proposed_angle)
+        angle, image, lines, orientation_checks = localize_orientation(original, grid, ocr, prediction)
         to_source = rotation_to_source(angle, original.width, original.height)
         audit.update(rotation_counterclockwise=angle, upright_to_crop=to_source,
-                     orientation_confidence=float(prediction["scores"][0]))
-        log("sequence_localization_start", rotation_counterclockwise=angle)
-        raw = list(ocr.predict(input=np.asarray(image)[:, :, ::-1]))[0]
-        texts, boxes = list(raw["rec_texts"]), list(raw["rec_boxes"])
-        if len(texts) != len(boxes):
-            raise ValueError("Text-line OCR identity mismatch")
-        lines = [{"text": str(t), "bbox": [float(x) for x in b], "coordinate_space": "crop_pixels"}
-                 for t, b in zip(texts, boxes)]
+                     orientation_confidence=float(prediction["scores"][0]) if angle == proposed_angle else None,
+                     classifier_rotation_counterclockwise=proposed_angle,
+                     classifier_confidence=float(prediction["scores"][0]),
+                     orientation_checks=orientation_checks)
         audit["local_text_lines"] = lines
-        log("sequence_localization_complete", lines=len(lines))
+        log("sequence_localization_complete", lines=len(lines), rotation_counterclockwise=angle)
         geo = copy.deepcopy(grid)
         for row in geo["physical"]:
             for cell in row:

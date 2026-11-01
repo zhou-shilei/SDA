@@ -23,6 +23,7 @@ from dataagent2.inputs import load_input
 from dataagent2.provider import Provider, write_json
 from dataagent2.studio_pipeline import run_studio_pipeline, export_result, refresh_table_sequences
 from dataagent2.ledger import Ledger
+from dataagent2.test_dataagent2 import action_response
 from studio.sda_data import Workspace
 from studio.server import StudioServer
 from studio.comparison import run_comparison
@@ -41,6 +42,8 @@ class ScriptedProvider(Provider):
             "usage": None if self.fail else {"input_tokens": 100, "output_tokens": 10, "total_tokens": 110}})
         if self.fail:
             raise RuntimeError("scripted reader failure")
+        if stage == "action":
+            return action_response(payload), {"cache_hit": False}
         rows = {row[6]: row[0] for row in payload["sources"]}
         result = empty_response()
         result["new_items"] = [{"name": n, "refs": [rows[n]]} for n in ("Ab1", "Ab2")]
@@ -90,7 +93,7 @@ class Dataagent2StudioTests(unittest.TestCase):
             return run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
                 table_ocr=self.case.table_path, extract_sequences=False, **options)
 
-    def test_reader_starts_after_table_seed_and_receives_relation_index(self):
+    def test_reader_starts_after_table_seed_and_receives_the_full_initial_dataset(self):
         seed_finished = threading.Event()
         testcase = self
 
@@ -116,11 +119,10 @@ class Dataagent2StudioTests(unittest.TestCase):
         class SeededProvider(ScriptedProvider):
             def generate(self, stage, instructions, payload):
                 testcase.assertTrue(seed_finished.is_set())
-                testcase.assertNotIn("seed_dataset", payload)
-                testcase.assertEqual(len(payload["relation_index"]["items"]), 2)
-                testcase.assertEqual(len(payload["relation_index"]["observations"]), 2)
-                testcase.assertNotIn("value", payload["relation_index"]["observations"][0])
-                testcase.assertTrue(payload["items"])
+                testcase.assertNotIn("relation_index", payload)
+                testcase.assertEqual(len(payload["initial_dataset"]["entities"]), 2)
+                testcase.assertEqual(len(payload["initial_dataset"]["observations"]), 2)
+                testcase.assertEqual({o["value"] for o in payload["initial_dataset"]["observations"]}, {"0.5", "1.2"})
                 return super().generate(stage, instructions, payload)
 
         with patch("dataagent.run_sda.run_from_ocr", side_effect=seed), \
@@ -129,7 +131,9 @@ class Dataagent2StudioTests(unittest.TestCase):
                 table_ocr=self.case.table_path, extract_sequences=False)
         self.assertNotEqual(report["status"], "failed", report["errors"])
         manifest = json.loads((self.output / "dataagent2/manifest.json").read_text())
-        self.assertIn("Compact source-backed relation index", manifest["reader_seed_policy"])
+        self.assertIn("Full initial business seed", manifest["reader_seed_policy"])
+        self.assertEqual(manifest["reader_input_revision"], 2)
+        self.assertTrue((self.output / "dataagent2/reader_initial_dataset.json").is_file())
         self.assertEqual(manifest["reader_workers"], len(manifest["chunks"]))
         self.assertEqual(manifest["request_interval_seconds"], 0)
         self.assertTrue(seed_finished.is_set())
@@ -156,27 +160,35 @@ class Dataagent2StudioTests(unittest.TestCase):
 
     def test_seeded_parallel_reader_can_replay_cached_calls(self):
         from dataagent2.contracts import SCHEMA
-        from dataagent2.provider import digest
+        from dataagent2.inputs import load_input
+        from dataagent2.provider import digest, response_schema
         from dataagent2.replay import replay
+
+        def with_ocr_status(*args, **kwargs):
+            data = load_input(*args, **kwargs)
+            data["sources"][next(iter(data["sources"]))]["sequence_ocr"] = {"status": "success"}
+            return data
 
         class CachedProvider(ScriptedProvider):
             def generate(self, stage, instructions, payload):
                 result, meta = super().generate(stage, instructions, payload)
                 fingerprint = {"stage": stage, "instructions": instructions, "payload": payload,
-                               "schema": SCHEMA, "model": self.model, "effort": self.effort}
+                               "schema": response_schema(stage), "model": self.model, "effort": self.effort}
                 folder = self.output / "requests" / digest(fingerprint)
                 write_json(folder / "input.json", fingerprint)
                 write_json(folder / "validated.json", result)
                 return result, meta
 
         with patch("dataagent.run_sda.run_from_ocr", side_effect=self.seed), \
+             patch("dataagent2.studio_pipeline.load_input", side_effect=with_ocr_status), \
              patch("dataagent2.studio_pipeline.Provider", CachedProvider):
             report = run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
                 table_ocr=self.case.table_path, extract_sequences=False, sequence_workers=2)
         self.assertNotEqual(report["status"], "failed", report["errors"])
         reader = self.output / "dataagent2"
         expected = json.loads((reader / "dataset.json").read_text())
-        with patch("dataagent2.provider.subprocess.Popen", side_effect=AssertionError("Replay called model")):
+        with patch("dataagent2.replay.load_input", side_effect=with_ocr_status), \
+             patch("dataagent2.provider.subprocess.Popen", side_effect=AssertionError("Replay called model")):
             result = replay(reader)
         actual = json.loads((reader / "dataset.checkpoint.json").read_text())
         self.assertEqual(result["model_calls_made"], 0)
@@ -188,6 +200,14 @@ class Dataagent2StudioTests(unittest.TestCase):
     def test_fresh_ocr_runs_new_reader_and_exports_sequences_measurements_and_provenance(self):
         report = self.invoke()
         self.assertNotEqual(report["status"], "failed", report["errors"])
+        timing = json.loads((self.output / "_timings.json").read_text())
+        phases = {row["stage"]: row for row in timing["phase_ranking"]}
+        for name in ("sequence_ocr_refresh", "classify_tables", "template", "dataagent2_prepare",
+                     "dataagent2_reader", "dataagent2_merge", "dataagent2_gap_detection",
+                     "dataagent2_questions", "dataagent2_export", "result_export"):
+            self.assertGreaterEqual(phases[name]["seconds"], 0, name)
+            self.assertEqual(phases[name]["basis"], "phase", name)
+        self.assertGreaterEqual(phases["dataagent2_reader"]["seconds"], phases["dataagent2_merge"]["seconds"])
         dataset = json.loads((self.output / "dataset.json").read_text())
         self.assertEqual(dataset["extraction_mode"], "dataagent2")
         self.assertEqual(len(dataset["records"]), 2)
@@ -205,8 +225,8 @@ class Dataagent2StudioTests(unittest.TestCase):
         bundle = Workspace(self.root)._build("DOC", self.output, self.root)
         self.assertEqual(len(bundle["records"]), 2)
         self.assertEqual(len(bundle["ocr"]), 1)
-        self.assertEqual(report["token_usage"]["totals"]["total_tokens"], 150)
-        self.assertEqual(report["token_usage"]["totals"]["requests"], 2)
+        self.assertEqual(report["token_usage"]["totals"]["total_tokens"], 260)
+        self.assertEqual(report["token_usage"]["totals"]["requests"], 3)
 
     def test_registry_counts_do_not_materialize_all_review_bundles(self):
         self.invoke()
@@ -224,6 +244,8 @@ class Dataagent2StudioTests(unittest.TestCase):
         class RichProvider(ScriptedProvider):
             def generate(self, stage, instructions, payload):
                 result, meta = super().generate(stage, instructions, payload)
+                if stage == "action":
+                    return result, meta
                 rows = {r[6]: r[0] for r in payload["sources"]}
                 for region, seq, text, value in [
                     ("CDRH1", 11, "Ab1 CDRH1 SEQ ID NO 11: GFTFSSYA", "GFTFSSYA"),

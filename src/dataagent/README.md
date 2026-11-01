@@ -50,10 +50,35 @@ PYTHONPATH=src python -m dataagent \
 
 默认使用上游 Codex CLI 语义实现，需本机已安装并登录 Codex，模型及推理档位可用
 `--llm-model`、`--llm-effort` 或 `DATASETAGENT_LLM_*` 环境变量配置。
-表格分类与序列批次分别通过 `--llm-workers` 和 `--sequence-workers` 控制并发。
+图片样式复核与序列批次分别通过 `--llm-workers` 和 `--sequence-workers` 控制并发；
+统一模板规划为一次文档请求。
+
+默认语义流程使用 v7 TemplateAgent，一次调用完成表格筛选、结构定位、实体和序列编号关联、
+实验区域与方法绑定。所有候选表先进入模板阶段，不再经过独立 LabelAgent 的单行分类筛选。
+模型先检查表头，再结合表题和数据行判断：明确无关用 `exclude`，序列定义和构建体背景用
+`context_only`，目标实验表用 `extract`，信息不足用 `needs_review`；后三者均保留。
+
+表格输入仍为按物理行组织的 `headers` / `rows`，单元格使用 `[source_id, text]`。
+此时 source_id 是原始字符串地址（如 `T:R1C0`），后续 dataagent2 初始化才生成整数 ID。
+原行号、空列、完整原文及已有合并表头信息保留，坐标等留在本地证据库。
+不向模型传入历史分类。表头的启发式选择不等于真实表头，模型必须结合数据验证。
+启发式规则不会仅因某行位于第 0 行就把它当表头；没有明确表头证据时，表头列表为空，首行仍按数据行传入。
+每张表另带 `caption` 标题；优先取预处理表格的标题字段，缺失时用坐标关联的 PDF 表题或同页标题 OCR 补齐，取不到时为空。常规请求只含 `document_id` 和 `tables` 两个文档字段；正文段落不发送给 Template。
+
+输出 `TemplatePlan` 在文档计划中增加 `tables`。每表输出标签、路由、证据及必要的区域计划；
+`primary_label`、`measurement_axis` 和 `detected_endpoints` 由程序派生，不要求模型重复生成。
+区域 ID 按 `<table_id>:r<row_start>-<row_end>:<区域索引>` 生成，实验绑定使用同一响应中的区域。
+保留 `table_classifications.json` 等兼容产物，但图中的 `classify_tables` 只物化模板结果，
+不调用分类模型。旧分类类仅供历史测试和工具兼容，正常流程、重解析和区域重分类修复均走模板。
+
+整篇输入预算仍保留，超预算整表记入 `omitted_table_ids`，并作为待复核表保留，绝不视为无关表。
+缺失、重复或校验失败的表计划也保留为待复核；独立有效的区域和文档信息继续使用。
+新任务名为 `document-template-v8`，不会复用旧分类/模板请求缓存。TemplateAgent 的 PDF 证据只发送每张表的标题、表头和全部单元格；正文仍保存在原始文档块中，留给后续 Reader 分块读取。
+
+续表只有通过来源关系、相邻页、表格边界和列结构核验后才会继承表头。输入和最终表格分类都标成 `header_status: inherited`；`header_inheritance` 保存前页表头行和原始单元格引用。它不会伪装成续表本页的 `header_rows`。序列表可额外用 Name、SEQ ID、Amino Acid Sequence 列语义和后页数据逐列核对，避免页面位置候选因合并行而被误判为列宽不一致。未通过核验的续表仍标为无表头。
 
 运行日志中，`llm-template-start` 从模板准备阶段开始输出；随后 `llm-request` JSON 行记录
-输入表格/单元格/段落数量、字符数、模型、推理档位、每次请求开始、校验和完成情况。
+输入表格/标题/单元格数量、字符数、模型、推理档位、每次请求开始、校验和完成情况。
 等待模型响应时每 15 秒输出 `waiting`，带请求哈希、尝试次数和已等待秒数；
 它只表示请求仍在等待，不能区分服务端排队与推理，也不表示完成百分比。
 限流、超时或校验失败会记录错误类型、重试次数和退避秒数；完成后记录实际 token 用量。
@@ -80,7 +105,7 @@ PYTHONPATH=src python -m dataagent \
 | 全文 OCR | SDA `pages.jsonl`，成功且连续的页面、同一工作 PDF 的 `pdf_sha256`、唯一 `line_id`、原文与页码；坐标为 PDF pt |
 | 表格 OCR | 唯一表格 ID、页码、原始 HTML；保留 rowspan/colspan 展开的行列与物理来源地址 |
 | 表格区域 | `table_evidence.bbox` 或版面清单里的 PDF pt 区域，用于关联表题和附近正文；缺少时保留警告，不猜位置 |
-| 表格裁图 | 可选，有图可让上游分类模型参考；缺少时继续使用 OCR 文字，并保留警告 |
+| 表格裁图 | 可选，供结构复核、序列样式等需要图片的阶段使用；TemplateAgent 接收完整候选表格并统一判断用途 |
 
 输入已有的文本/图片哈希会被核对；提供版面清单时，还检查工作 PDF 哈希和全部表格集合。
 表格 OCR 未生成可解析网格时，原始文本、裁图和页码保存在 `unstructured_tables`，

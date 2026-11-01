@@ -512,7 +512,7 @@ def run_reparse(
     provider = None
     if os.environ.get("DATASETAGENT_SEMANTIC_PROVIDER", "codex") == "codex":
         from .llm_runtime import provider_from_env
-        from .llm_table_agents import LLMTableClassificationAgent, LLMTemplateAgent
+        from .llm_table_agents import LLMTemplateAgent
         from .llm_sequence_agent import SequenceExtractionAgent
         from .sequence_evidence import build_document_structure, write_structure_artifacts
         from .table_classification import route_ocr_results
@@ -522,12 +522,10 @@ def run_reparse(
         contexts = _read_json(contexts_path) if contexts_path.is_file() else []
         methods = _read_json(methods_path) if methods_path.is_file() else []
         provider = provider_from_env(output_dir)
-        classifications = LLMTableClassificationAgent(
-            provider, image_roots=[output_dir / "tables", source_pdf.parent / "tables"],
-        ).run(refreshed_ocr, contexts)
+        template, template_validation = LLMTemplateAgent(provider).run(document_id, refreshed_ocr, methods, contexts)
+        classifications = template["table_classifications"]
         semantic_ocr = route_ocr_results(refreshed_ocr, classifications)
-        template, template_validation = LLMTemplateAgent(provider).run(document_id, semantic_ocr, methods, contexts, sequence_passages)
-        structure = build_document_structure(document_id, refreshed_ocr,
+        structure = build_document_structure(document_id, semantic_ocr,
             blocks=_read_json(blocks_path) if blocks_path.is_file() else [], contexts=contexts, methods=methods,
             passages=sequence_passages, classifications=classifications)
         write_structure_artifacts(structure, output_dir)
@@ -611,7 +609,7 @@ def run_reparse(
         calls = [*provider.calls, *semantic_updates.get("experiment_agent", {}).get("calls", [])]
         _write_json_atomic(output_dir / "agent_runtime.json", {
             "semantic_provider": "codex", "model": provider.model,
-            "reasoning_effort": provider.effort, "classification_agent": {"mode": "llm"},
+            "reasoning_effort": provider.effort, "classification_agent": {"mode": "integrated", "owner": "TemplateAgent"},
             "template_agent": template.get("agent", {}), "calls": len(calls),
             "experiment_agent": semantic_updates.get("experiment_agent", {}),
             "sequence_agent": {**semantic_updates.get("sequence_extraction", {}).get("agent", {}),

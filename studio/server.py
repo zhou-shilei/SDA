@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from email import policy
 from email.parser import BytesParser
 import hashlib
+import gzip
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import mimetypes
@@ -353,7 +354,17 @@ class StudioHandler(BaseHTTPRequestHandler):
     def send_bytes(self, data, content_type, *, status=200, cache="no-store"):
         if not cache_enabled():
             cache = "no-store"
+        compress = (content_type.startswith("application/json") and len(data) >= 1024
+                    and any(part.split(";")[0].strip() == "gzip"
+                            and not re.search(r";\s*q=0(?:\.0*)?(?:\s|$)", part)
+                            for part in self.headers.get("Accept-Encoding", "").split(",")))
+        if compress:
+            data = gzip.compress(data, compresslevel=1)
         self.send_response(status)
+        if content_type.startswith("application/json"):
+            self.send_header("Vary", "Accept-Encoding")
+        if compress:
+            self.send_header("Content-Encoding", "gzip")
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(data)))
         self.send_header("Cache-Control", cache)

@@ -14,6 +14,16 @@ const LABELS = {
     sequence_mapping: "序列映射", template_sequence_plan: "序列规划", template_sequence_verify: "序列核验",
     template_agent: "模板整理", template_completion: "模板补全", text_sequence_extraction: "正文序列提取",
     data_construction: "数据构建", schema_completion: "字段补全", result_io: "结果保存", ocr_cache: "OCR 缓存读取",
+    sequence_ocr_refresh: "序列 OCR 复核 / 更新", discover: "输入发现", context: "上下文整理",
+    triage: "表格初筛", select: "表格选择", extract: "表格证据提取", index_document: "全文索引",
+    classify_tables: "表格计划整理", assay_method_context: "实验方法上下文", template: "表格识别与全篇模板",
+    dataagent2_input: "Reader 输入与关系索引", dataagent2_prepare: "全文分块与种子准备",
+    dataagent2_reader: "全文分块阅读", dataagent2_merge: "临时结果与增量保存（Reader 内）",
+    dataagent2_action: "ActionAgent 全文语义整合",
+    dataagent2_gap_detection: "首轮汇总与缺口检测", dataagent2_questions: "缺口问答与补全",
+    dataagent2_export: "最终校验与 Reader 导出", result_export: "网页结果转换与导出",
+    coverageOnly: "请求覆盖", requestCount: "次请求", phaseRunning: "进行中", phaseFailed: "失败",
+    timingNote: "请求覆盖为已记录模型调用区间的并集，含失败重试，不含调用间的处理和等待；未记录的步骤不按 0 计算。Reader 内的合并与保存已包含在 Reader 用时中。",
     unknownStage: "未标记阶段",
   },
   en: {
@@ -31,6 +41,16 @@ const LABELS = {
     sequence_mapping: "Sequence mapping", template_sequence_plan: "Sequence planning", template_sequence_verify: "Sequence verification",
     template_agent: "Template processing", template_completion: "Template completion", text_sequence_extraction: "Text sequence extraction",
     data_construction: "Dataset construction", schema_completion: "Field completion", result_io: "Save results", ocr_cache: "Read OCR cache",
+    sequence_ocr_refresh: "Sequence OCR review / refresh", discover: "Discover inputs", context: "Prepare context",
+    triage: "Table triage", select: "Select tables", extract: "Extract table evidence", index_document: "Document index",
+    classify_tables: "Materialize table plans", assay_method_context: "Assay method context", template: "Identify tables and build template",
+    dataagent2_input: "Reader inputs and relation index", dataagent2_prepare: "Chunk document and prepare seed",
+    dataagent2_reader: "Read document chunks", dataagent2_merge: "Provisional facts and save (within Reader)",
+    dataagent2_action: "ActionAgent semantic consolidation",
+    dataagent2_gap_detection: "First-pass summary and gap detection", dataagent2_questions: "Gap questions and completion",
+    dataagent2_export: "Final validation and Reader export", result_export: "Convert and export review results",
+    coverageOnly: "request coverage", requestCount: "requests", phaseRunning: "running", phaseFailed: "failed",
+    timingNote: "Request coverage is the union of logged model calls, including failed attempts; host work and waits between calls are excluded. Unrecorded steps are not zero. Reader time includes merging and incremental saves.",
     unknownStage: "Unlabelled stage",
   },
 };
@@ -38,6 +58,10 @@ const LABELS = {
 const valid = (value) => typeof value === "number" && Number.isFinite(value) && value >= 0;
 const escape = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const labels = (locale) => LABELS[locale === "en" ? "en" : "zh"];
+
+export function processingStageLabel(stage, locale = "zh") {
+  return labels(locale)[stage] || stage || labels(locale).unknownStage;
+}
 
 export function completedRunUsage(metrics, report) {
   // An older running server can still expose its latest cache-only snapshot.
@@ -80,13 +104,14 @@ export function timeMetricMarkup(metrics, documentId, locale = "zh", now = Date.
   if (data.scope === "stage_only") lines.push(l.stageOnly);
   if (data.stages?.length) {
     lines.push("");
-    for (const row of data.stages) lines.push(`${"  ".repeat(Math.min(3, row.level || 0))}${l[row.stage] || row.stage || l.unknownStage}${row.count > 1 ? ` (${row.count} ${l.counts})` : ""}: ${formatProcessingTime(row.seconds, locale)}`);
+    for (const row of data.stages) lines.push(`${"  ".repeat(Math.min(3, row.level || 0))}${processingStageLabel(row.stage, locale)}${row.count > 1 ? ` (${row.count} ${l.counts})` : ""}: ${formatProcessingTime(row.seconds, locale)}${row.basis === "request_coverage" ? ` (${l.coverageOnly}, ${row.requests} ${l.requestCount})` : ""}${row.status === "running" ? ` · ${l.phaseRunning}` : row.status === "failed" || row.status === "error" ? ` · ${l.phaseFailed}` : ""}`);
   } else lines.push(l.noStages);
   if (data.operations?.length) {
     lines.push("", `${l.operations}:`);
     for (const row of data.operations) lines.push(`  ${l[row.stage] || row.stage || l.unknownStage}: ${formatProcessingTime(row.seconds, locale)}`);
   }
   lines.push("", l.overlap);
+  if (data.stages?.some(row => row.basis)) lines.push(l.timingNote);
   return metricButton(value, lines.join("\n"), `${documentId}:time`, l.time, locale);
 }
 

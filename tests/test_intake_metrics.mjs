@@ -32,6 +32,19 @@ assert.ok(live.includes("1分30秒"));
 assert.ok(live.includes("全文 OCR: 50秒"));
 assert.ok(live.includes("表格 OCR: 59秒"));
 assert.ok(live.includes("明细用时不能直接相加"));
+const extraction = timeMetricMarkup({ time: { seconds: 100, stages: [
+  { stage: "classify_tables", seconds: 20, level: 1, basis: "phase" },
+  { stage: "dataagent2_reader", seconds: 15, level: 1, basis: "request_coverage", requests: 2 },
+  { stage: "dataagent2_merge", seconds: null, level: 2, basis: "unrecorded" },
+  { stage: "dataagent2_action", seconds: 5, level: 1, basis: "phase" },
+  { stage: "dataagent2_questions", seconds: 10, level: 1, basis: "phase", status: "running" },
+] } }, "DOC");
+assert.ok(extraction.includes("表格计划整理: 20秒"));
+assert.ok(extraction.includes("请求覆盖, 2 次请求"));
+assert.ok(extraction.includes("临时结果与增量保存（Reader 内）: 未记录"));
+assert.ok(extraction.includes("ActionAgent 全文语义整合: 5秒"));
+assert.ok(extraction.includes("缺口问答与补全: 10秒 · 进行中"));
+assert.ok(extraction.includes("未记录的步骤不按 0 计算"));
 assert.ok(timeMetricMarkup({ time: { seconds: 2.7, scope: "stage_only" } }, "DOC").includes("不代表整篇 PDF 总用时"));
 assert.ok(tokenMetricMarkup({}, "DOC", "en").includes("Not recorded"));
 const corrected = completedRunUsage({ time: { scope: "cumulative" }, tokens: { totals: { total_tokens: 0 } } },

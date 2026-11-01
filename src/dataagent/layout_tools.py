@@ -159,6 +159,7 @@ def crop_main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pdf", type=Path, help="override the PDF path stored in JSON")
     parser.add_argument("--dpi", type=int, default=400)
     parser.add_argument("--padding-pt", type=float, default=6.0)
+    parser.add_argument("--extra-top-padding-pt", type=float, default=22.0)
     parser.add_argument("--min-confidence", type=float, default=0.8)
     args = parser.parse_args(argv)
     payload = json.loads(args.input.read_text(encoding="utf-8"))
@@ -168,6 +169,7 @@ def crop_main(argv: list[str] | None = None) -> int:
         pdf_path=args.pdf,
         dpi=args.dpi,
         padding_pt=args.padding_pt,
+        extra_top_padding_pt=args.extra_top_padding_pt,
         min_confidence=args.min_confidence,
     )
     print(f"wrote {len(crops)} table crops to {args.output_dir}")
@@ -203,6 +205,7 @@ def render_reports_main(argv: list[str] | None = None) -> int:
     parser.add_argument("--models", nargs="+", default=None, help="JSON subdirectories to process")
     parser.add_argument("--dpi", type=int, default=400)
     parser.add_argument("--padding-pt", type=float, default=6.0)
+    parser.add_argument("--extra-top-padding-pt", type=float, default=22.0)
     parser.add_argument("--min-confidence", type=float, default=0.8)
     parser.add_argument(
         "--reuse-existing",
@@ -231,6 +234,7 @@ def render_reports_main(argv: list[str] | None = None) -> int:
                     crop_dir,
                     dpi=args.dpi,
                     padding_pt=args.padding_pt,
+                    extra_top_padding_pt=args.extra_top_padding_pt,
                     min_confidence=args.min_confidence,
                 )
             markdown_path = output_dir / f"{stem}.md"
@@ -325,6 +329,7 @@ def ensemble_main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=PROJECT_ROOT / "benchmark/test")
     parser.add_argument("--crop-dpi", type=int, default=400)
     parser.add_argument("--crop-padding-pt", type=float, default=6.0)
+    parser.add_argument("--crop-extra-top-padding-pt", type=float, default=22.0)
     parser.add_argument("--min-table-confidence", type=float, default=0.8)
     args = parser.parse_args(argv)
     json_root = args.root / "raw_json"
@@ -353,6 +358,7 @@ def ensemble_main(argv: list[str] | None = None) -> int:
             crop_dir,
             dpi=args.crop_dpi,
             padding_pt=args.crop_padding_pt,
+            extra_top_padding_pt=args.crop_extra_top_padding_pt,
             min_confidence=args.min_table_confidence,
         )
         md_path.write_text(
@@ -414,6 +420,7 @@ def benchmark_main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dpi", type=int, default=120)
     parser.add_argument("--crop-dpi", type=int, default=400, help="DPI for final PDF table crops")
     parser.add_argument("--crop-padding-pt", type=float, default=6.0)
+    parser.add_argument("--crop-extra-top-padding-pt", type=float, default=22.0)
     parser.add_argument("--min-table-confidence", type=float, default=0.8)
     parser.add_argument("--allow-missing-backends", action="store_true")
     parser.add_argument("--device", default=None)
@@ -449,6 +456,7 @@ def benchmark_main(argv: list[str] | None = None) -> int:
                 pdf_path=pdf_path,
                 dpi=args.crop_dpi,
                 padding_pt=args.crop_padding_pt,
+                extra_top_padding_pt=args.crop_extra_top_padding_pt,
                 min_confidence=args.min_table_confidence,
             )
             md_path.write_text(

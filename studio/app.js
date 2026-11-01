@@ -228,7 +228,7 @@ const TRANSLATIONS = {
     "intake.ocrBranches": "全文：{text} · 表格：{table}",
     "intake.structuredDocument": "结构化文档",
     "intake.stage.extraction": "结构化数据抽取",
-    "intake.stage.classify": "LLM 表格分类",
+    "intake.stage.classify": "模板识别与表格筛选",
     "intake.stage.template": "Schema 模板与缺项检查",
     "intake.stage.tst": "正文检索与缺项补全",
     "intake.stage.construct": "数据关联与导出",
@@ -786,7 +786,7 @@ const TRANSLATIONS = {
     "intake.ocrBranches": "Text: {text} · Tables: {table}",
     "intake.structuredDocument": "Structured document",
     "intake.stage.extraction": "Structured data extraction",
-    "intake.stage.classify": "LLM table classification",
+    "intake.stage.classify": "Template planning and table triage",
     "intake.stage.template": "Schema and missing-field checks",
     "intake.stage.tst": "Text retrieval and completion",
     "intake.stage.construct": "Data linking and export",
@@ -1419,6 +1419,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("open-collection-review").addEventListener("click", openCollectionReview);
     setupTableColumns();
     applyLocale();
+    switchAppPage(state.appPage, false);
     ensureReviewerIdentity();
     loadData();
   } catch (error) {
@@ -1902,7 +1903,7 @@ async function activatePatent(documentId) {
   };
   let entries;
   if (patent.artifacts?.review) {
-    const review = await fetchJson(resolveArtifactUrl(patent.artifacts.review));
+    const review = await fetchJson(resolveArtifactUrl(patent.artifacts.review), 60000);
     if (!Array.isArray(review.records) || !review.pages) throw new Error(`${documentId}: incomplete review data`);
     entries = Object.entries(urls).map(([key]) => [key, review[key] ?? artifactDefaults[key]]);
   } else {

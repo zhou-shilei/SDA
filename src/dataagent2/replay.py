@@ -4,11 +4,12 @@ import argparse
 import copy
 from pathlib import Path
 
-from .contracts import INSTRUCTIONS, SCHEMA, check_shape
+from .contracts import ANSWER_INSTRUCTIONS, INSTRUCTIONS, SCHEMA, check_shape
 from .inputs import discover, load_input, read, source_row
 from .ledger import Ledger
-from .pipeline import compare_reference, question_tasks, reader_payload
+from .pipeline import READER_INPUT_REVISION, compare_reference, initial_dataset, question_tasks, reader_payload
 from .provider import Provider, digest, write_json
+from .action_agent import ACTION_INSTRUCTIONS, REVISION as ACTION_REVISION, build_action_payload, validate_action_result
 
 
 def replay(output, *, finalize=False):
@@ -23,14 +24,24 @@ def replay(output, *, finalize=False):
         reference = None
     data = load_input(manifest["native_input"], reference)
     settings = {"input": data["signature"], "instructions": INSTRUCTIONS,
+                        "answer_instructions": ANSWER_INSTRUCTIONS,
                         "chunk_chars": manifest["chunk_chars"], "model": manifest["model"],
                         "effort": manifest["effort"]}
     if "chunking_revision" in manifest:
         settings["chunking_revision"] = manifest["chunking_revision"]
+    if "reader_input_revision" in manifest:
+        if manifest["reader_input_revision"] != READER_INPUT_REVISION:
+            raise ValueError("Reader input revision changed; replay would mix request formats")
+        settings["reader_input_revision"] = READER_INPUT_REVISION
+        settings["reader_initial_dataset_hash"] = digest(initial_dataset(data))
+    if "action_agent_revision" in manifest:
+        if manifest["action_agent_revision"] != ACTION_REVISION:
+            raise ValueError("ActionAgent revision changed; replay would mix integration policies")
+        settings.update(action_agent_revision=ACTION_REVISION, action_instructions=ACTION_INSTRUCTIONS)
     signature = digest(settings)
     if signature != manifest["signature"]:
         raise ValueError("Original inputs/settings changed; replay would mix experiments")
-    ledger, completed = Ledger(data), []
+    ledger, completed, completed_responses = Ledger(data), [], {}
     for chunk in manifest["chunks"]:
         fingerprint = {"stage": "reader", "instructions": INSTRUCTIONS,
             "payload": reader_payload(data, chunk), "schema": SCHEMA,
@@ -40,6 +51,22 @@ def replay(output, *, finalize=False):
             check_shape(response)
             ledger.apply(response, chunk["context"] + chunk["core"], chunk["id"])
             completed.append(chunk)
+            completed_responses[chunk["id"]] = {"response": response}
+    action_status = {"status": "not_configured_legacy"}
+    if "action_agent_revision" in manifest:
+        action_status = read(output / "action_agent.json", {"status": "not_run"})
+        if action_status["status"] == "validated":
+            payload = read(output / "action_agent.input.json")
+            response = read(output / "action_agent.response.json")
+            if (not payload or response is None or digest(payload) != action_status.get("input_hash")
+                    or digest(response) != action_status.get("response_hash")):
+                raise ValueError("Saved ActionAgent input/response is missing or changed")
+            # JSON source-ID dictionaries have string keys after loading.
+            if digest(payload) != digest(build_action_payload(data, manifest["chunks"], completed_responses)):
+                raise ValueError("Saved ActionAgent used different Reader actions or source evidence")
+            ledger = validate_action_result(data, payload, response)
+        ledger.action_metadata = action_status
+    action_complete = action_status["status"] in {"validated", "not_needed", "not_configured_legacy"}
     first = ledger.assemble()
     first_facts = copy.deepcopy(ledger.facts)
     answer_replay = []
@@ -71,16 +98,16 @@ def replay(output, *, finalize=False):
         "failed_chunks": {}, "core_sources_read": sum(len(c["core"]) for c in completed),
         "total_sources": len(ledger.sources), "scope": "Saved successful OCR reads; not semantic accuracy"}
     dataset["reader_coverage"] = coverage
-    dataset["status"] = "partial" if len(completed) != len(manifest["chunks"]) or any(
+    dataset["status"] = "partial" if not action_complete or len(completed) != len(manifest["chunks"]) or any(
         e["missing"] for e in dataset["entities"]) or dataset["conflicts"] else "source_supported"
     metadata = {"document": manifest["document_id"], "host_rules_revision": 2,
         "model_calls_made": 0, "coverage": coverage, "first_pass": first["summary"],
-        "final": dataset["summary"], "answer_replay": answer_replay}
+        "final": dataset["summary"], "answer_replay": answer_replay, "action_agent": action_status}
     write_json(output / "dataset.checkpoint.json", dataset)
     write_json(output / "checkpoint_progress.json", metadata)
     if finalize:
         report = read(output / "report.json")
-        if len(completed) != len(manifest["chunks"]) or not report.get("benchmark_complete"):
+        if not action_complete or len(completed) != len(manifest["chunks"]) or not report.get("benchmark_complete"):
             raise ValueError("Cannot finalize a partial document benchmark")
         backup = output / "report.before_reassembly.json"
         if not backup.is_file():

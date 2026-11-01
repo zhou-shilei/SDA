@@ -10,12 +10,68 @@ Studio 上传现在可选择 dataagent2。集成适配器 `studio_pipeline.py` �
 OCR 来源和原图样式复核固定后，先完成表格分类/模板并生成粗略 dataset，再启动全文 Reader。
 Reader 默认有多少个 chunk 就同时发起多少个独立调用；不再继承旧序列 Agent 的 3 路默认值、
 8 路上限或 `DATASETAGENT_SEQUENCE_WORKERS`。
-每个 chunk 携带全局名称目录和 `relation_index`：相关实体的链编号映射、序列定义状态、
-实验目录及本块测量地址；完整序列和已存测量数值不在索引中重复发送。
-索引来自同一个初始快照，结合当前块来源和边界上下文，输出新增事实或冲突。
-程序从这份 dataset 初始化 Ledger，按文档顺序合并各 chunk 的补充，再生成缺口问题。
-各 chunk 不接收其他 chunk 的增量结果。单独运行 benchmark 时种子已存在，直接并发补全。
+每个 chunk 携带同一份 `initial_dataset` 全量业务 seed：全部已有实体、链编号映射、
+实验、测量（保留数值、单位和来源）及标签；有初始序列定义时也完整携带。
+不再按 chunk 中的名称、SEQ ID 或来源交集筛选业务事实，不重复发送外层名称目录。
+seed 来自同一个初始快照，结合当前块来源和边界上下文，输出新增事实或冲突。
+seed 中的远处引用只提供已有背景；新事实仍只能引用本次请求实际 `sources` 中的证据编号。
+运行时间、token 用量、审计路径和用于评分的参考结果不进入业务 seed。
+Reader 完成后，由 LLM `ActionAgent` 接收完整初始 dataset、所有 Reader actions 及其引用的
+原文证据，跨块整合后直接返回完整业务 Dataset2。每条 action 必须说明接受、合并、拒绝或冲突，
+替换/拒绝初始事实必须明确给出依据；程序校验来源、原文字串和数据完整性，再检查缺口。
+Reader 运行中的 Ledger 只作为临时审阅结果，不能代替 ActionAgent 的正式综合。
+各 chunk 不接收其他 chunk 的增量结果。单独运行 benchmark 时种子已存在，先并发读取，
+再进行一次 ActionAgent 综合；语义校验失败可反馈一次，仍失败则保留 partial，不执行后续文字问答。
 本次模型用量包含实际重跑的共享阶段及新版请求，不加入 benchmark 的历史基线成本。
+共享阶段使用 v6 TemplateAgent，一次完成表格筛选、区域定位和文档计划，不再调用独立 LabelAgent。
+所有候选表以完整 `headers` / `rows` 及 `[原始单元格引用, 原文]` 输入，保留行列、空单元格和
+已有合并表头信息；预算外表格显式保留为待复核。整数来源 ID 仍在本目录初始化时生成。
+Reader 输入只跳过模板明确 `exclude` 的表格，保留 `context_only` 和 `needs_review`；原始 OCR 不修改。
+历史 benchmark 产物不改写。Reader 的 sources 格式和固定初始快照策略保留，
+新请求使用 `reader_input_revision=2`；输入与提示词变化后使用新的输出目录。
+统一模板种子的测量按 `(table_id, region_id, endpoint)` 绑定已有实验，避免同表多指标之间误选协议。
+模型未能确认测量实体身份时，仍保留有名称单元格证据的测量，以该单元格为范围建立
+`identity_status=unresolved` 的占位实体并报告警告；不把不同来源的同名对照自动合并或赋予序列。
+
+## ActionAgent 的输入、输出与保存
+
+新增模型阶段名为 `action`，与 Reader 和定向 `answer` 使用同一 Provider，但使用独立完整数据集
+Schema。请求指纹包含 ActionAgent 修订和提示词；旧运行目录和旧请求不能冒充新综合结果。
+`action_agent.input.json` 保存完整底稿、所有候选 actions（带稳定 ID 和来源范围问题）、
+引用的原文及邻近段落/表格行/表头、可用 OCR 状态和样式。不会先按名称或编号筛掉候选 action。
+
+返回包含 `dataset`、`action_decisions`、`domain_reviews`、`seed_changes`、`conflicts`：
+
+- `dataset` 是完整业务数据，包含全部实体、关联、实验、测量、序列定义和标签；不包含运行日志。
+- 每条 action 在 `action_decisions` 中恰好处理一次，采纳/合并必须指向实际输出记录。
+- `seed_changes` 为替换或拒绝初始事实提供原文引用和理由；已有实体不能无故消失。
+- 序列同时保留 literal value 和原文定位 parts，主机逐字符核对；测量值和单位也必须回到原文。
+
+原始返回与反馈保存在 `action_agent.response.*.json` / `action_agent.validation.*.json`；
+最终完整业务输出为 `action_agent.dataset.json`，状态与哈希为 `action_agent.json`。
+
+Action 修订 2 增加域完整性复核：`domain_review_input` 从同一批原始证据和 Reader 提议中，
+对可落到原文字面的完整链、VH/VL、CH/CL 定义做精确全长比较，保留所有 `完整链 = 可变域 + 恒定区`
+候选及其来源。程序不确认域标签、实体归属，不按 a/b 名称继承，也不自动写入关联。
+Action 必须为输出中的每个实体分别返回 VH、VL 的 `supported / unresolved / not_applicable`
+结论、证据、候选 ID、实际记录指针和具体缺失证据。完整唯一分解在域标签和完整链归属确认后，
+可以证明该链的域组成，无需额外要求原文再重复一次恒定区归属；相似前缀和通用恒定区定义不足以确认。
+程序检查逐实体覆盖、候选是否遗漏、与实际组装结果是否一致；不接受只有 `missing_mapping`
+这类笼统说明的未决结论。精确候选仍未解决时必须引用完整链归属及三个定义。
+`domain_review.json` 单独保存候选索引、逐实体结论和统计，供审阅。Reader 提示词和输入不变。
+
+业务、域复核和字面证据全部通过而仅有 action 重复归类时，调用一次小型 LLM 审计修正，
+让模型选择保留哪个已有归类。程序只按该明确选择移除重复 ID，再执行所有校验；业务记录和
+域复核内容保持相同。`action_accounting.*.json` 保存输入和模型选择，不由程序猜测语义结果。
+大输入默认采用显式记录引用：模型选择保留的 seed/Reader 记录，并完整写出有改动的记录；
+主机仅展开这些明确选择，再校验完整结果。`seed_collection` 可按原顺序保留整组初始记录，
+有效 seed 路径和 action 下标受本次请求 Schema 约束。原始表示另存 `action_agent.response.raw.*.json`，
+展开后的完整结果仍为上述文件，业务事实和来源不会因为压缩被筛掉。
+超过 100 万字符的输入使用可逆列式编码，`action_agent.input.json` 始终保留原始完整输入。
+CLI 和 Studio 的整合阶段默认 `medium`，Reader/问答沿用 `llm_effort`；CLI 可用
+`--action-effort` / `--action-timeout` 覆盖。直接使用 Provider 时可通过 `action_effort` 设置。
+`dataset.first_pass.json` 是通过校验后生成的审阅视图；若 ActionAgent 失败，临时结果显式保留
+`partial` 和错误，不能宣称整合完成。模型 token 与耗时以 `action` 阶段单独记录，缓存回放不调用模型。
 
 ## 关系索引、区域和标签
 
@@ -47,15 +103,16 @@ CDRH1–3/CDRL1–3、FRH1–4/FRL1–4，以及 VHH/scFv/Fab/Fc/linker 等构�
 审阅 CSV 同步导出全部区域；`*_seq_ids` 保存域自身的编号，`*_source_chain_seq_ids`
 单独保存完整链候选编号。实验 CSV 保留标签依据、方案和区域，测量 CSV 保留条件、供者和重复号。
 
-### 本次离线验证
+### 此前关系索引版本的离线验证记录
 
 148 项 Python 回归及 3 项 Node 专项检查通过，覆盖并行 Reader、缓存重放、字符校验、
 短 CDR/FR、未解析映射、同表多实验、实验归属冲突和供者/条件区分。
 另用 `49-WOother` 保存的 63 个旧 Reader 响应回放当前主机合并规则：逐项核对原文一致性，
 不调用模型、不修改历史产物，230 条测量和 32 条已支持的 VH/VL 保持不变；
 未关联实验的测量从 122 条降到 22 条。新的 SDA 导出也保留全部 230 条测量。
-同一篇文档的 Reader payload JSON 总字符数从 3,712,143 降到 2,583,410（约 30.4%）；
-这不是 token 或耗时实测，也不是人工核验的准确率。新提示词的抽取质量仍需要独立验证。
+此前按 chunk 筛选关系索引的版本，使同一篇文档的 Reader payload JSON 总字符数
+从 3,712,143 降到 2,583,410（约 30.4%）。该历史数字不适用于当前全量 seed 版本，
+也不是 token 或耗时实测、人工核验的准确率。全量 seed 提示词的抽取质量需另行验证。
 完整 PDF 命令可指定 `src/document/run_document_pdf.py ... --extraction-mode dataagent2`；
 已有 OCR 可用 `src/graph.py ... --extraction-mode dataagent2`。网页集成依赖 SDA 完整运行环境。
 两个入口均可用 `--sequence-workers 0 --llm-workers 6 --reader-chunk-chars 24000`。
@@ -86,8 +143,9 @@ CDRH1–3/CDRL1–3、FRH1–4/FRL1–4，以及 VHH/scFv/Fab/Fc/linker 等构�
    未知/歧义缩写、修饰残基、行号、OCR 错字、混合记法和不完整缩写继续拒绝；
    无法定位、重复片段或错误地址会保留在 rejected facts 中。格式转换不推断 VH/VL 边界或配对。
    原文字符校验不等于生物学归属或边界的独立验证。
-5. 程序合并共享定义，保留不同抗体身份及每条映射的来源。完整链不自动裁成 VH/VL；
-   矛盾表格定义不合并。表格/正文冲突保留记录，字符优先采用表格是来源策略，
+5. LLM ActionAgent 综合完整初始 Dataset 与所有 Reader actions，返回完整业务 Dataset2，
+   并交代每条建议的去向、初始事实修正和剩余冲突。程序核对原文、引用与完整性后生成审阅视图。
+   完整链不自动裁成 VH/VL；表格/正文冲突保留记录，字符优先采用表格是来源策略，
    不代表表格 OCR 一定正确。
 6. QuestionAgent 的问题队列由缺口确定性生成，按共享 SEQ ID 合并；AnswerAgent
    只读取预算内的定向证据，每题至多一次逻辑回答。模型传输失败至多重试一次。
@@ -206,7 +264,8 @@ PYTHONPATH=src python -m dataagent2.export_rows \
 
 - `manifest.json` / `seed.json` / `sources.json`：输入、分块和模板种子。
   `seed.json` 是所有 chunk 使用的同一份完整粗略 dataset；manifest 保存分块修订、worker 数和种子策略。
-  每次请求的 `requests/*/input.json` 中可核对实际发送的 `payload.seed_dataset` 和 `payload.sources`。
+  每次请求的 `requests/*/input.json` 中可核对实际发送的 `payload.initial_dataset` 和 `payload.sources`。
+  `reader_initial_dataset.json` 单独保存所有 Reader 共用的完整业务底稿，manifest 记录其哈希及输入修订。
 - `requests/*/input.json`、各 attempt 的 `events.jsonl`：完整请求和原始模型用量。
 - `calls.jsonl` / `token_usage.json`：每次实际尝试，成功、失败和重试均保留。
   只累加 `turn.completed` 的 usage；未知值不估为零。总量=input+output，
@@ -231,3 +290,5 @@ WO2024020591A9 为 8,975,647 token。旧基线范围不同：后一篇包含后�
 也不是人工金标准。应同时比较链数、完整配对、测量数、未解决项和逐字符差异；
 不能用提取更少造成的省 token 当作等质量改进。本实验不进行新 OCR、图片重新识别
 或按常见抗体基序修复残基。
+
+ActionAgent 返回整份业务数据集，默认等待上限为 1800 秒（或更大的通用 timeout）；Reader/问答仍使用通用 timeout（默认 600 秒）。独立调用 Provider 时可用 `action_timeout` 显式覆盖。

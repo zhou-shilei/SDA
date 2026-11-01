@@ -97,7 +97,7 @@ def main(argv=None):
     parser.add_argument("--semantic-provider", choices=("codex", "rules"), default=None)
     parser.add_argument("--llm-model")
     parser.add_argument("--llm-effort", choices=("low", "medium", "high", "xhigh", "max"))
-    parser.add_argument("--llm-workers", type=int, help="0 表示逐表全部并发；1–8 限制模型并发数")
+    parser.add_argument("--llm-workers", type=int, help="图片样式复核并发：0 表示全部并发；1–8 限制并发数")
     parser.add_argument("--sequence-workers", type=int)
     parser.add_argument("--llm-timeout", type=int)
     parser.add_argument("--max-repair-rounds", type=int)

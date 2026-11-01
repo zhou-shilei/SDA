@@ -9,26 +9,36 @@ from pathlib import Path
 import re
 import time
 
-from .contracts import INSTRUCTIONS
+from .contracts import ANSWER_INSTRUCTIONS, INSTRUCTIONS
 from .export_rows import export as export_rows
 from .inputs import CHUNKING_REVISION, make_chunks, read, source_row, source_ocr_status
 from .ledger import Ledger, normalized
 from .provider import compact, digest, write_json
 from .quality import audit_dataset
-from .relation_index import chunk_index, REVISION as INDEX_REVISION
 from .structure import TAG_CATEGORIES, TAG_VOCABULARY
+from .timing import PhaseTimings
+from .action_agent import ACTION_INSTRUCTIONS, REVISION as ACTION_REVISION, run_action_agent
 
 
-def catalog(data):
-    return [[e["id"], list(dict.fromkeys([e["name"], *e["names"]]))] for e in data["seed"]["entities"]]
+READER_INPUT_REVISION = 2
+
+
+def initial_dataset(data):
+    """All initial business facts, isolated from callers and other chunks."""
+    dataset = copy.deepcopy(data["seed"])
+    if data.get("style_definitions"):
+        definitions = dataset.setdefault("sequences", [])
+        for definition in data["style_definitions"]:
+            if definition not in definitions:
+                definitions.append(copy.deepcopy(definition))
+    return dataset
 
 
 def reader_payload(data, chunk):
     ids = chunk["context"] + chunk["core"]
     payload = {"document": data["document_id"], "chunk": chunk["id"],
-            "relation_index": chunk_index(data, chunk),
+            "initial_dataset": initial_dataset(data),
             "tag_categories": list(TAG_CATEGORIES), "tag_vocabulary": TAG_VOCABULARY,
-            "items": catalog(data),
             "existing_observation_sources": sorted({o["s"] for o in data["seed"]["observations"] if o["s"] in ids}),
             "context_only_sources": chunk["context"],
             "sources": [source_row(data["sources"][sid]) for sid in ids]}
@@ -82,6 +92,10 @@ def question_payload(question, ledger, max_chars):
     direct_refs = {r for d in ledger.facts["sequences"] if d["seq"] in question["seq_ids"] for r in d["refs"]}
     boundary_definitions = [d for d in ledger.facts["sequences"] if d["region"] in target_chains]
     boundary_refs = {r for d in boundary_definitions for r in d["refs"]}
+    constant_regions = {"CH" if chain == "VH" else "CL" for chain in target_chains}
+    constant_definitions = [d for d in ledger.facts["sequences"] if d["region"] in constant_regions]
+    constant_refs = ({r for d in constant_definitions for r in d["refs"]}
+                     if question.get("seq_id_scope") == "full_chain" else set())
     pages = {ledger.sources[r]["page"] for r in seed_refs}
     tokens = [normalized(n) for n in names if len(normalized(n)) >= 3]
     scores = []
@@ -100,7 +114,7 @@ def question_payload(question, ledger, max_chars):
         if score:
             scores.append((score, sid))
     # Exact definitions and known domain evidence precede surrounding rows.
-    selected = sorted(direct_refs) + sorted(seed_refs - direct_refs)
+    selected = sorted(direct_refs) + sorted(constant_refs - direct_refs) + sorted(seed_refs - direct_refs - constant_refs)
     if question["kind"] == "boundary_or_definition":
         selected += sorted(boundary_refs - set(selected))
     expanded = set(selected)
@@ -140,6 +154,9 @@ def question_payload(question, ledger, max_chars):
             for d in boundary_definitions if set(d["refs"]) <= set(admitted)],
         "sources": [source_row(ledger.sources[s]) for s in admitted],
         "omitted_matching_sources": len(selected) - len(admitted)}
+    if constant_refs:
+        payload["known_constant_definitions"] = [[d["seq"], d["region"], d.get("name"), d["refs"]]
+            for d in constant_definitions if set(d["refs"]) <= set(admitted)]
     styles = {sid: {k: ledger.sources[sid]["sequence_style"][k] for k in ("method", "spans", "domain", "annotation_quote")}
               for sid in admitted if ledger.sources[sid].get("sequence_style")}
     if styles:
@@ -180,33 +197,44 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
-    chunks = make_chunks(data, chunk_chars)
-    scheduled = chunks[:max_chunks] if max_chunks else chunks
-    # One worker per scheduled chunk by default; do not inherit executor or
-    # legacy sequence-agent concurrency caps. Explicit positive limits opt in.
-    workers = workers or max(1, len(scheduled))
-    signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS, "chunk_chars": chunk_chars,
-                        "model": provider.model, "effort": provider.effort, "chunking_revision": CHUNKING_REVISION})
-    existing = read(output / "manifest.json", {})
-    if existing and existing.get("signature") != signature:
-        raise ValueError("Output belongs to different inputs/settings; choose a fresh output directory")
-    manifest = {"version": 1, "signature": signature, "document_id": data["document_id"],
-        "pdf_sha256": data["pdf_sha256"], "native_input": data["native_dir"], "model": provider.model,
-        "effort": provider.effort, "chunk_chars": chunk_chars, "chunks": chunks,
-        "request_interval_seconds": getattr(provider, "request_interval", None), "answer_retrieval_revision": 3,
-        "unique_sources": len(data["sources"]), "unique_source_text_characters": sum(len(s["text"]) for s in data["sources"].values()),
-        "source_transmissions_planned": sum(len(c["core"]) + len(c["context"]) for c in chunks),
-        "seed_entities": len(data["seed"]["entities"]), "seed_observations": len(data["seed"]["observations"]),
-        "chunking_revision": CHUNKING_REVISION, "reader_workers": workers,
-        "reader_seed_policy": "Compact source-backed relation index; fixed initial snapshot across parallel chunks",
-        "relation_index_revision": INDEX_REVISION,
-        "baseline": data["baseline"], "max_questions": max_questions,
-        "seed_policy": "Only original table/template output. sequence_extraction, resolved_sequences, repaired exports, answers and human inheritance are excluded."}
-    write_json(output / "manifest.json", manifest)
-    write_json(output / "sources.json", data["sources"])
-    write_json(output / "seed.json", data["seed"])
-    ledger, completed, failed, skipped = Ledger(data), {}, {}, {}
-    merge_index, merged_successes = 0, 0
+    timings = PhaseTimings(output / "phase_timings.json")
+    with timings.measure("dataagent2_prepare"):
+        chunks = make_chunks(data, chunk_chars)
+        scheduled = chunks[:max_chunks] if max_chunks else chunks
+        # One worker per scheduled chunk by default; do not inherit executor or
+        # legacy sequence-agent concurrency caps. Explicit positive limits opt in.
+        workers = workers or max(1, len(scheduled))
+        signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS,
+                            "answer_instructions": ANSWER_INSTRUCTIONS, "chunk_chars": chunk_chars,
+                            "model": provider.model, "effort": provider.effort, "chunking_revision": CHUNKING_REVISION,
+                            "reader_input_revision": READER_INPUT_REVISION,
+                            "reader_initial_dataset_hash": digest(initial_dataset(data)),
+                            "action_agent_revision": ACTION_REVISION, "action_instructions": ACTION_INSTRUCTIONS})
+        existing = read(output / "manifest.json", {})
+        if existing and existing.get("signature") != signature:
+            raise ValueError("Output belongs to different inputs/settings; choose a fresh output directory")
+        manifest = {"version": 1, "signature": signature, "document_id": data["document_id"],
+            "pdf_sha256": data["pdf_sha256"], "native_input": data["native_dir"], "model": provider.model,
+            "effort": provider.effort, "chunk_chars": chunk_chars, "chunks": chunks,
+            "request_interval_seconds": getattr(provider, "request_interval", None), "answer_retrieval_revision": 4,
+            "unique_sources": len(data["sources"]), "unique_source_text_characters": sum(len(s["text"]) for s in data["sources"].values()),
+            "source_transmissions_planned": sum(len(c["core"]) + len(c["context"]) for c in chunks),
+            "seed_entities": len(data["seed"]["entities"]), "seed_observations": len(data["seed"]["observations"]),
+            "chunking_revision": CHUNKING_REVISION, "reader_workers": workers,
+            "reader_seed_policy": "Full initial business seed; fixed initial snapshot across parallel chunks; no name or SEQ-ID filtering",
+            "reader_input_revision": READER_INPUT_REVISION,
+            "reader_initial_dataset_hash": digest(initial_dataset(data)),
+            "action_agent_revision": ACTION_REVISION,
+            "action_effort": getattr(provider, "action_effort", None) or provider.effort,
+            "action_seed_policy": "Complete initial dataset + all Reader actions + their cited original OCR evidence",
+            "baseline": data["baseline"], "max_questions": max_questions,
+            "seed_policy": "Only original table/template output. sequence_extraction, resolved_sequences, repaired exports, answers and human inheritance are excluded."}
+        write_json(output / "manifest.json", manifest)
+        write_json(output / "sources.json", data["sources"])
+        write_json(output / "seed.json", data["seed"])
+        write_json(output / "reader_initial_dataset.json", initial_dataset(data))
+        ledger, completed, failed, skipped = Ledger(data), {}, {}, {}
+        merge_index, merged_successes = 0, 0
 
     def read_chunk(chunk):
         payload = reader_payload(data, chunk)
@@ -215,56 +243,78 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
 
     print(f"{data['document_id']}: sources={len(data['sources'])} chunks={len(chunks)} scheduled={len(scheduled)}", flush=True)
     print("sda-dataagent2-progress " + compact({"phase": "reader", "completed": 0, "total": len(chunks)}), flush=True)
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        pending = {pool.submit(read_chunk, c): c for c in scheduled}
-        for future in as_completed(pending):
-            chunk = pending[future]
+    with timings.measure("dataagent2_reader"):
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            pending = {pool.submit(read_chunk, c): c for c in scheduled}
+            for future in as_completed(pending):
+                chunk = pending[future]
+                try:
+                    response, meta = future.result()
+                    completed[chunk["id"]] = {"response": response, "meta": meta}
+                except Exception as exc:
+                    if "service circuit open" in str(exc).lower():
+                        skipped[chunk["id"]] = str(exc)
+                    else:
+                        failed[chunk["id"]] = str(exc)
+                # Buffer out-of-order completions, then persist the growing ledger
+                # in document order without another model request.
+                with timings.measure("dataagent2_merge"):
+                    previous_index = merge_index
+                    while merge_index < len(scheduled):
+                        current = scheduled[merge_index]
+                        current_id = current["id"]
+                        if current_id in completed:
+                            ledger.apply(completed[current_id]["response"], current["context"] + current["core"], current_id)
+                            merged_successes += 1
+                        elif current_id not in failed and current_id not in skipped:
+                            break
+                        merge_index += 1
+                    if merge_index != previous_index:
+                        partial = ledger.assemble()
+                        partial["status"] = "partial"
+                        partial["reader_coverage"] = {"total_chunks": len(chunks), "completed_chunks": merged_successes,
+                            "failed_chunks": failed.copy(), "skipped_chunks": skipped.copy(),
+                            "core_sources_read": sum(len(c["core"]) for c in scheduled[:merge_index] if c["id"] in completed),
+                            "total_sources": len(data["sources"]), "scope": "Incremental source-supported facts; not semantic accuracy",
+                            "pending_completed_chunks": len(completed) - merged_successes}
+                        write_json(output / "dataset.partial.json", partial)
+                        write_json(output / "facts.partial.json", ledger.facts)
+                        export_rows(output / "dataset.partial.json", output / "review.partial")
+                write_json(output / "progress.json", {"document": data["document_id"], "phase": "reader",
+                    "completed_chunks": len(completed), "failed_chunks": failed, "skipped_chunks": skipped,
+                    "total_chunks": len(chunks),
+                    "usage": provider.usage(), "elapsed_seconds": round(time.monotonic() - started, 2)})
+                print("sda-dataagent2-progress " + compact({"phase": "reader", "completed": len(completed),
+                    "failed": len(failed), "skipped": len(skipped), "total": len(chunks)}), flush=True)
+                if chunk["id"] not in skipped or len(completed) + len(failed) + len(skipped) == len(scheduled):
+                    print(f"{data['document_id']}: read {len(completed)}/{len(chunks)} failed={len(failed)} skipped={len(skipped)} tokens={provider.usage()['total_tokens']}", flush=True)
+    # The growing ledger above is a provisional review view. The LLM ActionAgent
+    # now produces the authoritative complete business dataset across all chunks.
+    action_status = {"status": "not_run_incomplete_read", "revision": ACTION_REVISION}
+    with timings.measure("dataagent2_action"):
+        if len(completed) == len(chunks) and not failed and not skipped:
+            print("sda-dataagent2-progress " + compact({"phase": "action", "completed": 0, "total": 1}), flush=True)
+            write_json(output / "progress.json", {"document": data["document_id"], "phase": "action",
+                "completed_chunks": len(completed), "total_chunks": len(chunks),
+                "action_agent": {"status": "running"}, "usage": provider.usage(),
+                "elapsed_seconds": round(time.monotonic() - started, 2)})
             try:
-                response, meta = future.result()
-                completed[chunk["id"]] = {"response": response, "meta": meta}
+                ledger, action_status = run_action_agent(data, chunks, completed, provider, output)
             except Exception as exc:
-                if "service circuit open" in str(exc).lower():
-                    skipped[chunk["id"]] = str(exc)
-                else:
-                    failed[chunk["id"]] = str(exc)
-            # Buffer out-of-order completions, then persist the growing ledger
-            # in document order without another model request.
-            previous_index = merge_index
-            while merge_index < len(scheduled):
-                current = scheduled[merge_index]
-                current_id = current["id"]
-                if current_id in completed:
-                    ledger.apply(completed[current_id]["response"], current["context"] + current["core"], current_id)
-                    merged_successes += 1
-                elif current_id not in failed and current_id not in skipped:
-                    break
-                merge_index += 1
-            if merge_index != previous_index:
-                partial = ledger.assemble()
-                partial["status"] = "partial"
-                partial["reader_coverage"] = {"total_chunks": len(chunks), "completed_chunks": merged_successes,
-                    "failed_chunks": failed.copy(), "skipped_chunks": skipped.copy(),
-                    "core_sources_read": sum(len(c["core"]) for c in scheduled[:merge_index] if c["id"] in completed),
-                    "total_sources": len(data["sources"]), "scope": "Incremental source-supported facts; not semantic accuracy",
-                    "pending_completed_chunks": len(completed) - merged_successes}
-                write_json(output / "dataset.partial.json", partial)
-                write_json(output / "facts.partial.json", ledger.facts)
-                export_rows(output / "dataset.partial.json", output / "review.partial")
-            write_json(output / "progress.json", {"document": data["document_id"], "phase": "reader",
-                "completed_chunks": len(completed), "failed_chunks": failed, "skipped_chunks": skipped,
-                "total_chunks": len(chunks),
-                "usage": provider.usage(), "elapsed_seconds": round(time.monotonic() - started, 2)})
-            print("sda-dataagent2-progress " + compact({"phase": "reader", "completed": len(completed),
-                "failed": len(failed), "skipped": len(skipped), "total": len(chunks)}), flush=True)
-            if chunk["id"] not in skipped or len(completed) + len(failed) + len(skipped) == len(scheduled):
-                print(f"{data['document_id']}: read {len(completed)}/{len(chunks)} failed={len(failed)} skipped={len(skipped)} tokens={provider.usage()['total_tokens']}", flush=True)
-    # The growing ledger consumed each successful chunk once on top of the seed.
-    first = ledger.assemble()
-    write_json(output / "dataset.first_pass.json", first)
-    write_json(output / "facts.first_pass.json", ledger.facts)
-    questions = question_tasks(first, data)
-    write_json(output / "questions.initial.json", questions)
-    write_json(output / "questions.json", questions)
+                action_status = {"status": "failed", "revision": ACTION_REVISION, "error": str(exc)}
+                write_json(output / "action_agent.json", action_status)
+            print("sda-dataagent2-progress " + compact({"phase": "action", "completed": int(action_status["status"] != "failed"), "total": 1}), flush=True)
+        else:
+            write_json(output / "action_agent.json", action_status)
+    action_complete = action_status["status"] in {"validated", "not_needed"}
+    ledger.action_metadata = action_status
+    with timings.measure("dataagent2_gap_detection"):
+        first = ledger.assemble()
+        write_json(output / "dataset.first_pass.json", first)
+        write_json(output / "facts.first_pass.json", ledger.facts)
+        questions = question_tasks(first, data)
+        write_json(output / "questions.initial.json", questions)
+        write_json(output / "questions.json", questions)
     answers = []
     text_questions = [q for q in questions if q["kind"] != "ocr_failure"]
     image_questions = [q for q in questions if q["kind"] == "ocr_failure"]
@@ -272,71 +322,72 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
     print("sda-dataagent2-progress " + compact({"phase": "questions", "completed": 0,
         "total": min(len(text_questions), question_limit)}), flush=True)
     # Don't diagnose apparent gaps from an incomplete smoke run or failed document pass.
-    if len(completed) == len(chunks) and not failed:
-        answers.extend({"id": q["id"], "status": "requires_image_ocr", "failed_source_ids": q["failed_source_ids"]}
-                       for q in image_questions)
-        for question in text_questions[:question_limit]:
-            current = ledger.assemble()
-            by_id = {e["id"]: e for e in current["entities"]}
-            if all(by_id[t["item"]]["sequences"][t["chain"]]["status"] == "supported" for t in question["targets"]):
-                continue
-            payload, allowed = question_payload(question, ledger, question_chars)
-            if not allowed:
-                answers.append({"id": question["id"], "status": "no_evidence"})
-                continue
-            before = current["summary"]["variable_chains"]
-            try:
-                response, meta = provider.generate("answer", INSTRUCTIONS +
-                    "\nResolve only the specified question using these sources. Do not repeat unrelated measurements or experiments. "
-                    "If ownership or boundary has no explicit support, return an issue instead of guessing.\n", payload)
-                # Stage changes. Conflicting new evidence cannot silently erase supported results.
-                candidate = copy.deepcopy(ledger)
-                candidate.apply(response, allowed, question["id"])
-                after = candidate.assemble()
-                originals = {(e["id"], c): e["sequences"][c]["value"] for e in current["entities"] for c in ("VH", "VL")
-                             if e["sequences"][c]["status"] == "supported"}
-                incompatible = any(originals.get((e["id"], c)) and originals[e["id"], c] != e["sequences"][c]["value"]
-                                   for e in after["entities"] for c in ("VH", "VL"))
-                if incompatible:
-                    answers.append({"id": question["id"], "status": "conflicting_patch", "proposed_response": response})
-                else:
-                    ledger = candidate
-                    answers.append({"id": question["id"], "status": "applied", "meta": meta,
-                                    "added_chains": after["summary"]["variable_chains"] - before,
-                                    "resolved": all(next(e for e in after["entities"] if e["id"] == t["item"])
-                                                    ["sequences"][t["chain"]]["status"] == "supported"
-                                                    for t in question["targets"])})
-            except Exception as exc:
-                answers.append({"id": question["id"], "status": "failed", "error": str(exc)})
-            write_json(output / "answers.json", answers)
-            print(f"{data['document_id']}: question {question['id']} {answers[-1]['status']} tokens={provider.usage()['total_tokens']}", flush=True)
-            print("sda-dataagent2-progress " + compact({"phase": "questions", "completed": len(answers) - len(image_questions),
-                "total": min(len(text_questions), question_limit)}), flush=True)
-    final = ledger.assemble()
-    unresolved = question_tasks(final, data)
-    write_json(output / "questions.json", unresolved)
-    final["reader_coverage"] = {"total_chunks": len(chunks), "completed_chunks": len(completed),
-        "failed_chunks": failed, "skipped_chunks": skipped,
-        "core_sources_read": sum(len(c["core"]) for c in chunks if c["id"] in completed),
-        "total_sources": len(data["sources"]), "scope": "All supplied PDF OCR lines and table cells, not PDF recall or semantic accuracy"}
-    final["status"] = "partial" if failed or len(completed) < len(chunks) or any(e["missing"] for e in final["entities"]) or final["conflicts"] else "source_supported"
-    write_json(output / "dataset.json", final)
-    write_json(output / "quality_audit.json", audit_dataset(final, ledger.sources))
-    export_rows(output / "dataset.json", output / "review.formal")
-    write_json(output / "facts.json", ledger.facts)
-    write_json(output / "answers.json", answers)
-    comparison = compare_reference(final, data["reference_for_scoring_only"])
-    write_json(output / "reference_comparison.json", comparison)
+    with timings.measure("dataagent2_questions"):
+        if len(completed) == len(chunks) and not failed and action_complete:
+            answers.extend({"id": q["id"], "status": "requires_image_ocr", "failed_source_ids": q["failed_source_ids"]}
+                           for q in image_questions)
+            for question in text_questions[:question_limit]:
+                current = ledger.assemble()
+                by_id = {e["id"]: e for e in current["entities"]}
+                if all(by_id[t["item"]]["sequences"][t["chain"]]["status"] == "supported" for t in question["targets"]):
+                    continue
+                payload, allowed = question_payload(question, ledger, question_chars)
+                if not allowed:
+                    answers.append({"id": question["id"], "status": "no_evidence"})
+                    continue
+                before = current["summary"]["variable_chains"]
+                try:
+                    response, meta = provider.generate("answer", INSTRUCTIONS + "\n" + ANSWER_INSTRUCTIONS, payload)
+                    # Stage changes. Conflicting new evidence cannot silently erase supported results.
+                    candidate = copy.deepcopy(ledger)
+                    candidate.apply(response, allowed, question["id"])
+                    after = candidate.assemble()
+                    originals = {(e["id"], c): e["sequences"][c]["value"] for e in current["entities"] for c in ("VH", "VL")
+                                 if e["sequences"][c]["status"] == "supported"}
+                    incompatible = any(originals.get((e["id"], c)) and originals[e["id"], c] != e["sequences"][c]["value"]
+                                       for e in after["entities"] for c in ("VH", "VL"))
+                    if incompatible:
+                        answers.append({"id": question["id"], "status": "conflicting_patch", "proposed_response": response})
+                    else:
+                        ledger = candidate
+                        answers.append({"id": question["id"], "status": "applied", "meta": meta,
+                                        "added_chains": after["summary"]["variable_chains"] - before,
+                                        "resolved": all(next(e for e in after["entities"] if e["id"] == t["item"])
+                                                        ["sequences"][t["chain"]]["status"] == "supported"
+                                                        for t in question["targets"])})
+                except Exception as exc:
+                    answers.append({"id": question["id"], "status": "failed", "error": str(exc)})
+                write_json(output / "answers.json", answers)
+                print(f"{data['document_id']}: question {question['id']} {answers[-1]['status']} tokens={provider.usage()['total_tokens']}", flush=True)
+                print("sda-dataagent2-progress " + compact({"phase": "questions", "completed": len(answers) - len(image_questions),
+                    "total": min(len(text_questions), question_limit)}), flush=True)
+    with timings.measure("dataagent2_export"):
+        final = ledger.assemble()
+        unresolved = question_tasks(final, data)
+        write_json(output / "questions.json", unresolved)
+        final["reader_coverage"] = {"total_chunks": len(chunks), "completed_chunks": len(completed),
+            "failed_chunks": failed, "skipped_chunks": skipped,
+            "core_sources_read": sum(len(c["core"]) for c in chunks if c["id"] in completed),
+            "total_sources": len(data["sources"]), "scope": "All supplied PDF OCR lines and table cells, not PDF recall or semantic accuracy"}
+        final["status"] = "partial" if failed or len(completed) < len(chunks) or not action_complete or any(e["missing"] for e in final["entities"]) or final["conflicts"] else "source_supported"
+        write_json(output / "dataset.json", final)
+        write_json(output / "quality_audit.json", audit_dataset(final, ledger.sources))
+        export_rows(output / "dataset.json", output / "review.formal")
+        write_json(output / "facts.json", ledger.facts)
+        write_json(output / "answers.json", answers)
+        comparison = compare_reference(final, data["reference_for_scoring_only"])
+        write_json(output / "reference_comparison.json", comparison)
     usage = provider.usage()
     shared = data["baseline"]["shared_stage_tokens"]
     complete_read = len(completed) == len(chunks) and not failed
     answer_failures = sum(a["status"] == "failed" for a in answers)
-    complete_benchmark = complete_read and not answer_failures
+    complete_benchmark = complete_read and action_complete and not answer_failures
     total = shared + usage["total_tokens"] if complete_benchmark else None
     old = data["baseline"]["total_tokens"]
     report = {"document_id": data["document_id"], "status": final["status"],
         "new_model_usage": usage, "reused_stage_historical_tokens": shared,
         "reader_complete": complete_read, "benchmark_complete": complete_benchmark,
+        "action_complete": action_complete, "action_agent": action_status,
         "question_api_failures": answer_failures,
         "comparable_model_total_tokens": total,
         "historical_baseline_tokens": old,

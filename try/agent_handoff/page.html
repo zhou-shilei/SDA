@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>SDA · Agent 整体流程与数据交接</title>
+  <link rel="icon" href="data:,">
+  <style>@@STYLE@@</style>
+</head>
+<body>
+  <header class="masthead"><div class="brand">SDA <span>/ Agent 调试实验</span></div><nav class="main-nav" aria-label="页面导航"><button id="overview-nav" aria-current="page">整体流程</button><button id="calls-nav" aria-current="false">调用明细</button></nav><span class="tag">离线快照 · 只读</span></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">DATASETAGENT · PIPELINE EXPLORER</p><h1>沿着流程，看清数据如何交接</h1><p id="subtitle"></p></div><div id="metrics" class="metrics"></div></section>
+    <nav id="snapshot-links" class="prompt-tools" aria-label="快照版本与效果对照"></nav>
+    <aside class="version-notice" aria-label="流程与样例版本"><strong>当前流程 · Template → 并行 Reader → ActionAgent → Dataset</strong><p id="run-version-message">Template 生成初始 Dataset1；各 Reader 独立提出建议；ActionAgent 跨块综合并返回完整数据集，经程序校验后检查缺口。真实调用记录保留历史版本。</p><small id="contract-updated-at"></small></aside>
+    <section id="overview-view">
+      <div class="flow-heading"><div><p class="flow-eyebrow">THE EVIDENCE PIPELINE</p><h2>从 PDF 到有证据的数据集</h2><p>顺着主线阅读，移入节点追踪关联，点击查看真实输入与 Prompt。</p></div><div class="flow-legend"><span class="legend-model">LLM Agent</span><span class="legend-program">Python 程序</span><span class="legend-data">结构化数据</span></div></div>
+      <div class="input-scope-summary"><article><strong>两路 OCR → 程序对齐坐标</strong><p>PDF OCR 提供全文和文字行框；TableOCR 提供表格行列。截图像素、工作页和原 PDF 之间保留转换。</p></article><article><strong>TemplateAgent → 初级 Dataset1</strong><p>只读取表格、匹配表题和结构信息。正文留在主机来源库，后续交给 Reader。</p></article><article><strong>Dataset1 + C1 / C2 / Cn → Reader</strong><p>同一份完整底稿独立并行读取。ActionAgent 综合全部建议，程序校验后继续定向补全。</p></article></div>
+      <nav id="flow-shortcuts" class="prompt-tools" aria-label="流程重点"><button data-flow-stage="evidence">查看两路 OCR 如何对齐</button><button data-flow-stage="provenance">查看实际原位追溯</button><button data-flow-stage="consolidation">查看 ActionAgent 综合</button><button data-flow-stage="review">查看待复核数据</button></nav>
+      <div class="graph-toolbar"><div><span class="graph-status-dot" aria-hidden="true"></span><strong>流程视图</strong><span id="graph-view-note">主流程突出显示，辅助证据线淡显</span></div><div class="graph-mode-switch" role="group" aria-label="连线显示方式"><button data-graph-mode="main" aria-pressed="true">主流程</button><button data-graph-mode="evidence" aria-pressed="false">证据定位</button><button data-graph-mode="all" aria-pressed="false">全部连线</button></div></div>
+      <div class="flow-scroll"><div class="flow-canvas" id="flow-canvas" data-view-mode="main">
+        <div class="graph-lane graph-lane-a" aria-hidden="true"></div><div class="graph-lane graph-lane-b" aria-hidden="true"></div><div class="graph-lane graph-lane-c" aria-hidden="true"></div><div class="graph-lane graph-lane-d" aria-hidden="true"></div>
+        <div class="lane-title lane-a"><span>01</span><strong>定位与原始证据</strong><small>两路 OCR 并行 · 程序对齐坐标</small></div>
+        <div class="lane-title lane-b"><span>02</span><strong>表格初始化</strong><small>表格与表题 → Template → 初始底稿</small></div>
+        <div class="lane-title lane-c"><span>03</span><strong>并行阅读与全局综合</strong><small id="flow-reader-count"></small></div>
+        <div class="lane-title lane-d"><span>04</span><strong>补全与证据回查</strong><small id="flow-question-count"></small></div>
+        <svg id="flow-wires" viewBox="0 0 1680 1470" preserveAspectRatio="none" aria-hidden="true"></svg>
+
+      </div></div>
+      <div class="flow-footnotes"><p><span class="legend-line"></span>灰色：业务数据流 <span class="legend-line teal"></span>绿色：Dataset / 更新 <span class="legend-line evidence-line"></span>蓝色虚线：原文与定位证据</p><p>框表示 OCR 观测位置；未知坐标留空。Agent 引用来源编号，原位位置由程序回查。待复核项随结果保留。</p></div>
+      <details class="stage-directory"><summary><span><strong>全部节点与快照索引</strong><small>23 个节点 · 输入、输出与 Prompt</small></span><span class="directory-expand">展开查看 ↓</span></summary><p class="note">查看每一步的去向、实收内容和 Prompt。编号用于浏览，执行关系以箭头为准，两路 OCR 和各 Reader 可以并行。程序节点会明确说明没有 LLM Prompt；模型节点使用冻结请求中的指令。</p><div id="stage-directory"></div></details>
+      <details class="flow-more"><summary>展开 Reader 并行输入与 ActionAgent 综合细节</summary>
+      <section id="reader-dataset-flow" class="reader-dataset-flow" aria-labelledby="reader-dataset-title">
+        <div class="reader-dataset-heading"><div><p class="eyebrow">CHUNK + DATASET → 修改建议</p><h2 id="reader-dataset-title">每个 chunk 都带着初始 Dataset，分别提出修改。</h2></div><span class="reader-parallel-badge">并行调用，互不等待</span></div>
+        <p class="reader-dataset-intro">TemplateAgent 先形成初始 Dataset1。每个 chunk 都携带同一份完整业务 seed，Reader 结合本块 OCR 提出新增信息或冲突，再由 ActionAgent 综合为完整数据集，交给程序校验。</p>
+        <div class="reader-dataset-origin"><span>共同底稿</span><strong>初始 Dataset1</strong><p>完整的实体、已有关系、实验、测量值、单位和标签；存在初始序列定义时也完整携带。</p></div>
+        <div class="reader-distribute" aria-hidden="true">↓ 分别搭配每个 chunk 的 OCR 原文 ↓</div>
+        <div class="reader-parallel-rows">
+          <div class="reader-parallel-row"><div class="reader-input-pair"><div class="reader-chunk"><strong>C1</strong><span>第 1 块 OCR</span></div><span class="reader-plus" aria-hidden="true">＋</span><div class="reader-seed-view"><strong>Dataset1 · 完整业务 seed</strong><span>每块拿到相同底稿</span></div></div><span class="reader-arrow" aria-hidden="true">→</span><button type="button" class="reader-call" data-reader-chunk="c1"><strong>Chunk Reader 1</strong><span>查看保存的 C1 请求 ↗</span></button><span class="reader-arrow" aria-hidden="true">→</span><div class="reader-patch"><strong>修改建议 1</strong><span>新增事实 / 补充关联 / 冲突</span></div></div>
+          <div class="reader-parallel-row"><div class="reader-input-pair"><div class="reader-chunk"><strong>C2</strong><span>第 2 块 OCR</span></div><span class="reader-plus" aria-hidden="true">＋</span><div class="reader-seed-view"><strong>Dataset1 · 完整业务 seed</strong><span>每块拿到相同底稿</span></div></div><span class="reader-arrow" aria-hidden="true">→</span><button type="button" class="reader-call" data-reader-chunk="c2"><strong>Chunk Reader 2</strong><span>查看保存的 C2 请求 ↗</span></button><span class="reader-arrow" aria-hidden="true">→</span><div class="reader-patch"><strong>修改建议 2</strong><span>新增事实 / 补充关联 / 冲突</span></div></div>
+          <div class="reader-parallel-row"><div class="reader-input-pair"><div class="reader-chunk"><strong>Cn</strong><span>其余 OCR 块</span></div><span class="reader-plus" aria-hidden="true">＋</span><div class="reader-seed-view"><strong>Dataset1 · 完整业务 seed</strong><span>每块拿到相同底稿</span></div></div><span class="reader-arrow" aria-hidden="true">→</span><button type="button" class="reader-call" data-reader-chunk="last"><strong>Chunk Reader n</strong><span>查看最后一个保存请求 ↗</span></button><span class="reader-arrow" aria-hidden="true">→</span><div class="reader-patch"><strong>修改建议 n</strong><span>新增事实 / 补充关联 / 冲突</span></div></div>
+        </div>
+        <div class="reader-proposals-note"><strong>每个 Reader 都拿到相同的完整业务 seed，不按名称或编号筛选。</strong><span>每个 Reader 提交本块证据支持的修改，其他块的回答由程序统一收集。</span></div>
+        <div class="reader-merge-arrow" aria-hidden="true">↓ 初始 Dataset1 ＋ 全部修改建议 ＋ 相关原文证据 ↓</div>
+        <div class="reader-merge"><div><span>ActionAgent · LLM 综合</span><strong>输出完整业务 Dataset ＋ 逐条建议处理记录</strong><p>跨块整合互补信息，明确接受、合并、拒绝与冲突；程序检查来源、字符、底稿保留和建议是否全部处理。</p></div><span class="reader-arrow" aria-hidden="true">→</span><div class="reader-merged-dataset"><strong>首轮 Dataset2</strong><span>继续检查缺口，定向补全</span></div></div>
+        <p class="reader-dataset-example"><a href="reader-guide.html"><strong>查看新流程细节：62 个全文 chunks、完整输入、实际 Prompt 和返回格式 →</strong></a><br><span class="muted">下方卡片链接保留历史实际请求；新版输入在说明页中标为“未发送”。</span><br><strong>举例（流程示意）：</strong>C1 发现“AB-1 的 VH 对应 SEQ ID 4”，提出关联；C2 找到“SEQ ID 4 的完整序列”，提出定义。两块并行读取，ActionAgent 综合两块建议，将关联和序列接起来，再由程序校验。</p>
+      </section>
+      </details>
+      <details class="flow-more"><summary>实验对照与质量审计</summary>
+    <aside id="title-comparison-entry" style="margin:0 0 18px;padding:16px 20px;border:1px solid #c6d7c0;border-left:4px solid #236b53;border-radius:5px;background:#edf2e6"><a href="title-comparison.html" style="font-weight:650;font-size:15px;text-decoration:none">新增标题实验：仅表格 / 表格＋标题 / 表格＋正文，能否形成初级 Dataset？ →</a><p style="font-size:12px;color:#67756b;margin-top:5px">14 个原图核对的标题，只增加 554 字符；查看模型识别、程序校验和初级数据集的实际差别。</p></aside>
+    <aside style="margin:0 0 18px;padding:16px 20px;border:1px solid #c6d7c0;border-left:4px solid #236b53;border-radius:5px;background:#edf2e6"><a href="rerun-comparison.html" style="font-weight:650;text-decoration:none">本次从原始 PDF 完整重跑：实时进度与效果对照 →</a><p style="font-size:12px;color:#67756b;margin-top:5px">新版全量 Seed、并行 Reader 与 LLM ActionAgent；仅展示实际生成的结果。</p></aside>
+    <aside id="text-comparison-entry" style="margin:0 0 18px;padding:16px 20px;border:1px solid #c6d7c0;border-left:4px solid #236b53;border-radius:5px;background:#edf2e6"><a href="text-comparison.html" style="font-weight:650;font-size:15px;text-decoration:none">新增真实对照：仅表格 vs 表格＋正文 vs 完整 PDF 模型参考 →</a><p style="font-size:12px;color:#67756b;margin-top:5px">同样的 28 张表、共同的 221 个数值结果；切换比较口径，查看缺项和输入成本。参考结果非人工标准。</p></aside>
+    <aside id="template-audit-entry" style="margin:0 0 22px;padding:16px 20px;border:1px solid #c6d7c0;border-left:4px solid #236b53;border-radius:5px;background:#edf2e6"><a href="template-audit.html" style="font-weight:650;font-size:15px;text-decoration:none">最新 v6 识别质量说明：为什么模型识别到了，Dataset 仍有缺口？ →</a><p style="font-size:12px;color:#67756b;margin-top:5px">2026-10-31 固定审计 · 通过 AB-1、24 个漏项和供者条件，逐步看懂实际结果。与下方历史调用快照分开。</p></aside>
+      </details>
+      <details id="reference-box" class="reference-box" hidden><summary>对照之前绘制的三层架构图 · v6</summary><p>下面保留之前的设计图。上面的可点击版本按当前代码合并了表格分类与模板识别，并补充程序合并等节点；旧图的 QuestionAgent / Lightweight model 在当前实现中对应确定性 Python。</p><img id="reference-figure" alt="之前绘制的 dataagent2 三层架构图"></details>
+      <p id="flow-sample-time" class="flow-sample-time"></p>
+    </section>
+    <dialog id="stage-dialog" aria-labelledby="stage-name" aria-describedby="stage-purpose"><section id="stage-view" hidden>
+      <button id="stage-back" class="back-link" autofocus>关闭详情 ×</button>
+      <div class="stage-heading"><div><p class="eyebrow" id="stage-kind"></p><h2 id="stage-name"></h2><p id="stage-purpose"></p></div><div class="stage-actions"><button id="stage-data-action">查看本轮 JSON</button><button id="stage-call-action" hidden></button></div></div>
+      <div class="stage-context"><div><span>谁在执行</span><strong id="stage-owner"></strong></div><div><span>输入从哪里来</span><strong id="stage-upstream"></strong></div><div><span>输出交给谁</span><strong id="stage-downstream"></strong></div></div>
+      <nav id="stage-flow-nav" class="stage-flow-nav" aria-label="上下游阶段"></nav>
+      <div id="stage-request-controls" class="stage-request-controls" hidden><label for="stage-request-select">切换本阶段实际请求</label><select id="stage-request-select"></select><p id="stage-request-status" class="note"></p></div>
+      <div id="classification-view-controls" class="version-notice" hidden><label for="classification-view-select">LabelAgent 历史数据版本 </label><select id="classification-view-select"><option value="actual" hidden>历史 v5 真实请求与结果</option><option value="current">v5 输入预览 · 未发送（历史格式）</option><option value="history">快照中保存的请求与结果</option></select><p id="classification-version-message">此处用于核对旧 LabelAgent / v5 口径；不代表当前 v6 TemplateAgent 输入。预览不调用模型，历史请求及分类结果单独查看。</p></div>
+      <div class="stage-tabs" role="tablist" aria-label="阶段详情"><button role="tab" aria-selected="true" data-stage-tab="contract" aria-controls="stage-contract-content">输入输出定义</button><button role="tab" aria-selected="false" data-stage-tab="preview" aria-controls="stage-preview-content" hidden>内容与样例</button><button role="tab" aria-selected="false" data-stage-tab="data" aria-controls="stage-data-content">实际输入 / 输出 JSON</button><button role="tab" aria-selected="false" data-stage-tab="prompt" aria-controls="stage-prompt-content">Prompt · 实际请求</button><button role="tab" aria-selected="false" data-stage-tab="source" aria-controls="stage-source-content">Python 源码</button></div>
+      <section id="stage-contract-content" role="tabpanel"><div id="stage-contract-tables" class="contract-grid"></div><div class="stage-rule-box"><h3>这一步的处理规则</h3><ul id="stage-rules"></ul></div></section>
+      <section id="stage-preview-content" role="tabpanel" hidden></section>
+      <section id="stage-data-content" role="tabpanel" hidden><p class="note" id="stage-data-note">Reader / Answer 请求沿用原冻结快照。OCR 等上游补充产物展示明确标注的结构采样：每个数组最多保留首项，文字不改写；原文件路径与完整结构定义可供核对。</p><div class="stage-example-grid"><section id="stage-input-example" class="stage-example"></section><section id="stage-output-example" class="stage-example"></section></div><details id="stage-schema-box" class="schema-box" hidden><summary>实际调用使用的输出 JSON Schema（完整）</summary><div id="stage-schema-tree" class="json-tree"></div></details><details id="stage-prompt-box" class="schema-box" hidden><summary>实际调用保存的提示词 instructions（完整）</summary><pre id="stage-prompt"></pre></details></section>
+      <section id="stage-source-content" role="tabpanel" hidden></section>
+      <section id="stage-prompt-content" role="tabpanel" hidden></section>
+    </section>
+    </dialog>
+    <div class="workspace" id="calls-view" hidden>
+      <aside class="sidebar">
+        <div class="sidebar-head"><h2>调用记录</h2><span id="call-count"></span></div>
+        <label class="sr-only" for="stage-filter">调用阶段</label><select id="stage-filter"><option value="all">全部阶段</option><option value="vision">原图序列复核</option><option value="template">表格 → Template</option><option value="reader">Template → Reader</option><option value="action">Reader → ActionAgent</option><option value="answer">Question → Answer</option></select>
+        <label class="sr-only" for="call-filter">筛选调用</label><input id="call-filter" placeholder="搜索 c1 / q… / 实体名称" type="search">
+        <nav id="calls" aria-label="选择 Agent 调用"></nav>
+      </aside>
+      <section class="detail">
+        <div class="selection"><div><p class="eyebrow" id="call-stage"></p><h2 id="call-title"></h2></div><span id="call-status" class="tag"></span></div>
+        <p id="call-note" class="note"></p>
+        <div class="tabs" role="tablist" aria-label="查看内容">
+          <button role="tab" aria-selected="true" aria-controls="json-view" id="json-tab" data-view="json">交接 JSON</button>
+          <button role="tab" aria-selected="false" aria-controls="diff-view" id="diff-tab" data-view="diff">字段比较</button>
+          <button role="tab" aria-selected="false" aria-controls="source-view" id="source-tab" data-view="source">转换源码</button>
+          <button role="tab" aria-selected="false" aria-controls="callprompt-view" id="callprompt-tab" data-view="callprompt">Prompt · 完整请求</button>
+        </div>
+        <section id="json-view" role="tabpanel" aria-labelledby="json-tab">
+          <div id="panels" class="panels"></div>
+          <form id="search-form" class="searchbar"><label for="json-search">搜索字段或值</label><input id="json-search" placeholder="例如 AB-2a、seq_ids、119" type="search"><select id="search-pane" aria-label="搜索哪一栏"><option value="0">上游输出</option><option value="1" selected>下游输入</option><option value="2">下游输出</option></select><button>搜索</button><span id="search-count" aria-live="polite"></span></form>
+          <div id="search-results" class="search-results"></div>
+        </section>
+        <section id="diff-view" role="tabpanel" aria-labelledby="diff-tab" hidden>
+          <p class="note">比较当前三栏中选中的 JSON。路径采用 JSON Pointer（根节点留空）；数组按下标比较。字段筛选、重命名和压缩会产生正常差异，差异本身不代表丢失或错误。</p>
+          <form id="diff-form" class="diff-controls"><label>左侧<select id="diff-left"><option value="0">上游输出</option><option value="1">下游输入</option><option value="2">下游输出</option></select><input id="left-path" placeholder="根节点（留空）" aria-label="左侧字段路径"></label><span class="versus">→</span><label>右侧<select id="diff-right"><option value="1">下游输入</option><option value="0">上游输出</option><option value="2">下游输出</option></select><input id="right-path" placeholder="根节点（留空）" aria-label="右侧字段路径"></label><button>比较</button></form>
+          <p id="diff-summary" aria-live="polite"></p><div id="diff-results"></div>
+        </section>
+        <section id="source-view" role="tabpanel" aria-labelledby="source-tab" hidden><p class="note">下面保存了当前工作区的函数位置和源码，可离线阅读、复制路径；不是历史运行时版本的证明。</p><div id="source-list"></div></section>
+        <section id="callprompt-view" role="tabpanel" aria-labelledby="callprompt-tab" hidden></section>
+      </section>
+    </div>
+    <details class="provenance"><summary>快照范围与记录说明</summary><ul id="notes"></ul><p id="origin"></p><p>目录中的 <code>index.json</code> 是 VS Code 索引；<code>records/*/request.json</code>、<code>input.json</code>、<code>output.json</code> 可直接打开。<code>snapshot.json</code> 包含完整快照及原文件 SHA-256。</p></details>
+  </main>
+  <div id="toast" role="status" hidden></div>
+  <script id="snapshot-data" type="application/json">@@DATA@@</script>
+  <script id="flow-data" type="application/json">@@FLOWDATA@@</script>
+  <script id="preview-data" type="application/json">@@PREVIEWDATA@@</script>
+  <script id="current-contract-data" type="application/json">@@CURRENTDATA@@</script>
+  <script>@@CORE@@</script>
+  <script>@@APP@@</script>
+  <script>@@PREVIEWAPP@@</script>
+  <script>@@DATASETAPP@@</script>
+  <script>@@DETAILAPP@@</script>
+  <script>@@GRAPHAPP@@</script>
+  <script>@@FLOWAPP@@</script>
+</body>
+</html>

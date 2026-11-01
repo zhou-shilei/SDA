@@ -20,6 +20,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from document.document_extraction import save
+from dataagent2.timing import extraction_stages
 
 
 def write_html_report(run_dir, report):
@@ -34,11 +35,15 @@ def write_html_report(run_dir, report):
               "sequence_report": read("template_agent_report.json"),
               "page_images": {int(p.stem.split('-')[-1]): os.path.relpath(p, document)
                               for p in (Path(run_dir) / "text_ocr/images").glob("page-*.png")}}
+    bundle["runtime"]["extraction_stages"] = extraction_stages(document, bundle["runtime"])
     structured = Path(report.get("structured_dir") or Path(run_dir) / "structured")
     bundle["structured_artifacts"] = {key: os.path.relpath(structured / name, document)
                                       for key, name in (("json", "document.json"), ("markdown", "document.md"))
                                       if (structured / name).is_file()}
     html = (Path(__file__).resolve().parents[2] / "studio/run.html").read_text()
+    metrics_js = (Path(__file__).resolve().parents[2] / "studio/intake_metrics.js").read_text()
+    html = html.replace("import { processingStageLabel, formatProcessingTime } from './intake_metrics.js';",
+                        metrics_js.replace("export function ", "function "))
     value = json.dumps(bundle, ensure_ascii=False).replace("<", "\\u003c")
     html = html.replace('<script type="application/json" id="report-data"></script>',
                         '<script type="application/json" id="report-data">' + value + '</script>')

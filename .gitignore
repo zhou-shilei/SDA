@@ -29,9 +29,16 @@ envs/
 .paddlex/
 
 # Local credentials and transient files
+/auth.json
 .env
 .env.*
 !.env.example
 *.log
 *.tmp
 .DS_Store
+
+# Local experiment outputs; keep reproducible scripts in Git
+/PPL/results/
+/PPL/tmp/
+/try/agent_handoff/snapshots/
+/try/agent_handoff/web_runs/

@@ -200,8 +200,14 @@ class DataagentMigrationTests(unittest.TestCase):
             def generate(self, task, instructions, payload, contract, **kwargs):
                 self_test.assertTrue(instructions.strip())
                 calls.append(task)
-                if contract.__name__ == "ClassificationBatch":
-                    self_test.assertEqual(kwargs["images"], [image])
+                if contract.__name__ == "TemplatePlan":
+                    self_test.assertEqual(payload["tables"][0]["caption"], "Table 1. Binding inhibition IC50 by ELISA")
+                    self_test.assertNotIn("passages", payload)
+                    self_test.assertNotIn("Example 1.", json.dumps(payload))
+                    self_test.assertEqual(payload["tables"][0]["input_scope"], "all_rows")
+                    self_test.assertEqual(payload["tables"][0]["row_indices"], [1, 2])
+                    self_test.assertIn("Ab2", json.dumps(payload["tables"]))
+                    self_test.assertNotIn("classification", payload["tables"][0])
                     response = {"tables": [{"table_id": "table-1", "primary_label": "assay_ic50",
                         "labels": ["assay_ic50"], "confidence": 0.99, "entity_axis": "rows",
                         "measurement_axis": "columns", "decision": "extract", "detected_endpoints": ["IC50"],
@@ -213,9 +219,10 @@ class DataagentMigrationTests(unittest.TestCase):
                             "excluded_columns": [], "sequence_id_column": None, "sequence_column": None,
                             "chain_column": None, "name_column": None, "sequence_scope": "unknown",
                             "comparisons": []}], "issues": []}]}
-                elif contract.__name__ == "DocumentPlan":
-                    self_test.assertTrue(any("ELISA" in p["text"] for p in payload["passages"]))
-                    region_id = payload["tables"][0]["classification"]["regions"][0]["region_id"]
+                    table_plans = [{k: v for k, v in item.items()
+                                    if k not in ("primary_label", "measurement_axis", "detected_endpoints")}
+                                   for item in response["tables"]]
+                    region_id = "table-1:r1-2:0"
                     response = {"document_id": "DOC", "entities": [{"entity_id": name,
                         "canonical_name": name, "raw_names": [name], "role": "antibody",
                         "parent_entity_id": None, "variant": None,
@@ -225,7 +232,7 @@ class DataagentMigrationTests(unittest.TestCase):
                             "protocol_id": "ELISA-1", "label": "Binding inhibition", "method": "ELISA", "system": None,
                             "species": ["human"], "endpoints": ["IC50"], "summary_zh": "结合抑制实验",
                             "summary_en": "Binding inhibition assay", "evidence_refs": ["method:p1"]}],
-                        "unresolved": []}
+                        "unresolved": [], "tables": table_plans}
                 elif contract.__name__ == "SequenceExtractionStep":
                     decisions = []
                     for entity in payload["entities"]:
@@ -274,7 +281,8 @@ class DataagentMigrationTests(unittest.TestCase):
         self.assertEqual(by_name["Ab1"]["vl"], sequences["VL"])
         self.assertFalse(by_name["Ab2"]["vh"])
         self.assertFalse(by_name["Ab2"]["vl"])
-        self.assertEqual(sum(task.startswith(("table-classification", "document-template", "sequence-extraction")) for task in calls), 3)
+        self.assertEqual(sum(task.startswith(("table-classification", "document-template", "sequence-extraction")) for task in calls), 2)
+        self.assertFalse(any(task.startswith("table-classification") for task in calls))
         self.assertIn("collection-questions-v1", calls)
         self.assertIn("answer-questions-v1", calls)
         self.assertEqual(result["question_review"]["applied_chain_count"], 0)

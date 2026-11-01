@@ -1097,16 +1097,23 @@ def _as_xyxy(value: Sequence[float]) -> List[float]:
     return [x1, y1, x2, y2]
 
 
-def _padded_rect(fitz: Any, page: Any, bbox: Sequence[float], padding_pt: float) -> Any:
+def _padded_rect(
+    fitz: Any,
+    page: Any,
+    bbox: Sequence[float],
+    padding_pt: float,
+    extra_top_padding_pt: float = 0.0,
+) -> Any:
     """给检测框扩边并限制在页面范围内，防止裁图越界。"""
     page_rect = page.rect
     x1, y1, x2, y2 = _as_xyxy(bbox)
-    if not math.isfinite(padding_pt) or padding_pt < 0:
-        raise ValueError("padding_pt must be non-negative")
+    if (not math.isfinite(padding_pt) or padding_pt < 0
+            or not math.isfinite(extra_top_padding_pt) or extra_top_padding_pt < 0):
+        raise ValueError("padding values must be non-negative")
     # PDF 坐标以页面左上角为原点，扩边后仍需限制在页面内部。
     rect = fitz.Rect(
         max(page_rect.x0, x1 - padding_pt),
-        max(page_rect.y0, y1 - padding_pt),
+        max(page_rect.y0, y1 - padding_pt - extra_top_padding_pt),
         min(page_rect.x1, x2 + padding_pt),
         min(page_rect.y1, y2 + padding_pt),
     )
@@ -1156,6 +1163,7 @@ def crop_table_regions(
     pdf_path: str | Path | None = None,
     dpi: int = 400,
     padding_pt: float = 6.0,
+    extra_top_padding_pt: float = 22.0,
     labels: Iterable[str] = ("table",),
     min_confidence: float = 0.0,
 ) -> List[Dict[str, Any]]:
@@ -1180,7 +1188,9 @@ def crop_table_regions(
             if page_number < 1 or page_number > len(document):
                 raise ValueError(f"page {page_number} is outside PDF range 1..{len(document)}")
             page = document.load_page(page_number - 1)
-            crop_rect = _padded_rect(fitz, page, region["bbox"], padding_pt)
+            crop_rect = _padded_rect(
+                fitz, page, region["bbox"], padding_pt, extra_top_padding_pt
+            )
             pixmap = page.get_pixmap(matrix=matrix, clip=crop_rect, alpha=False)
             kind = "figure" if region.get("label") == "figure" else "table"
             filename = f"{kind}-{index:04d}-page-{page_number:04d}.png"
@@ -1202,6 +1212,7 @@ def crop_table_regions(
                     ],
                     "dpi": dpi,
                     "padding_pt": padding_pt,
+                    "extra_top_padding_pt": extra_top_padding_pt,
                     "width_px": int(pixmap.width),
                     "height_px": int(pixmap.height),
                     "crop_to_pdf": [72.0 / dpi, 0, 0, 72.0 / dpi,
@@ -1662,7 +1673,7 @@ def _validate_layout(payload, pdf, pages, digest, total_pages):
 
 def extract_pdf(pdf_path, output_dir, *, document_id=None, regions_json=None,
                 backends=("pp_doclayoutv3",), model_dirs=None, thresholds=None,
-                pages=None, dpi=150, crop_dpi=400, padding_pt=6.0,
+                pages=None, dpi=150, crop_dpi=400, padding_pt=6.0, extra_top_padding_pt=22.0,
                 labels=("table",), min_confidence=0.8, device="cpu", pp_engine=None,
                 execution="serial", cpu_workers=2, max_workers=4, threads_per_worker=4,
                 torch_python=None, torch_device=None, pp_device=None,
@@ -1683,8 +1694,10 @@ def extract_pdf(pdf_path, output_dir, *, document_id=None, regions_json=None,
         raise ValueError(f"Output directory must be new or empty: {out}")
     if min(dpi, crop_dpi, cpu_workers, max_workers, threads_per_worker) < 1:
         raise ValueError("DPI and worker/thread counts must be positive")
-    if not math.isfinite(padding_pt) or padding_pt < 0 or not 0 <= min_confidence <= 1:
-        raise ValueError("padding_pt must be nonnegative; min_confidence must be in [0, 1]")
+    if (not math.isfinite(padding_pt) or padding_pt < 0
+            or not math.isfinite(extra_top_padding_pt) or extra_top_padding_pt < 0
+            or not 0 <= min_confidence <= 1):
+        raise ValueError("padding values must be nonnegative; min_confidence must be in [0, 1]")
     if execution not in {"serial", "parallel"}:
         raise ValueError("execution must be serial or parallel")
     if orientation not in {"auto", "off"}:
@@ -1753,7 +1766,8 @@ def extract_pdf(pdf_path, output_dir, *, document_id=None, regions_json=None,
     save_json(out / "regions.json", payload)
     # 4. 从处理后的 PDF 重新渲染高清裁图，记录文件哈希和源文档坐标。
     crops = crop_table_regions(payload, out, pdf_path=processing_pdf, dpi=crop_dpi,
-                              padding_pt=padding_pt, labels=labels, min_confidence=min_confidence)
+                              padding_pt=padding_pt, extra_top_padding_pt=extra_top_padding_pt,
+                              labels=labels, min_confidence=min_confidence)
     detections = {r["id"]: r for p in payload["pages"] for r in p["detections"]}
     for crop in crops:
         image = out / crop["image"]
@@ -1797,6 +1811,7 @@ def extract_pdf(pdf_path, output_dir, *, document_id=None, regions_json=None,
                 "status": "partial" if payload.get("errors") or preparation and preparation["review_pages"] else "complete",
                 "image_count": len(crops), "labels": labels, "images": crops,
                 "crop_settings": {"dpi": crop_dpi, "padding_pt": padding_pt,
+                                  "extra_top_padding_pt": extra_top_padding_pt,
                                   "min_confidence": min_confidence},
                 "regions_file": "regions.json", "crops_file": "table_crops.json",
                 "table_contexts_file": "table_contexts.json", "logical_tables_file": "logical_tables.json",
@@ -1831,6 +1846,8 @@ def build_crop_parser():
     parser.add_argument("--dpi", type=int, default=150, help="检测用整页图片的分辨率")
     parser.add_argument("--crop-dpi", type=int, default=400)
     parser.add_argument("--padding-pt", type=float, default=6.0)
+    parser.add_argument("--extra-top-padding-pt", type=float, default=22.0,
+                        help="额外向上扩展裁图范围，尽量包含表格标题")
     parser.add_argument("--labels", nargs="+", choices=["table", "figure"], default=["table"])
     parser.add_argument("--min-confidence", type=float, default=0.8)
     parser.add_argument("--merge-iou", type=float, default=0.5)

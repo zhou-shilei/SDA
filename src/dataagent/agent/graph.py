@@ -500,10 +500,6 @@ def template_node(state: AgentState) -> dict[str, Any]:
     """Infer and validate a document-level semantic template after OCR."""
 
     config = AgentConfig.model_validate(state["config"])
-    routed_results = route_ocr_results(
-        state.get("ocr_results", []),
-        state.get("table_classifications", []),
-    )
     provider = None
     sequence_passages = collect_sequence_reference_passages(state.get("document_blocks", []))
     if config.semantic_provider == "codex":
@@ -513,20 +509,26 @@ def template_node(state: AgentState) -> dict[str, Any]:
         provider = provider_from_env(Path(config.output_dir), model=config.llm_model,
                                      effort=config.llm_effort, timeout=config.llm_timeout)
         agent = LLMTemplateAgent(provider)
+        # Every table reaches TemplateAgent; no previous label gates its input.
+        routed_results = route_ocr_results(state.get("ocr_results", []), [])
+        template, validation = agent.run(
+            config.document_id, routed_results,
+            state.get("assay_method_pages", []), state.get("table_contexts", []),
+        )
     else:
+        from ..llm_table_agents import prepare_table_title_input
         agent = TemplateAgent()
-    template, validation = agent.run(
-        config.document_id,
-        routed_results,
-        state.get("assay_method_pages", []),
-        state.get("table_contexts", []),
-        **({"sequence_passages": sequence_passages} if provider else {}),
-        antigen_target=config.antigen_target,
-        keyword_library_dir=config.keyword_library_dir,
-    )
+        classifications = TableClassificationAgent().run(state.get("ocr_results", []))
+        routed_results = route_ocr_results(state.get("ocr_results", []), classifications)
+        title_tables, title_records, title_contexts = prepare_table_title_input(
+            routed_results, state.get("assay_method_pages", []), state.get("table_contexts", [])
+        )
+        template, validation = agent.run(config.document_id, title_tables, [], title_contexts)
+        template["table_titles"] = title_records
     return {
         "document_template": template,
         "template_validation": validation,
+        "table_classifications": template["table_classifications"] if provider else classifications,
         "sequence_reference_passages": sequence_passages,
         "llm_runs": [*state.get("llm_runs", []), *(provider.calls if provider else [])],
         "table_contexts": enrich_table_contexts_with_assay_template(
@@ -541,12 +543,8 @@ def sequence_extract_node(state: AgentState) -> dict[str, Any]:
     from ..llm_runtime import json_write, provider_from_env
     from ..sequence_evidence import build_document_structure, write_structure_artifacts
     from ..llm_sequence_agent import SequenceExtractionAgent
-    from ..llm_runtime import excluded_tables
-
     config = AgentConfig.model_validate(state["config"])
-    excluded = excluded_tables()
-    available_tables = [table for table in state.get("ocr_results", [])
-                        if str(table.get("source_id") or table.get("image")) not in excluded]
+    available_tables = route_ocr_results(state.get("ocr_results", []), state.get("table_classifications", []))
     graph = build_document_structure(config.document_id, available_tables,
         blocks=state.get("document_blocks", []), contexts=state.get("table_contexts", []),
         methods=state.get("assay_method_pages", []), passages=state.get("sequence_reference_passages", []),
@@ -590,7 +588,7 @@ def sequence_extract_node(state: AgentState) -> dict[str, Any]:
 
 
 def index_document_node(state: AgentState) -> dict[str, Any]:
-    """Build a local search index concurrently with semantic classification."""
+    """Build the local search index before integrated template planning."""
     from ..page_index import build_page_index
 
     config = AgentConfig.model_validate(state["config"])
@@ -611,7 +609,7 @@ def assay_method_context_node(state: AgentState) -> dict[str, Any]:
     """Retrieve detail evidence, retaining the legacy method OCR as fallback."""
 
     config = AgentConfig.model_validate(state["config"])
-    routed_results = route_ocr_results(state.get("ocr_results", []), state.get("table_classifications", []))
+    routed_results = route_ocr_results(state.get("ocr_results", []), [])
     if config.sda_input_file:
         from ..sda_inputs import retrieve_existing_pages
         return retrieve_existing_pages(config, routed_results, state.get("table_contexts", []))
@@ -648,7 +646,7 @@ def assay_method_context_node(state: AgentState) -> dict[str, Any]:
                 return {**fallback, "assay_method_pages": pages}
     routed_results = route_ocr_results(
         state.get("ocr_results", []),
-        state.get("table_classifications", []),
+        [],
     )
     if not config.source_pdf or not routed_results:
         return {**fallback, "assay_method_pages": []}
@@ -832,7 +830,7 @@ def repair_evidence_node(state: AgentState) -> dict[str, Any]:
     import copy
     from ..assays import table_profile_summaries
     from ..llm_runtime import json_write, provider_from_env
-    from ..llm_table_agents import LLMTableClassificationAgent, LLMTemplateAgent
+    from ..llm_table_agents import LLMTemplateAgent
 
     config = AgentConfig.model_validate(state["config"])
     task = state["repair_plan"]["tasks"][0]
@@ -850,15 +848,20 @@ def repair_evidence_node(state: AgentState) -> dict[str, Any]:
     changes: dict[str, Any] = {}
     try:
         classifications = copy.deepcopy(state.get("table_classifications", []))
-        if task["action"] == "reclassify_table":
-            roots = _image_roots(config, state)
-            revised = LLMTableClassificationAgent(provider, image_roots=roots, batch_size=1, max_workers=1).run(
-                state.get("ocr_results", []), state.get("table_contexts", []), target_table_ids=target_ids, repair_findings=task["findings"])
-            classifications = [c for c in classifications if c["table_id"] not in target_ids] + revised
-        routed = route_ocr_results(state.get("ocr_results", []), classifications)
         template = copy.deepcopy(state.get("document_template", {}))
-        profiles, unresolved = LLMTemplateAgent(provider).repair_profiles(config.document_id, routed,
-            state.get("assay_method_pages", []), state.get("table_contexts", []), target_ids, task["findings"])
+        if task["action"] == "reclassify_table":
+            revised_template, _ = LLMTemplateAgent(provider).run(config.document_id, state.get("ocr_results", []),
+                state.get("assay_method_pages", []), state.get("table_contexts", []),
+                repair_findings=task["findings"])
+            revised = [c for c in revised_template["table_classifications"] if c["table_id"] in target_ids]
+            classifications = [c for c in classifications if c["table_id"] not in target_ids] + revised
+            profiles = [p for p in revised_template["assay_template"]["region_profiles"] if p["table_id"] in target_ids]
+            unresolved = revised_template["document_plan"]["unresolved"]
+        else:
+            routed = route_ocr_results(state.get("ocr_results", []), classifications)
+            profiles, unresolved = LLMTemplateAgent(provider).repair_profiles(config.document_id, routed,
+                state.get("assay_method_pages", []), state.get("table_contexts", []), target_ids, task["findings"])
+        template["table_classifications"] = classifications
         assay = template.setdefault("assay_template", {})
         assay["region_profiles"] = [p for p in assay.get("region_profiles", []) if p["table_id"] not in target_ids] + profiles
         assay["table_profiles"] = table_profile_summaries(assay["region_profiles"])
@@ -1003,31 +1006,18 @@ def quality_node(state: AgentState) -> dict[str, Any]:
 
 
 def classify_tables_node(state: AgentState) -> dict[str, Any]:
-    """Classify post-OCR evidence and expose the routing decision."""
+    """Materialize TemplateAgent's table plans; this node makes no LLM call."""
 
     config = AgentConfig.model_validate(state["config"])
-    provider = None
-    if config.semantic_provider == "codex":
-        from ..llm_runtime import provider_from_env
-        from ..llm_table_agents import LLMTableClassificationAgent
-
-        provider = provider_from_env(Path(config.output_dir), model=config.llm_model,
-                                     effort=config.llm_effort, timeout=config.llm_timeout)
-        roots = _image_roots(config, state)
-        classifications = LLMTableClassificationAgent(
-            provider, image_roots=roots, batch_size=config.llm_batch_size, max_workers=config.llm_workers,
-            coarse_triage=config.classification_triage,
-        ).run(state.get("ocr_results", []), state.get("table_contexts", []))
-        if classifications and not any(item.get("classifier", {}).get("mode") == "llm" for item in classifications):
-            raise RuntimeError("No table classification passed validation; see classification_progress.json and llm_calls.jsonl")
-    else:
-        classifications = TableClassificationAgent().run(state.get("ocr_results", []))
-    # Persist independently source-checked measurements before document assembly,
-    # so a later entity/sequence planning failure does not hide table understanding.
+    classifications = state.get("table_classifications", [])
+    if config.semantic_provider == "codex" and route_ocr_results(state.get("ocr_results", []), []) and not classifications:
+        raise RuntimeError("TemplateAgent returned no table plans")
+    # Compatibility artifacts are generated from the integrated plan.
     from ..records import export_measurements
     from ..llm_runtime import json_write
     measurements = export_measurements(config.document_id, state.get("ocr_results", []), classifications)
-    for name, values in (("assay_measurements", measurements["measurements"]),
+    for name, values in (("table_classifications", classifications),
+                         ("assay_measurements", measurements["measurements"]),
                          ("assay_comparisons", measurements["comparisons"]),
                          ("measurement_review", {"summary": measurements["summary"], "issues": measurements["issues"]})):
         json_write(Path(config.output_dir) / f"{name}.json", values)
@@ -1072,7 +1062,6 @@ def classify_tables_node(state: AgentState) -> dict[str, Any]:
         "table_classifications": classifications,
         "candidates": candidates,
         "review_tasks": review_tasks,
-        "llm_runs": [*state.get("llm_runs", []), *(provider.calls if provider else [])],
     }
 
 
@@ -1103,11 +1092,11 @@ def build_seed_graph():
     builder.add_edge("discover", "context")
     builder.add_edge("context", "triage")
     builder.add_edge("triage", "select")
-    builder.add_edge("select", "classify_tables")
     builder.add_edge("select", "index_document")
-    builder.add_edge(["classify_tables", "index_document"], "assay_method_context")
+    builder.add_edge("index_document", "assay_method_context")
     builder.add_edge("assay_method_context", "template")
-    builder.add_edge("template", END)
+    builder.add_edge("template", "classify_tables")
+    builder.add_edge("classify_tables", END)
     return builder.compile()
 
 
@@ -1120,7 +1109,7 @@ def build_graph():
     timings = StageTimings()
 
     # 节点按处理职责拆分：每一步独立更新 AgentState，并记录耗时与失败阶段。
-    # 默认 codex 模式下，LLM 判断位于 classify_tables、template、sequence_extract、question_answer；
+    # 默认 codex 模式下，LLM 判断位于 template、sequence_extract、question_answer；
     # 其余节点负责工具执行、规则检查或调度，repair_evidence 按需再次调用语义 Agent。
     # 本图从已裁剪的表格开始；PDF 预处理在上游，Studio 人工复核与正式入库在下游。
 
@@ -1136,18 +1125,18 @@ def build_graph():
     # 执行表格 OCR，按需补充序列页 OCR；支持检查点恢复。
     builder.add_node("extract", timings.wrap("extract", extract_node))
 
-    # 2. 表格理解与证据检索：分类和全文索引并行，完成后汇合读取详细证据。
-    # 空操作调度节点：统一新 OCR 与已有 OCR 两条入口，再启动两个分支。
+    # 2. 证据检索：先检索全文与方法上下文，再统一交给模板 Agent。
+    # 空操作调度节点：统一新 OCR 与已有 OCR 两条入口。
     builder.add_node("prepare_semantics", timings.wrap("prepare_semantics", lambda state: {}))
     # 工具分支：建立全文检索索引，用于定位相关页面。
     builder.add_node("index_document", timings.wrap("index_document", index_document_node))
-    # LLM 分支：判断表格类型、划分区域，给出实体列、数值列、单位等提取计划。
+    # 程序节点：模板完成后物化兼容的分类、测量和复核产物，不调用模型。
     builder.add_node("classify_tables", timings.wrap("classify_tables", classify_tables_node))
-    # 根据索引与分类结果精读方法、实体和序列相关页面；索引失败时回退方法窗口 OCR。
+    # 根据索引与所有表格精读相关页面；索引失败时回退方法窗口 OCR。
     builder.add_node("assay_method_context", timings.wrap("assay_method_context", assay_method_context_node))
 
     # 3. 文档规划与序列提取：两个语义 Agent 依次工作。
-    # LLM 建立实体/别名、SEQ ID 关联假设，以及实验区域与方法的绑定。
+    # LLM 一次完成表格筛选、结构定位、实体/别名、SEQ ID 关联及实验绑定。
     builder.add_node("template", timings.wrap("template", template_node))
     # LLM 按实体检索原文，判断 VH/VL 归属与边界，输出实际序列及逐字引用。
     # 多轮检索循环封装在 SequenceExtractionAgent 内部；本图只调度一次节点。
@@ -1189,14 +1178,14 @@ def build_graph():
     )
     builder.add_edge("extract", "prepare_semantics")
 
-    # 阶段 2：同时启动分类与索引；列表形式的边要求两个分支都完成后再精读。
-    builder.add_edge("prepare_semantics", "classify_tables")
+    # 阶段 2：检索上下文；没有独立的 LabelAgent 分支。
     builder.add_edge("prepare_semantics", "index_document")
-    builder.add_edge(["classify_tables", "index_document"], "assay_method_context")
+    builder.add_edge("index_document", "assay_method_context")
 
     # 阶段 3：先建立文档级关联假设，再让序列 Agent 根据原文验证和提取。
     builder.add_edge("assay_method_context", "template")
-    builder.add_edge("template", "sequence_extract")
+    builder.add_edge("template", "classify_tables")
+    builder.add_edge("classify_tables", "sequence_extract")
 
     # 阶段 4：基础校验后组装记录。
     builder.add_edge("sequence_extract", "validate")

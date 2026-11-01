@@ -1,0 +1,73 @@
+POISK v1.1：KD / IC50 分类与数值表达整理
+核查日期：2026-10-30（Asia/Shanghai）
+
+结果
+从 Zenodo 下载完整 poisk_dataset.csv：234,128,089 字节（约 234 MB），
+93,193 条记录、47 列、10,010 个专利号。
+文件 MD5：f0c1f098abf1756e4b9891aa4dc028ee，与官方 v1.1 发布值一致。
+文件 SHA-256：3ef1d109fe4f0a6af3c3f423eac72e5ee840d62ec817aecc7769e114b144f201。
+其中亲和力字段有内容 42,093 条，无内容 51,100 条。
+
+明确指标的记录数
+指标 | 亲和力值或方法字段明确标注 | 亲和力值字段标注 | 仅方法字段补充类型 | 单一正摩尔数值候选 | 模型审计 CONFIRMED
+KD | 1,665 | 1,647 | 18 | 1,003 | 1,047
+IC50 | 2,902 | 2,693 | 209 | 1,494 | 1,850
+EC50 | 2,820 | 2,436 | 384 | 1,413 | 1,719
+KA | 206 | 190 | 16 | 0 | 117
+Ki | 76 | 67 | 9 | 48 | 40
+
+主计数为不同 unique_record_id 的数量；含两个指标的同一行分别计入对应指标。
+同时明确标注 KD 和 IC50 的记录有 29 条，已单独导出。
+这些数量不是独立抗体数，也不是独立实验测量数。
+例如同一行的 KD(IL1a) 和 KD(IL1b)、同一抗体对多个物种的数值，均仍只算一条 KD 记录。
+
+严格计数规则
+仅在 target.binding_affinity.affinity_value 或 target.binding_affinity.method 中明确写出指标名称，
+且 affinity_value 非占位/空值时，才计入明确指标记录。
+识别 KD、Kd、K_D、KDapp、KD1/KD2、IC50、IC_50、IC₅₀ 等写法，保留来源和原文。
+明确带 /s、1/s、s^-1、sec^-1 等单位的 kd 按解离速率处理，不归入平衡解离常数 KD。
+共 110 条记录带此类速率表达；部分还同时包含其他指标，不与 KD 计数简单相减。
+不因为有 nM/M 单位或采用 SPR/BLI/KinExA/ELISA 方法，就自动认定测量的是 KD 或 IC50。
+没有恢复原始专利全文，也没有调用模型为字段补写指标类型。
+
+审计解释中的额外候选
+在数值/方法字段未明确归类、但 audit.reasoning 仅提到本次五类指标中的一种时，另存为候选：
+KD：6,258 条；IC50：842 条。
+这些候选不计入上表；解释可能是在否定、质疑或比较该指标，不能直接把提及当成测量标签。
+审计文本由原数据集的模型生成，不是独立人工核验。
+按本次五类规则仍未明确归类的带亲和信息记录有 34,511 条，
+包括只写浓度、定性/相对结果、速率或其他指标的记录；它们不是“没有亲和信息”。
+因此，明确标注数量不能被解释为整个数据集中实际 KD/IC50 实验的完整总量。
+
+数值与单位整理
+quantities_json 保留识别到的浓度表达、数值、单位、原始文本位置和可确定的 value_M。
+M、mM、uM/μM、nM、pM、fM 统一为 M；质量浓度保留原单位，不在未知分子量时换算为 M。
+单一正摩尔数值候选只保留：指标唯一、浓度表达唯一、数值为正，且没有范围、不等号、
+相对描述、多数值、误差项或速率混杂；近似值可保留，但有 approximate 标记。
+候选数量只是格式筛选结果，没有证明数值属于正确抗体/抗原、实验条件充分或序列正确。
+数值解析器是保守的规则筛选，未识别到数值不意味着原文没有数值。
+不能把区间/上限当精确点值，不能把 IC50/EC50 当 KD，不能把未填字段当不结合负例。
+
+文件
+sources/poisk_dataset_v1.1.csv：未经改写的原始完整 CSV。
+KD_explicit_records.csv / IC50_explicit_records.csv：明确标注的各类记录，保留原始 47 列及分类列。
+both_KD_IC50_records.csv：同时含 KD、IC50 的原始记录。
+KD_audit_only_candidates.csv / IC50_audit_only_candidates.csv：仅审计解释提示的候选，保留全部原列。
+records_classified.csv：全量记录的分类索引与原始数值/方法/条件/审计字段。
+untyped_affinity_records.csv：未归入五类明确指标的亲和信息，保留原文和待核验提示。
+kinetic_kd_records.csv：包含逆时间 kd 表达的记录。
+multiple_metric_records.csv：同时出现多个明确指标的记录。
+metric_summary.csv / summary.json：完整统计、单位分布、审计分层与口径。
+examples.json：每类前 12 条示例，便于检查，不是随机质量审计。
+provenance.json：输入/输出哈希与统计脚本信息。
+
+复算
+python src/poisk_affinity_audit.py
+python -m unittest discover -s tests -p 'test_poisk_affinity_audit.py' -v
+六项测试覆盖指标/方法字段、Unicode 和科学计数、kd 速率混淆、质量浓度、
+范围/不等号/相对/误差/多指标，以及审计解释不能直接升级为明确标签。
+
+来源与许可
+https://zenodo.org/records/21775623
+https://zenodo.org/records/21775623/files/poisk_dataset.csv?download=1
+POISK v1.1，Tupikina、Roncoli、Bujotzek、Abanades；CC BY 4.0。

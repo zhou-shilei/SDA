@@ -1,0 +1,88 @@
+PAD / NaturalAntibody 与 POISK 的专利家族覆盖对照
+核查日期：2026-10-30（Asia/Shanghai）
+
+本次结果
+以 NaturalAntibody 官网所列的 25,019 个家族为固定比较集合：
+POISK 已确认覆盖 5,730 个家族，占 22.90%。
+还有 115 个 POISK 专利号未解析；即使每个都补入一个此前未匹配的 PAD 家族，
+交集也最多为 5,845 个家族，占 23.36%。
+因此，这两个已发布集合在 PAD 分母下的家族交集为 22.90%–23.36%。
+这个区间是未解析项产生的确定性上下界，不是抽样置信区间。
+
+规模与去重
+PAD 家族数：25,019；POISK 专利号：10,010；POISK 记录数：93,193。
+POISK 直接通过 PAD 成员表匹配的专利号：9,248。
+Google 家族编号补查后确认落入 PAD 的专利号：289。
+Google 家族编号补查后落在这份 PAD 集合之外的专利号：358。
+POISK 已解析的不同家族：6,015；含未解析项的总家族数界限：6,015–6,130。
+PAD 中尚未确认被 POISK 覆盖的候选家族：19,289。
+在本次固定家族编号口径下，PAD 中未被 POISK 覆盖的家族总数界限：19,174–19,289。
+POISK 家族中落在这份 PAD 集合之外的数量界限：285–400。
+尚未匹配的 PAD 候选名单不能逐条直接标成已证实独有，因为未解析专利可能补入其中部分家族。
+
+固定输入与时间范围
+PAD：官方 Drive 根目录下 patent_family 的 Delta 版本 0，共 9 个活动 Parquet 文件。
+Delta 事务写入时间（UTC）：2025-04-22T09:12:41.157000+00:00。
+事务报告行数与实际读取行数均为 25,019；全部文件字节数及 SHA-256 保存在 sources/snapshot.json。
+成员表中列出的最早/最晚公开日期：1984-04-05 / 2025-04-11。
+该范围不是所有相关专利的最早/最晚公开日期，也不是实际源数据完整截止日。
+官方根目录另含 PatentsDB 1.1 子目录；本次固定比较官网 25,019 家族对应的根目录快照，未混入另一版本。
+POISK：v1.1，使用公开 Explorer 的全量 93,193 行搜索索引及其 10,010 个专利号。
+索引地址内的源 CSV MD5 为 f0c1f098abf1756e4b9891aa4dc028ee，与本地保存的 v1.1 官方清单一致。
+这里验证的是索引及清单的版本对应关系，没有重新下载 234 MB CSV 并逐行比对。
+
+匹配方法
+1. 从 Delta 活动文件读取 family_id、docs 和 meta，建立美国文献号到家族编号的索引。
+2. 仅规范空白、标点和数字前导零；申请公开文献号与授权文献号不互相替换。
+3. 同一篇专利只能对应一个家族；多个 POISK 专利号落入同一家族只计一个。
+4. 对直接匹配失败的专利，通过 Google Patents 的 Family 区域读取明确的 ID。
+   不把优先权、分案/延续申请列表、引证文献或正文中的 SEQ ID 当成家族编号。
+5. 没有取到明确家族编号、访问失败或响应不完整的记录继续保留为未解析。
+6. 抽取 24 个跨专利号范围的直接匹配记录检查编号兼容性：
+   20 个取到 Google 编号且与 PAD 一致；4 个未取到；0 个不一致。
+   此检查只审计编号兼容性，不是抽取准确率盲评。
+7. 上下界假设：每个尚未解析的 POISK 专利号在固定 PAD 家族体系下至多增加一个家族。
+   若后续家族体系合并/拆分或来源数据被纠正，需重新计算。
+
+两个可复核的补查例子
+US12110324B2 -> Google 家族 88412302；PAD 已有该家族，代表文献为 US20240034780A1。
+US12292442B2 -> Google 家族 71102495；PAD 已有该家族，代表文献为 WO2020125653。
+两者在旧成员列表中都未直接命中授权号，不能因首次未命中就认为 PAD 没有该家族。
+
+结论边界
+这些数字比较的是 PAD 与 POISK 两个发布集合的专利家族文献覆盖。
+25,019 不是全球完整抗体专利总数；约 23% 不是 GenBank 对全球抗体序列的覆盖率。
+没有测量 VH/VL 序列重合、配对准确率、KD/IC50 关联或整篇专利实验召回率。
+PAD 多出的候选家族不一定含可用的成对链或定量实验，也不代表 DatasetAgent 已经能够恢复。
+PAD 中 98 个家族缺 docs；4,346 个家族在现有字段中没有可解析美国文献号。
+早期未命中、较新授权和快照成员不完整都可能影响匹配；未解析项保持公开。
+Google 批量直连在本环境返回 503，EPO OPS 匿名探测返回 403；补查使用浏览工具，并保存返回证据。
+本次没有调用抽取模型，没有发送邮件、申请账号或使用付费专利接口。
+
+产物
+summary.json：汇总、上下界和统计口径。
+poisk_patent_mapping.csv：全部 10,010 个专利号、家族编号、匹配状态和 Google 证据文件。
+pad_families.csv：全部 25,019 个家族及命中的 POISK 专利号。
+pad_no_member_match.csv：未确认交集的 PAD 候选家族，不等于逐条确认独有。
+poisk_families_outside_pad.csv：已解析且不在此 PAD 快照中的 POISK 家族。
+poisk_unmatched.csv：尚未解析的 POISK 专利号。
+control_audit.json：24 项编号兼容性抽查结果。
+sources/：原始 Parquet、Delta 事务、POISK 索引、官方网页、许可和浏览补查证据。
+provenance.json：来源地址、文件哈希、脚本版本、验证记录和使用许可。
+
+离线重算（保留 sources/ 和任务目录依赖）
+python src/patent_family_overlap.py analyze
+python src/patent_family_overlap.py report
+
+验证
+python -m unittest discover -s tests -p 'test_patent_family_overlap.py' -v
+五项测试覆盖同族重复计数、未知项上下界、申请/授权号区分、家族编号冲突，以及误用引证/SEQ ID 的风险。
+
+公开来源
+https://naturalantibody.com/patents-database/
+https://drive.google.com/drive/folders/1VV32NVwwGRMk8o-22LawDi8L8MKF64zr
+https://zenodo.org/records/21775623
+https://poisk-explorer.github.io/
+https://patents.google.com/patent/US12110324B2/en
+https://patents.google.com/patent/US12292442B2/en
+PAD 下载目录附 CC BY-NC 4.0 许可；原始 LICENSE.txt 随 sources/ 保留。

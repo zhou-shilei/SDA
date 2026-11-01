@@ -137,7 +137,9 @@ def write_timing_report(output_dir, report):
     if report.get("cache_counts"):
         lines.append("本次缓存：" + json.dumps(report["cache_counts"], ensure_ascii=False))
     lines.extend(["", "实际阶段耗时（从高到低）"])
-    lines.extend(f"{p['stage']}: {p['seconds']:.3f} 秒" for p in report["phase_ranking"])
+    lines.extend(f"{p['stage']}: " + (f"{p['seconds']:.3f} 秒" if p.get("seconds") is not None else "未单独记录")
+                 + ("（请求覆盖时间）" if p.get("basis") == "request_coverage" else "")
+                 for p in report["phase_ranking"])
     lines.extend(["", "请求/操作覆盖时间（从高到低）"])
     for row in report["stage_ranking"]:
         lines.append(f"{row['stage']}: 覆盖 {row['active_wall_seconds']:.3f} 秒，"

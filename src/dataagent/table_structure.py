@@ -251,6 +251,81 @@ def semantic_table(raw: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+_SEQUENCE_ID_HEADER = re.compile(r"\b(?:seq(?:uence)?\s*id|id\s*no\.?)\b", re.I)
+_SEQUENCE_BODY = re.compile(r"^[ACDEFGHIKLMNPQRSTVWYX]{5,}$", re.I)
+_SEQUENCE_SECTION = re.compile(r"^(?:H|L)?CDR\s*\d+|^(?:VH|VL)$", re.I)
+
+
+def _sequence_header_columns(table: dict[str, Any], header_rows: list[int]) -> tuple[int, int, int] | None:
+    """Return (name, sequence-id, sequence) columns for an explicit sequence header."""
+    rows = table.get("rows", [])
+    width = max((len(rows[r]) for r in header_rows if 0 <= r < len(rows)), default=0)
+    if not width or not header_rows or header_rows[0] != 0:
+        return None
+    columns = [
+        " ".join(str(rows[r][c].get("text", "")).strip()
+                 for r in header_rows if c < len(rows[r]))
+        for c in range(width)
+    ]
+    name_col = next((c for c, text in enumerate(columns)
+                     if re.search(r"\b(?:name|clone|antibody|construct)\b", text, re.I)), None)
+    id_col = next((c for c, text in enumerate(columns) if _SEQUENCE_ID_HEADER.search(text)), None)
+    sequence_col = next((c for c, text in enumerate(columns)
+                         if re.search(r"\b(?:amino\s+acid\s+)?sequence\b", text, re.I)), None)
+    if None in (name_col, id_col, sequence_col) or len({name_col, id_col, sequence_col}) != 3:
+        return None
+    return name_col, id_col, sequence_col
+
+
+def _verified_sequence_continuation(parent: dict[str, Any], child: dict[str, Any],
+                                    parent_context: dict[str, Any], child_context: dict[str, Any]) -> bool:
+    """Verify a headerless sequence continuation from lineage, geometry and row semantics."""
+    from .table_payload import _header_rows
+
+    parent_id = str(parent.get("source_id") or parent.get("image"))
+    child_id = str(child.get("source_id") or child.get("image"))
+    if (child_context.get("continuation_of") != parent_id
+            or child.get("page") != (parent.get("page") or 0) + 1
+            or child_context.get("continuation_confidence", 0) < 0.65):
+        return False
+    parent_logical = parent_context.get("logical_table_id")
+    if not parent_logical or child_context.get("logical_table_id") != parent_logical:
+        return False
+    parent_box, child_box = parent_context.get("bbox", []), child_context.get("bbox", [])
+    if (len(parent_box) != 4 or len(child_box) != 4
+            or any(abs(parent_box[i] - child_box[i]) > 10 for i in (0, 2))):
+        return False
+
+    header_rows, _ = _header_rows(parent)
+    columns = _sequence_header_columns(parent, header_rows)
+    child_header_rows, _ = _header_rows(child)
+    if not columns or child_header_rows:
+        return False
+    name_col, id_col, sequence_col = columns
+    width = max((len(row) for row in parent.get("rows", [])[:1]), default=0)
+    if width < 3 or max(columns) >= width:
+        return False
+
+    valid_rows = 0
+    for row in child.get("rows", [])[:12]:
+        values = [str(cell.get("text", "")).strip() for cell in row]
+        nonempty = [value for value in values if value]
+        if len(nonempty) == 1 and _SEQUENCE_SECTION.match(nonempty[0]):
+            continue
+        if len(values) != width:
+            return False
+        name = values[name_col]
+        sequence_id = re.sub(r"\s+", "", values[id_col])
+        sequence = re.sub(r"\s+|<br\s*/?>", "", values[sequence_col], flags=re.I)
+        sequence = re.sub(r"[^A-Z]", "", sequence, flags=re.I)
+        if (name and re.fullmatch(r"(?:SEQ\s*ID\s*)?NO\s*:?\s*\d+", sequence_id, re.I)
+                and _SEQUENCE_BODY.fullmatch(sequence)):
+            valid_rows += 1
+        if valid_rows >= 3:
+            return True
+    return False
+
+
 def verified_header_links(tables: list[dict[str, Any]], contexts: list[dict[str, Any]]) -> dict[str, list[str]]:
     """Allow inherited headers only for explicit, geometrically aligned continuations."""
     by_id = {str(t.get("source_id") or t.get("image")): t for t in tables}
@@ -273,6 +348,9 @@ def verified_header_links(tables: list[dict[str, Any]], contexts: list[dict[str,
         parent_id = context.get("continuation_of")
         child, parent = by_id.get(identity), by_id.get(parent_id)
         if not child or not parent or child.get("page") != (parent.get("page") or 0) + 1:
+            continue
+        if _verified_sequence_continuation(parent, child, by_context.get(parent_id, {}), context):
+            links[identity] = [parent_id]
             continue
         headers, body = parent.get("rows", []), child.get("rows", [])
         if not headers or len(headers) > 5 or not body:

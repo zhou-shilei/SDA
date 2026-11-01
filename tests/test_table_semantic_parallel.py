@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from PIL import Image
 from dataagent.agent.schemas import AgentConfig
-from dataagent.llm_table_agents import LLMTableClassificationAgent
+from dataagent.llm_table_agents import LLMTableClassificationAgent, PROMPT_VERSION
 from document.sequence_styles import review_prepared, validate_style_source
 
 SEQUENCE = "ACDEFGHIKLMNPQRSTVWY" * 4
@@ -70,7 +70,7 @@ class TableParallelTests(unittest.TestCase):
                 audit_path = root / "llm_calls.jsonl"
 
                 def generate(self, task, instructions, payload, contract, **kwargs):
-                    if task != "table-classification-v4" or len(payload["tables"]) != 1:
+                    if task != f"table-classification-v{PROMPT_VERSION}" or len(payload["tables"]) != 1:
                         raise AssertionError("Maximum mode must submit one direct request per table")
                     barrier.wait(timeout=10)
                     identity = payload["tables"][0]["table_id"]

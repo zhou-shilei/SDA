@@ -123,7 +123,7 @@ class RequestLoggingTests(unittest.TestCase):
     def test_template_logs_preparation_counts_and_final_result(self):
         provider = Mock(audit_path=None)
         def generate(task, instructions, payload, contract, **kwargs):
-            result = {"document_id": "DOC", "entities": [], "sequence_links": [], "assay_profiles": [], "unresolved": []}
+            result = {"document_id": "DOC", "entities": [], "sequence_links": [], "assay_profiles": [], "unresolved": [], "tables": []}
             kwargs["validate"](result)
             return result, {"status": "validated", "cache_hit": False}
         provider.generate.side_effect = generate

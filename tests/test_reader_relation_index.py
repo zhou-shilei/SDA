@@ -2,6 +2,7 @@
 
 import json
 import csv
+import copy
 import tempfile
 import sys
 import unittest
@@ -16,20 +17,52 @@ from dataagent2.export_rows import export
 
 
 class RelationIndexTests(unittest.TestCase):
-    def test_reader_uses_relationships_without_repeating_residues_or_measurement_values(self):
+    def test_reader_receives_all_seed_facts_even_for_an_unrelated_chunk(self):
         data = fixture()
+        data["sources"][2]["text"] = "Unrelated background without antibody names or sequence numbers"
         data["seed"]["links"] = response()["links"]
         data["seed"]["observations"] = [{"item": "i1", "experiment": "e1", "metric": "IC50",
-            "value": "VALUE_NOT_FOR_READER_CONTEXT", "unit": "nM", "s": 2, "refs": [2]}]
+            "value": "0.0123", "unit": "nM", "s": 1, "refs": [1]}]
+        data["seed"]["annotations"] = [{"subject_type": "item", "subject": "i2",
+            "category": "format", "value": "Fab", "refs": [1]}]
         data["style_definitions"] = [{"seq": 1, "name": None, "region": "VH", "value": SEQUENCE, "refs": [2, 3]}]
         payload = reader_payload(data, {"id": "c1", "core": [2], "context": []})
-        self.assertNotIn("seed_dataset", payload)
-        index = payload["relation_index"]
-        self.assertEqual({l["item"] for l in index["links"]}, {"i1", "i2"})
-        self.assertEqual({e["id"] for e in index["items"]}, {"i1", "i2"})
-        self.assertNotIn(SEQUENCE, json.dumps(index))
-        self.assertNotIn("VALUE_NOT_FOR_READER_CONTEXT", json.dumps(payload))
-        self.assertEqual(index["definitions"][0]["seq"], 1)
+        self.assertNotIn("relation_index", payload)
+        self.assertNotIn("items", payload)
+        seed = payload["initial_dataset"]
+        for key, facts in data["seed"].items():
+            self.assertEqual(seed[key], facts)
+        self.assertEqual({e["id"] for e in seed["entities"]}, {"i1", "i2"})
+        self.assertEqual(seed["observations"][0]["value"], "0.0123")
+        self.assertEqual(seed["sequences"][0]["value"], SEQUENCE)
+        self.assertEqual([source[0] for source in payload["sources"]], [2])
+        self.assertNotIn("NEVER_FEED_REFERENCE", json.dumps(payload))
+
+    def test_parallel_payloads_have_equal_independent_seed_snapshots(self):
+        data = fixture()
+        data["seed"]["links"] = response()["links"]
+        before = copy.deepcopy(data["seed"])
+        first = reader_payload(data, {"id": "c1", "core": [1], "context": []})
+        second = reader_payload(data, {"id": "c2", "core": [3], "context": [2]})
+        self.assertEqual(first["initial_dataset"], second["initial_dataset"])
+        first["initial_dataset"]["entities"][0]["name"] = "modified by one Reader"
+        first["initial_dataset"]["links"].clear()
+        self.assertEqual(data["seed"], before)
+        self.assertEqual(second["initial_dataset"], before)
+
+    def test_full_seed_context_does_not_authorize_nonlocal_source_citations(self):
+        data = fixture()
+        data["seed"]["links"] = response()["links"]
+        chunk = {"id": "c1", "core": [2], "context": []}
+        payload = reader_payload(data, chunk)
+        self.assertIn(1, payload["initial_dataset"]["links"][0]["refs"])
+        proposal = empty_response()
+        proposal["annotations"] = [{"subject_type": "item", "subject": "i1",
+            "category": "format", "value": "Fab", "refs": [1]}]
+        ledger = Ledger(data)
+        ledger.apply(proposal, chunk["core"], chunk["id"])
+        self.assertEqual(len(ledger.rejections), 1)
+        self.assertIn("source IDs from this request", ledger.rejections[0]["error"])
 
     def test_short_cdr_and_framework_are_preserved_without_becoming_vh(self):
         data = fixture()

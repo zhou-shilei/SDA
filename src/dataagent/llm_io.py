@@ -172,6 +172,28 @@ class DocumentPlan(Contract):
     unresolved: list[Finding]
 
 
+class TemplateTablePlan(Contract):
+    """Routing and executable structure produced during document planning."""
+    table_id: str
+    labels: list[Label] = Field(min_length=1)
+    confidence: float = Field(ge=0, le=1)
+    entity_axis: Literal["rows", "columns", "mixed", "unknown"]
+    decision: Literal["extract", "context_only", "exclude", "needs_review"]
+    evidence_refs: list[str] = Field(min_length=1)
+    explanation: str
+    regions: list[TableRegion]
+    issues: list[Finding]
+
+
+class TemplatePlan(Contract):
+    document_id: str
+    tables: list[TemplateTablePlan]
+    entities: list[DocumentEntity]
+    sequence_links: list[SequenceLink]
+    assay_profiles: list[AssayProfile]
+    unresolved: list[Finding]
+
+
 class AssayBindingPlan(Contract):
     assay_profiles: list[AssayProfile]
     unresolved: list[Finding]

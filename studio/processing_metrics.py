@@ -5,6 +5,8 @@ import json
 import math
 from pathlib import Path
 
+from src.dataagent2.timing import extraction_stages
+
 
 TOKEN_FIELDS = ("total_tokens", "input_tokens", "output_tokens", "cached_input_tokens")
 
@@ -32,6 +34,11 @@ def _token_row(row):
     return result
 
 
+def processing_runtime(result_dir):
+    runtime = _read(Path(result_dir) / "_timings.json")
+    return {**runtime, "extraction_stages": extraction_stages(result_dir, runtime)}
+
+
 def processing_metrics(root, document_id, result_dir, job, run, runtime):
     """Choose one usage source; never sum overlapping reports or infer missing counts."""
     root, result_dir = Path(root).resolve(), Path(result_dir).resolve()
@@ -47,6 +54,8 @@ def processing_metrics(root, document_id, result_dir, job, run, runtime):
         if candidate.get("document_id") == document_id:
             report = candidate
     runtime = runtime if isinstance(runtime, dict) else {}
+    if not runtime:
+        runtime = _read(result_dir / "_timings.json")
     running = job.get("status") == "processing"
     seconds = _number(report.get("wall_seconds"))
     if report.get("resumed"):
@@ -74,9 +83,14 @@ def processing_metrics(root, document_id, result_dir, job, run, runtime):
     structured = local(structured_value) if structured_value else None
     structured_run = _read(structured / "run_summary.json") if structured else {}
     recognition = _read(structured / "recognition_summary.json") if structured else {}
+    extraction = extraction_stages(result_dir, runtime)
     stages = []
     for name, row in grouped.items():
         stages.append(row)
+        if name == "document_extraction":
+            for detail in extraction:
+                stages.append({**detail, "level": 2 if detail["stage"] == "dataagent2_merge" else 1,
+                               "count": 1})
         if name == "structured_document":
             for phase in structured_run.get("phases", []):
                 if not isinstance(phase, dict) or (duration := _number(phase.get("seconds"))) is None:
@@ -89,6 +103,8 @@ def processing_metrics(root, document_id, result_dir, job, run, runtime):
                         if start is not None and finish is not None and finish >= start:
                             stages.append({"stage": "text_ocr" if branch == "text" else "table_ocr",
                                            "seconds": finish - start, "level": 2, "count": 1})
+    if "document_extraction" not in grouped:
+        stages.extend({**detail, "level": 0, "count": 1} for detail in extraction)
     operations = [{"stage": row.get("stage") or "unknown", "seconds": duration}
                   for row in runtime.get("stage_ranking", []) if isinstance(row, dict)
                   and (duration := _number(row.get("active_wall_seconds"))) is not None]

@@ -1,0 +1,52 @@
+/* One topology for the diagram, upstream/downstream navigation and graph checks. */
+(() => {
+  const edge=(from,to,path,label='',kind='slate',at=null)=>({from,to,path,label,kind,at,visual_only:from===to});
+  window.HandoffGraph={width:1680,height:1470,
+    positions:{
+      pdf:[35,140,140,90],preprocess:[225,140,170,90],detection:[455,80,190,90],table_ocr:[705,80,190,90],page_ocr:[455,235,190,90],evidence:[1015,140,240,100],
+      sequence_review:[70,465,180,90],table_input:[340,465,210,90],template:[640,465,200,90],seed:[940,465,220,90],source_index:[1270,465,260,90],
+      chunking:[35,805,180,100],reader:[650,805,220,100],consolidation:[980,805,240,100],ledger:[1340,805,240,100],
+      question:[1340,1120,220,92],retrieval:[1080,1120,190,92],answer:[830,1120,190,92],action:[570,1120,200,92],final:[300,1120,210,92],export:[35,1120,210,92],
+      provenance:[35,1320,285,100],review:[650,1320,440,100]
+    },
+    order:['pdf','preprocess','detection','table_ocr','page_ocr','evidence','sequence_review','table_input','template','seed','source_index','chunking','reader','consolidation','ledger','question','retrieval','answer','action','final','export','provenance','review'],
+    edges:[
+      edge('pdf','preprocess','M175 185H225'),
+      edge('preprocess','detection','M395 185H420V125H455','工作 PDF','slate',[452,112]),
+      edge('preprocess','page_ocr','M420 185V280H455','并行识别','slate',[398,300]),
+      edge('detection','table_ocr','M645 125H705','400 DPI 裁图','slate',[675,110]),
+      edge('table_ocr','evidence','M895 125H960V175H1015','结构 / 文字框','evidence',[945,110]),
+      edge('page_ocr','evidence','M645 280H960V215H1015','全文 / 行框','evidence',[810,266]),
+      edge('evidence','sequence_review','M1070 240V375H160V465','按需复核选定序列表','evidence',[375,362]),
+      edge('evidence','table_input','M1135 240V405H445V465','只取表格、表题和结构信息','evidence',[672,393]),
+      edge('sequence_review','table_input','M250 510H340','复核值','evidence',[295,496]),
+      edge('sequence_review','seed','M205 555V585H1050V555','复核来源及样式留在来源库','evidence',[535,572]),
+      edge('table_input','template','M550 510H640','完整表格 + 表题','slate',[595,495]),
+      edge('template','seed','M840 510H940','文档计划 / 初稿','teal',[890,495]),
+      edge('evidence','seed','M1200 240V430H1100V465','全文留给主机初始化来源','evidence',[1320,337]),
+      edge('seed','source_index','M1160 510H1270','来源 ID 与原文','evidence',[1215,486]),
+      edge('source_index','chunking','M1395 555V650H125V805','完整可读来源 → 按原文顺序分块','evidence',[700,637]),
+      edge('seed','reader','M1000 555V695H280V930','同一份完整 Dataset1 → 每个 chunk','teal',[647,682]),
+      edge('chunking','reader','M215 855H250V780H300','','slate'),
+      edge('chunking','reader','M250 855H300','','slate'),
+      edge('chunking','reader','M250 855V930H300','','slate'),
+      edge('reader','reader','M510 780H580V855H650','','slate'),
+      edge('reader','reader','M510 855H650','','slate'),
+      edge('reader','reader','M510 930H580V855','','slate'),
+      edge('reader','consolidation','M870 855H980','全部候选 actions','slate',[925,840]),
+      edge('seed','consolidation','M1080 555V680H1180V805','完整 Dataset1','teal',[1188,730]),
+      edge('source_index','consolidation','M1450 555V735H1090V805','被引用原文 + 邻近证据','evidence',[1340,722]),
+      edge('consolidation','ledger','M1220 855H1340','展开引用 / 校验','teal',[1280,840]),
+      edge('ledger','question','M1450 905V1120','检查当前缺口','teal',[1536,1010]),
+      edge('question','retrieval','M1340 1166H1270','问题','orange',[1305,1152]),
+      edge('retrieval','answer','M1080 1166H1020','本题证据','orange',[1050,1152]),
+      edge('source_index','retrieval','M1530 525H1640V1050H1175V1120','从来源库定向取证','evidence',[1338,1037]),
+      edge('answer','action','M830 1166H770','候选补丁','orange',[800,1152]),
+      edge('action','question','M670 1212V1255H1450V1212','更新当前 Dataset，处理队列下一题','teal',[1075,1242]),
+      edge('action','final','M570 1166H510','问答结束','teal',[540,1152]),
+      edge('final','export','M300 1166H245','','slate'),
+      edge('final','review','M455 1212V1287H870V1320','缺口 / 冲突 / 拒绝理由均保留','orange',[900,1275]),
+      edge('source_index','provenance','M1270 535H1240V625H15V1370H35','完整来源地址：页码、位置框、原文','evidence',[288,612]),
+      edge('final','provenance','M355 1212V1270H175V1320','refs / 字符片段','evidence',[223,1295])
+    ]};
+})();

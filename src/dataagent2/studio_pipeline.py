@@ -17,6 +17,7 @@ from .inputs import load_input, read
 from .pipeline import run
 from .provider import Provider, write_json
 from .structure import CDR_REGIONS, FR_REGIONS, parent_region
+from .timing import PhaseTimings, extraction_stages
 
 
 def collect_usage(seed_dir, reader_dir, document_id):
@@ -357,9 +358,11 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
     write_json(output / "dataagent2_checkpoint.json", {"document_id": identity, "inputs": {
         "image_dir": str(image_dir), "table_ocr": str(table_ocr), "text_pages_jsonl": str(pages),
         "structured_dir": str(structured) if structured else None}})
+    timings = PhaseTimings(output / "phase_timings.json")
     error, dataset = None, {}
     try:
-        table_ocr = refresh_table_sequences(table_ocr, output / "table_ocr.refreshed.jsonl", image_dir=image_dir)
+        with timings.measure("sequence_ocr_refresh"):
+            table_ocr = refresh_table_sequences(table_ocr, output / "table_ocr.refreshed.jsonl", image_dir=image_dir)
         seed_options = {k: v for k, v in options.items()
                         if k in ("llm_model", "llm_effort", "llm_workers", "llm_timeout")}
         # The seed graph never runs the legacy sequence agent. Its 1–8 worker
@@ -370,7 +373,8 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
         seed_state = run_from_ocr(identity, table_ocr, pages, seed_dir, image_dir=image_dir,
             layout_manifest=layout if layout.is_file() else None, seed_only=True,
             semantic_provider=semantic_provider or "codex", **seed_options)
-        data = load_input(seed_dir)
+        with timings.measure("dataagent2_input"):
+            data = load_input(seed_dir)
         config = seed_state["config"]
         # rules is exclusively an offline integration check, matching dataagent1.
         if semantic_provider == "rules":
@@ -381,14 +385,17 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
             write_json(reader_dir / "dataset.json", final)
         else:
             provider = Provider(reader_dir, model=config["llm_model"], effort=config["llm_effort"],
-                                timeout=config["llm_timeout"], request_interval=0)
+                                timeout=config["llm_timeout"], request_interval=0,
+                                action_effort=options.get("action_effort", "medium"),
+                                action_timeout=options.get("action_timeout"))
             report = run(data, provider, reader_dir, workers=options.get("sequence_workers"),
                 chunk_chars=options.get("chunk_chars", 24000),
                 max_questions=options.get("max_answer_questions") if extract_sequences else 0)
             final = read(reader_dir / "dataset.json")
             if not report["benchmark_complete"]:
-                error = "dataagent2 全文读取或问答请求未完成；已保存部分结果及原始请求记录"
-        dataset = export_result(data, final, seed_dir, output)
+                error = "dataagent2 全文读取、ActionAgent 整合或问答请求未完成；已保存部分结果及原始请求记录"
+        with timings.measure("result_export"):
+            dataset = export_result(data, final, seed_dir, output)
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
         if not (output / "dataset.json").is_file():
@@ -398,8 +405,8 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
         usage = collect_usage(seed_dir, reader_dir, identity)
         elapsed = perf_counter() - started
         timing = {"wall_seconds": elapsed, "run_mode": "dataagent2_existing_ocr", "token_usage": usage,
-            "phase_ranking": [], "stage_ranking": [], "slowest_requests": [], "events": [],
-            "note": "dataagent2：包含本次共享表格分类/模板及分块提取、有限问答；复用已保存 OCR。"}
+            "phase_ranking": extraction_stages(output), "stage_ranking": [], "slowest_requests": [], "events": [],
+            "note": "dataagent2：包含共享表格模板、并行 Reader、LLM ActionAgent 整合及有限问答；复用已保存 OCR。Reader 内的临时整理和增量保存是嵌套阶段，不能重复相加；历史请求覆盖仅含模型调用。"}
         for target in (output, output_root):
             write_usage_report(target, usage)
             write_timing_report(target, timing)

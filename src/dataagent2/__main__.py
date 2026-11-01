@@ -18,6 +18,8 @@ def main():
     parser.add_argument("--reference-result", type=Path)
     parser.add_argument("--model", default="gpt-6.1-sol")
     parser.add_argument("--effort", default="xhigh")
+    parser.add_argument("--action-effort", default="medium", help="Reasoning effort for full-dataset consolidation")
+    parser.add_argument("--action-timeout", type=int, default=1800)
     parser.add_argument("--chunk-chars", type=int, default=24000)
     parser.add_argument("--workers", type=int, default=0,
                         help="Reader concurrency; 0 (default) starts all chunks together")
@@ -31,7 +33,7 @@ def main():
     parser.add_argument("--plan-only", action="store_true", help="Inspect input sizes; no model calls/token estimates")
     args = parser.parse_args()
     if (args.workers < 0 or min(args.document_workers, args.timeout) < 1
-            or args.max_questions < 0 or args.request_interval < 0):
+            or args.max_questions < 0 or args.request_interval < 0 or args.action_timeout < 1):
         parser.error("Reader workers/question budget/interval must be nonnegative; document workers/timeout must be positive")
     if args.native_dir and len(args.documents) != 1:
         parser.error("--native-dir requires exactly one document")
@@ -54,7 +56,8 @@ def main():
         output = args.output / doc
         output.mkdir(exist_ok=True)
         provider = Provider(output, model=args.model, effort=args.effort, timeout=args.timeout,
-                            request_interval=args.request_interval)
+                            request_interval=args.request_interval, action_effort=args.action_effort,
+                            action_timeout=args.action_timeout)
         return run(data, provider, output, chunk_chars=args.chunk_chars, workers=args.workers,
                    max_questions=args.max_questions, question_chars=args.question_chars, max_chunks=args.max_chunks)
 

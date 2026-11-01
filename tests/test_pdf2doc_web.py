@@ -258,6 +258,9 @@ class WebDocumentFlowTests(unittest.TestCase):
         html = (Path(report["result_dir"]) / "report.html").read_text()
         self.assertIn("structured_artifacts", html)
         self.assertIn("../../structured/document.json", html)
+        self.assertIn("function processingStageLabel", html)
+        self.assertNotIn("from './intake_metrics.js'", html)
+        self.assertIn('"extraction_stages"', html)
 
     def test_orientation_review_is_preserved_as_partial_after_semantic_extraction(self):
         self.review_orientation = True

@@ -21,6 +21,7 @@ from .llm_io import (
     ClassificationBatch,
     DocumentPlan,
     TableStructurePlan,
+    TemplatePlan,
     build_evidence,
     cell_ref,
     clipped_text,
@@ -33,13 +34,15 @@ from .llm_io import (
     table_id,
 )
 from .llm_runtime import CodexProvider, CodexProviderError, CodexUnavailable, json_write, log_llm_event
-from .table_classification import TARGET_LABELS, TableClassificationAgent
+from .table_classification import TARGET_LABELS
 from .table_structure import semantic_table, verified_header_links
+from .table_payload import inherited_header_view, pack_semantic_table, semantic_cell_refs
 
 # Table and document semantic agents
 
 PROMPTS = Path(__file__).resolve().parent / "prompt"
-PROMPT_VERSION = 4
+PROMPT_VERSION = 6
+TEMPLATE_PROMPT_VERSION = 8
 
 
 class LLMTableStructureAgent:
@@ -124,6 +127,10 @@ def validate_classifications(
                 raise ValueError(f"{identity}: invalid data row bounds")
             if any(not 0 <= index < height for index in region["header_rows"]):
                 raise ValueError(f"{identity}: header row outside table")
+            visible_rows = {source["row_index"] for source in evidence.values()
+                            if source.get("kind") == "cell" and source.get("table_id") == identity}
+            if not set(region["header_rows"]) <= visible_rows:
+                raise ValueError(f"{identity}: header row was not supplied")
             columns = [*region["condition_columns"], *region["excluded_columns"]]
             if region["entity_column"] is not None:
                 columns.append(region["entity_column"])
@@ -175,7 +182,87 @@ def validate_classifications(
                 raise ValueError(f"{identity}: assay extraction requires a measurement plan")
 
 
+
+def finalize_table_plans(
+    decisions: list[dict[str, Any]], batch: list[dict[str, Any]], scoped: dict[str, Any],
+    meta: dict[str, Any], header_links: dict[str, list[str]], *, owner: str = "TableClassificationAgent",
+) -> list[dict[str, Any]]:
+    by_id = {table_id(table): table for table in batch}
+    classified = []
+    for decision in decisions:
+        table = by_id[decision["table_id"]]
+        model_decision = decision["decision"]
+        structure_issues = list((table.get("structure_plan") or {}).get("unresolved", []))
+        if (table.get("structure_agent") or {}).get("status") == "needs_review":
+            structure_issues.append({"code": "structure_review_failed", "message": table["structure_agent"]["error"],
+                                     "evidence_refs": [decision["table_id"]]})
+        audit = table.get("token_audit", {})
+        if audit.get("duplicate_indices") or audit.get("unknown_indices"):
+            structure_issues.append({"code": "token_assignment_conflict", "message": "OCR tokens have duplicate or unknown cell assignments.",
+                                     "evidence_refs": [decision["table_id"]]})
+        if structure_issues:
+            decision = {**decision, "issues": [*decision["issues"], *structure_issues]}
+            if owner == "TemplateAgent" and decision["decision"] == "exclude":
+                decision = {**decision, "decision": "needs_review"}
+        if owner != "TemplateAgent" and not set(decision["labels"]) & TARGET_LABELS and decision["decision"] in {"extract", "context_only"}:
+            decision = {**decision, "decision": "exclude"}
+        regions = []
+        for region in decision["regions"]:
+            try:
+                validate_classifications({"tables": [{**decision, "decision": "extract", "regions": [region]}]}, [table], scoped, header_links)
+            except ValueError as exc:
+                regions.append({**region, "execution_status": "needs_review", "validation_error": str(exc)})
+            else:
+                regions.append({**region, "execution_status": "ready"})
+        retain = bool(set(decision["labels"]) & TARGET_LABELS) and decision["decision"] != "exclude" and (
+            decision["decision"] in {"extract", "context_only"} or any(region["execution_status"] == "ready" for region in regions))
+        if owner == "TemplateAgent":
+            # Only an explicit exclusion drops evidence. Unknown/unsupported
+            # structure remains visible to later readers and review tools.
+            retain = decision["decision"] != "exclude"
+        inherited_header = None
+        inherited_parent_id = None
+        for parent_id in header_links.get(decision["table_id"], []):
+            parent = by_id.get(parent_id)
+            if parent:
+                inherited_header = inherited_header_view(parent, parent_id)
+                if inherited_header:
+                    inherited_parent_id = parent_id
+                    break
+        header_status = "inherited" if inherited_header else pack_semantic_table(table)["header_status"]
+        inheritance_record = None
+        if inherited_header:
+            source_refs = [ref for row in inherited_header["rows"] for ref, text in row["cells"] if text]
+            inheritance_record = {
+                "status": "inherited",
+                "source_table_id": inherited_parent_id,
+                "source_header_row_indices": inherited_header["source_header_row_indices"],
+                "source_refs": source_refs,
+            }
+        classified.append({
+            **decision, "schema_version": 3, "image": table.get("image", ""),
+            "regions": identified_regions(decision["table_id"], regions), "allowed_header_table_ids": header_links.get(decision["table_id"], []),
+            "header_status": header_status,
+            **({"header_inheritance": inheritance_record} if inheritance_record else {}),
+            "structure_repair": table.get("structure_repair"),
+            "structure_plan": table.get("structure_plan"), "structure_agent": table.get("structure_agent"),
+            "token_audit": table.get("token_audit", {}),
+            "model_decision": model_decision,
+            "page": table.get("page"), "retain_for_pipeline": retain,
+            "review_required": decision["decision"] == "needs_review" or bool(decision["issues"]),
+            "understanding_status": "identified" if decision["primary_label"] != "ambiguous" else "uncertain",
+            "extraction_status": "ready" if regions and all(r["execution_status"] == "ready" for r in regions) and decision["decision"] == "extract" and not decision["issues"] else "partial" if any(r["execution_status"] == "ready" for r in regions) else "needs_review",
+            "evidence": [{"ref": ref, **scoped[ref]} for ref in decision["evidence_refs"]],
+            "reasons": [decision["explanation"]],
+            "classifier": {"name": owner, "version": 3,
+                           "mode": "llm", "prompt_version": TEMPLATE_PROMPT_VERSION if owner == "TemplateAgent" else PROMPT_VERSION, **meta,
+                           "input_scope": "all_rows" if owner == "TemplateAgent" else "headers_and_one_data_row"},
+        })
+    return classified
+
+
 class LLMTableClassificationAgent:
+    """Legacy standalone classifier for historical benchmarks; not a pipeline stage."""
     def __init__(
         self, provider: CodexProvider, *, image_roots: list[Path],
         batch_size: int = 4, max_workers: int = 6, coarse_triage: bool = False,
@@ -216,7 +303,6 @@ class LLMTableClassificationAgent:
         evidence = build_evidence(ocr_results, contexts)
         header_links = verified_header_links(ocr_results, contexts or [])
         all_tables = {table_id(table): table for table in ocr_results}
-        rules = TableClassificationAgent()
         instructions = (PROMPTS / "table_classification.txt").read_text(encoding="utf-8")
 
         def classify(batch: list[dict[str, Any]], *, allow_retry: bool = True) -> list[dict[str, Any]]:
@@ -227,25 +313,17 @@ class LLMTableClassificationAgent:
             targets = {table_id(table) for table in batch}
             support_ids = {source for identity in targets for source in header_links.get(identity, [])} - targets
             for table in [*batch, *(all_tables[identity] for identity in sorted(support_ids))]:
-                item = pack_table(table)
+                item = pack_semantic_table(table, sample_data_row=True)
                 identity = table_id(table)
-                image = find_image(table, self.image_roots)
-                item["image_index"] = len(images) if image else None
-                if image:
-                    images.append(image)
-                item["rule_hint"] = rules.classify(table)
                 item["allowed_header_table_ids"] = header_links.get(identity, [])
                 item["context"] = [
                     {"ref": ref, "text": clipped_text(source["text"], 2400), "page": source.get("page")}
                     for ref, source in evidence.items()
                     if source.get("table_id") == identity and source.get("kind") == "context"
                 ]
-                allowed_refs.update(cell["ref"] for cell in item["cells"])
-                allowed_refs.update(token["ref"] for token in item["unassigned_tokens"])
+                allowed_refs.update(semantic_cell_refs(item))
                 allowed_refs.update(source["ref"] for source in item["context"])
                 allowed_refs.add(identity)
-                if image:
-                    allowed_refs.add(f"{identity}:image")
                 (packed if identity in targets else support).append(item)
             scoped = {ref: evidence[ref] for ref in allowed_refs}
             try:
@@ -283,66 +361,23 @@ class LLMTableClassificationAgent:
                         except ValueError:
                             pass
                         else:
-                            recovered.extend(finalize(matching, [table], scoped, {
+                            recovered.extend(finalize_table_plans(matching, [table], scoped, {
                                 "model": self.provider.model, "reasoning_effort": self.provider.effort,
                                 "status": "validated", "response_source": "individually_revalidated_batch",
                                 "batch_error": str(exc),
-                            }))
+                            }, header_links))
                             continue
                     recovered.extend(classify([table], allow_retry=False))
                 return recovered
-            return finalize(response["tables"], batch, scoped, meta)
+            return finalize_table_plans(response["tables"], batch, scoped, meta, header_links)
 
-        def finalize(decisions: list[dict[str, Any]], batch: list[dict[str, Any]], scoped: dict[str, Any], meta: dict[str, Any]) -> list[dict[str, Any]]:
-            by_id = {table_id(table): table for table in batch}
-            classified = []
-            for decision in decisions:
-                table = by_id[decision["table_id"]]
-                model_decision = decision["decision"]
-                structure_issues = list((table.get("structure_plan") or {}).get("unresolved", []))
-                if (table.get("structure_agent") or {}).get("status") == "needs_review":
-                    structure_issues.append({"code": "structure_review_failed", "message": table["structure_agent"]["error"],
-                                             "evidence_refs": [decision["table_id"]]})
-                audit = table.get("token_audit", {})
-                if audit.get("duplicate_indices") or audit.get("unknown_indices"):
-                    structure_issues.append({"code": "token_assignment_conflict", "message": "OCR tokens have duplicate or unknown cell assignments.",
-                                             "evidence_refs": [decision["table_id"]]})
-                if structure_issues:
-                    decision = {**decision, "issues": [*decision["issues"], *structure_issues]}
-                if not set(decision["labels"]) & TARGET_LABELS and decision["decision"] in {"extract", "context_only"}:
-                    decision = {**decision, "decision": "exclude"}
-                regions = []
-                for region in decision["regions"]:
-                    try:
-                        validate_classifications({"tables": [{**decision, "decision": "extract", "regions": [region]}]}, [table], scoped, header_links)
-                    except ValueError as exc:
-                        regions.append({**region, "execution_status": "needs_review", "validation_error": str(exc)})
-                    else:
-                        regions.append({**region, "execution_status": "ready"})
-                retain = bool(set(decision["labels"]) & TARGET_LABELS) and decision["decision"] != "exclude" and (
-                    decision["decision"] in {"extract", "context_only"} or any(region["execution_status"] == "ready" for region in regions))
-                classified.append({
-                    **decision, "schema_version": 3, "image": table.get("image", ""),
-                    "regions": identified_regions(decision["table_id"], regions), "allowed_header_table_ids": header_links.get(decision["table_id"], []),
-                    "structure_repair": table.get("structure_repair"),
-                    "structure_plan": table.get("structure_plan"), "structure_agent": table.get("structure_agent"),
-                    "token_audit": table.get("token_audit", {}),
-                    "model_decision": model_decision,
-                    "page": table.get("page"), "retain_for_pipeline": retain,
-                    "review_required": decision["decision"] == "needs_review" or bool(decision["issues"]),
-                    "understanding_status": "identified" if decision["primary_label"] != "ambiguous" else "uncertain",
-                    "extraction_status": "ready" if regions and all(r["execution_status"] == "ready" for r in regions) and decision["decision"] == "extract" and not decision["issues"] else "partial" if any(r["execution_status"] == "ready" for r in regions) else "needs_review",
-                    "evidence": [{"ref": ref, **scoped[ref]} for ref in decision["evidence_refs"]],
-                    "reasons": [decision["explanation"]],
-                    "classifier": {"name": "TableClassificationAgent", "version": 3,
-                                   "mode": "llm", "prompt_version": PROMPT_VERSION, **meta},
-                })
-            return classified
 
         ocr_results = [t for t in ocr_results if target_table_ids is None or table_id(t) in target_table_ids]
         identities = [table_id(table) for table in ocr_results]
-        routing = self.coarse_triage and self.max_workers != 0 and target_table_ids is None and len(ocr_results) > 8
-        dispatch_size = max(8, self.batch_size) if routing else self.batch_size
+        # The former coarse pass read every cell and the full image. Direct
+        # sampled classification avoids that duplicate full-table LLM input.
+        routing = False
+        dispatch_size = self.batch_size
         batches = [ocr_results[start:start + dispatch_size] for start in range(0, len(ocr_results), dispatch_size)]
         workers = min(self.max_workers or len(batches), len(batches))
         ordered: dict[str, dict[str, Any]] = {}
@@ -370,19 +405,11 @@ class LLMTableClassificationAgent:
             run["started_seconds"] = round(batch_started - started, 3)
             run["status"] = "error"
             try:
-                from .table_classification import route_tables
-                excluded = route_tables(self.provider, batch, evidence, header_links, self.image_roots) if routing else {}
                 result = []
-                for table in batch:
-                    identity = table_id(table)
-                    if identity in excluded:
-                        decision, meta = excluded[identity]
-                        result.extend(finalize([decision], [table], evidence, meta))
-                detailed = [table for table in batch if table_id(table) not in excluded]
-                for start in range(0, len(detailed), self.batch_size):
-                    result.extend(classify(detailed[start:start + self.batch_size]))
-                run["coarse_excluded_tables"] = len(excluded)
-                run["detailed_tables"] = len(detailed)
+                for start in range(0, len(batch), self.batch_size):
+                    result.extend(classify(batch[start:start + self.batch_size]))
+                run["coarse_excluded_tables"] = 0
+                run["detailed_tables"] = len(batch)
                 run["status"] = "completed"
                 run["cache_hit_tables"] = sum(bool(item.get("classifier", {}).get("cache_hit")) for item in result)
                 run["review_tables"] = sum(bool(item.get("review_required")) for item in result)
@@ -432,20 +459,89 @@ class LLMTableClassificationAgent:
                 })
 
 
+def prepare_table_title_input(
+    tables: list[dict[str, Any]],
+    method_pages: list[dict[str, Any]] | None,
+    contexts: list[dict[str, Any]] | None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Attach one coordinate-linked table title and retain only title metadata."""
+    from .template_agent import infer_table_captions
+
+    contexts = contexts or []
+    context_by_id = {str(item.get("table_id")): item for item in contexts if item.get("table_id")}
+    inferred = infer_table_captions(tables, contexts, method_pages or [])
+    titled_tables: list[dict[str, Any]] = []
+    title_records: list[dict[str, Any]] = []
+    title_contexts: list[dict[str, Any]] = []
+
+    def descriptive(value: Any) -> bool:
+        value = re.sub(r"^(?:table|表)\s*[\w.-]+\s*[.:：、]?\s*", "", str(value or ""), flags=re.I).strip()
+        return bool(value)
+
+    for table in tables:
+        identity = table_id(table)
+        context = context_by_id.get(identity, {})
+        caption_obj = context.get("caption") or {}
+        context_caption = caption_obj.get("text", "") if isinstance(caption_obj, dict) else str(caption_obj)
+        inferred_caption = inferred.get(identity, {})
+        table_caption = str(table.get("caption") or "")
+        candidates = [
+            (table_caption, table.get("caption_source") or "prepared_table.caption", table.get("caption_confidence")),
+            (inferred_caption.get("caption", ""), inferred_caption.get("source", "page_ocr"), inferred_caption.get("caption_confidence")),
+            (context_caption, caption_obj.get("source", "pdf_text") if isinstance(caption_obj, dict) else "pdf_text",
+             caption_obj.get("confidence") if isinstance(caption_obj, dict) else None),
+        ]
+        # Prefer a complete title over a bare "Table N." marker. Prepared table
+        # captions are already attached to that exact table; inferred captions
+        # are selected by page and geometry; context captions are the fallback.
+        selected = next((item for item in candidates if descriptive(item[0])), None)
+        if selected is None:
+            selected = next((item for item in candidates if item[0]), ("", "missing", None))
+        title, source, confidence = selected
+        titled_tables.append({**table, "caption": title})
+        title_records.append({
+            "table_id": identity,
+            "page": table.get("page"),
+            "title": title,
+            "source": source,
+            "confidence": confidence,
+            "evidence_ref": identity,
+        })
+
+        # Keep only geometrical links needed for table/header structure and the
+        # printed title. Nearby prose and footnotes never enter TemplateAgent.
+        safe_context = {key: context[key] for key in (
+            "table_id", "page", "bbox", "table_number", "logical_table_id",
+            "continuation_of", "continuation_confidence",
+        ) if key in context}
+        if title:
+            safe_context["caption"] = {
+                "evidence_id": (caption_obj.get("evidence_id") if isinstance(caption_obj, dict) else None) or identity,
+                "page": table.get("page"),
+                "bbox": (caption_obj.get("bbox", []) if isinstance(caption_obj, dict) else []),
+                "text": title,
+                "source": source,
+                "relation": "caption",
+                "confidence": confidence,
+            }
+        title_contexts.append(safe_context)
+    return titled_tables, title_records, title_contexts
+
+
 def build_document_input(
     document_id: str,
     tables: list[dict[str, Any]],
-    method_pages: list[dict[str, Any]],
-    contexts: list[dict[str, Any]],
-    sequence_passages: list[dict[str, Any]] | None = None,
+    method_pages: list[dict[str, Any]] | None = None,
+    contexts: list[dict[str, Any]] | None = None,
+    *, plan_tables: bool = False,
 ) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
-    from .sequence_resolver import parse_sequence_definitions
-
-    evidence = build_evidence(tables, contexts, method_pages, sequence_passages)
+    """Build a source payload from table titles, headers, and cells only."""
+    if method_pages or contexts:
+        tables, _, contexts = prepare_table_title_input(tables, method_pages, contexts)
+    evidence = build_evidence(tables)
     packed_tables = []
     allowed: set[str] = set()
     omissions = []
-    required_names = []
     used_characters = 0
     # Assay regions have no later sequence-style retrieval loop. Reserve their
     # evidence before wide construct/CDR tables can exhaust the planning budget.
@@ -453,72 +549,36 @@ def build_document_input(
     def table_priority(table):
         classification = table.get("table_classification", {})
         return 0 if any(r.get("kind") == "assay" for r in classification.get("regions", [])) else priority.get(classification.get("primary_label"), 3)
-    ordered = sorted(tables, key=table_priority)
+    ordered = tables if plan_tables else sorted(tables, key=table_priority)
+    header_links = verified_header_links(tables, contexts or [])
+    by_id = {table_id(table): table for table in tables}
     for table in ordered:
         identity = table_id(table)
         classification = table.get("table_classification", {})
-        item = pack_table(table, cell_limit=220)
-        # Layout is already classified. Keep row/column/span semantics, while
-        # pixel coordinates and OCR diagnostics stay in the original evidence.
-        item["cells"] = [{key: cell[key] for key in
-                          ("ref", "row", "column", "text", "numeric_text", "header_span")
-                          if key in cell and cell[key] is not None} for cell in item["cells"]]
-        # This planning pass uses a compact index. The subsequent sequence
-        # extraction agent receives the lossless raw graph and actual bodies.
-        if "sequence_definition" in classification.get("labels", []):
-            item["cells"] = [cell for cell in item["cells"] if len(str(evidence[cell["ref"]]["text"])) < 90 or re.search(r"SEQ\s*ID|\bVH\b|\bVL\b|重链|轻链", cell["text"], re.I)]
+        inherited_header = None
+        for parent_id in header_links.get(identity, []):
+            parent = by_id.get(parent_id)
+            if parent:
+                inherited_header = inherited_header_view(parent, parent_id)
+                if inherited_header:
+                    break
+        item = pack_semantic_table(table, inherited_header=inherited_header)
         classification = {**classification, "regions": identified_regions(identity, classification.get("regions", []))}
-        item["classification"] = {key: classification.get(key) for key in ("labels", "entity_axis", "measurement_axis", "regions")}
-        for region in classification.get("regions", []):
-            if region.get("kind") != "assay":
-                continue
-            required_names.extend({"raw_name": group["raw_name"], "ref": group["name_ref"]} for group in region.get("entity_groups", []))
-            column = region.get("entity_column")
-            if column is not None:
-                for index in range(region["row_start"], region["row_end"] + 1):
-                    ref = cell_ref(identity, index, column)
-                    if evidence.get(ref, {}).get("text", "").strip():
-                        required_names.append({"raw_name": evidence[ref]["text"], "ref": ref})
+        if plan_tables:
+            item["allowed_header_table_ids"] = header_links.get(identity, [])
+        else:
+            item["classification"] = {key: classification.get(key) for key in ("labels", "entity_axis", "measurement_axis", "regions")}
         size = len(json.dumps(item, ensure_ascii=False))
         if used_characters + size > 240000:
             omissions.append(identity)
             continue
         used_characters += size
         allowed.add(identity)
-        allowed.update(cell["ref"] for cell in item["cells"])
+        allowed.update(semantic_cell_refs(item))
         packed_tables.append(item)
-    passages = []
-    omitted_passages = []
-    for ref, source in sorted(evidence.items(), key=lambda item:
-                              0 if item[1].get("section_id") else 1 if item[1].get("kind") == "method" else 2):
-        if source.get("kind") not in {"context", "method", "sequence_passage"}:
-            continue
-        if ref.startswith("method:") and ":L" in ref:
-            continue
-        text = clipped_text(source["text"], 5000)
-        if used_characters + len(text) > 300000:
-            omitted_passages.append(ref)
-            continue
-        allowed.add(ref)
-        passages.append({"ref": ref, "text": text, "page": source.get("page")})
-        used_characters += len(text)
-    catalog = []
-    for seq_id, definition in parse_sequence_definitions(tables).items():
-        catalog.append({"seq_id": seq_id, "chain_hint": definition.chain,
-                        "scope": definition.sequence_scope, "length": len(definition.full_sequence),
-                        "table_ids": definition.table_ids, "label": clipped_text(definition.label, 220)})
-        # Catalog identifiers are derived only from definitions actually
-        # supplied in the input. They can support definition references but
-        # never replace explicit construct/chain mapping evidence.
-        ref = f"sequence_catalog:{seq_id}"
-        evidence[ref] = {"kind": "sequence_catalog", "text": clipped_text(definition.label, 220),
-                         "seq_id": seq_id, "table_ids": definition.table_ids,
-                         "table_id": definition.table_ids[0] if definition.table_ids else None}
-        allowed.add(ref)
-    payload = {"document_id": document_id, "tables": packed_tables,
-               "passages": passages, "sequence_catalog": catalog,
-               "required_entity_names": [item for item in required_names if item["ref"] in allowed],
-               "omitted_table_ids": omissions, "omitted_passage_refs": omitted_passages}
+    payload = {"document_id": document_id, "tables": packed_tables}
+    if omissions:
+        payload["omitted_table_ids"] = omissions
     return payload, {ref: evidence[ref] for ref in allowed}
 
 
@@ -564,7 +624,10 @@ def validate_document_plan(plan: dict[str, Any], document_id: str, evidence: dic
                 rf"{re.escape(left)}(?:为|是)(?:(?:阳性|阴性|参考|对照|分子|抗体|单克隆|人源化|单抗|的)){{0,6}}"
                 rf"[（(]{re.escape(right)}(?:抗体|分子)?[）)]", compact_alias)
                 for left, right in (names_here, names_here[::-1]))
-            if not apposition and not re.search(r"also\s+(?:known|called|referred)|same\s+(?:antibody|construct)|also\s+designated|又称|亦称|也称|即为|同一", alias_text, re.I):
+            definition = len(names_here) == 2 and any(re.search(
+                rf'''(?<![a-z0-9])["“']?{re.escape(left)}["”']?(?:refers?to|denotes|means)(?:the)?["“']?{re.escape(right)}(?![a-z0-9])''',
+                compact_alias) for left, right in (names_here, names_here[::-1]))
+            if not apposition and not definition and not re.search(r"also\s+(?:known|called|referred)|same\s+(?:antibody|construct)|also\s+designated|又称|亦称|也称|即为|同一", alias_text, re.I):
                 raise ValueError(f"Entity {entity['entity_id']} aliases {entity['raw_names']} require explicit alias-identity prose")
             if any(normalize(name) not in normalize(alias_text) for name in entity["raw_names"]):
                 raise ValueError("Alias-identity prose must name every merged entity alias")
@@ -596,10 +659,13 @@ def validate_document_plan(plan: dict[str, Any], document_id: str, evidence: dic
         if not re.search(rf"(?<!\d){link['seq_id']}(?!\d)", text):
             raise ValueError(f"SEQ ID {link['seq_id']} absent from mapping evidence")
         entity = next(item for item in plan["entities"] if item["entity_id"] == link["entity_id"])
-        if not any(contains_entity_name(text, name) for name in entity["raw_names"]):
+        from .sequence_caption_evidence import caption_sequence_relation
+        sources = [evidence[ref] for ref in link["evidence_refs"]]
+        caption_supported = caption_sequence_relation(link, entity, sources)
+        if not any(contains_entity_name(text, name) for name in entity["raw_names"]) and not caption_supported:
             raise ValueError("Sequence mapping evidence does not include its construct name")
         chain_pattern = r"\bVH\b|heavy|重链" if link["chain"] == "VH" else r"\bVL\b|light|轻链"
-        if not re.search(chain_pattern, text, re.I) and not re.search(chain_pattern, normalize(text), re.I):
+        if not caption_supported and not re.search(chain_pattern, text, re.I) and not re.search(chain_pattern, normalize(text), re.I):
             raise ValueError("Sequence mapping needs explicit chain-header evidence")
         sources = [evidence[ref] for ref in link["evidence_refs"]]
         id_pattern = rf"(?<!\d){link['seq_id']}(?!\d)"
@@ -708,7 +774,7 @@ def validate_document_plan(plan: dict[str, Any], document_id: str, evidence: dic
                                 for s in sources)
             return named_label or (paired_header and same_row_name)
 
-        relation_supported = row_definition or any(column_definition(source) for source in sources) or any(
+        relation_supported = caption_supported or row_definition or any(column_definition(source) for source in sources) or any(
             source.get("kind") == "cell" and re.search(id_pattern, source["text"])
             and any(header is not source and header.get("kind") == "cell"
                     and header.get("table_id") == source.get("table_id")
@@ -739,6 +805,49 @@ def validate_document_plan(plan: dict[str, Any], document_id: str, evidence: dic
         raise ValueError(f"Observed assay entities missing from plan: {missing[:12]}")
 
 
+def expand_template_table(plan: dict[str, Any]) -> dict[str, Any]:
+    """Derive compatibility fields instead of asking the model twice."""
+    return {
+        **plan, "primary_label": plan["labels"][0],
+        "measurement_axis": {"rows": "columns", "columns": "rows"}.get(plan["entity_axis"], plan["entity_axis"]),
+        "detected_endpoints": sorted({endpoint for region in plan["regions"] for endpoint in region_endpoints(region)}),
+    }
+
+
+def pending_template_table(identity: str, message: str) -> dict[str, Any]:
+    return {"table_id": identity, "labels": ["ambiguous"], "confidence": 0,
+            "entity_axis": "unknown", "decision": "needs_review", "regions": [],
+            "evidence_refs": [identity], "explanation": message,
+            "issues": [{"code": "template_table_needs_review", "message": message, "evidence_refs": [identity]}]}
+
+
+def template_plan_context(response: dict, tables: list[dict], evidence: dict, header_links: dict) -> tuple:
+    decisions = [expand_template_table(plan) for plan in response["tables"]]
+    validate_classifications({"tables": decisions}, tables, evidence, header_links)
+    for decision in decisions:
+        if decision["decision"] == "exclude" and (
+            set(decision["labels"]) & (TARGET_LABELS | {"ambiguous"}) or decision["regions"] or decision["issues"]
+        ):
+            raise ValueError("Target or uncertain evidence cannot be excluded; excluded tables have no regions")
+    regions = {d["table_id"]: identified_regions(d["table_id"], d["regions"])
+               for d in decisions if d["decision"] != "exclude"}
+    required = []
+    for identity, scopes in regions.items():
+        for region in scopes:
+            if region["kind"] != "assay":
+                continue
+            required.extend({"raw_name": group["raw_name"], "ref": group["name_ref"]}
+                            for group in region["entity_groups"])
+            if region["entity_column"] is not None:
+                for row in range(region["row_start"], region["row_end"] + 1):
+                    if row in region["header_rows"]:
+                        continue
+                    ref = cell_ref(identity, row, region["entity_column"])
+                    if evidence.get(ref, {}).get("text", "").strip():
+                        required.append({"raw_name": evidence[ref]["text"], "ref": ref})
+    return decisions, regions, required
+
+
 class LLMTemplateAgent:
     def __init__(self, provider: CodexProvider) -> None:
         self.provider = provider
@@ -747,44 +856,70 @@ class LLMTemplateAgent:
         self, document_id: str, ocr_results: list[dict[str, Any]],
         method_pages: list[dict[str, Any]] | None = None,
         table_contexts: list[dict[str, Any]] | None = None,
-        sequence_passages: list[dict[str, Any]] | None = None,
-        *, antigen_target: str | None = None, keyword_library_dir: str | None = None,
+        *, repair_findings: list[dict] | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         from .template_agent import TemplateAgent
 
         started = time.monotonic()
-        task = f"document-template-v{PROMPT_VERSION}"
+        task = f"document-template-v{TEMPLATE_PROMPT_VERSION}"
+        # Previous labels must never pre-filter or bias this planning pass.
+        ocr_results = [semantic_table({k: v for k, v in table.items() if k != "table_classification"})
+                       for table in ocr_results]
+        if len({table_id(t) for t in ocr_results}) != len(ocr_results):
+            raise ValueError("Template table identifiers must be unique")
         print("llm-template-start", flush=True)
 
         def log(event: str, **details: Any) -> None:
             log_llm_event(event, task=task, document_id=document_id,
                           elapsed_seconds=round(time.monotonic() - started, 3), **details)
 
-        log("template_prepare_start", table_count=len(ocr_results),
-            method_page_count=len(method_pages or []), context_count=len(table_contexts or []),
-            sequence_passage_count=len(sequence_passages or []))
-        # Preserve useful construct vocabulary and deterministic protocol
-        # evidence, but replace legacy inferred name grammars with explicit
-        # source-backed entities. No suffix collapsing occurs in LLM mode.
-        baseline, _ = TemplateAgent().run(document_id, ocr_results, method_pages, table_contexts,
-                                        antigen_target=antigen_target, keyword_library_dir=keyword_library_dir)
-        payload, evidence = build_document_input(document_id, ocr_results, method_pages or [], table_contexts or [], sequence_passages)
-        payload["assay_keyword_context"] = baseline.get("assay_keyword_context", {})
-        table_ids = {table_id(table) for table in ocr_results}
-        regions = {table_id(t): t.get("table_classification", {}).get("regions", []) for t in ocr_results}
+        title_tables, title_records, title_contexts = prepare_table_title_input(
+            ocr_results, method_pages, table_contexts
+        )
+        log("template_prepare_start", table_count=len(title_tables),
+            title_count=sum(bool(item["title"]) for item in title_records))
+
+        payload, evidence = build_document_input(document_id, title_tables, [], title_contexts, plan_tables=True)
+        if repair_findings:
+            payload["repair_findings"] = repair_findings
+        supplied_ids = {t["table_id"] for t in payload["tables"]}
+        supplied_tables = [t for t in title_tables if table_id(t) in supplied_ids]
+        header_links = verified_header_links(title_tables, table_contexts or [])
         log("template_input_ready", table_count=len(payload["tables"]),
-            cell_count=sum(len(t["cells"]) for t in payload["tables"]), passage_count=len(payload["passages"]),
-            sequence_catalog_count=len(payload["sequence_catalog"]),
-            required_entity_count=len(payload["required_entity_names"]), evidence_count=len(evidence),
-            omitted_table_count=len(payload["omitted_table_ids"]),
-            omitted_passage_count=len(payload["omitted_passage_refs"]),
+            cell_count=sum(len(semantic_cell_refs(t)) for t in payload["tables"]),
+            titled_table_count=sum(bool(t.get("caption")) for t in payload["tables"]),
+            evidence_count=len(evidence),
+            omitted_table_count=len(payload.get("omitted_table_ids", [])),
             payload_chars=len(json.dumps(payload, ensure_ascii=False)))
 
+        def retained_evidence(decisions: list[dict]) -> dict:
+            excluded = {d["table_id"] for d in decisions if d["decision"] == "exclude"}
+            return {ref: source for ref, source in evidence.items() if source.get("table_id") not in excluded}
+
+        def validate(response: dict) -> None:
+            response = TemplatePlan.model_validate(response).model_dump()
+            decisions, regions, required = template_plan_context(response, supplied_tables, evidence, header_links)
+            validate_document_plan(response, document_id, retained_evidence(decisions), set(regions), required, regions)
+
         def recover(response: dict) -> dict:
-
-
-            safe, rejected = recover_document_plan(response, document_id, evidence, table_ids,
-                                                   payload["required_entity_names"], regions)
+            # A bad region must not drop a table or invalidate independent plans.
+            recovered_tables, rejected_tables = [], []
+            for table in supplied_tables:
+                identity = table_id(table)
+                matches = [p for p in response["tables"] if p["table_id"] == identity]
+                try:
+                    if len(matches) != 1:
+                        raise ValueError("Expected exactly one table plan")
+                    template_plan_context({"tables": matches}, [table], evidence, header_links)
+                except ValueError as exc:
+                    recovered_tables.append(pending_template_table(identity, str(exc)))
+                    rejected_tables.append({"kind": "table", "table_id": identity, "reason": str(exc)})
+                else:
+                    recovered_tables.extend(matches)
+            decisions, regions, required = template_plan_context({"tables": recovered_tables}, supplied_tables, evidence, header_links)
+            document_plan = {k: v for k, v in response.items() if k != "tables"}
+            safe, rejected = recover_document_plan(document_plan, document_id, retained_evidence(decisions), set(regions), required, regions)
+            rejected = [*rejected_tables, *rejected]
             log("template_recovery", rejected_count=len(rejected),
                 retained_counts={key: len(safe[key]) for key in ("entities", "sequence_links", "assay_profiles")})
             if self.provider.audit_path:
@@ -793,44 +928,62 @@ class LLMTemplateAgent:
                     "retained_counts": {key: len(safe[key]) for key in ("entities", "sequence_links", "assay_profiles")},
                     "unresolved": safe["unresolved"],
                 })
-            return safe
+            return {**safe, "tables": recovered_tables}
 
         response, meta = self.provider.generate(
             task,
             (PROMPTS / "document_template.txt").read_text(encoding="utf-8"),
-            payload, DocumentPlan,
-            validate=lambda response: validate_document_plan(response, document_id, evidence, table_ids,
-                                                            payload["required_entity_names"], regions),
+            payload, TemplatePlan,
+            validate=validate,
             recover=recover,
         )
+        # Also validate scripted/cached providers before publishing routing decisions.
+        validate(response)
+        decisions, _, _ = template_plan_context(response, supplied_tables, evidence, header_links)
+        classifications = finalize_table_plans(decisions, supplied_tables, evidence, meta, header_links, owner="TemplateAgent")
+        # A budget omission is a pending table, never an implicit exclusion.
+        for table in ocr_results:
+            identity = table_id(table)
+            if identity in supplied_ids:
+                continue
+            pending = expand_template_table(pending_template_table(identity, "Template input budget omitted this table; review required."))
+            classifications.extend(finalize_table_plans([pending], [table], build_evidence([table]),
+                {"mode": "pending", "status": "not_run"}, header_links, owner="TemplateAgent"))
+        order = {table_id(t): index for index, t in enumerate(ocr_results)}
+        classifications.sort(key=lambda c: order[c["table_id"]])
+        document_plan = {k: v for k, v in response.items() if k != "tables"}
+        from .table_classification import route_ocr_results
+        # Materialize deterministic vocabulary/protocol evidence only after
+        # triage; LLM entities replace inferred name grammars below.
+        baseline, _ = TemplateAgent().run(document_id, route_ocr_results(title_tables, classifications), [], title_contexts)
+        warning_evidence = {**build_evidence(title_tables), **evidence}
         warnings = [
             {"code": finding["code"], "severity": "medium", "message": finding["message"],
              "evidence_refs": finding["evidence_refs"],
-             "table_ids": list(dict.fromkeys(evidence[ref]["table_id"] for ref in finding["evidence_refs"] if evidence[ref].get("table_id")))}
-            for finding in response["unresolved"]
+             "table_ids": list(dict.fromkeys(warning_evidence[ref]["table_id"] for ref in finding["evidence_refs"] if warning_evidence.get(ref, {}).get("table_id")))}
+            for finding in [*response["unresolved"], *(issue for c in classifications for issue in c["issues"])]
         ]
-        if payload["omitted_table_ids"]:
+        warnings.extend({"code": "table_structure_needs_review", "severity": "medium",
+                         "message": c["explanation"], "evidence_refs": c["evidence_refs"],
+                         "table_ids": [c["table_id"]]}
+                        for c in classifications if c["decision"] == "needs_review" and not c["issues"])
+        if payload.get("omitted_table_ids"):
             warnings.append({"code": "template_input_bounded", "severity": "high",
                              "message": "Document input limit omitted tables; explicit review is required.",
                              "table_ids": payload["omitted_table_ids"]})
-        if payload["omitted_passage_refs"]:
-            warnings.append({"code": "sequence_context_bounded", "severity": "medium",
-                             "message": "Document input limit omitted source passages; sequence context coverage is incomplete.",
-                             "evidence_refs": payload["omitted_passage_refs"]})
         scoped_profiles = materialize_profiles(response["assay_profiles"], evidence, meta)
         profiles = table_profile_summaries(scoped_profiles)
         status = "needs_review" if warnings else "validated"
-        sequence_refs = {ref for link in response["sequence_links"] for ref in link["evidence_refs"]}
         template = {
             **baseline, "version": 3, "status": status,
-            "agent": {"name": "TemplateAgent", "version": 3, "mode": "llm", "prompt_version": PROMPT_VERSION, **meta},
+            "agent": {"name": "TemplateAgent", "version": 4, "mode": "llm", "prompt_version": TEMPLATE_PROMPT_VERSION,
+                      "table_planning": "integrated", **meta},
             "entity_template": {"status": status, "patterns": [], "entities": response["entities"],
                                 "reference_names": [], "candidate_count": len(response["entities"])},
-            "sequence_links": response["sequence_links"], "document_plan": response,
-            "sequence_source_passages": [source for source in [*(method_pages or []), *(sequence_passages or [])]
-                                         if source.get("ref") in sequence_refs or any(
-                                             ref == f"method:p{source.get('page')}" or ref.startswith(f"method:p{source.get('page')}:")
-                                             for ref in sequence_refs)],
+            "sequence_links": response["sequence_links"], "document_plan": document_plan,
+            "table_classifications": classifications,
+            "table_titles": title_records,
+            "sequence_source_passages": [],
             "assay_template": {**baseline.get("assay_template", {}), "table_profiles": profiles, "region_profiles": scoped_profiles},
             "warnings": warnings,
         }
@@ -853,7 +1006,8 @@ class LLMTemplateAgent:
             raise ValueError("Target table has no executable classification; cannot safely rebind protocols")
         support_ids = {identity for t in selected for identity in t.get("table_classification", {}).get("allowed_header_table_ids", [])} - target_ids
         inputs = [*selected, *(t for t in tables if table_id(t) in support_ids)]
-        payload, evidence = build_document_input(document_id, inputs, methods, contexts)
+        titled_inputs, _, title_contexts = prepare_table_title_input(inputs, methods, contexts)
+        payload, evidence = build_document_input(document_id, titled_inputs, [], title_contexts)
         payload["target_table_ids"] = sorted(target_ids)
         payload["support_table_ids"] = sorted(support_ids)
         payload["repair_findings"] = findings
@@ -939,6 +1093,10 @@ def recover_document_plan(
         if len(assignments[(link["entity_id"], link["chain"], link["scope"])]) > 1:
             reject("sequence_link", link, "Conflicting sequence mapping must remain unresolved")
             continue
+        owner = next((entity for entity in safe["entities"] if entity["entity_id"] == link["entity_id"]), None)
+        if owner is not None:
+            from .sequence_caption_evidence import complete_caption_refs
+            link = complete_caption_refs(link, owner, evidence)
         candidate = {**safe, "sequence_links": [*safe["sequence_links"], link]}
         try:
             check(candidate)

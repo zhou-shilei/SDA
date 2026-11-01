@@ -16,7 +16,7 @@ from urllib.parse import quote, urlsplit
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from document.table_continuation import parse_grid
 from units.cache_policy import cache_enabled
-from studio.processing_metrics import processing_metrics
+from studio.processing_metrics import processing_metrics, processing_runtime
 
 
 def now():
@@ -101,8 +101,8 @@ def sequence_graph_sources(entity, tables):
     return nodes
 
 
-def attach_table_text_comparison(record, ocr):
-    """Render addressed OCR comparisons without changing stored sequence values."""
+def table_cell_index(ocr):
+    """Index a document's OCR once for all review records."""
     index = {}
     for table in ocr:
         identity = table.get("source_id") or table.get("table_id")
@@ -112,6 +112,12 @@ def attach_table_text_comparison(record, ocr):
                 for ref in (cell.get("ref"), cell.get("source_ref")):
                     if ref:
                         index[ref] = cell
+    return index
+
+
+def attach_table_text_comparison(record, ocr, *, cell_index=None):
+    """Render addressed OCR comparisons without changing stored sequence values."""
+    index = table_cell_index(ocr) if cell_index is None else cell_index
     found = {}
     def visit(value, chain=None):
         if isinstance(value, list):
@@ -137,7 +143,9 @@ def attach_table_text_comparison(record, ocr):
                 if key not in {"sequence_source_conflicts", "sequence_ocr"}:
                     visit(item, key.upper() if key.upper() in {"VH", "VL"} else chain)
     visit(record)
-    result = copy.deepcopy(record)
+    result = {**record}
+    if "sequence_source_conflicts" in record:
+        result["sequence_source_conflicts"] = list(record["sequence_source_conflicts"])
     for (chain, ref), comparison in found.items():
         if comparison["status"] == "mismatch":
             conflict = {"chain": chain, "table_ref": ref,
@@ -158,13 +166,15 @@ def review_payload(bundle):
                        "quote", "source_type", "bbox", "bbox_crop", "bbox_pdf", "bbox_source",
                        "coordinate_space", "precision", "location_status", "value_ref", "cell_refs"}
     records = []
+    cell_index = table_cell_index(bundle.get("ocr", []))
     for record in bundle["records"]:
-        record = attach_table_text_comparison(record, bundle.get("ocr", []))
         fields = {name: {"status": slot.get("status"),
                          "provenance": [{k: v for k, v in source.items() if k in citation_fields}
                                         for source in slot.get("provenance", [])]}
                   for name, slot in record.get("sda_fields", {}).items()}
-        records.append({**record, "sda_fields": fields})
+        # Discard duplicate extraction trees before walking sequence citations.
+        projected = {**record, "sda_fields": fields}
+        records.append(attach_table_text_comparison(projected, [], cell_index=cell_index))
     return {"records": records, "template": {"agent": bundle.get("template", {}).get("agent", {})},
             **{key: bundle[key] for key in ("contexts", "candidates", "classifications", "ocr", "runtime", "pages")}}
 
@@ -278,6 +288,9 @@ class Workspace:
             paths += list(input_dir.parent.glob("source.pdf")) + list(input_dir.glob("*.pdf"))
             paths += list((self.state / "patents" / document_id).glob("source.pdf"))
             paths += list(self.structured_files(document_id, result_dir).values())
+            paths += [path for path in (result_dir / "dataagent2/phase_timings.json",
+                      result_dir / "dataagent2/calls.jsonl", result_dir / "shared_seed/pipeline_performance.json")
+                      if path.is_file()]
             signature = (str(result_dir), str(input_dir),
                          tuple(sorted((str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in paths)))
             if self.cache.get(document_id, (None,))[0] != signature:
@@ -323,6 +336,9 @@ class Workspace:
         base = f"api/patents/{quote(identity, safe='')}/"
         tables, candidates, contexts, classifications, ocr, crops = {}, [], [], [], [], {}
         for path in sorted(result_dir.glob("*.json")):
+            if path.name in {"dataset.json", "template.completed.json", "document_sources.json",
+                             "document_extraction.json"}:
+                continue
             table = read_json(path, {})
             if not isinstance(table, dict) or not table.get("table_id") or "table_text" not in table:
                 continue
@@ -500,7 +516,7 @@ class Workspace:
         pages, profile = self.pdf_metadata(pdf, base)
         return {"records": records, "contexts": contexts, "candidates": candidates,
                 "classifications": classifications, "ocr": ocr, "template": template,
-                "runtime": read_json(result_dir / "_timings.json", {}), "pages": pages,
+                "runtime": processing_runtime(result_dir), "pages": pages,
                 "dataset": dataset, "pdf": pdf, "pdf_form": profile, "crops": crops,
                 "run": read_json(result_dir / "run_summary.json", {}),
                 "structured_files": self.structured_files(identity, result_dir),
@@ -559,7 +575,7 @@ class Workspace:
             bundle = {"dataset": dataset, "pdf": pdf, "pages": pages, "pdf_form": profile,
                       "structured_files": self.structured_files(identity, result_dir),
                       "run": read_json(result_dir / "run_summary.json", {}),
-                      "runtime": read_json(result_dir / "_timings.json", {})}
+                      "runtime": processing_runtime(result_dir)}
             dataset = bundle["dataset"]
             job = jobs.get(identity, {})
             status = job.get("status") or ("failed" if dataset.get("status") == "failed" else "completed")

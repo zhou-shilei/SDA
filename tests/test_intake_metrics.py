@@ -11,6 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from studio.processing_metrics import processing_metrics
+from src.dataagent2.timing import PhaseTimings, measured_phases
 
 
 class IntakeMetricsTests(unittest.TestCase):
@@ -70,6 +71,49 @@ class IntakeMetricsTests(unittest.TestCase):
         self.assertEqual(zero["time"]["seconds"], 0)
         self.assertTrue(zero["tokens"]["available"])
         self.assertEqual(zero["tokens"]["totals"]["total_tokens"], 0)
+
+    def test_extraction_recovers_parallel_request_coverage_and_keeps_missing_host_time_unknown(self):
+        self.write(self.result / "shared_seed/pipeline_performance.json", {"stages": [
+            {"stage": "classify_tables", "elapsed_seconds": 20},
+            {"stage": "template", "elapsed_seconds": 40}]})
+        self.write(self.result / "dataagent2/manifest.json", {})
+        calls = [{"attempt_id": "a-1700000000000000000", "stage": "reader", "seconds": 10},
+                 {"attempt_id": "b-1700000005000000000", "stage": "reader", "seconds": 10},
+                 {"attempt_id": "c-1700000020000000000", "stage": "answer", "seconds": 4, "status": "failed"},
+                 {"attempt_id": "d-1700000025000000000", "stage": "answer", "seconds": 6}]
+        (self.result / "dataagent2/calls.jsonl").write_text(
+            "\n".join(json.dumps(c) for c in [*calls, calls[0]]) + '\n{"incomplete":')
+        stats = self.stats({"wall_seconds": 100, "phases": [{"name": "document_extraction", "seconds": 90}]})
+        rows = {row["stage"]: row for row in stats["time"]["stages"]}
+        self.assertEqual(stats["time"]["seconds"], 100)
+        self.assertEqual(rows["classify_tables"]["seconds"], 20)
+        self.assertEqual(rows["dataagent2_reader"]["seconds"], 15)
+        self.assertEqual(rows["dataagent2_reader"]["requests"], 2)
+        self.assertEqual(rows["dataagent2_reader"]["basis"], "request_coverage")
+        self.assertEqual(rows["dataagent2_questions"]["seconds"], 10)
+        self.assertIsNone(rows["dataagent2_merge"]["seconds"])
+
+    def test_measured_reader_phase_wins_over_historical_request_coverage(self):
+        reader = self.result / "dataagent2"
+        self.write(reader / "phase_timings.json", {"events": [
+            {"stage": "dataagent2_reader", "seconds": 30},
+            {"stage": "dataagent2_merge", "seconds": 12}]})
+        (reader / "calls.jsonl").write_text(json.dumps({"attempt_id": "a-1700000000000000000",
+            "stage": "reader", "seconds": 20}))
+        rows = {row["stage"]: row for row in self.stats()["time"]["stages"]}
+        self.assertEqual(rows["dataagent2_reader"]["seconds"], 30)
+        self.assertEqual(rows["dataagent2_reader"]["basis"], "phase")
+        self.assertEqual(rows["dataagent2_merge"]["seconds"], 12)
+
+    def test_failed_phase_is_persisted_without_hiding_the_original_failure(self):
+        timer = PhaseTimings(self.result / "phase_timings.json")
+        with self.assertRaisesRegex(RuntimeError, "original failure"):
+            with timer.measure("result_export"):
+                raise RuntimeError("original failure")
+        rows = measured_phases(self.result)
+        self.assertEqual(rows[0]["stage"], "result_export")
+        self.assertEqual(rows[0]["status"], "failed")
+        self.assertGreaterEqual(rows[0]["seconds"], 0)
 
     def test_printed_style_repair_has_reanalysis_scope(self):
         stats = self.stats({"run_kind": "printed_style_repair", "wall_seconds": 292.726})

@@ -69,6 +69,7 @@ python src/document/paten_ocr.py /path/to/source.pdf \
 统一文件中的 `extract_pdf()` 可单独执行区域检测、高清裁图、续表候选和来源清单。
 也可用 `python src/document/pdf2doc.py --layout-only --input source.pdf --output-dir output` 执行这一阶段。
 如果前一步已经生成校正后的工作 PDF，将其作为输入并设置 `--orientation off`，避免重复校正。
+表格截图在原有四边 6 pt 边距外，默认额外向上扩 22 pt，以便带上紧邻表格的题目；可用 `--extra-top-padding-pt` 调整或设为 `0`。扩展只影响截图范围，不移动表格的原始 bbox、单元格坐标或引用。
 
 ## 后续语义提取
 

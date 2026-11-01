@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from PIL import Image, ImageDraw
 
 from document.pdf2doc import structure_table_evidence, _ground_table_cells, parse_grid
-from document.sequence_ocr import refine, line_crop, addressed_row_lines, sequence_line, sequence_candidates, ruled_cell_boxes
+from document.sequence_ocr import refine, line_crop, addressed_row_lines, sequence_line, sequence_candidates, ruled_cell_boxes, localize_orientation
 from dataagent.question_workflow import collect_diagnostics
 from dataagent.llm_sequence_agent import ground_decision
 
@@ -76,6 +76,41 @@ class HybridSequenceOCRTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(result["text"].encode()).hexdigest(), result["text_sha256"])
         line = cells["T:R0C1"]["sequence_ocr"]["lines"][0]
         self.assertEqual(hashlib.sha256(Path(line["image_path"]).read_bytes()).hexdigest(), line["image_sha256"])
+
+    def test_literal_labels_recover_a_false_upside_down_classification(self):
+        loader = self.provider()
+        local, _, ori = loader.return_value
+        good = local.predict.return_value[0]
+        local.predict.side_effect = [[{"rec_texts": ["unreadable"], "rec_boxes": [[0, 0, 30, 20]]}], [good]]
+        ori.predict.return_value = [{"label_names": ["180"], "scores": [.82]}]
+        result = refine(structure_table_evidence(self.html, self.image, self.metadata), model_provider=loader)
+        audit = result["sequence_ocr"]
+        self.assertEqual(audit["successful_cells"], 1)
+        self.assertEqual(audit["classifier_rotation_counterclockwise"], 180)
+        self.assertEqual(audit["rotation_counterclockwise"], 0)
+        self.assertEqual(audit["orientation_checks"][0]["matched_labels"], [])
+        self.assertEqual(set(audit["orientation_checks"][1]["matched_labels"]), {"ab-1", "1.2"})
+        self.assertEqual(audit["cells"][0]["sequence"], self.value)
+
+    def test_correct_rotation_is_kept_when_labels_support_it(self):
+        loader = self.provider()
+        local, _, _ = loader.return_value
+        good = local.predict.return_value[0]
+        local.predict.side_effect = [[good], [{"rec_texts": ["unreadable"], "rec_boxes": [[0, 0, 30, 20]]}]]
+        grid = parse_grid(self.html, "T")
+        angle, _, _, checks = localize_orientation(Image.open(self.image), grid, local,
+                                                   {"label_names": ["180"], "scores": [.82]})
+        self.assertEqual(angle, 180)
+        self.assertEqual(checks[1]["matched_labels"], [])
+
+    def test_single_label_cannot_override_crop_orientation(self):
+        loader = self.provider()
+        local, _, _ = loader.return_value
+        local.predict.side_effect = [[{"rec_texts": [], "rec_boxes": []}],
+                                    [{"rec_texts": ["AB-1"], "rec_boxes": [[8, 18, 40, 36]]}]]
+        angle, _, _, _ = localize_orientation(Image.open(self.image), parse_grid(self.html, "T"), local,
+                                               {"label_names": ["180"], "scores": [.82]})
+        self.assertEqual(angle, 180)
 
     def test_failure_logs_identify_cell_and_match_saved_audit(self):
         output = io.StringIO()
@@ -204,6 +239,14 @@ class HybridSequenceOCRTests(unittest.TestCase):
         self.assertEqual(set(sequence_candidates(grid)), {"T:R1C1"})
         other = parse_grid('<table><tr><td>Name</td><td>Target</td></tr><tr><td>REFERENCE</td><td>ACDEFG</td></tr></table>', "T")
         self.assertEqual(sequence_candidates(other), {})
+
+    def test_merged_cdr_section_labels_do_not_turn_name_column_into_residues(self):
+        grid = parse_grid('<table><tr><td>Name</td><td>SEQ ID</td><td>Amino Acid Sequence</td></tr>'
+                          '<tr><td colspan="3">HCDR1</td></tr>'
+                          '<tr><td>Reference</td><td>NO:31</td><td>GFTFRTYG</td></tr>'
+                          '<tr><td colspan="3">HCDR2</td></tr>'
+                          '<tr><td>AB-1</td><td>NO:34</td><td>VWYSGSYT</td></tr></table>', 'T')
+        self.assertEqual(set(sequence_candidates(grid)), {'T:R2C2', 'T:R4C2'})
 
     def test_resolved_table_text_disagreement_is_not_a_question(self):
         state = {"sequence_extraction": {"decisions": [{"entity_id": "ab", "chain": "VH", "status": "resolved",

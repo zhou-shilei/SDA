@@ -39,6 +39,68 @@ def response():
     return r
 
 
+def action_response(payload):
+    """Test-only scripted consolidation; production always calls the LLM stage."""
+    from dataagent2.action_agent import FACT_KINDS, business_dataset, source_ids
+    sources = {r[0]: {"id": r[0], "source_ref": f"source:{r[0]}", "page": r[1], "kind": r[2],
+                       "table_id": r[3], "row": r[4], "column": r[5], "text": r[6]}
+               for r in payload["sources"]}
+    for sid, status in payload.get("source_sequence_ocr", {}).items():
+        sources[int(sid)]["sequence_ocr"] = status
+    initial = payload["initial_dataset"]
+    data = {"document_id": payload["document"], "sources": sources,
+            "seed": {k: copy.deepcopy(initial[k]) for k in ("entities", "links", "experiments", "observations", "annotations")}}
+    ledger = Ledger(data)
+    extra = empty_response()
+    for kind in ("mentions", "sequences", "relations", "issues"):
+        extra[kind] = copy.deepcopy(initial[kind])
+    for definition in extra["sequences"]:
+        definition.pop("value", None)
+    if any(extra.values()):
+        ledger.apply(extra, list(sources), "seed")
+    decisions = []
+    for action in payload["reader_actions"]:
+        facts = empty_response()
+        facts[action["kind"]] = [action["fact"]]
+        previous = len(ledger.rejections)
+        ledger.apply(facts, list(sources), action["chunk"])
+        rejection = ledger.rejections[-1] if len(ledger.rejections) > previous else None
+        decisions.append({"action_ids": [action["id"]], "outcome": "reject" if rejection else "accept",
+            "targets": [], "refs": [], "reason": rejection["error"] if rejection else "Scripted test consolidation"})
+    dataset = business_dataset(ledger)
+    for action, decision in zip(payload["reader_actions"], decisions):
+        if decision["outcome"] == "reject":
+            continue
+        kind = "entities" if action["kind"] == "new_items" else action["kind"]
+        refs = source_ids(action["fact"])
+        indices = [i for i, fact in enumerate(dataset[kind]) if source_ids(fact) & refs]
+        if not indices:
+            raise AssertionError("Scripted accepted action has no result: " + action["id"])
+        decision["targets"] = [f"/dataset/{kind}/{i}" for i in indices]
+        decision["refs"] = sorted(refs & set(sources))
+    reviews = []
+    for entity in ledger.assemble()["entities"]:
+        for region in ("VH", "VL"):
+            supported = entity["sequences"][region]["status"] == "supported"
+            candidates = [c for c in payload["domain_review_input"]["candidates"]
+                          if c["item"] == entity["id"] and c["region"] == region]
+            definitions = {d["id"]: d for d in payload["domain_review_input"]["definitions"]}
+            refs = set(entity["refs"])
+            for candidate in candidates:
+                refs.update(candidate["mapping_refs"])
+                for kind in ("full_chain", "variable", "constant"):
+                    refs.update(definitions[candidate[kind]]["refs"])
+            reviews.append({"item": entity["id"], "region": region,
+                "status": "supported" if supported else "unresolved",
+                "candidate_ids": [c["id"] for c in candidates],
+                "targets": [f"/dataset/links/{i}" for i, l in enumerate(dataset["links"])
+                            if l["item"] == entity["id"] and l["region"] == region] if supported else [],
+                "refs": sorted(refs), "reason": "Scripted test-only domain review",
+                "missing_evidence": [] if supported else ["Test fixture does not supply confirmed domain ownership."]})
+    return {"dataset": dataset, "action_decisions": decisions, "domain_reviews": reviews,
+            "seed_changes": [], "conflicts": []}
+
+
 class GroundingTests(unittest.TestCase):
     def test_all_questions_can_run_and_pending_file_is_refreshed(self):
         class FakeProvider:
@@ -394,6 +456,8 @@ class PipelineTests(unittest.TestCase):
             model, effort = "test", "test"
 
             def generate(self, stage, instructions, payload):
+                if stage == "action":
+                    return action_response(payload), {}
                 r = response() if payload["chunk"] == "c1" else empty_response()
                 if payload["chunk"] == "c1":
                     r["issues"].append({"kind": "other", "items": [], "seq": None, "refs": [99]})
@@ -441,6 +505,8 @@ class PipelineTests(unittest.TestCase):
             model, effort = "test", "test"
 
             def generate(self, stage, *args):
+                if stage == "action":
+                    return action_response(args[-1]), {}
                 if stage == "answer":
                     raise RuntimeError("429 Too Many Requests")
                 return response(), {}
@@ -470,6 +536,23 @@ class PipelineTests(unittest.TestCase):
         payload, admitted = question_payload(question, ledger, 1000)
         self.assertIn(3, admitted)
         self.assertEqual(payload["known_variable_definitions"][0][:2], [1, "VH"])
+        self.assertLessEqual(sum(len(compact(source_row(ledger.sources[s]))) for s in admitted), 1000)
+
+    def test_full_chain_boundary_request_prioritizes_documented_constant_domain(self):
+        from dataagent2.provider import compact
+        from dataagent2.inputs import source_row
+        data = fixture()
+        for sid in range(4, 20):
+            data["sources"][sid] = {**data["sources"][1], "id": sid, "text": "Antibody A background " * 100}
+        data["sources"][20] = {**data["sources"][1], "id": 20, "page": 80, "text": "Constant domain SEQ ID 9: GQPKA"}
+        ledger = Ledger(data)
+        ledger.apply(response(), [1, 2, 3], "c1")
+        ledger.facts["sequences"].append({"seq": 9, "name": None, "region": "CH", "refs": [20], "value": "GQPKA"})
+        question = {"id": "q1", "targets": [{"item": "i1", "chain": "VH"}],
+                    "seq_ids": [2], "seq_id_scope": "full_chain", "kind": "boundary_or_definition"}
+        payload, admitted = question_payload(question, ledger, 1000)
+        self.assertIn(20, admitted)
+        self.assertEqual(payload["known_constant_definitions"], [[9, "CH", None, [20]]])
         self.assertLessEqual(sum(len(compact(source_row(ledger.sources[s]))) for s in admitted), 1000)
 
     def test_supervisor_resumes_rate_limits_and_stops_on_success(self):
@@ -545,6 +628,8 @@ class PipelineTests(unittest.TestCase):
 
             def generate(self, stage, instructions, payload):
                 assert "NEVER_FEED_REFERENCE" not in json.dumps(payload)
+                if stage == "action":
+                    return action_response(payload), {"cache_hit": False}
                 return response(), {"cache_hit": False}
 
             def usage(self):

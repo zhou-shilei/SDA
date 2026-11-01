@@ -56,6 +56,14 @@ def load_input(native_dir, reference_result=None):
         raise ValueError("Matching original OCR and document template are required")
     document_id = prepared["document_id"]
     sources, by_ref = {}, defaultdict(list)
+    integrated = template.get("agent", {}).get("table_planning") == "integrated"
+    table_titles = {str(item.get("table_id")): item for item in template.get("table_titles", [])
+                    if item.get("table_id")}
+    input_warnings = list(prepared.get("warnings", []))
+    # Apply only the new integrated plan. Historical benchmark inputs keep
+    # their original source numbering and replay behavior.
+    excluded_tables = {p["table_id"] for p in template.get("table_classifications", [])
+                       if p.get("decision") == "exclude"} if integrated else set()
 
     def add(ref, text, page, kind, table=None, row=None, col=None, metadata=None):
         if not isinstance(text, str) or not text.strip():
@@ -74,6 +82,8 @@ def load_input(native_dir, reference_result=None):
             metadata={"bbox": b.get("bbox", []), "source_file": b.get("source_file")})
     for table in prepared.get("tables", []):
         identity = str(table.get("source_id") or table.get("table_id"))
+        if identity in excluded_tables:
+            continue
         seen_cells = set()
         for ri, row in enumerate(table.get("rows", [])):
             for ci, cell in enumerate(row):
@@ -86,6 +96,8 @@ def load_input(native_dir, reference_result=None):
                     {"bbox": cell.get("bbox_pdf", cell.get("bbox", [])),
                      **{k: cell[k] for k in ("sequence_ocr", "vl_text", "text_styles") if k in cell}})
     for table in prepared.get("unstructured_tables", []):
+        if str(table["source_id"]) in excluded_tables:
+            continue
         raw = table.get("sda_source", {})
         text = raw.get("text") or raw.get("table_text") or ""
         add(str(table["source_id"]) + ":unstructured", text, table.get("page"), "unstructured",
@@ -93,6 +105,8 @@ def load_input(native_dir, reference_result=None):
 
     style_definitions = []
     for table in prepared.get("tables", []):
+        if str(table.get("source_id") or table.get("table_id")) in excluded_tables:
+            continue
         for source in table.get("sequence_style_sources", []):
             from document.sequence_styles import validate_style_source
             originals = {s["source_ref"]: s for s in sources.values()}
@@ -115,6 +129,17 @@ def load_input(native_dir, reference_result=None):
                 "parts": [{"s": sid, "start": value[:20], "end": value[-20:]}],
                 "refs": [sid, *by_ref.get(label["source_ref"], []),
                          *by_ref.get(source["sequence_style"]["original_ref"], [])]})
+
+    # A Template may cite the table ID for a printed caption. Append these
+    # sources after cells so all existing cell IDs remain stable, and preserve
+    # the chain/header evidence when this seed is passed to chunk Readers.
+    if integrated:
+        for table in prepared.get("tables", []):
+            identity = str(table.get("source_id") or table.get("table_id"))
+            title = table.get("caption") or table_titles.get(identity, {}).get("title", "")
+            if identity not in excluded_tables and identity not in by_ref:
+                add(identity, title, table.get("page"), "text", identity,
+                    metadata={"source_type": "table_caption"})
 
     def refs(values):
         found = []
@@ -142,6 +167,7 @@ def load_input(native_dir, reference_result=None):
                       "original_refs": link.get("evidence_refs", []), "origin": "template_seed"})
     experiments = []
     annotations = []
+    profile_bindings = defaultdict(set)
     for profile in template.get("assay_template", {}).get("region_profiles", []):
         experiments.append({"id": profile.get("experiment_id") or profile["protocol_id"],
             "table": profile["table_id"], "region_id": profile.get("region_id"),
@@ -150,6 +176,8 @@ def load_input(native_dir, reference_result=None):
             "conditions": profile.get("conditions"), "refs": refs(profile.get("evidence_refs", [])), "origin": "template_seed",
             "label": profile.get("label"), "protocol": profile.get("protocol_id")})
         experiment = experiments[-1]
+        for endpoint in profile.get("endpoints", []):
+            profile_bindings[(profile["table_id"], profile.get("region_id"), endpoint)].add(experiment["id"])
         keywords = list(profile.get("keywords", []))
         keywords += [{"category": category, "key": value} for category, values in (
             ("method", [profile.get("method")]), ("system", [profile.get("system")]),
@@ -168,12 +196,32 @@ def load_input(native_dir, reference_result=None):
     for e in entities:
         for name in [e["name"], *e["names"]]:
             name_index[name.casefold().strip()].add(e["id"])
+    unresolved_entities = {}
     for m in measurements:
         source_ids = refs([m.get("value_ref")])
         ids = name_index.get(m.get("antibody_id", "").casefold().strip(), set())
+        if integrated and source_ids and len(ids) != 1:
+            # Preserve a measured literal name even if an unsupported alias
+            # was rejected upstream. Scope the placeholder to its name cell;
+            # identical generic control labels do not prove shared identity.
+            name_refs = refs([m.get("entity_ref")])
+            name = m.get("antibody_id", "").strip()
+            if name and name_refs and all(sources[s]["table_id"] == m.get("source_table") for s in name_refs):
+                key = (m.get("source_table"), tuple(name_refs), name)
+                if key not in unresolved_entities:
+                    identity = "i_unresolved_" + digest(key)[:12]
+                    unresolved_entities[key] = identity
+                    entities.append({"id": identity, "native_id": None, "name": name,
+                        "names": [name], "role": "unknown", "refs": name_refs,
+                        "identity_status": "unresolved", "table_id": m.get("source_table")})
+                    input_warnings.append({"code": "measurement_entity_unresolved", "table_id": m.get("source_table"),
+                        "name": name, "source_ref": m.get("entity_ref"),
+                        "message": "Measured literal name retained with a source-scoped identity; no alias or sequence ownership inferred."})
+                ids = {unresolved_entities[key]}
         if not source_ids or len(ids) != 1:
             continue
-        observations.append({"item": next(iter(ids)), "experiment": None,
+        bindings = profile_bindings.get((m.get("source_table"), m.get("region_id"), m["metric"]), set()) if integrated else set()
+        observations.append({"item": next(iter(ids)), "experiment": next(iter(bindings)) if len(bindings) == 1 else None,
             "metric": m["metric"], "value": str(m.get("raw_text") or m["value"]),
             "unit": m.get("unit"), "s": source_ids[0],
             "refs": list(dict.fromkeys(source_ids + refs(m.get("header_refs", [])))),
@@ -199,7 +247,8 @@ def load_input(native_dir, reference_result=None):
             "sources": sources, "seed": seed, "signature": signature,
             "native_dir": str(native), "baseline": baseline,
             "reference_for_scoring_only": reference,
-            "input_warnings": prepared.get("warnings", []),
+            "input_warnings": input_warnings,
+            "excluded_table_ids": sorted(excluded_tables),
             "unstructured_table_count": len(prepared.get("unstructured_tables", [])),
             "style_definitions": style_definitions}
 

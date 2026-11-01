@@ -22,7 +22,7 @@ def build_index(data, *, entities=None, facts=None):
                    for s in facts.get("sequences", data.get("style_definitions", []))]
     items = []
     for entity in entities:
-        item = {k: copy.deepcopy(entity[k]) for k in ("id", "name", "names", "role", "refs") if k in entity}
+        item = {k: copy.deepcopy(entity[k]) for k in ("id", "name", "names", "role", "refs", "identity_status", "table_id") if k in entity}
         regions = {}
         for link in links:
             if link["item"] != entity["id"]:

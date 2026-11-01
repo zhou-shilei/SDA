@@ -139,6 +139,12 @@ def _caption_excerpt(text: str, limit: int = 240) -> str:
     sentence = _sentences(value)
     if sentence:
         value = sentence[0]
+        # Sentence splitting sees the period after "Table 1." as an end mark,
+        # even though it is part of the table label. Keep the following title
+        # fragment with it so the caption is useful without adjacent prose.
+        if (len(sentence) > 1
+                and re.fullmatch(r"(?:表|TABLE)\s*[0-9]+(?:\s*[-‐-―]\s*[0-9]+)?[.:：]?", value, re.I)):
+            value = f"{value} {sentence[1]}"
     header = re.search(
         r"\s+(?:抗体\s+链|突变号(?:\s|$)|实验组(?:\s|$)|SEQ\s*ID\s*NO|序列编号(?:\s|$))",
         value,
