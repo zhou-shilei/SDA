@@ -309,10 +309,11 @@ class WebDocumentFlowTests(unittest.TestCase):
         (self.root / "web").mkdir()
         workspace = Workspace(self.root / "web")
         server = StudioServer(("127.0.0.1", 0), workspace, python=sys.executable,
-                              ocr_device="cpu", text_backend="vl")
+                              ocr_device="cpu", text_backend="vl", table_workers=4)
         def command(identity, args, log):
             self.assertTrue(args[1].endswith("/src/document/run_document_pdf.py"))
             self.assertIn("--ocr-execution", args)
+            self.assertEqual(args[args.index("--table-ocr-workers") + 1], "4")
             report = runner.run_pdf(args[2], args[args.index("--run-dir") + 1], document_id=identity,
                                     device="cpu", text_backend="vl", template_agent=False)
             return int(report["status"] == "failed")
@@ -334,6 +335,7 @@ class WebDocumentFlowTests(unittest.TestCase):
             while workspace.jobs()["demo"]["status"] in {"queued", "processing"} and monotonic() < deadline:
                 sleep(0.02)
             self.assertEqual(workspace.jobs()["demo"]["status"], "completed", workspace.jobs()["demo"])
+            self.assertEqual(workspace.jobs()["demo"]["ocr_configuration"]["workers"], 4)
             with urlopen(base + "/api/patents/demo/structured.json") as response:
                 document = json.load(response)
             self.assertEqual(document["producer"], "SDA/pdf2doc")

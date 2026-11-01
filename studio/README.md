@@ -71,6 +71,14 @@ Reader 或问答调用失败会保留部分结果并标记任务失败，真实�
 全文与表格 OCR 在两个独立进程中同时执行；组装并导出结构化文档后，严格复用本轮证据运行
 dataagent 表格分类、全文证据检索、实验绑定、序列提取及有限修复，再导出原有 SDA 模板和数据集。页面显示真实的版面、
 OCR/抽取、模板、TST 和构建阶段，失败原因直接展示，运行日志可打开和刷新。
+Studio 的 GPU VL 表格 OCR 默认按空闲显存自动选择并发，受完整表格实测的并发上限约束，
+同时为并行全文 OCR 留出显存。CPU、非 VL 后端或无法查询显存时默认 1 路。
+`--table-workers N` 或 `SDA_STUDIO_TABLE_WORKERS=N` 可显式覆盖；独立 pdf2doc CLI 的默认值保持 1。
+选择结果、空闲显存与估算预算保存在任务 `ocr_configuration` 和日志
+`table-ocr-configuration` 中，实际参数通过 `--table-ocr-workers` 传给完整 PDF 入口。
+每批 VL 识别及序列裁行复核结束后释放闲置 CUDA 分配器缓存；模型权重继续复用，
+不改变图片分辨率、推理精度、解码或 OCR 结果。完整测试记录见
+`try/agent_handoff/benchmarks/49-Sructure-table-workers-20261102.json`。
 每次运行使用新的产物目录；网页不会自动重跑已有专利。
 统一结果位于运行目录 `document/structured/`；录入列表和运行报告可打开结构化 JSON，
 报告也提供 Markdown。接口为 `/api/patents/<id>/structured.json`、`structured.md`、`structured.txt`。

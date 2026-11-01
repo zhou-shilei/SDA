@@ -27,6 +27,7 @@ import uuid
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from studio.sda_data import Workspace, now, read_json, review_payload
 from studio.document_input import prepare_document_input
+from studio.ocr_settings import table_worker_settings
 from units.cache_policy import cache_enabled
 
 MAX_UPLOAD = 300 * 1024 * 1024
@@ -46,7 +47,9 @@ class StudioServer(ThreadingHTTPServer):
     daemon_threads = True
 
     def __init__(self, address, workspace, *, python=None, ocr_device="gpu:0", ocr_backend="vl",
-                 text_backend="paddle", text_workers=1, table_workers=1, ocr_parallel=True):
+                 text_backend="paddle", text_workers=1, table_workers=None, ocr_parallel=True):
+        if table_workers is not None and (type(table_workers) is not int or table_workers < 1):
+            raise ValueError("table_workers 必须为正整数")
         self.workspace = workspace
         self.python = python or sys.executable
         self.ocr_device, self.ocr_backend = ocr_device, ocr_backend
@@ -145,13 +148,17 @@ class StudioServer(ThreadingHTTPServer):
                     work = run / "document"
                     result_dir = work / "results" / identity
                     input_dir = work / "data" / identity
+                    ocr_settings = table_worker_settings(self.ocr_device, self.ocr_backend, self.table_workers,
+                        page_workers=self.text_workers if self.ocr_parallel else 1)
+                    log.write("table-ocr-configuration " + json.dumps(ocr_settings, ensure_ascii=False) + "\n")
+                    log.flush()
                     workspace.update_job(identity, input_dir=str(input_dir), text_context_dir=str(input_dir),
                                          result_dir=str(result_dir), structured_dir=str(work / "structured"),
-                                         ocr_branches={}, evidence_document_id=identity)
+                                         ocr_branches={}, evidence_document_id=identity, ocr_configuration=ocr_settings)
                     command = [self.python, str(workspace.root / "src/document/run_document_pdf.py"), str(source),
                                "--document-id", identity, "--run-dir", str(work), "--device", self.ocr_device,
                                "--text-backend", self.text_backend, "--table-backend", self.ocr_backend,
-                               "--text-workers", str(self.text_workers), "--table-ocr-workers", str(self.table_workers),
+                               "--text-workers", str(self.text_workers), "--table-ocr-workers", str(ocr_settings["workers"]),
                                "--ocr-execution", "parallel" if self.ocr_parallel else "serial"]
                     command.extend(["--extraction-mode", mode])
                     catalog = previous_inputs / "wipo/sequences.json"
@@ -602,9 +609,12 @@ def main():
     parser.add_argument("--ocr-backend", choices=("vl", "paddle"), default=os.environ.get("SDA_STUDIO_OCR_BACKEND", "vl"))
     parser.add_argument("--text-backend", choices=("vl", "paddle"), default=os.environ.get("SDA_STUDIO_TEXT_OCR_BACKEND", "paddle"))
     parser.add_argument("--text-workers", type=int, default=int(os.environ.get("SDA_STUDIO_TEXT_WORKERS", "1")))
-    parser.add_argument("--table-workers", type=int, default=int(os.environ.get("SDA_STUDIO_TABLE_WORKERS", "1")))
+    parser.add_argument("--table-workers", type=int, default=os.environ.get("SDA_STUDIO_TABLE_WORKERS"),
+                        help="表格 OCR 并发；默认按空闲显存自动选择，正整数可覆盖")
     parser.add_argument("--ocr-execution", choices=("parallel", "serial"), default=os.environ.get("SDA_STUDIO_OCR_EXECUTION", "parallel"))
     args = parser.parse_args()
+    if args.table_workers is not None and args.table_workers < 1:
+        parser.error("--table-workers 必须为正整数；省略时自动选择")
     workspace = Workspace(args.root)
     for identity, job in workspace.jobs().items():
         if job.get("status") in {"queued", "processing"}:

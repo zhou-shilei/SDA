@@ -7,7 +7,7 @@ import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -97,6 +97,39 @@ class TableOCRBatchTests(unittest.TestCase):
         self.assertEqual(evidence["table_id"], "T0")
         self.assertEqual(evidence["document_id"], "WO2026000001A1")
         self.assertEqual(evidence["batch_runtime"]["effective_model_batch_size"], 1)
+
+    def test_parallel_vl_releases_idle_cuda_cache_after_success_or_failure(self):
+        release = Mock()
+        paddle = SimpleNamespace(device=SimpleNamespace(cuda=SimpleNamespace(empty_cache=release)))
+        batch = [{**self.metadata[0], "image_path": str(self.images[0])}]
+        table_ocr.configure_ocr_worker(device="gpu:0")
+        row = {"table_id": "T0", "image_path": str(self.images[0])}
+        with patch.dict(sys.modules, {"paddle": paddle}), \
+                patch.object(table_ocr, "extract_table_evidence_batch", return_value=[row]):
+            result = table_ocr._recognize_table_batch(batch)
+        self.assertEqual(result[0]["status"], "success")
+        release.assert_called_once()
+        release.reset_mock()
+        with patch.dict(sys.modules, {"paddle": paddle}), \
+                patch.object(table_ocr, "extract_table_evidence_batch", side_effect=RuntimeError("inference failure")):
+            result = table_ocr._recognize_table_batch(batch)
+        self.assertEqual(result[0]["status"], "failed")
+        release.assert_called_once()
+        table_ocr.configure_ocr_worker(device="cpu")
+        release.reset_mock()
+        with patch.dict(sys.modules, {"paddle": paddle}):
+            table_ocr._release_table_cuda_cache()
+        release.assert_not_called()
+
+    def test_cache_cleanup_failure_preserves_the_recognized_table(self):
+        paddle = SimpleNamespace(device=SimpleNamespace(cuda=SimpleNamespace(empty_cache=Mock(side_effect=RuntimeError("cleanup failed")))))
+        batch = [{**self.metadata[0], "image_path": str(self.images[0])}]
+        table_ocr.configure_ocr_worker(device="gpu:0")
+        row = {"table_id": "T0", "image_path": str(self.images[0])}
+        with patch.dict(sys.modules, {"paddle": paddle}), \
+                patch.object(table_ocr, "extract_table_evidence_batch", return_value=[row]):
+            result = table_ocr._recognize_table_batch(batch)
+        self.assertEqual(result[0]["status"], "success")
 
     def pipeline(self):
         config = PipelineConfig(extraction_mode="document", text_pages_jsonl="unused.jsonl",

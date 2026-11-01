@@ -2960,6 +2960,23 @@ def _initialize_table_content_worker(device, threads, backend, batch_size, model
     configure_ocr_worker(device, threads, backend, batch_size, vl_model_dir=model_dir, sequence_model_root=sequence_model_root)
 
 
+def _release_table_cuda_cache():
+    """Let parallel VL predictors share idle allocator blocks between batches.
+
+    Predictor weights remain loaded. Only unused CUDA cache is released; image
+    size, precision, decoding and sequence refinement are unchanged.
+    """
+    paddle = sys.modules.get("paddle")
+    if _ocr_backend != "vl" or not _ocr_device.startswith("gpu:") or paddle is None:
+        return
+    try:
+        paddle.device.cuda.empty_cache()
+    except Exception as exc:
+        # Optional memory housekeeping must not discard an otherwise valid
+        # table, or conceal the original inference failure.
+        _table_ocr_event("cache_release_failed", error=f"{type(exc).__name__}: {exc}")
+
+
 def _recognize_table_batch(batch):
     """每批独立返回结果或错误，保持图片和证据身份对应。"""
     try:
@@ -2974,6 +2991,8 @@ def _recognize_table_batch(batch):
                          error=f"{type(exc).__name__}: {exc}")
         return [{"table_id": m["id"], "page": m["page"], "status": "failed",
                  "error": f"{type(exc).__name__}: {exc}"} for m in batch]
+    finally:
+        _release_table_cuda_cache()
 
 
 def _recognize_table_content(layout, layout_dir, output_dir, config, backend, batch_size, enabled, workers):
