@@ -1,0 +1,61 @@
+WO 2024/020591
+PCT/US2023/070790
+c)
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+d)
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+e)
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+f)
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+g)
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+h)
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8);
+i)
+SEQ ID NO:12 and SEQ ID NO:20 (AB-9);
+j)
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+k)
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+1)
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+m)
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+n)
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14)..
+[00760] In some embodiments, the polypeptide comprises a VH and VL pair does not
+comprise an amino acid sequence 100% identical to a Ví and VL pair selected from:
+a)
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+b)
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+c)
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+d)
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+e)
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+f)
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+g)
+SEQ ID NO:10 and SEQ ID NO:25 (AB-7);
+h)
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8);
+i)
+SEQ ID NO: 12 and SEQ ID NO:20 (AB-9);
+j)
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+k)
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+1)
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+m)
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+n)
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14)..
+Embodiments of the Disclosure
+1.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP),
+wherein the polypeptide has one or more properties selected from:
+157

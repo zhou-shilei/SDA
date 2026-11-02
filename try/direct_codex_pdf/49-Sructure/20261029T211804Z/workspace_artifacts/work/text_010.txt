@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+tyrosine, threonine and glutamic acid at amino acid residues 252, 254 and 256, respectively,
+wherein the amino acid residues are numbered according to the EU index as in Kabat.
+[0033] In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain (HC) comprising the amino acid sequence of SEQ ID
+NO:92;
+b)
+an antibody light chain (LC) comprising the amino acid sequence of SEQ ID
+NO:120, or
+both a) and b).
+[0034]
+In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain (HC) comprising the amino acid sequence of SEQ ID
+NO:106;
+b)
+an antibody light chain (LC) comprising the amino acid sequence of SEQ ID
+NO:120, or
+both a) and b).
+[0035]
+In some embodiments, a polypeptide specifically binds TSLP.
+[0036]
+In some embodiments, a polypeptide is a fusion protein.
+[0037]
+In some embodiments, the disclosure provides a polynucleotide encoding a
+polypeptide disclosed herein, a vector comprising such a polynucleotide, and/or a host cell
+comprising such a polynucleotide and/or vector.
+[0038] In some embodiments, the disclosure provides a composition (e.g., a
+pharmaceutical composition) comprising a polypeptide disclosed herein. In some
+embodiments, a composition further comprises one or more pharmaceutical excipients,
+diluents, or carriers. In some embodiments, a composition further comprises one or more
+additional therapeutic agents (e.g., an anti-inflammatory agent). In some embodiment, a
+polypeptide is conjugated (directly or by a linker) to one or more additional therapeutic
+agents (e.g., an anti-inflammatory agent). In some embodiments, one or more additional
+therapeutic agents comprise a corticosteroid, a beta-agonist, a muscarinic antagonist, an anti-
+inflammatory agent, an IL-4 and/or IL-13 antagonist (e.g., an antibody or antigen-binding
+fragment thereof targeting IL-13, IL-4 or IL-4R), or a combination thereof.
+[0039] The disclosure also provides, among other things, a method of treating a subject in
+need thereof (e.g., a subject having a TSLP-associated disease or condition), comprising
+administering to the subject an effective amount of a polypeptide disclosed herein and/or a
+9

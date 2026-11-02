@@ -1,0 +1,54 @@
+{
+  "signature": "d67a5c9954c6bb52dddbd8a7b4d3ea3a58a82ceb3ffe978bd4216eb47f31ff12",
+  "case": {
+    "id": "original_table_230",
+    "kind": "original_table",
+    "page": 230,
+    "prompt": "table",
+    "path": "/project_c20250601/252705034/SDA/report/images/WO2024020591A9_table-0023-page-0230.png",
+    "image_sha256": "f60e48640aa4d2ac8a82a6b7ffa030cc616d5f5f0c00c6aa9e78307194a31ba8"
+  },
+  "text": "<table><tr><td>Reference</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 3)</td></tr><tr><td>AB-1</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 4)</td></tr><tr><td>AB-2</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 5)</td></tr><tr><td>AB-3</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 6)</td></tr><tr><td>AB-4</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS (SEQ</td><td>ID NO: 7)</td></tr><tr><td>AB-5</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 8)</td></tr><tr><td>AB-6</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 9)</td></tr><tr><td>AB-7</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 10)</td></tr><tr><td>AB-8</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 11)</td></tr><tr><td>AB-9</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 12)</td></tr><tr><td>AB-10</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 13)</td></tr><tr><td>AB-11</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS (SEQ</td><td>ID NO: 14)</td></tr><tr><td>AB-12</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 15)</td></tr><tr><td>AB-13</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 16)</td></tr><tr><td>AB-14</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 17)</td></tr></table>",
+  "seconds": 19.714,
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/report/images/WO2024020591A9_table-0023-page-0230.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 1667,
+    "height": 3448,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "table",
+        "block_content": "<table><tr><td>Reference</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 3)</td></tr><tr><td>AB-1</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 4)</td></tr><tr><td>AB-2</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 5)</td></tr><tr><td>AB-3</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 6)</td></tr><tr><td>AB-4</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS (SEQ</td><td>ID NO: 7)</td></tr><tr><td>AB-5</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 8)</td></tr><tr><td>AB-6</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 9)</td></tr><tr><td>AB-7</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 10)</td></tr><tr><td>AB-8</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 11)</td></tr><tr><td>AB-9</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 12)</td></tr><tr><td>AB-10</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS (SEQ</td><td>ID NO: 13)</td></tr><tr><td>AB-11</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS (SEQ</td><td>ID NO: 14)</td></tr><tr><td>AB-12</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 15)</td></tr><tr><td>AB-13</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 16)</td></tr><tr><td>AB-14</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS (SEQ</td><td>ID NO: 17)</td></tr></table>",
+        "block_bbox": [
+          0,
+          0,
+          1667,
+          3448
+        ],
+        "block_id": 0,
+        "block_order": null,
+        "group_id": 0
+      }
+    ]
+  }
+}

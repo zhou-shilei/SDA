@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+X14 is not I,
+or any combination of the foregoing
+8.
+The polypeptide of Embodiment 7, further comprising an immunoglobulin light chain
+variable domain (VL) comprising the amino acid sequence of SEQ ID NO:18,
+wherein:
+X15 is not N;
+X16 is not L;
+X17 is not S;
+X18 is not K;
+X19 is not S;
+X20 is not V;
+X21 is not W;
+X22 is not D;
+X23 is not S;
+X24 is not S;
+X25 is not S;
+X26 is not D;
+X27 is not H,
+or any combination of the foregoing
+9.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP).
+comprising an immunoglobulin heavy chain variable domain (VH) comprising the
+amino acid sequence of SEQ ID NO:2, wherein:
+X1 is I or V;
+X2 is W or S;
+X3 is D or S;
+X4 is S, T, Y or A;
+X5 is N, Y, D or T;
+X6 is K, T or I;
+X7 is A, S or T;
+X8 is A or S;
+X9 is L, D, E or S;
+X10 is V or I;
+161

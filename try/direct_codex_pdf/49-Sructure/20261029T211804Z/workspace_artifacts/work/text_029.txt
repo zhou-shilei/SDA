@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+0.8%, 1%, 2%, 3%, 4%, 5%, 6%, 7%, 8%, 9%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%,
+50%, 55%, or more amino acid percent identity.
+[00126] In some embodiments, a comparator polypeptide is an antibody comprising:
+a)
+a heavy chain complementarity determining region 1 (HCDR1), a heavy chain
+complementarity determining region 2 (HCDR2) and a heavy chain
+complementarity determining region 3 (HCDR3) sequences of SEQ ID
+NO:31, SEQ ID NO:33 and SEQ ID NO:48, respectively;
+b)
+a light chain complementarity determining region 1 (LCDR1), a light chain
+complementarity determining region 2 (LCDR2) and a light chain
+complementarity determining region 3 (LCDR3) sequences of SEQ ID NO:59,
+SEQ ID NO:67 and SEQ ID NO:69, respectively, or
+both a) and b).
+[00127] In some embodiments, a comparator polypeptide is an antibody comprising:
+a)
+a HCDR1, a HCDR2 and a HCDR3 sequences of SEQ ID NO:31, SEQ ID
+NO:33 and SEQ ID NO:48, respectively; and
+b)
+a LCDR1, a LCDR2 and a LCDR3 sequences of SEQ ID NO:59, SEQ ID
+NO:67 and SEQ ID NO:69, respectively.
+[00128] See Table 3 and FIG. 2 for SEQ ID NOs:31, 33 and 48. See Table 3 and FIG. 3 for
+SEQ ID NOs:59, 67 and 69.
+[00129] In some embodiments, a comparator polypeptide is an antibody comprising:
+a)
+an immunoglobulin heavy chain variable region (Ví) domain comprising the
+amino acid sequence of SEQ ID NO:3;
+b)
+an immunoglobulin light chain variable region (VL) domain comprising the
+amino acid sequence of SEQ ID NO:19, or
+both a) and b).
+[00130] In some embodiments, a comparator polypeptide is an antibody comprising:
+a)
+an immunoglobulin heavy chain variable region (Ví) domain comprising the
+amino acid sequence of SEQ ID NO:3; and
+b)
+an immunoglobulin light chain variable region (VL) domain comprising the
+amino acid sequence of SEQ ID NO:19.
+[00131]
+See Table 1 and FIG. 2 for SEQ ID NO:3. See Table 2 and FIG. 3 for SEQ ID
+NO:19.
+28

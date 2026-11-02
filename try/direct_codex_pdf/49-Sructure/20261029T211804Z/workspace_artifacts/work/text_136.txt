@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+substitutions (e.g., up to 1, 2, or 3 highly conservative substitutions), relative a HCDR1, a
+HCDR2, a HCDR3, a LCDR1, a LCDR2 and a LCDR3 of AB-1, AB-2, AB-3, AB-4, AB-5,
+AB-6, AB-7, AB-8, AB-9, AB-10, AB-11, AB-12, AB-13 or AB-14.
+[00677] In particular embodiments, the CBO polypeptide comprises a HCDR1, a HCDR2,
+a HCDR3, a LCDR1, a LCDR2 and a LCDR3 having 100% sequence identity to a HCDR1, a
+HCDR2, a HCDR3, a LCDR1, a LCDR2 and a LCDR3 of AB-1, AB-2, AB-3, AB-4, AB-5,
+AB-6, AB-7, AB-8, AB-9, AB-10, AB-11, AB-12, AB-13 or AB-14.
+[00678]In some embodiments, the CBO polypeptide comprises:
+a)
+a HCDR1 comprising at least 1 amino acid substitution relative to the amino
+acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:33-46 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:34-46);
+c)
+a HCDR3 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:48-57 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:49-57);
+d)
+a LCDR1 comprising at least 1 amino acid substitution relative to the amino
+acid sequence set forth in SEQ ID NOs:59-66 (e.g., at least one amino acid
+sequence set forth in SEQ ID NOs:60-66);
+e)
+a LCDR2 comprising at least 1 amino acid substitution relative to the amino
+acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:69-80 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:70-80);
+or a combination of the foregoing.
+[00679]In some embodiments, the CBO polypeptide comprises:
+a)
+a HCDR2 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:33-46 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:34-46);
+b)
+a HCDR3 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:48-57 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:49-57);
+135

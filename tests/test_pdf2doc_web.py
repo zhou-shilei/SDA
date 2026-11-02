@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import socket
 import subprocess
 import sys
 import tempfile
@@ -26,6 +27,7 @@ from document import run_document_pdf as runner
 from pipeline import BatchPipeline, PipelineConfig
 from studio.sda_data import Workspace
 from studio.server import StudioServer
+from studio.queue_worker import QueueWorker
 import test_pdf2doc_document as fixture
 
 
@@ -128,7 +130,9 @@ class WebFailureReportingTests(unittest.TestCase):
                 server.server_close()
 
     def test_restart_does_not_stop_server_with_active_job(self):
-        with tempfile.TemporaryDirectory() as temporary:
+        with tempfile.TemporaryDirectory() as temporary, socket.socket() as reserved_port:
+            # Keep the health probe away from a developer's actual Studio.
+            reserved_port.bind(("127.0.0.1", 0))
             root = Path(temporary)
             (root / "studio").mkdir()
             (root / ".studio").mkdir()
@@ -137,7 +141,8 @@ class WebFailureReportingTests(unittest.TestCase):
             (root / ".studio/studio.pid").write_text(str(os.getpid()))
             (root / ".studio/jobs.json").write_text(json.dumps({"demo": {"status": "processing"}}))
             result = subprocess.run(["bash", str(script), "restart"], capture_output=True, text=True,
-                                    env={**os.environ, "SDA_STUDIO_PYTHON": sys.executable}, timeout=5)
+                                    env={**os.environ, "SDA_STUDIO_PYTHON": sys.executable,
+                                         "SDA_STUDIO_PORT": str(reserved_port.getsockname()[1])}, timeout=5)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("解析任务仍在运行（demo）", result.stderr)
 
@@ -170,6 +175,45 @@ class WebFailureReportingTests(unittest.TestCase):
                     self.assertIn(expected, job["error"])
                     self.assertEqual(job["ocr_branches"], {"text": "completed", "table": "failed"})
                     self.assertIn(job["error"], (run / "pipeline.log").read_text())
+                finally:
+                    server.server_close()
+
+    def test_extraction_failure_reaches_the_job_with_stage_details_and_saved_results(self):
+        detail = {"stage": "action", "message": "ActionAgent 整合失败：序列片段无法唯一定位原文",
+                  "validation_paths": ["/dataset/sequences/47"]}
+        for operation in ("pipeline", "analyze"):
+            with self.subTest(operation=operation), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                workspace = Workspace(root)
+                run = workspace.state / "patents/demo/runs/test"
+                previous = root / "previous"
+                pages = previous / "page_ocr/pages.jsonl"
+                pages.parent.mkdir(parents=True)
+                pages.write_text("{}\n")
+                workspace.update_job("demo", extraction_engine="dataagent2", input_dir=str(previous),
+                    text_context_dir=str(run / "data/demo"), previous_input_dir=str(previous),
+                    previous_result_dir=str(previous), structured_dir=str(previous))
+                server = StudioServer(("127.0.0.1", 0), workspace)
+
+                def command(identity, args, log):
+                    target = run / "document/results" if operation == "pipeline" else run / "results"
+                    runner.save(target / "_batch_summary.json", {"status": "failed",
+                        "errors": {"demo": detail["message"]}, "failure_details": {"demo": detail}})
+                    runner.save(target / "demo/dataset.json", {"status": "partial", "records": [{"value": "7"}]})
+                    return 1
+
+                try:
+                    with patch.object(server, "command", command), \
+                         patch.object(workspace, "_build", return_value={"pdf": None}), \
+                         patch.object(server, "table_ocr_source", return_value=previous), \
+                         patch("studio.pipeline_executor.prepare_document_input"):
+                        server.run_pipeline("demo", run, operation)
+                    job = workspace.jobs()["demo"]
+                    self.assertEqual(job["status"], "failed")
+                    self.assertIn(detail["message"], job["error"])
+                    self.assertEqual(job["failure_details"], detail)
+                    target = run / "document/results" if operation == "pipeline" else run / "results"
+                    self.assertEqual(json.loads((target / "demo/dataset.json").read_text())["records"], [{"value": "7"}])
                 finally:
                     server.server_close()
 
@@ -331,6 +375,9 @@ class WebDocumentFlowTests(unittest.TestCase):
                               headers={"Content-Type": f"multipart/form-data; boundary={boundary}"})
             with urlopen(request, timeout=10) as response:
                 self.assertEqual(response.status, 202)
+            self.assertEqual(workspace.jobs()["demo"]["status"], "queued")
+            worker = QueueWorker(workspace, executor_factory=lambda *_args, **_kwargs: server)
+            self.assertTrue(worker.run_one())
             deadline = monotonic() + 10
             while workspace.jobs()["demo"]["status"] in {"queued", "processing"} and monotonic() < deadline:
                 sleep(0.02)

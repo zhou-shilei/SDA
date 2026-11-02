@@ -1,0 +1,45 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a non-CDR residue (e.g., within a framework region), of any one or more of
+SEQ ID NOs:20-30.
+[00181] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of any one of SEQ ID NOs:4-17;
+and
+b)
+a VL comprising the amino acid sequence of any one of SEQ ID NOs:20-30.
+[00182] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising the amino acid sequence of any one of SEQ ID NOs:4-17;
+and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:19.
+[00183] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:3; and
+b)
+a VL comprising the amino acid sequence of any one of SEQ ID NOs:20-30.
+[00184] In some embodiments, a polypeptide comprises:
+a)
+a VH that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of any one or more of SEQ
+ID NOs:4-7;
+b)
+a VL that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of any one or more of SEQ
+ID NOs:20-22, or
+both a) and b).
+[00185] In some embodiments, a polypeptide comprises:
+a)
+a VH that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of any one or more of SEQ
+ID NOs:4-7; and
+b)
+a VL that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of any one or more of SEQ
+ID NOs:20-22.
+[00186]In some embodiments, a polypeptide comprises:
+39

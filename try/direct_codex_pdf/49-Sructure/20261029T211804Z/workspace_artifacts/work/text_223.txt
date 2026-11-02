@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+scoring a polypeptide comprising an amino acid sequence with a
+computationally binding optimized (CBO) model for a functional property relating to
+modulating the activity of a target molecule, the CBO model:
+for each amino acid position of the amino acid sequence of the
+polypeptide, calculating a plurality of energy scores, the energy scores based
+on the amino acid at a given position in the amino acid sequence,
+adding each energy score calculated to an array,
+generating a normalized sum of the energy scores for each position,
+and
+generating a score of the polypeptide by summing each energy score
+calculated, the score representing the functional property of the polypeptide, the
+functional property relating to the polypeptide modulating the activity of the target
+molecule.
+32.
+The computer-implemented method of Claim 31, further comprising:
+calculating a logarithm of each energy score calculated;
+wherein summing each energy score calculated is performed by summing the
+logarithms of each energy score calculated;
+wherein the energy scores are further calculated based on having substituted
+the amino acid at the given position in the amino acid sequence with each of a
+plurality of different amino acids.
+33.
+The computer-implemented method of any of Claims 31-32, wherein scoring the
+polypeptide using the CBO model is implementable by the script of Appendix A, and
+the CBO model is substantially similar to the table of Appendix B.
+34.
+The method of any of Claims 31-33, wherein the functional property is at least one of
+a binding affinity for a thymic stromal lymphopoietin (TSLP) polypeptide
+characterized by a KD of 10 pM or less; (optionally, as measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP polypeptide;
+a neutralizing activity against the TSLP polypeptide (optionally, a full-length
+human TSLP); or
+an inhibitory activity against TSLP-mediated signaling
+222

@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+corrected and transformed to percent inhibition of signal. ICso values were obtained by non-
+linear regression curve fitting, set up as reported in Graphpad Prism 9.2.0 software
+documentation. N=3 independent experiments with 3 technical replicates. Functional potency
+in blocking receptor binding to hTSLP cytokine are displayed as IC50 (μg/mL) with 95%
+confidence intervals. As shown in FIG. 11A and Table 13, AB-2b has improved functional
+potency compared to the Reference Antibody.
+Example 11. Cyno (TSLPR/IL-7Rα) Ba/F3 Assay
+[00804]Materials
+[00805] Antibodies: (1) AB-2a (Lot# REQ0000500); (2) AB-2b (1ot#1098-260922-02,
+production#GFA-002); (3) the Reference Antibody (lot# 1143666, SN: 100000005714, GTIN:
+00355513112017); (4) IgG1 isotype (BioLegend, Cat#403502, Lot# B372653); (5) IgG2
+isotype (BioLegend, Cat#400264, Lot#B341585).
+[00806] Antigens: (1) Cyno TSLP (AGN-000144, ACRO Biosystems); (2) Cyno TSLP
+His Tag (Cat# TSP-C52H8, Lot# 3509-2182F1-12T)
+[00807] Cell line: BA/F3 cell line with STAT5 Reporter (Luc) (BPS Bioscience Inc., Cat
+No: 79772 Lot No: 200504#18), transfected with cyno TSLPR/cyno IL-7Rα expression
+vector from GenScript Biotech
+[00808] Assay plates: Cell culture microplate, 96-well, PS, F-bottom, white, CELLSTAR®
+with lid (Greiner bio-one, Kremsmünster, Austria, Cat no: 655083, Lot no: E211036T).
+[00809] Assay Medium: RPMI+ GlutaMAX (1x) (RPMI Medium 1640, Gibco, Billings,
+Montana, Cat no: 61870-036, Lot No: 2472360) +10% FBS (R&D Systems, Minneapolis,
+MN, Cat no: S12495H Lot no: A21012) + 1% Penicillin-Streptomycin (Gibco, Cat no:15140-
+122, Lot no: 2441835)
+[00810] Luciferase reagent: One-step Luciferase Assay system (BPS Bioscience Inc., Cat
+No: 78262, Lot No:230201).
+[00811] To assess functional potency of anti-TSLP mAbs in vitro a Ba/F3 reporter cell line
+expressing cynomolgus monkey TSLP receptor and IL-7Rα with a luciferase readout was
+created. TSLP receptor (TSLPR) forms a heterodimeric complex with the IL-7Rα (CD127)
+and signals through STAT5 after binding of TSLP. A cynoIL-7Rα-P2A-cynoTSLPR
+construct was synthesized and cloned into a pcDNA3.1(+)/Hygro plasmid. The plasmid was
+transfected into the Ba/F3-STAT5-Luc cell line, which contains a STS5-inducible luciferase
+reporter, to create a stable cell line expressing cynomolgus TSLPR and cynoIL-7Rα. Ba/F3-
+193

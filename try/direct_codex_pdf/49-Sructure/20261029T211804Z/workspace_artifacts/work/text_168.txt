@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+37.
+The polypeptide of any one of Embodiments 1-36, wherein the polypeptide is an
+antibody or an antigen-binding fragment thereof, optionally comprising an Fc domain,
+in particular embodiments wherein the Fc domain comprises an effector function
+mutation (see, e.g., Dumet et al. MABS 2019 (particularly Tables 1 and 2 therein),
+WO02060919), in more particular embodiments wherein the Fc domain comprises LS
+(M428L/N434S by Kabat) or YTE (M252Y/S254T/T256E by Kabat numbering)
+38.
+The polypeptide of Embodiment 37, wherein the antigen binding fragment is selected
+from Fab, F(ab')2, Fab', scFv, or Fv.
+39.
+The polypeptide of Embodiment 37, further comprising an antibody heavy chain
+constant domain sequence, an antibody light chain constant domain sequence, or both
+an antibody heavy chain constant domain sequence and an antibody light chain
+constant domain sequence.
+40.
+The polypeptide of Embodiment 39, wherein the antibody heavy chain constant
+domain is selected from the group consisting of an IgA constant domain, an IgD
+constant domain, an IgE constant domain, an IgG constant domain and an IgM
+constant domain.
+41.
+The polypeptide of Embodiment 40, wherein the antibody heavy chain constant
+domain is an IgG2 heavy chain constant domain
+42.
+The polypeptide of any one of Embodiments 39-41, further comprising an antibody
+light chain constant domain selected from the group consisting of a κ constant domain
+or a λ constant domain.
+43.
+The polypeptide of Embodiment 42, wherein the antibody light chain constant domain
+is a λ light chain constant domain.
+44.
+The polypeptide of any one of Embodiments 1-43, wherein the polypeptide is
+conjugated to a heterologous moiety.
+45.
+The polypeptide of Embodiment 44, wherein the heterologous moiety is a therapeutic
+agent, a diagnostic agent or a combination thereof
+167

@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+94.
+The computer-implemented method of any of Embodiments 87-93, wherein scoring
+the polypeptide further includes:
+extracting a plurality of positions from the amino acid sequence, the plurality
+of positions being positions where mutations were applied during training of the CBO
+model;
+wherein calculating the plurality of energy scores is performed on the
+extracted plurality of positions.
+95.
+The computer-implemented method of any of Embodiments 87-94, wherein scoring
+the polypeptide further includes scoring a pair of amino acid sequences, and scoring
+the polypeptide further comprises:
+aligning a first amino acid sequence and second amino acid sequence of the
+pair of amino acid sequences such that the first amino acid sequence and second
+amino acid sequence are the same length and that given sections of the first amino
+acid sequence and second amino acid sequence are the same.
+96.
+The computer-implemented method of any of Embodiments 87-95, wherein the
+plurality of energy scores includes a first-order energy score associated with each
+amino acid being at its position and, for each pair of amino acid positions of the
+amino acid sequence, a second-order energy score associated with the pair of amino
+acid positions, the first-order energy score and second-order energy score calculated
+based on corresponding entries of a trained first- and second- order energy score table
+of outputted weights of a model trained by a plurality of known amino acid sequences
+and corresponding properties of the known amino acid sequences.
+97.
+The computer-implemented method of any of Embodiments 87-96, further
+comprising:
+returning, based on the score, a flag indicating whether the sequence has the
+functional property associated with the polypeptide
+98.
+The computer-implemented method of any of Embodiments 87-97, wherein the
+functional property is at least one of:
+a binding affinity for a thymic stromal lymphopoietin (TSLP) polypeptide
+characterized by a KD of 10 pM or less; (optionally, as measured by KinExA);
+175
+RECTIFIED SHEET (RULE 91)

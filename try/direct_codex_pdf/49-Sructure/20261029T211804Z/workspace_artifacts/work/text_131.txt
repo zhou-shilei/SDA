@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+AB-1 through AB-14 are illustrated in Tables 1 and 2. All of the proteins AB-1 through AB-
+14 were or would be verified by the script because their Potts model scores were above -7.7.
+[00655] In view of Table 10, a person of ordinary skill in the art can recognize that
+equivalent Potts model scores, such as scores having a different scale or being multiplied by
+negative one, may result in scores being at or above or below a different threshold.
+[00656] FIG. 13 illustrates a computer network or similar digital processing environment
+in which embodiments of the present invention may be implemented.
+[00657]Client computer(s)/devices 50 and server computer(s) 60 provide processing,
+storage, and input/output devices executing application programs and the like. The client
+computer(s)/devices 50 can also be linked through communications network 70 to other
+computing devices, including other client devices/processes 50 and server computer(s) 60.
+The communications network 70 can be part of a remote access network, a global network
+(e.g., the Internet), a worldwide collection of computers, local area or wide area networks,
+and gateways that currently use respective protocols (TCP/IP, Bluetooth®, etc.) to
+communicate with one another. Other electronic device/computer network architectures are
+suitable
+[00658] FIG. 14 is a diagram of an example internal structure of a computer (e.g., client
+processor/device 50 or server computers 60) in the computer system of FIG. 13. Each
+computer 50, 60 contains a system bus 79, where a bus is a set of hardware lines used for data
+transfer among the components of a computer or processing system. The system bus 79 is
+essentially a shared conduit that connects different elements of a computer system (e.g.,
+processor, disk storage, memory, input/output ports, network ports, etc.) that enables the
+transfer of information between the elements. Attached to the system bus 79 is an I/O device
+interface 82 for connecting various input and output devices (e.g., keyboard, mouse, displays,
+printers, speakers, etc.) to the computer 50, 60. A network interface 86 allows the computer
+to connect to various other devices attached to a network (e.g., network 70 of FIG. 13).
+Memory 90 provides volatile storage for computer software instructions 92 and data 94 used
+to implement some embodiments of the present invention (e.g., CBO determination script,
+Potts model, model weights code detailed above and in Appendices A and B). Disk storage
+95 provides non-volatile storage for computer software instructions 92 and data 94 used to
+implement some embodiments of the present invention. A central processor unit 84 is also
+attached to the system bus 79 and provides for the execution of computer instructions.
+130

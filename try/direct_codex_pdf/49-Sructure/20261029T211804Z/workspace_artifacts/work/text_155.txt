@@ -1,0 +1,51 @@
+WO 2024/020591
+PCT/US2023/070790
+[00745] In some embodiments, the polypeptide is scorable by the script of Computer
+Program Listing Appendix A.
+[00746] In some embodiments, the predetermined threshold is the logarithmic probability
+that the sequence inputted to the script would occur given the weights of the Potts model.
+[00747] In some embodiments, a CBO script assigning the score to the polypeptide
+includes receiving a trained first- and second- order energy score table of outputted weights
+of a model trained by a plurality of known amino acid sequences and corresponding
+properties of the known amino acid sequences.
+[00748]In some embodiments, the polypeptide comprises an immunoglobulin heavy chain
+variable domain (Ví) and an immunoglobulin light chain variable domain (VL).
+[00749]In some embodiments, the polypeptide has one or more properties selected from:
+a)
+a binding affinity for the TSLP characterized by a KD of 10 pM or less (e.g., as
+measured by KinExA);
+b)
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP;
+c)
+a neutralizing activity against the TSLP (e.g., a full-1ength human TSLP); or
+d)
+an inhibitory activity against TSLP-mediated signaling,
+e)
+or a combination of the foregoing.
+[00750]In some embodiments, the score being above the particular threshold represents
+that the functional property is met for the given polypeptide.
+[00751] In some embodiments, the CBO model outputs a score that is equal to or above a
+score from the CBO model of one or more of a reference polypeptide that comprises a Ví and
+VL pair selected from:
+a)
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+b)
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+c)
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+d)
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+e)
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+f)
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+g)
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+h)
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8)
+i)
+SEQ ID NO:12 and SEQ ID NO:20 (AB-9);
+j)
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+154

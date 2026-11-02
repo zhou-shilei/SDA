@@ -212,21 +212,40 @@ class DataagentMainTests(unittest.TestCase):
         self.assertEqual(dataset["coverage"]["covered_result_cells"], 3)
 
     def test_model_reviews_survive_export_and_studio_without_numbering_duplication(self):
-        self.case.test_semantic_graph_with_scripted_provider_checks_real_contracts()
-        native = self.root / "semantic"
+        self.run_main()
+        native = Path(json.loads((self.output / "dataset.json").read_text())["dataagent_directory"])
         state = json.loads((native / "agent_state.json").read_text())
-        validation = next(v for v in state["construct_validations"] if v["construct_key"] == "Ab1")
+        identity = next(r["canonical_entity_key"] for r in json.loads((native / "dataset.json").read_text())["records"]
+                        if r["antibody_id"] == "Ab1")
+        # This test exercises export, so supply final addressed sequences directly.
+        resolved = {"construct_key": identity, "sequence_resolution": {}}
+        for chain, sequence in (("vh", "EVQL" + "ACDF" * 24), ("vl", "DIQM" + "ACDF" * 24)):
+            ref = "block:test-" + chain
+            state.setdefault("document_structure", {}).setdefault("sources", {})[ref] = {
+                "text": "Ab1 " + chain.upper() + " variable sequence: " + sequence,
+                "page": 1, "kind": "document_block"}
+            resolved[chain] = sequence
+            resolved["sequence_resolution"][chain] = {"source_scope": "variable", "evidence_refs": [ref]}
+        state["resolved_sequences"] = [resolved]
+        validation = {"construct_key": identity, "agent_review": {"status": "passed"},
+                      "overall_review_status": "manual_review", "pair_status": "review"}
+        state["construct_validations"] = [validation]
         validation["anarci_review"] = {"status": "passed", "chains": {"VH": {"domains": [
             {"chain_type": "H", "regions": {"CDR3": "ACDF"}, "numbering": [{"position": 105, "residue": "A"}]}]}}}
         validation["esm2_review"] = {"status": "manual_review", "chains": {"VH": {
             "metric_status": "scored", "mean_pll": -1.2345, "pseudo_perplexity": 3.4367}}}
-        state["sequence_evaluation"] = {"status": "completed", "summary": {"construct_count": 2}}
+        validation["ophiuchus_review"] = {"status": "manual_review", "mode": "single", "chains": {"VH": {
+            "metric_status": "scored", "mean_pll": -0.4321, "position_scores": [{"position": 1}],
+            "source_hashes": {"native.py": "hash"}}}}
+        state["sequence_evaluation"] = {"status": "completed", "summary": {"construct_count": 1}}
         (native / "agent_state.json").write_text(json.dumps(state))
         exported = export_sda_result("DOC", native, self.output, self.root, TokenUsageRecorder().report())
         self.assertEqual(exported["sequence_evaluation"]["status"], "completed")
         record = next(r for r in Workspace(self.root)._build("DOC", self.output, self.root)["records"] if r["antibody_id"] == "Ab1")
         self.assertEqual(record["anarci_review_status"], "passed")
         self.assertEqual(record["esm2_review"]["chains"]["VH"]["mean_pll"], -1.2345)
+        self.assertEqual(record["ophiuchus_review"]["chains"]["VH"]["mean_pll"], -0.4321)
+        self.assertNotIn("position_scores", record["ophiuchus_review"]["chains"]["VH"])
         self.assertNotIn("numbering", record["anarci_review"]["chains"]["VH"]["domains"][0])
         self.assertIn("numbering", validation["anarci_review"]["chains"]["VH"]["domains"][0])
 

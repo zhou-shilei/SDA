@@ -1,0 +1,28 @@
+{
+  "signature": "58323a868d6a1cb01b7924c79e441c24afc19ebd5f489d74e380dbebd27e92c6",
+  "case": {
+    "id": "AB-1_restore_bottom_only",
+    "item": "AB-1",
+    "variant": "restore_bottom_only",
+    "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_only.png",
+    "image_sha256": "68fe707e5bc2a3f092f5f88fd9ebc2701e5d0f21273d60dad76a7d525d32e463",
+    "size": [
+      1815,
+      48
+    ]
+  },
+  "text": "MDIWGQGTMVTVSS",
+  "value": "MDIWGQGTMVTVSS",
+  "exact": true,
+  "edit_distance": 0,
+  "confidence": 0.9952034950256348,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_only.png",
+      "page_index": null,
+      "rec_text": "MDIWGQGTMVTVSS",
+      "rec_score": 0.9952034950256348
+    }
+  },
+  "seconds": 0.0121
+}

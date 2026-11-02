@@ -1,0 +1,34 @@
+W0 2024/020591
+PCT/US2023/070790
+99.3%, 99.4%, 99.5%, 99.6%, 99.7%, 99.8%, or 99.9% sequence identity to a wildtype TSLP
+protein (e.g., SEQ ID NO:1 or SEQ ID NO:83). In some embodiments, a mutant or
+engineered TSLP protein comprises an amino acid sequence that has about 90-99.9%, 90-
+99.8%, 92-99.8%, 92-99.6%, 94-99.6%, 94-99.5%, 95-99.5%, 95-99.4%, 96-99.4%, 96-
+99.2%, 97-99.2% or 97-99% sequence identity to a wildtype TSLP protein.
+[00122] In some embodiments, a polypeptide binds to a modified TSLP protein.
+[00123] In some embodiments, a polypeptide is capable of binding to one or more epitope
+residues in a TSLP protein (e.g., a full-length human TSLP), for example, 1, 2, 3, 4, 5, 6, 7, 8,
+9, 10, 11, 12, 13, 14, or 15 epitope residues of a TSLP protein. In some embodiments, a
+polypeptide is capable of bindingto one or more epitope residues (e.g., 1, 2, 3, 4, 5, 6, 7, 8, 9,
+10, 11, 12, 13, 14, or all 15 residues) selected from N64, N65, T66, V67, S68, C69, S70,
+N71, R72, H74, C75, E78, R150, F151 and R153 of SEQ ID NO:1.
+[00124] In some embodiments, a polypeptide binds to one or more epitope residues of a
+TSLP protein (e.g., one or more epitope residues in SEQ ID NO:1). In some embodiments, a
+polypeptide binds to one or more epitope residues (e.g., 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+14, or al1 15 residues) selected from N64, N65, T66, V67, S68, C69, S70, N71, R72, H74,
+C75, E78, R150, F151 and R153 of SEQ ID NO:1.
+Comparator Polypeptides
+[00125] As used herein, the term “comparator" or “comparator polypeptide" refers to a
+polypeptide (e.g., immunoglobulin molecule) that specifically binds to a TSLP protein and is
+not a polypeptide disclosed herein. The sequence of a comparator polypeptide and a
+polypeptide disclosed herein may be compared to illustrate structural differences between
+them (e.g., differences at one or more amino acid positions, such as amino acid substitutions).
+Polypeptides disclosed herein have more than insubstantial differences (e.g., one or more
+substantial differences) in comparison to a comparator polypeptide, such that, polypeptides
+disclosed herein will, under controlled conditions, exhibit one or more (i.e., one, two, or all
+three) of: a different function, in a different way, to achieve a different result, in comparison
+to a comparator polypeptide. A comparator polypeptide may vary from a polypeptide
+disclosed herein by one or more amino acids, e.g., in some embodiments, by 1, 2, 3, 4, 5, 6, 7,
+8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 or more amino acids. In some embodiments, a
+comparator polypeptide diverges from a polypeptide disclosed herein by at least about: 0.4%,
+27

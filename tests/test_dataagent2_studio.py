@@ -72,6 +72,9 @@ class Dataagent2StudioTests(unittest.TestCase):
         self.addCleanup(self.case.temporary.cleanup)
         self.root = self.case.root
         self.output = self.root / "results/DOC"
+        evaluation = patch("eval.pipeline.run_worker", return_value=({}, {"status": "unavailable", "reason": "offline test"}))
+        evaluation.start()
+        self.addCleanup(evaluation.stop)
         self.case.page["lines"].append({"line_id": "p0001-l0003", "text": "Ab1 VH variable sequence: " + SEQUENCE,
                                         "bbox": [40, 510, 550, 540]})
         self.case.write_inputs()
@@ -92,6 +95,31 @@ class Dataagent2StudioTests(unittest.TestCase):
              patch("dataagent2.studio_pipeline.Provider", ScriptedProvider):
             return run_studio_pipeline(self.root, self.root / "results", self.case.pages_path,
                 table_ocr=self.case.table_path, extract_sequences=False, **options)
+
+    def test_final_model_results_reach_export_and_studio(self):
+        def worker(tool, payload, config, root):
+            result = {}
+            for item in payload:
+                review = ({"status": "matched", "chain_type": "H", "domains": [], "message": "numbered"}
+                    if tool == "anarci" else {"status": "manual_review", "metric_status": "scored",
+                    "model": tool, "mean_pll": -1.25, "pseudo_perplexity": 3.49,
+                    "position_scores": [{"position": 1}], "message": "scored"})
+                result[item["id"]] = review
+            return result, {"status": "completed"}
+        with patch("eval.pipeline.run_worker", side_effect=worker) as evaluate:
+            self.invoke()
+        self.assertEqual([c.args[0] for c in evaluate.call_args_list], ["anarci", "esm2", "ophiuchus"])
+        dataset = json.loads((self.output / "dataset.json").read_text())
+        entity = next(e for e in dataset["entities"] if e["NAME"] == "Ab1")
+        self.assertIn("ophiuchus_review", entity["sequence_evaluation"])
+        self.assertNotIn("position_scores", entity["sequence_evaluation"]["ophiuchus_review"]["chains"]["VH"])
+        full = json.loads((self.output / "eval/sequence_evaluation.json").read_text())
+        self.assertIn("position_scores", full["results"][0]["ophiuchus_review"]["chains"]["VH"])
+        bundle = Workspace(self.root).bundle("DOC")
+        record = next(r for r in bundle["records"] if r["antibody_id"] == "Ab1")
+        self.assertEqual(record["anarci_review_status"], "passed")
+        self.assertEqual(record["ophiuchus_review"]["chains"]["VH"]["mean_pll"], -1.25)
+        self.assertEqual(record["vh"], SEQUENCE)
 
     def test_reader_starts_after_table_seed_and_receives_the_full_initial_dataset(self):
         seed_finished = threading.Event()
@@ -324,6 +352,9 @@ class Dataagent2StudioTests(unittest.TestCase):
             report = self.invoke()
         self.assertEqual(report["status"], "failed")
         self.assertIn("DOC", report["errors"])
+        self.assertIn("全文读取失败", report["errors"]["DOC"])
+        self.assertEqual(report["failure_details"]["DOC"]["stage"], "reader")
+        self.assertIn("scripted reader failure", json.loads((self.output / "failure.json").read_text())["error"])
         final = json.loads((self.output / "dataagent2/dataset.json").read_text())
         self.assertEqual(final["status"], "partial")
         self.assertTrue(final["reader_coverage"]["failed_chunks"])
@@ -373,6 +404,42 @@ class Dataagent2StudioTests(unittest.TestCase):
         self.assertEqual(constant["region"], "CL")
         self.assertEqual(constant["sequence"], SEQUENCE)
         self.assertEqual(constant["evidence"][0]["quote"], SEQUENCE)
+
+    def test_prose_full_chains_export_separately_from_variable_sequences(self):
+        for index, (region, seq_id) in enumerate((("H_CHAIN", 38), ("L_CHAIN", 39)), 4):
+            self.case.page["lines"].append({"line_id": f"p0001-l{index:04d}",
+                "text": f"Ab2 {region} SEQ ID NO {seq_id}: " + SEQUENCE,
+                "bbox": [40, 550 + index, 550, 580 + index]})
+        self.case.write_inputs()
+        seed = self.root / "full-chain-seed"
+        run_from_ocr("DOC", self.case.table_path, self.case.pages_path, seed,
+                     semantic_provider="rules", seed_only=True)
+        data = load_input(seed)
+        ledger = Ledger(data)
+        for region, seq_id in (("H_CHAIN", 38), ("L_CHAIN", 39)):
+            sid = next(k for k, source in data["sources"].items()
+                       if source["text"].startswith(f"Ab2 {region} SEQ ID"))
+            response = empty_response()
+            response["new_items"] = [{"name": "Ab2", "refs": [sid]}]
+            response["links"] = [{"item": "Ab2", "region": region, "name": region,
+                                  "seq": seq_id, "refs": [sid]}]
+            response["sequences"] = [{"region": region, "name": region, "seq": seq_id,
+                "parts": [{"s": sid, "start": SEQUENCE[:16], "end": SEQUENCE[-16:]}], "refs": [sid]}]
+            ledger.apply(response, [sid], region)
+        final = ledger.assemble()
+        final.update(status="partial", reader_coverage={})
+        self.output.mkdir(parents=True)
+        result = export_result(data, final, seed, self.output)
+        ab2 = next(e for e in result["entities"] if e["NAME"] == "Ab2")
+        self.assertIsNone(ab2["VH"]["sequence"])
+        self.assertIsNone(ab2["VL"]["sequence"])
+        template = json.loads((self.output / "template.completed.json").read_text())
+        entity = next(e for e in template["entities"] if e["name"] == "Ab2")
+        for region, seq_id in (("H_CHAIN", 38), ("L_CHAIN", 39)):
+            self.assertEqual(ab2[region]["sequence"], SEQUENCE)
+            self.assertEqual(ab2[region]["seq_id"], seq_id)
+            self.assertEqual(entity[region]["sequence"]["status"], "present")
+            self.assertTrue(entity[region]["sequence"]["provenance"])
 
     def test_stale_sequence_ocr_refreshes_into_new_file(self):
         from document.sequence_ocr import VERSION, REVISION
@@ -453,7 +520,7 @@ class Dataagent2StudioTests(unittest.TestCase):
         server = StudioServer(("127.0.0.1", 0), workspace)
         baseline = workspace.jobs()["DOC"]
         try:
-            with patch.object(server.workers, "submit") as submit:
+            with patch.object(server, "submit_task", wraps=server.submit_task) as submit:
                 comparison = server.compare("DOC", engine="dataagent2")
                 again = server.compare("DOC", engine="dataagent2")
                 self.assertEqual(comparison["document_id"], again["document_id"])
@@ -505,11 +572,11 @@ class EngineUploadTests(unittest.TestCase):
                 return urlopen(Request(f"http://127.0.0.1:{server.server_port}/api/patents/import", data=body,
                     headers={"Content-Type": f"multipart/form-data; boundary={boundary}"}), timeout=5)
             try:
-                with patch.object(server.workers, "submit"):
+                with patch.object(server, "submit_task", wraps=server.submit_task):
                     for identity, engine in (("new-doc", "dataagent2"), ("old-doc", "dataagent1"), ("default-doc", None)):
                         with upload(identity, engine) as response:
                             patent = json.load(response)["patent"]
-                        self.assertEqual(patent["extraction_engine"], engine or "dataagent1")
+                        self.assertEqual(patent["extraction_engine"], engine or "dataagent2")
                     with self.assertRaises(HTTPError) as caught:
                         upload("bad-doc", "unknown")
                     self.assertEqual(caught.exception.code, 400)

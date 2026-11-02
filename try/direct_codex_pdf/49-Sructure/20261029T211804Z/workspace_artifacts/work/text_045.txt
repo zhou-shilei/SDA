@@ -1,0 +1,53 @@
+WO 2024/020591
+PCT/US2023/070790
+[00207] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:8, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:23 (AB-5).
+[00208] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:9, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:24 (AB-6).
+[00209] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO: 10, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:25 (AB-7).
+[00210] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:11, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:20 (AB-8)
+[00211] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO: 12, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:20 (AB-9).
+[00212] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO: 13, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:26 (AB-10).
+[00213]In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:14, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:27 (AB-11).
+[00214]In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:15, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:28 (AB-12).
+[00215]In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO: 16, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:29 (AB-13).
+[00216] In some embodiments, a polypeptide disclosed herein comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:17, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:30 (AB-14).
+44

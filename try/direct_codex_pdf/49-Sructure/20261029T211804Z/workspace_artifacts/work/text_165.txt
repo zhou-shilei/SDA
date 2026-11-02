@@ -1,0 +1,38 @@
+WO 2024/020591
+PCT/US2023/070790
+14.
+The polypeptide of any one of Embodiments 1-4 and 6-13, wherein the VL comprises
+a light chain complementarity determining region 1 (LCDR1), light chain
+complementarity determining region 2 (LCDR2) and light chain complementarity
+determining region 3 (LCDR3) that are identical in amino acid sequence to the
+LCDR1, LCDR2 and LCDR3, respectively, of SEQ ID NO:20, SEQ ID NO:21, SEQ
+ID NO:22, SEQ ID NO:23, SEQ ID NO:24, SEQ ID NO:25, SEQ ID NO:26, SEQ ID
+NO:27, SEQ ID NO:28, SEQ ID NO:29 or SEQ ID NO:30.
+15.
+The polypeptide of any one of Embodiments 1-5 and 7-14, wherein the polypeptide
+comprises a paratope that is identical to the paratope of a Ví/VL combination selected
+from the amino acid sequence of: SEQ ID NO:4/SEQ ID NO:20 (AB-1), SEQ ID
+NO:5/SEQ ID NO:21 (AB-2), SEQ ID NO:6/SEQ ID NO:20 (AB-3), SEQ ID
+NO:7/SEQ ID NO:22 (AB-4), SEQ ID NO:8/SEQ ID NO:23 (AB-5), SEQ ID
+NO:9/SEQ ID NO:24 (AB-6), SEQ ID NO:10/SEQ ID NO:25 (AB-7), SEQ ID
+NO:11/SEQ ID NO:20 (AB-8), SEQ ID NO:12/SEQ ID NO:20 (AB-9), SEQ ID
+NO:13/SEQ ID NO:26 (AB-10), SEQ ID NO:14/SEQ ID NO:27 (AB-11), SEQ ID
+NO:15/SEQ ID NO:28 (AB-12), SEQ ID NO:16/SEQ ID NO:29(AB-13) or SEQ ID
+NO:17/SEQ ID NO:30 (AB-14)
+16.
+The polypeptide of any one of Embodiments 1-15, wherein the Ví has at least 85%
+sequence identity to the amino acid sequence of SEQ ID NO:4, SEQ ID NO:5, SEQ
+ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10, SEQ ID
+NO:11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID
+NO:16 or SEQ ID NO:17, or a combination of the foregoing.
+17.
+The polypeptide of any one of Embodiments 1-16, wherein the Ví comprises about 1-
+10 amino acid substitutions, relative to the amino acid sequence of SEQ ID NO:4,
+SEQ ID NO:5, SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID
+NO:10, SEQ ID NO:11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO: 14, SEQ ID
+NO:15, SEQ ID NO:16 or SEQ ID NO:17, or a combination of the foregoing.
+18.
+The polypeptide of any one of Embodiments 1-17, wherein the VL has at least 85%
+sequence identity to the amino acid sequence of SEQ ID NO:20, SEQ ID NO:21, SEQ
+ID NO:22, SEQ ID NO:23, SEQ ID NO:24, SEQ ID NO:25, SEQ ID NO:26, SEQ ID
+164

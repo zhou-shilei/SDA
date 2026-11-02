@@ -174,6 +174,31 @@ class EvaluationTests(unittest.TestCase):
             self.assertEqual(aggregate_anarci({"VH": matched, "VL": {"status": status, "message": status}})["status"], "error")
         self.assertEqual(aggregate_anarci({"VH": matched, "VL": {"status": "unavailable", "message": "runtime missing"}})["status"], "manual_review")
 
+    def test_ophiuchus_thresholds_are_independent_and_unconfigured_is_only_scored(self):
+        metrics = {"mean_pll": -10, "min_log_probability": -10, "bottom_decile_mean": -10}
+        with patch.dict(os.environ, {"DATASETAGENT_ESM2_SITE_MAX_PPL": "1000"}, clear=True):
+            result = classify_chain("VH", "ACDEF", metrics, review_thresholds("OPHIUCHUS"), tool="OPHIUCHUS")
+        self.assertEqual(result["status"], "manual_review")
+        self.assertEqual(result["metric_status"], "scored")
+        self.assertFalse(result["site_screening"]["enabled"])
+        self.assertIn("Ophiuchus-Ab", result["message"])
+        with patch.dict(os.environ, {"DATASETAGENT_OPHIUCHUS_SITE_MAX_PPL": "1000"}, clear=True):
+            result = classify_chain("VH", "ACDEF", metrics, review_thresholds("OPHIUCHUS"), tool="OPHIUCHUS")
+        self.assertEqual(result["status"], "error")
+
+    def test_ophiuchus_deduplicates_and_rejects_invalid_residues_before_scoring(self):
+        from eval.ophiuchus import review_sequences
+        payload = [{"id": key, "chain": "VH", "sequence": seq}
+                   for key, seq in (("a", "ACDEF"), ("b", "ACDEF"), ("c", "ACDOF"))]
+        metrics = {"mean_pll": -1, "min_log_probability": -1, "bottom_decile_mean": -1}
+        with patch("eval.ophiuchus.load_model", return_value=(object(), {"mode": "single"})), \
+             patch("eval.ophiuchus.score_sequence", return_value=metrics) as score:
+            reviews = review_sequences(payload, self.root, self.root)
+        score.assert_called_once()
+        self.assertEqual(reviews[2]["review"]["status"], "error")
+        self.assertEqual(reviews[0]["sequence_sha256"], reviews[1]["sequence_sha256"])
+        self.assertEqual(reviews[0]["review"]["metric_status"], "scored")
+
     def test_graph_runs_evaluation_after_repairs_before_quality(self):
         from dataagent.agent.graph import build_graph, sequence_evaluation_node
         edges = {(e.source, e.target) for e in build_graph().get_graph().edges}

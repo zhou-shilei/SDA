@@ -4,25 +4,30 @@ export function setupTableColumns() {
     const headers = [...table.tHead.rows[0].cells];
     const columns = [...table.querySelectorAll("colgroup > col")];
     const defaults = columns.map((column) => parseFloat(column.style.width));
-    const minimums = defaults.map((width) => Math.min(width, 64));
+    const minimums = defaults.map((width, index) => Number(columns[index].dataset.minWidth) || Math.min(width, 64));
     const storageKey = `sda.studio.tableColumns.v1.${table.dataset.resizableTable}`;
     let widths = [...defaults];
     try {
       const stored = JSON.parse(localStorage.getItem(storageKey));
       if (Array.isArray(stored) && stored.length === columns.length) {
-        widths = stored.map((width, index) => Number.isFinite(width)
-          ? Math.max(minimums[index], Math.min(4000, width)) : defaults[index]);
+        widths = stored.map((width, index) => {
+          if (!Number.isFinite(width)) return defaults[index];
+          const previousDefault = Number(columns[index].dataset.previousDefaultWidth);
+          const requested = previousDefault && width === previousDefault ? defaults[index] : width;
+          return Math.max(minimums[index], Math.min(4000, requested));
+        });
       }
     } catch { /* Column resizing also works when browser storage is unavailable. */ }
 
     const handles = [];
     const apply = () => {
       columns.forEach((column, index) => {
-        column.style.width = `${widths[index]}px`;
+        column.style.width = `${column.hidden ? 0 : widths[index]}px`;
         handles[index]?.setAttribute("aria-valuenow", String(Math.round(widths[index])));
       });
-      table.style.width = `${widths.reduce((sum, width) => sum + width, 0)}px`;
+      table.style.width = `${widths.reduce((sum, width, index) => sum + (columns[index].hidden ? 0 : width), 0)}px`;
     };
+    table.addEventListener("columnsvisibilitychange", apply);
     const save = () => {
       try { localStorage.setItem(storageKey, JSON.stringify(widths)); } catch { /* Optional preference. */ }
     };

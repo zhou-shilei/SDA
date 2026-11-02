@@ -1,0 +1,49 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a light chain amino acid sequence that has 100% sequence identity to the
+amino acid sequence of any one of SEQ ID NOs: 119-121.
+[00464] In some embodiments, a polypeptide comprises:
+a)
+a heavy chain amino acid sequence that has at least about 60% sequence
+identity to the amino acid sequence of SEQ ID NO:106; or
+b)
+a light chain amino acid sequence that has at least about 60% sequence
+identity to the amino acid sequence of SEQ ID NO:120, or
+both a) and b).
+[00465]In some embodiments, a polypeptide comprises:
+a)
+a heavy chain amino acid sequence that has at least about 60% sequence
+identity to the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain amino acid sequence that has at least about 60% sequence
+identity to the amino acid sequence of SEQ ID NO:120.
+[00466] In some embodiments, a polypeptide comprises:
+a)
+a heavy chain amino acid sequence comprising at least one amino acid
+substitution relative to the amino acid sequence of SEQ ID NO: 106; or
+b)
+a light chain amino acid sequence comprising about 1-10 amino acid
+substitutions, relative to the amino acid sequence of SEQ ID NO:120, or
+both a) and b).
+[00467] In some embodiments, a polypeptide comprises:
+a)
+a heavy chain amino acid sequence comprising at least one amino acid
+substitution relative to the amino acid sequence of SEQ ID NO: 106; and
+b)
+a light chain amino acid sequence comprising about 1-10 amino acid
+substitutions, relative to the amino acid sequence of SEQ ID NO:120.
+[00468]In some embodiments, a polypeptide comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:105; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:119 (AB-
+1b).
+[00469] In some embodiments, a polypeptide comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-
+2b).
+[00470] In some embodiments, a polypeptide comprises:
+98

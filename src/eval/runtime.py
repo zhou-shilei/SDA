@@ -47,6 +47,10 @@ class EvaluationConfig:
     batch_size: int = 32
     timeout: int = 1800
     cpus: int = 1
+    ophiuchus_enabled: bool = False
+    ophiuchus_python: Path | None = None
+    ophiuchus_source: Path | None = None
+    ophiuchus_model: Path | None = None
 
     @classmethod
     def from_env(cls):
@@ -56,20 +60,30 @@ class EvaluationConfig:
             device=os.environ.get("DATASETAGENT_ESM2_DEVICE", "cuda"),
             batch_size=int(os.environ.get("DATASETAGENT_ESM2_BATCH_SIZE", "32")),
             timeout=int(os.environ.get("DATASETAGENT_ESM2_TIMEOUT_SECONDS", "1800")),
-            cpus=int(os.environ.get("DATASETAGENT_ANARCI_CPUS", "1")))
+            cpus=int(os.environ.get("DATASETAGENT_ANARCI_CPUS", "1")),
+            ophiuchus_enabled=enabled("OPHIUCHUS"),
+            ophiuchus_python=default_python("ophiuchus"),
+            ophiuchus_source=Path(os.environ.get("DATASETAGENT_OPHIUCHUS_SOURCE", str(ASSETS / "AirGen-Dev"))),
+            ophiuchus_model=Path(os.environ.get("DATASETAGENT_OPHIUCHUS_MODEL",
+                str(ASSETS / "AirGen-Dev/byprot-checkpoints/Ophiuchus-Ab.ckpt"))))
 
 
 def run_worker(tool: str, items: list[dict], config: EvaluationConfig, output_dir: Path) -> tuple[dict, dict]:
     from .anarci import hmmer_directory
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    python = config.anarci_python if tool == "anarci" else config.esm2_python
-    enabled = config.anarci_enabled if tool == "anarci" else config.esm2_enabled
+    if tool not in {"anarci", "esm2", "ophiuchus"}:
+        raise ValueError("Unknown evaluation tool: " + tool)
+    python = (config.ophiuchus_python or config.esm2_python) if tool == "ophiuchus" else config.anarci_python if tool == "anarci" else config.esm2_python
+    enabled = config.ophiuchus_enabled if tool == "ophiuchus" else config.anarci_enabled if tool == "anarci" else config.esm2_enabled
     meta = {"tool": tool, "python": str(python), "status": "not_run", "elapsed_seconds": 0}
     if not enabled or not items:
         return {}, {**meta, "reason": "disabled" if not enabled else "no_sequences"}
     if not python.is_file() or (tool == "esm2" and (config.esm2_model is None or not (config.esm2_model / "config.json").is_file())):
         return {}, {**meta, "status": "unavailable", "reason": "Local evaluation Python or model is unavailable"}
+    if tool == "ophiuchus" and (config.ophiuchus_model is None or not config.ophiuchus_model.is_file()
+            or config.ophiuchus_source is None or not (config.ophiuchus_source / "src/regress/encoders/ophiuchus.py").is_file()):
+        return {}, {**meta, "status": "unavailable", "reason": "Local Ophiuchus checkpoint or model source is unavailable"}
     if config.batch_size < 1 or config.timeout < 1 or config.cpus < 1:
         raise ValueError("Evaluation batch size, timeout and CPUs must be positive")
     command = [str(python), "-m", "eval." + tool]
@@ -79,6 +93,11 @@ def run_worker(tool: str, items: list[dict], config: EvaluationConfig, output_di
         if directory:
             command += ["--hmmer-dir", directory]
         command += ["--cpus", str(config.cpus)]
+    elif tool == "ophiuchus":
+        command += ["--model", str(config.ophiuchus_model), "--source", str(config.ophiuchus_source),
+                    "--device", config.device, "--batch-size", str(config.batch_size)]
+        meta.update(model_path=str(config.ophiuchus_model), source_path=str(config.ophiuchus_source),
+                    device=config.device, mode="single")
     else:
         command += ["--model", str(config.esm2_model), "--device", config.device,
                     "--batch-size", str(config.batch_size), "--sequence-input"]

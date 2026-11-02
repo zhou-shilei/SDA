@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00154] In some embodiments, an amino acid substitution is a highly conservative
+substitution.
+[00155] In some embodiments, a polypeptide comprises a VL that has 100% sequence
+identity to the amino acid sequence of SEQ ID NO:19. In some embodiments, a polypeptide
+comprises a VL that comprises the amino acid sequence of SEQ ID NO:19.
+[00156] In some embodiments, a polypeptide comprises a VL that has at least about 70%
+sequence identity to the amino acid sequence of any one or more of SEQ ID NOs:20-30. The
+sequences identified as SEQ ID NOs:20-30 are shown in Table 2, which correspond to
+human VL domains. In some embodiments, a polypeptide comprises a VL that has at least
+about: 71%, 72%, 73%, 74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%,
+86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence
+identity to the amino acid sequence of any one or more of SEQ ID NOs:20-30. In some
+embodiments, a polypeptide comprises a VL that has at least about 85% sequence identity to
+the amino acid sequence of any one or more of SEQ ID NOs:20-30. In some embodiments, a
+polypeptide comprises a VL that has at least about 90% sequence identity to the amino acid
+sequence of any one or more of SEQ ID NOs:20-30.
+[00157] In some embodiments, a polypeptide comprises a VL that comprises at least one
+amino acid substitution relative to the amino acid sequence of any one or more of SEQ ID
+NOs:20-30. For example, the number of amino acid substitutions can be at least about: 2, 3,
+4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 or 20, or about: 1-20, 1-19, 2-19, 2-18, 2-
+17, 3-17, 3-16, 4-16, 4-15, 5-15, 5-14, 6-14, 6-13, 7-13, 7-12, 8-12, 8-11 or 9-11. In some
+embodiments, a polypeptide comprises a VL that comprises about 1-10 amino acid
+substitutions, relative to the amino acid sequence of any one or more of SEQ ID NOs:20-30.
+[00158] In some embodiments, a polypeptide comprises a VL that has 100% sequence
+identity to the amino acid sequence of any one of SEQ ID NOs:20-30. In some embodiments,
+a polypeptide comprises a VL that comprises the amino acid sequence of any one of SEQ ID
+NOs:20-30.
+[00159] In some embodiments, a polypeptide comprises a VL that has at least about 70%
+sequence identity to the amino acid sequence of any one or more of SEQ ID NOs:20-22. In
+some embodiments, a polypeptide comprises a VL that has at least about: 71%, 72%, 73%,
+74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%,
+90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence identity to the amino
+acid sequence of any one or more of SEQ ID NOs:20-22. In some embodiments, a
+33

@@ -1,0 +1,49 @@
+WO 2024/020591
+PCT/US2023/070790
+[00263] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:10; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:25 (AB-7)
+[00264] In some embodiments, a polypeptide comprises
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:11; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:20 (AB-8)
+[00265]In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:12; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:20 (AB-9)
+[00266] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:13; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:26 (AB-10).
+[00267] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:14; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:27 (AB-11).
+[00268] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:15; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:28 (AB-12).
+[00269] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:16; and
+58

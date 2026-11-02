@@ -1,0 +1,38 @@
+W0 2024/020591
+PCT/US2023/070790
+Constant Domains
+[00376] In some embodiments, a polypeptide (e.g., an antibody or antigen-binding
+fragment thereof) comprises:
+a)
+an antibody heavy chain constant domain sequence;
+b)
+an antibody light chain constant domain sequence; or
+both a) and b).
+[00377] In some embodiments, a polypeptide comprises an antibody heavy chain constant
+domain sequence. In some embodiments, an antibody heavy chain constant domain is
+selected from the group consisting of an IgA constant domain. an IgD constant domain. ar
+IgE constant domain, an IgG constant domain and an IgM constant domain.
+[00378] In some embodiments, an IgG constant domain is an IgG1 constant domain (e.g.,
+any one of SEQ ID NOs:84-86), an IgG2 constant domain (e.g., SEQ ID NO:87 or SEQ ID
+NO:88), an IgG3 constant domain or an IgG4 constant domain. In some embodiments, the
+IgG2 constant domain is an IgG2a, an IgG2b constant domain or an IgG2c constant domain
+In some embodiments, an IgA constant domain is an IgA1 constant domain or an IgA2
+constant domain. In some embodiments, the antibody heavy chain constant domain is an
+IgG1 constant domain (e.g., IGHV1-5 or IGHV5-51).
+[00379] ASTKGPSVFPLAPSSKSTSGGTAALGCLVKDYFPEPVTVSWNSGALTSGV
+HTFPAVLOSSGLYSLSSVVTVPSSSLGTOTYICNVNHKPSNTKVDKRVEPKSCDKTHT
+CPPCPAPELLGGPSVFLFPPKPKDTLMISRTPEVTCVVVDVSHEDPEVKFNWYVDGV
+EVHNAKTKPREEOYNSTYRVVSVLTVLHODWLNGKEYKCKVSNKALPAPIEKTISK
+AKGQPREPQVYTLPPSREEMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYKTTP
+PVLDSDGSFFLYSKLTVDKSRWQQGNVFSCSVMHEALHNHYTQKSLSLSPGK (SEQ
+IDNO:84)
+[00380] ASTKGPSVFPLAPSSKSTSGGTAALGCLVKDYFPEPVTVSWNSGALTSGV
+HTFPAVLQSSGLYSLSSVVTVPSSSLGTQTYICNVNHKPSNTKVDKRVEPKSCDKTHT
+CPPCPAPELLGGPSVFLFPPKPKDTLYITREPEVTCVVVDVSHEDPEVKFNWYVDGVE
+VHNAKTKPREEOYNSTYRVVSVLTVLHODWLNGKEYKCKVSNKALPAPIEKTISKA
+KGQPREPQVYTLPPSREEMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYKTTPP
+VLDSDGSFFLYSKLTVDKSRWQQGNVFSCSVMHEALHNHYTQKSLSLSPGK (SEQ
+IDNO:85)
+[00381]ASTKGPSVFPLAPSSKSTSGGTAALGCLVKDYFPEPVTVSWNSGALTSGV
+HTFPAVLQSSGLYSLSSVVTVPSSSLGTQTYICNVNHKPSNTKVDKKVEPKSCDKTHT
+80

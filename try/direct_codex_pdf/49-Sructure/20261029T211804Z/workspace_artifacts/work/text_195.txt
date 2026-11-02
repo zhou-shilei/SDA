@@ -1,0 +1,25 @@
+W0 2024/020591
+PCT/US2023/070790
+STAT5-Luciferase cells expressing cynoTSLPR/cynoIL-7R were maintained in RPMI-1640
+with Glutamax medium containing 10% fetal bovine serum (FBS), 1% penicillin-
+streptomycin, 10 ng/mL cynoTSLP, 10 ng/mL hIL-7, and 200 μg/mL hygromycin selection
+antibiotic, cells were deprived of cynoTSLP for 24 hours prior to use in the assay. The Ba/F3-
+STAT5-cynoTSLPR/cynoIL-7R-Luc cells had a dose dependent response to cynoTSLP, 1
+ng/mL cynoTSLP was used as a final concentration for this assay.
+[00812] In a 96-well cell culture microplate, serial dilutions of 4X anti-TSLP antibodies in
+25 μl of assay media (RPMI-1640 + 10% FBS + 1% penicillin-streptomycin) were pre-
+incubated with 25 μl of 4 ng/mL (4X) cynoTSLP cytokine at 37°C for 30 minutes.
+Afterwards 20,000 Ba/F3-STAT5-cynoTSLPR/cynoIL-7R-Luc cells in 50 μl of cell media
+were plated and incubated with antibodies and cynoTSLP cytokine for four hours. After four
+hours, 100 μl of luciferase reagent was added to each well of the plate and rocked gently for
+15 minutes at room temperature (RT), protected from light. Luminescence was measured
+with a luminometer (Envision) within one hour of luciferase reagent addition.
+[00813] Graphpad Prism 9.2.0 was used to analyze data. Average luminescence values of
+three technical replicates per concentration with three independent experiments were baseline
+corrected and transformed to percent inhibition of signal. IC5o values were obtained by non-
+linear regression curve fitting, set up as reported in Graphpad Prism 9.2.0 software
+documentation. Functional potency in blocking receptor binding to cynoTSLP cytokine are
+displayed as IC50 (μg/mL) with 95% confidence intervals. As shown in FIG. 11B and Table
+13, AB-2b can block cynoTSLP and prevent signaling through the TSLPR/IL-7Rα complex.
+AB-2b has improved functional potency compared to the Reference Antibody.
+194

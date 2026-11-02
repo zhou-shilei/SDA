@@ -58,9 +58,10 @@ def evaluate_sequences(items: list[dict], output_dir: Path, *, config: Evaluatio
     payload = list(unique.values())
     anarci, anarci_runtime = run_worker("anarci", payload, config, output_dir)
     esm2, esm2_runtime = run_worker("esm2", payload, config, output_dir)
+    op, op_runtime = run_worker("ophiuchus", payload, config, output_dir) if config.ophiuchus_enabled else ({}, {"status": "not_run", "reason": "disabled"})
     results = []
     for item in items:
-        ac, ec, hashes = {}, {}, {}
+        ac, ec, oc, hashes = {}, {}, {}, {}
         for chain in ("VH", "VL"):
             seq = normalize(item.get(chain.lower()))
             identity = chain_id(seq, chain)
@@ -68,20 +69,28 @@ def evaluate_sequences(items: list[dict], output_dir: Path, *, config: Evaluatio
             ac[chain] = copy.deepcopy(anarci.get(identity, pending(anarci_runtime.get("reason", "ANARCI worker did not return a result"))))
             ec[chain] = copy.deepcopy(esm2.get(identity, {"status": "manual_review", "metric_status": "not_run",
                 "length": len(seq), "message": esm2_runtime.get("reason", "ESM-2 worker did not return a result")}))
+            oc[chain] = copy.deepcopy(op.get(identity, {"status": "manual_review", "metric_status": "not_run",
+                "length": len(seq), "message": op_runtime.get("reason", "Ophiuchus worker did not return a result")}))
         results.append({"construct_key": item["construct_key"], "sequence_sha256": hashes,
-                        "anarci_review": aggregate_anarci(ac), "esm2_review": aggregate_esm2(ec)})
-    summary = {tool: dict(Counter(r[tool + "_review"]["status"] for r in results)) for tool in ("anarci", "esm2")}
+                        "anarci_review": aggregate_anarci(ac), "esm2_review": aggregate_esm2(ec),
+                        "ophiuchus_review": {**aggregate_esm2(oc), "model": "Ophiuchus-Ab", "mode": "single"}})
+    summary = {tool: dict(Counter(r[tool + "_review"]["status"] for r in results)) for tool in ("anarci", "esm2", "ophiuchus")}
     summary.update(construct_count=len(items), chain_count=2 * len(items), unique_chain_count=len(unique),
         unique_sequence_count=len({p["sequence"] for p in payload if p["sequence"]}),
         esm2_scored_chain_count=sum(c.get("metric_status") == "scored" for r in results for c in r["esm2_review"]["chains"].values()))
     summary["esm2_flagged_chain_count"] = sum(c.get("site_screening", {}).get("risk_detected", False)
         for r in results for c in r["esm2_review"]["chains"].values())
-    report = {"schema_version": 1, "evaluated_at": datetime.now(timezone.utc).isoformat(),
+    summary["ophiuchus_scored_chain_count"] = sum(c.get("metric_status") == "scored"
+        for r in results for c in r["ophiuchus_review"]["chains"].values())
+    runtimes = {"anarci": anarci_runtime, "esm2": esm2_runtime, "ophiuchus": op_runtime}
+    active_runtimes = [m for m in runtimes.values() if m.get("reason") != "disabled"]
+    report = {"schema_version": 2, "evaluated_at": datetime.now(timezone.utc).isoformat(),
         "elapsed_seconds": round(time.monotonic() - started, 3),
-        "status": "completed" if not items or all(m["status"] == "completed" for m in (anarci_runtime, esm2_runtime)) else "partial",
-        "summary": summary, "runtime": {"anarci": anarci_runtime, "esm2": esm2_runtime}, "results": results}
+        "status": "completed" if not items or all(m["status"] == "completed" for m in active_runtimes) else "partial",
+        "summary": summary, "runtime": runtimes, "results": results}
     for name, value in (("sequence_evaluation", report), ("anarci_results", {"runtime": anarci_runtime, "results": anarci}),
-                        ("esm2_results", {"runtime": esm2_runtime, "results": esm2})):
+                        ("esm2_results", {"runtime": esm2_runtime, "results": esm2}),
+                        ("ophiuchus_results", {"runtime": op_runtime, "results": op})):
         (output_dir / (name + ".json")).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
     write_evaluation_csv(report, output_dir)
     return report
@@ -91,7 +100,8 @@ def write_evaluation_csv(report: dict, output_dir: Path) -> None:
     with (output_dir / "sequence_evaluation.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=["construct_key", "chain", "sequence_sha256", "anarci_status",
             "anarci_chain_type", "esm2_status", "esm2_mean_pll", "esm2_pseudo_perplexity",
-            "esm2_max_site_pseudo_perplexity", "esm2_flagged_position_count", "esm2_flagged_positions"])
+            "esm2_max_site_pseudo_perplexity", "esm2_flagged_position_count", "esm2_flagged_positions", "ophiuchus_status",
+            "ophiuchus_mean_pll", "ophiuchus_pseudo_perplexity"])
         writer.writeheader()
         for result in report["results"]:
             for chain in ("VH", "VL"):
@@ -99,6 +109,9 @@ def write_evaluation_csv(report: dict, output_dir: Path) -> None:
                 writer.writerow({"construct_key": result["construct_key"], "chain": chain,
                     "sequence_sha256": result["sequence_sha256"][chain], "anarci_status": ar["status"],
                     "anarci_chain_type": ar.get("chain_type"), "esm2_status": er["status"],
+                    "ophiuchus_status": result["ophiuchus_review"]["chains"][chain]["status"],
+                    "ophiuchus_mean_pll": result["ophiuchus_review"]["chains"][chain].get("mean_pll"),
+                    "ophiuchus_pseudo_perplexity": result["ophiuchus_review"]["chains"][chain].get("pseudo_perplexity"),
                     "esm2_mean_pll": er.get("mean_pll"), "esm2_pseudo_perplexity": er.get("pseudo_perplexity"),
                     "esm2_max_site_pseudo_perplexity": er.get("max_site_pseudo_perplexity"),
                     "esm2_flagged_position_count": er.get("flagged_position_count"),
@@ -130,7 +143,7 @@ def merge_evaluations(validations: list[dict], report: dict) -> list[dict]:
             elif check["anarci"]["status"] == "conflict":
                 check["status"] = "conflict"
         validation["validation_level"] = "anarci" if result["anarci_review"]["status"] == "passed" else "rule_based"
-        statuses = {validation[tool + "_review"]["status"] for tool in ("agent", "anarci", "esm2")}
+        statuses = {validation[tool + "_review"]["status"] for tool in ("agent", "anarci", "esm2", "ophiuchus") if tool + "_review" in validation}
         validation["overall_review_status"] = "error" if "error" in statuses else "passed" if statuses == {"passed"} else "manual_review"
         if any(c["status"] == "conflict" for c in result["anarci_review"]["chains"].values()):
             validation["pair_status"] = "conflict"
@@ -139,7 +152,7 @@ def merge_evaluations(validations: list[dict], report: dict) -> list[dict]:
         elif (result["anarci_review"]["status"] == "passed" and validation["agent_review"]["status"] == "passed"
               and validation["pair_status"] == "review"):
             validation["pair_status"] = "consistent"
-        for tool in ("anarci", "esm2"):
-            if result[tool + "_review"]["status"] == "error":
+        for tool in ("anarci", "esm2", "ophiuchus"):
+            if result.get(tool + "_review", {}).get("status") == "error":
                 validation["issues"].append(result[tool + "_review"]["message"])
     return output

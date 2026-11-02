@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+group of integers or steps, but not the exclusion of any other integer or step or group of
+integer or step. When used herein, the term “comprising" can be substituted with the term
+“containing"or“including."
+[0072]As used herein, the term “consisting of"’ excludes any element, step, or ingredient
+not specified in the claim element. When used herein, the term “consisting essentially of"
+does not exclude materials or steps that do not materially affect the basic and novel
+characteristics of the claim.
+[0073]Also provided herein are corresponding embodiments for each and every
+embodiment featuring the term "comprising,""containing,""including," or "having,"
+wherein those terms are replaced by the term “consisting of’ and/or “consisting essentially
+of
+[0074]As used herein, the conjunctive term “and/or" between multiple recited elements
+is understood as encompassing both individual and combined options. For instance, where
+two elements are conjoined by “and/or," a first option refers to the applicability of the first
+element without the second. A second option refers to the applicability of the second element
+without the first. A third option refers to the applicability of the first and second elements
+together. Any one of these options is understood to fall within the meaning, and, therefore,
+satisfy the requirement of the term “and/or"as used herein. Concurrent applicability of more
+than one of the options is also understood to fall within the meaning, and, therefore, satisfy
+the requirement of the term “and/or."
+[0075]It should be understood that for all numerical bounds describing some parameter
+in this application, such as "about," "at least,""less than,""fewer than,"and "more than,"the
+description also necessarily encompasses any range bounded by the recited values.
+Accordingly, for example, the description “at least 1, 2, 3, 4, or 5" also describes, inter alia,
+the ranges 1-2, 1-3, 1-4, 1-5, 2-3, 2-4, 2-5, 3-4, 3-5, and 4-5, et cetera.
+[0076] When a list is presented, unless stated otherwise, it is to be understood that each
+individual element of that list, and every combination of that list, is a separate embodiment.
+For example, a list of embodiments presented as “A, B, or C" is to be interpreted as including
+the embodiments, "A," "B," "C," "A or B," “A or C," "B or C," or "A, B, or C."
+[0077]As used herein, the term “about" means within an acceptable error range for a
+particular value, as determined by one of ordinary skill in the art. Typically, an acceptable
+error range for a particular value depends, at least in part, on how the value is measured or
+determined, e.g., the limitations of the measurement system. For example, “about" can mean
+15

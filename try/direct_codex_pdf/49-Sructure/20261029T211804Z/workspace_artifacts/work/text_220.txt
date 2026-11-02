@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+X2 is D, V or S;
+X23 is S, M or E;
+X24 is S, A or T;
+X25 is S, D or E;
+X26 is D, S, R or F;
+X₂7 is H, L, K or E,
+or any combination of the foregoing
+9.
+The polypeptide of Claim 8, wherein:
+X15 is Y;
+X16 is I;
+X17 is R;
+X18 is F or Y;
+X19 is N;
+X20 is I;
+X₂1 is Y;
+X₂2 is V or S;
+X23 is M or E;
+X24 is A or T;
+X25 is D or E;
+X26 is S, R or F;
+X27 is L, K or E,
+or any combination of the foregoing.
+10.
+The polypeptide of any of the preceding claims, wherein the polypeptide specifically
+binds a thymic stromal lymphopoietin (TSLP).
+11.
+The polypeptide of any one of Claims 1-3 and 5-10, wherein the antigen binding
+fragment comprises a single-chain fragment variable (scFv), a variable heavy domain
+of heavy chain (VHH), a fragment antigen-binding (Fab), a Fab' or a F(ab')2.
+12.
+The polypeptide of any of the preceding claims, comprising an antibody heavy chain
+constant domain, an antibody light chain constant domain, or both an antibody heavy
+chain constant domain and an antibody light chain constant domain.
+219

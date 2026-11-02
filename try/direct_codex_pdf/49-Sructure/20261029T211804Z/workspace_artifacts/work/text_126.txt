@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+two positions, two residues, and one score for the two residues at the respective positions.
+The scores are self-energies or energy scores.
+[00636] The Computer Program Listing Appendices are referred to as Appendix A
+(claim.py) and Appendix B (fit_model.etab), which are available online at the respective
+addresses listed above and incorporated by reference in full into this application. A person
+having ordinary skill in the art can recognize that Appendix A can be executed in a python
+environment, compiler, or other equivalent environment that can run python scripts. A
+person having ordinary skill in the art can recognize that Appendix B can be loaded by the
+script of Appendix A. When running the claim.py file, two sequences (or one combined
+sequence) can be inputted. In embodiments, the below description further describes the
+source code and model of Appendices A and Appendix B.
+[00637] FIG. 12A is a diagram 1000 illustrating zero-, first-, and second-order models. A
+zero-order model 1002 is a set of unordered amino acids. As the model is zero-order, there is
+no order or structure to the amino acids. In a physical metaphor, it can be thought of as a
+"bag" of amino acids because the amino acids placed in the bag would jumble around and
+have no order. Next, a first order model 1004 is a matrix which is represented as a
+quantification (e.g., a peptide mass fingerprinting (PMF) of amino acids) at each residue of a
+protein sequence. Each row of the matrix is an amino acid sequence, and each column is
+configured to have a sum of the quantification of each residue in that column be 1. These first
+order energies can be referred to as an h-tensor, represented below as the “first hash table."A
+first order term in the model is said to be at a given position, and the model can assign a
+number of points for each particular position. With pair terms, the model can compare the
+scores given any two positions. The model can output an “energy," which is a number, and
+the lower the number the better, in embodiments.
+[00638] A second-order sequence model 1006, or Potts model, represents energy for two
+residues being found together and energies associated with the first-order effects. The
+second-order energies of the two residues being found together are considered the j-tensor,
+while the energies associated with the first-order effects are referred to as the h-tensor. The
+second order energies, in other words, compare the energies between two positions of the
+amino acid sequence. The second order sequences can therefore compare the energies
+between two positions of any amino acid sequence. A person of ordinary skill in the art can
+recognize that this can be repeated for multiple sequences, thereby rating many similar
+sequences all residue pairs of similar sequences.
+125

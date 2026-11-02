@@ -1,0 +1,38 @@
+{
+  "signature": "382d3984e157c2bf3272d5e5932af4983850ededcbd93aeb2308300670065f9e",
+  "case": {
+    "item": "AB-5",
+    "page": 196,
+    "source_ref": "p0196-r0001:R7C2",
+    "crop_box_upright": [
+      697,
+      1395,
+      2514,
+      1450
+    ],
+    "geometry_precision": "ocr_row",
+    "id": "AB-5_line_1",
+    "kind": "sequence_line",
+    "line": 1,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-5_line_1.png",
+    "image_sha256": "0eda7c292cdbdd1fd7794ae0b7e4ca302b245757442c0e079f702ea5c4786847",
+    "correction": "restore eight original pixel rows below old boundary, trim right whitespace",
+    "size": [
+      1817,
+      55
+    ]
+  },
+  "model": "PP-OCRv6",
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-5_line_1.png",
+      "page_index": null,
+      "rec_text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+      "rec_score": 0.9997715353965759
+    }
+  },
+  "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+  "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+  "seconds": 0.0113
+}

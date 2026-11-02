@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00659] In one embodiment, the processor routines 92 and data 94 are a computer program
+product (generally referenced 92), including a non-transitory computer-readable medium
+(e.g., a removable storage medium such as one or more DVD-ROM's, CD-ROM's, diskettes,
+tapes, etc.) that provides at least a portion of the software instructions for the invention
+system. The computer program product 92 can be installed by any suitable software
+installation procedure, as is well known in the art. In another embodiment, at least a portion
+of the software instructions may also be downloaded over a cable communication and/or
+wireless connection. In some embodiments, the invention programs are a computer program
+propagated signal product embodied on a propagated signal on a propagation medium (e.g., a
+radio wave, an infrared wave, a laser wave, a sound wave, or an electrical wave propagated
+over a global network such as the Internet, or other network(s)). Such carrier medium or
+signals may be employed to provide at least a portion of the software instructions for the
+present invention routines/program 92.
+[00660] In another aspect, the disclosure provides a polypeptide that specifically binds a
+TSLP (e.g., a hTSLP): wherein a CBO model outputs a score that is above a predetermined
+threshold upon scoring an amino acid sequence of the polypeptide.
+[00661] In another aspect, the disclosure provides a CBO polypeptide that specifically
+binds a TSLP (e.g., a hTSLP): wherein a CBO model outputs a score that is above a
+predetermined threshold upon scoring an amino acid sequence representing the CBO
+polypeptide.
+[00662] In another aspect, the disclosure provides a polypeptide that specifically binds a
+TSLP (e.g., a hTSLP) and receives a score above a predetermined threshold from a CBO
+model upon scoring an amino acid sequence representing the polypeptide.
+[00663]In another aspect, the disclosure provides a polypeptide that specifically binds a
+TSLP (e.g., a hTSLP): wherein the polypeptide receives a score above a predetermined
+threshold from a CBO model upon scoring an amino acid sequence representing the
+polypeptide.
+[00664] In another aspect, the disclosure provides a computationally binding optimized
+(CBO) polypeptide, determined by a computationally binding optimized (CBO) model that
+specifically binds a TSLP (e.g., a hTSLP).
+[00665] In some embodiments, a CBO polypeptide comprises a paratope that is
+substantially similar to the paratope of an antibody comprising an amino acid sequence
+selected from:
+131

@@ -1,0 +1,34 @@
+WO2024/020591
+mDC TARC Assay Donor 3
+450
+TAnt on CmL)
+400
+--▲--AB-2
+……AB-4
+350
+-O-- AB-3
+300
+eeet
+B-6
+250
+AB-9
+200
+18/27
+150
+ Tu  Reference
+100
+goo
+
+50
+0
+1
+0.1
+10
+0.01
+100
+0.001
+1000
+0.0001
+PCT/US2023/070790
+mAb (nM)
+FIG.9B

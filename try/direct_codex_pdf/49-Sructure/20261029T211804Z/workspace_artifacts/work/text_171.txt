@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+67.
+The method of any one of Embodiments 60-66, further comprising administering a
+therapeutically effective amount of an additional therapeutic or prophylactic agent to
+the subject.
+68.
+The method of any one of Embodiments 60-67, wherein the subject has asthma.
+69.
+The method of any one of Embodiments 60-67, wherein the subject has AD.
+70.
+A polypeptide that specifically binds human thymic stromal lymphopoietin (TSLP):
+wherein a computationally binding optimized (CBO) model outputs a score
+that is above a predetermined threshold upon scoring an amino acid sequence of the
+polypeptide.
+71.
+A computationally binding optimized (CBO) polypeptide that specifically binds a
+thymic stromal lymphopoietin (TSLP):
+wherein a computationally binding optimized (CBO) model outputs a score
+that is above a predetermined threshold upon scoring an amino acid sequence
+representing the CBO polypeptide.
+72.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP) and
+receives a score above a predetermined threshold from a CBO model upon scoring an
+amino acid sequence representing the polypeptide.
+73.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP):
+wherein the polypeptide being assigned a score above a predetermined
+threshold from a CBO model upon scoring an amino acid sequence representing the
+polypeptide.
+74.
+A computationally binding optimized (CBO) polypeptide, determined by a
+computationally binding optimized (CBO) model that specifically binds a human
+thymic stromal lymphopoietin (TSLP)
+75.
+The CBO polypeptide of any of Embodiments 70-74, wherein the CBO model is
+calculated by a table substantially similar to that of Computer Program Listing
+Appendix B.
+170

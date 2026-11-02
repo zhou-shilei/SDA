@@ -1,0 +1,38 @@
+WO 2024/020591
+PCT/US2023/070790
+76.
+The CBO polypeptide of any of Embodiments 70-75, wherein the CBO polypeptide is
+calculated using the Computer Program Listing Appendix B.
+77.
+The CBO polypeptide of any of Embodiments 70-76, wherein the CBO polypeptide is
+scored by a script substantially similar to Computer Program Listing Appendix A, the
+script employing the CBO model substantially similar to the table of Computer
+Program Listing Appendix B, wherein the CBO polypeptide has a logarithmic score
+above -7.7.
+78.
+The CBO polypeptide of any of Embodiments 70-77, wherein the CBO polypeptide is
+scorable by the script of Computer Program Listing Appendix A.
+79.
+The polypeptide of any of Embodiments 70-78, wherein the predetermined threshold
+is the logarithmic probability that the sequence inputted to the script would occur
+given the weights of the Potts model.
+80.
+The polypeptide of any of Embodiments 70-79, wherein a CBO script scoring the
+polypeptide receives a trained first- and second- order energy score table of outputted
+weights of a model trained by a plurality of known amino acid sequences and
+corresponding properties of the known amino acid sequences.
+81.
+The polypeptide of any of Embodiments 70-80, wherein the polypeptide comprises an
+immunoglobulin heavy chain variable domain (VH) and an immunoglobulin light
+chain variable domain (VL).
+82.
+The polypeptide of any of Embodiments 70-81, wherein the polypeptide has one or
+more properties selected from:
+a binding affinity for the TSLP characterized by a KD of 10 pM or less (e.g., as
+measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP;
+a neutralizing activity against the TSLP (e.g., a full-1ength human TSLP); or
+an inhibitory activity against TSLP-mediated signaling,
+or a combination of the foregoing.
+171

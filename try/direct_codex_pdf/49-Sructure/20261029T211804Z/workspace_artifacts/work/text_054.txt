@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+having 100% sequence identity to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-7; or
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+having 100% sequence identity to a LCDR1, a LCDR2 and a LCDR3,
+respectively, of a VL amino acid sequence of any one or more of SEQ ID
+NOs:20-22, or
+both a) and b).
+[00244] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+having 100% sequence identity to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-7; and
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+having 100% sequence identity to a LCDR1, a LCDR2 and a LCDR3,
+respectively, of a VL amino acid sequence of any one or more of SEQ ID
+NOs:20-22.
+[00245] In some embodiments, a polypeptide comprises a HCDR1, a HCDR2, a HCDR3,
+a LCDR1, a LCDR2 and a LCDR3, of an antibody comprising a VH/VL combination selected
+from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4).
+[00246] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence set forth in SEQ ID NO:31;
+b)
+a HCDR2 comprising at least one amino acid substitution relative to at least
+one amino acid sequence set forth in SEQ ID NOs:33-37 (e.g., at least one
+amino acid sequence set forth in SEQ ID NOs:34-37);
+c)
+a HCDR3 comprising at least one amino acid substitution relative to at least
+one amino acid sequence set forth in SEQ ID NOs:48-52 (e.g., at least one
+amino acid sequence set forth in SEQ ID NOs:49-52);
+53

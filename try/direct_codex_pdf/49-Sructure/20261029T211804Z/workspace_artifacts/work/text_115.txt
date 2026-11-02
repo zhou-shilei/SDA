@@ -1,0 +1,38 @@
+W0 2024/020591
+PCT/US2023/070790
+include lymphoma, acute lymphocytic leukemia (ALL), multiple sclerosis, and solid tumors
+(e.g., cervical, ovarian, pancreatic, gastric cancer, or colorectal cancer (e.g., colon cancer,
+rectal cancer, and variants thereof))
+[00562] In some embodiments, a subject has an inflammatory disorder (e.g., an allergic
+inflammatory disorder). In some embodiments, a subject has a pulmonary inflammatory
+disease or condition. In some embodiments, a subject has asthma (e.g., severe and/or
+uncontrolled asthma). In some embodiments, a subject has mild, moderate, moderate-to-
+severe, or severe asthma. In some embodiments, a subject has uncontrolled asthma (e.g.,
+uncontrolled moderate asthma, uncontrolled moderate-to-severe asthma, or uncontrolled
+severe asthma), allergic asthma (e.g., mild allergic asthma, moderate allergic asthma, or
+severe allergic asthma), oral corticosteroid dependent asthma, or any combination thereof.
+[00563] In some embodiments, a subject has been previously treated with one or more
+therapeutic agents prior to being administered a composition (e.g., a polypeptide, or a
+pharmaceutical composition disclosed herein)
+[00564] In some embodiments, a subject previously received a therapeutic or prophylactic
+agent. For example, a COPD patient may have received an inhaled corticosteroid (ICS), a
+long-acting β2-agonist (LABA), a long-acting muscarinic antagonist (LAMA), or any
+combination thereof.
+[00565] The disclosure also provides, among other things, a method of treating a TSLP-
+associated disease or condition in a subject, comprising administering to the subject an
+effective amount of a pharmaceutical composition comprising a pharmaceutically acceptable
+carrier and, wherein as an active ingredient, any one of the polypeptides or fusion proteins
+disclosed herein
+[00566] In some embodiments, treating a TSLP-associated disease or condition in a
+subject comprises administering to the subject an effective amount of a pharmaceutical
+composition comprising a pharmaceutically acceptable carrier and a polypeptide comprising
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEO ID NO:5; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:21 (AB-2)
+[00567] In some embodiments, treating a TSLP-associated disease or condition in a
+subject comprises administering to the subject an effective amount of a pharmaceutical
+composition comprising a pharmaceutically acceptable carrier and a polypeptide comprising:
+114

@@ -1,0 +1,42 @@
+WO 2024/020591
+PCT/US2023/070790
+[00234] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence set forth in any one of SEQ ID
+NOs:4-7;
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence set forth in any one of SEQ ID NOs:20-22, or
+both a) and b).
+[00235] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-7;
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of any one or more of SEQ ID NOs:20-22, or
+both a) and b).
+[00236]In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-7; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of any one or more of SEQ ID NOs:20-22.
+[00237] In some embodiments, a polypeptide comprises:
+50

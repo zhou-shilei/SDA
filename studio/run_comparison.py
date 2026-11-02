@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from studio.sda_data import Workspace
 from studio.server import StudioServer
+from studio.task_queue import ensure_worker
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
         patent = server.compare(args.source, engine=args.engine)
         print(json.dumps({"document_id": patent["document_id"], "extraction_engine": patent["extraction_engine"],
                           "log": patent["log"]}, ensure_ascii=False), flush=True)
-        server.workers.shutdown(wait=True)
+        ensure_worker(server.workspace)
     finally:
         server.server_close()
 

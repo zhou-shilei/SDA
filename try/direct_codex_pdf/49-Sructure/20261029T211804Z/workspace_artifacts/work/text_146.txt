@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+X14 is I or V,
+or any combination of the foregoing
+[00706]
+In some embodiments:
+X1 is V;
+X2 is S;
+X3 is S;
+X4 is T, Y or A;
+X5 is Y, D or T;
+X6 is T or I;
+X7 is S or T;
+X8 is S;
+X9 is D, E or S;
+X10 is I;
+X11 is F or Y;
+X12 is S;
+X13 is M or L;
+X1₄ is V,
+or any combination of the foregoing
+[00707] In some embodiments, the CBO polypeptide further comprises a VL comprising
+SEQ ID NO:18, wherein:
+X15 is not N;
+X16 is not L;
+X17 is not S;
+X18 is not K;
+X19 is not S;
+X2o is not V;
+X₂1 is not W;
+X22 is not D;
+X23 is not S;
+X24 is not S;
+X₂5 is not S;
+X26 is not D;
+X27 is not H,
+145

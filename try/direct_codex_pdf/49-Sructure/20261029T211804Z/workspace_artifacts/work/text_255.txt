@@ -1,0 +1,79 @@
+INTERNATIONAL SEARCH REPORT
+International application No
+PCT/US2023/070790
+A. CLASSIFICATION OF SUBJECT MATTER
+INV.A61P11/00
+C07K16/24
+ADD.
+According to International Patent Classification (IPC) or to both national classification and IPC
+Minimum documentation searched (classification system followed by classification symbols
+A61P C07K
+Documentation searched other than minimum documentation to the extent that such documents are included in the fields searched
+EPO-Interna1,BIOSIS,EMBASE,WPI Data
+C. DOCUMENTS CONSIDERED TO BE RELEVANT
+Category*
+Citation of document, with indication, where appropriate, of the relevant passages
+Relevant to claim No.
+x
+WO 2020/043221 A1 (ASES GROUP SE [CZ])
+1-30
+5 March 2020 (2020-03-05)
+example all
+x
+WO 2021/115240 A1 (SICHUAN KELUN BIOTECH
+1-30
+BIOPHARMACEUTICAL CO LTD [CN] ET AL.)
+17 June 2021 (2021-06-17)
+example all
+x
+WO 2021/007533 A1 (TAVOTEK BIOTHERAPEUTICS
+1-30
+HONG KONG LTD [CN])
+14 January 2021 (2021-01-14)
+example all
+x
+WO 2020/244544 A1 (JIANGSU HENGRUI
+1-30
+MEDICINE CO [CN] ET AL.)
+10 December 2020 (2020-12-10)
+example all
+Further documents are listed in the continuation of Box C.
+See patent family annex.
+Special categories of cited documents :
+"T"later document published after the international filing date or priority
+"A"document defining the general state of the art which is not considered
+date and not in conflict with the application but cited to understand
+to be of particular relevance
+"E"
+earlier application or patent but published on or after the international
+filing date
+considered novel or cannot be considered to involve an inventive
+"L"document which may throw doubts on priority claim(s) or which is
+step when the document is taken alone
+cited to establish the publication date of another citation or other
+"V"
+document of particular relevance;; the claimed invention cannot be
+special reason (as specified)
+document referring to an oral disclosure, use, exhibition or other
+considered to involve an inventive step when the document is
+"O"
+combined with one or more other such documents, such combination
+means
+being obvious to a person skilled in the art
+"p"
+the priority date claimed
+"&" document member of the same patent family
+Date of the actual completion of the international search
+Date of mailingof the international search report
+1 March 2024
+29/04/2024
+Name and mailing address of the ISA/
+Authorized officer
+European Patent Office, P.B. 5818 Patentlaan 2
+NL - 2280 HV Rijswijk
+Tel. (+31-70) 340-2040,
+6
+Fax: (+31-70) 340-3016
+Fellows, Edward
+Form PCT/ISA/210 (second sheet) (April 2005)
+page 1 of 2

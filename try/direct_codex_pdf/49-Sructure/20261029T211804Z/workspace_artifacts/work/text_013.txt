@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+BRIEF DESCRIPTION OF THE DRAWINGS
+[0048]The patent or application file contains at least one drawing executed in color.
+Copies of this patent or patent application publication with color drawing(s) will be provided
+by the Office upon request and payment of the necessary fee.
+[0049]The foregoing will be apparent from the following more particular description of
+example embodiments, as illustrated in the accompanying drawings in which like reference
+characters refer to the same parts throughout the different views. The drawings are not
+necessarily to scale, emphasis instead being placed upon illustrating embodiments.
+[0050]In the drawings, “Reference"refers to the Reference Antibody.
+[0051] FIG. 1 depicts the amino acid sequence of human thymic stromal lymphopoietin
+(TSLP) (SEQ ID NO:1). The epitope residues bound by the Reference Antibody disclosed
+herein are indicated by asterisks
+[0052] FIGs. 2A-2B depict an alignment of heavy chain variable domain (VH) amino acid
+sequences of the Reference Antibody and example antibodies AB-1 to AB-14. The heavy
+chain complementarity determining region (HCDR) amino acid sequences as determined by
+ImMunoGeneTics (IMGT) numbering are indicated using underlining. The bold letters
+indicate variable residues (designated throughout this disclosure by “X") in the Reference
+Antibody and AB-1 to AB-14. “*" indicates paratope residues. See also VH consensus
+sequence (SEQ ID NO:2) in Table 1. Paratope residues were defined as antibody residues in
+the Reference Antibody that, when bound to human TSLP, are within 5 angstroms of the
+antigen.
+[0053] FIGs. 3A-3B depict an alignment of light chain variable domain (VL) amino acid
+sequences of the Reference Antibody and example antibodies AB-1 to AB-14. The heavy
+chain complementarity determining region (LCDR) amino acid sequences as determined by
+ImMunoGeneTics (IMGT) numbering are indicated using underlining. The bold letters
+indicate variable residues (designated throughout this disclosure by “X") in the Reference
+Antibody and AB-1 to AB-14. See also VL consensus sequence (SEQ ID NO:18) in Table 2.
+[0054] FIGs. 4A-4B show binding profiles of non-limiting examples of anti-TSLP
+antibodies to human TSLP (hTSLP), generated using a direct enzvme-linked immunosorbent
+assay (ELISA)
+[0055] FIGs. 5A-5B show binding profiles of non-limiting examples of anti-TSLP
+antibodies to cynomolgus monkey TSLP (cynoTSLP), generated using a direct ELISA.
+12

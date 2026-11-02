@@ -1,0 +1,25 @@
+WO2024/020591
+Human (IL-7Rα/TSLPR) BAF/3 Assay
+100
+AB-2a
+Siin o iinonl
+80
+AB-2b
+六
+60
+A- Reference
+22/27
+40
+-0IgG1 Isotype
+IgG2 Isotype
+20
+Φ-
+0
+0.00010.0010.01
+0.1
+1
+10
+100
+mAb concentration (μg/ml)
+PCT/US2023/070790
+FIG. 11A

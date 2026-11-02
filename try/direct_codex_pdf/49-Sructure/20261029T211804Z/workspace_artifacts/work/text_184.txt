@@ -1,0 +1,34 @@
+W0 2024/020591
+PCT/US2023/070790
+of particular embodiments and aspects of the invention, including the working examples. For
+example, particular experimental parameters exemplified in the working examples can be
+adapted for use in the claimed invention piecemeal without departing from the invention. For
+example, for materials that are disclosed, while specific reference of each of the various
+individual and collective combinations and permutations of these compounds may not be
+explicitly disclosed, each is specifically contemplated and described herein. Thus, if a class of
+elements A, B, and C are disclosed as well as a class of elements D, E, and F and an example
+of a combination of elements A-D is disclosed, then, even if each is not individually recited,
+each is individually and collectively contemplated. Thus, in this example, each of the
+combinations A-E, A-F, B-D, B-E, B-F, C-D, C-E, and C-F are specifically contemplated and
+should be considered disclosed from disclosure of A, B, and C; D, E, and F; and the example
+combination A-D. Likewise, any subset or combination of these is also specifically
+contemplated and disclosed. Thus, for example, the sub-groups of A-E, B-F, and C-E are
+specifically contemplated and should be considered disclosed from disclosure of A, B, and C;
+D, E, and F; and the example combination A-D. This concept applies to all aspects of this
+application, including elements of a composition of matter and steps of method of making or
+using the compositions.
+[00763]The forgoing aspects of the invention, as recognized by the person having
+ordinary skill in the art following the teachings of the specification, can be claimed in any
+combination or permutation to the extent that they are novel and non-obvious over the prior
+art—thus, to the extent an element is described in one or more references known to the
+person having ordinary skill in the art, they may be excluded from the claimed invention by,
+inter alia, a negative proviso or disclaimer of the feature or combination of features.
+Exemplification
+Example 1. Production of Full-Length IgG Molecules
+[00764]Variable heavy (VH) chain and variable light (VL) chain sequences were
+synthesized and cloned into mammalian expression vectors containing nucleotide sequences
+encoding corresponding constant regions using conventional methods to be expressed as full-
+length human immunoglobulin 1 (IgG1) antibodies. The antibodies were generated using one
+expression plasmid per chain, containing a CMV promoter to drive expression and a signal
+peptide to promote secretion of the fully folded IgG into the supernatant. Mammalian
+183

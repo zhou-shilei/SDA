@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+(2014)). AC-SINS leverages the ability of gold nanoparticles to absorb light at signature
+wavelengths and generate surface plasmons. There is an observable shift in the nanoparticle
+absorption spectra when inter-nanoparticle distance changes. This shift occurs when gold
+nanoparticles pre-coated with anti-human Fc antibodies are incubated with antibody
+candidates that self-interact. More self-interaction between the antibody candidates causes an
+increased maximum absorbance wavelength in the nanoparticle absorption spectra, compared
+to spectra of nanoparticles alone (∆λmAx). Polyclonal goat anti-human IgG Fcγ antibodies
+(Jackson ImmunoResearch Laboratories, Inc., West Grove, PA, #109-005-098) and non-
+specific goat antibodies (Jackson ImmunoResearch Laboratories, Inc., Catalog #005-000-
+003) were used to pre-coat the gold nanoparticle (Ted Pella Inc., Redding, CA, Catalog
+#15705). Coating solution was prepared at a 4:1 (v/v) ratio between capture and non-capture
+antibodies (0.4 mg/mL total antibodies). A 9:1 (v/v) ratio solution with gold nanoparticles
+and coating solution was prepared before incubation at RT and blocking of the empty gold
+nanoparticle sites with 0.1 μM thiolated PEG (Sigma-Aldrich, St. Louis, MO, Catalog
+#729140-1G). This was then filtered through 0.22 μm PVDF membrane (Millex-GV Syringe
+Filter Unit, 13 mm, MilliporeSigma, Burlington, MA). The particles retained on top were
+eluted with 1 x PBS. This coating solution was incubated with the antibody candidates at RT
+for 2 hours in a polypropylene plate before being transferred on to a polystyrene UV
+transparent plate. Absorption spectra is measured at this point from 510 to 570 nm at in
+increment of 2 nm. These data were analyzed to determine the wavelength shifts that are
+indicative of self-interaction in the antibody candidates. Representative AC-SINS data is
+shown in Table 6.
+Example 4. TSLP Binding Enzyme-Linked Immunosorbent Assay (ELISA)
+[00767] Human TSLP (hTSLP) Binding ELISA
+[00768] Binding affinity of anti-TSLP monoclonal antibodies (mAbs) to human TSLP was
+assessed using an indirect ELISA assay. A 96 well half area plate was coated with 2 μg/mL
+of recombinant human TSLP (BioLegend, San Diego, CA) overnight. The next day, the plate
+was washed three times with ELISA Wash Buffer (PBS-Tween 0.5%), blocked with 1x
+ELISA assay diluent (BioLegend) for one hour. Plates were then washed three times with
+ELISA Wash Buffer, followed by addition of the anti-TSLP antibodies at the indicated
+concentrations and incubation at 37°C for one hour. The plate was washed three times with
+ELISA Wash Buffer, and horseradish peroxidase (HRP)-conjugated anti-human IgG Fc
+185

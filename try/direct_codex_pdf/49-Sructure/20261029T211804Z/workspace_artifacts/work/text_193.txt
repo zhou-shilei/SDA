@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00798] Assay plates: Cell culture microplate, 96-well, PS, F-bottom, white, CELLSTAR®
+with lid (Greiner bio-one, Kremsmünster, Austria, Cat no: 655083, Lot no: E211036T).
+[00799] Assay Medium: RPMI+ GlutaMAX (1x) (RPMI Medium 1640, Gibco, Billings,
+Montana, Cat no: 61870-036, Lot No: 2472360) +10% FBS (R&D Systems, Minneapolis,
+MN, Cat no: S12495H Lot no: A21012) + 1% Penicillin-Streptomycin (Gibco, Cat no:15140-
+122, Lot no: 2441835)
+[00800] Luciferase reagent: One-step Luciferase Assay system (BPS Bioscience Inc., Cat
+No: 78262, Lot No:230201).
+[00801]To assess functional potency of anti-TSLP mAbs in vitro, a Ba/F3 reporter cell
+line expressing human TSLP receptor and IL-7Rα with a luciferase readout was created.
+Human TSLP receptor (TSLPR) forms a heterodimeric complex with the IL-7Rα (CD127)
+and signals through STAT5 after binding of TSLP. A hIL-7Rα-P2A-hTSLPR construct was
+synthesized and cloned into a pcDNA3.1(+)/Hygro plasmid. The plasmid was transfected into
+the Ba/F3-STAT5-Luc cell line, which contains a STAT5-inducible luciferase reporter, to
+create a stable cell line expressing hTSLPR and hIL-7Rα. Ba/F3-STAT5-Luciferase cells
+stably expressing hTSLPR/hIL-7R were maintained in RPMI-1640 with Glutamax medium
+containing 10% fetal bovine serum (FBS), 1% penicillin-streptomycin, 10 ng/mL hTSLP, and
+400 μg/mL hygromycin selection antibiotic, cells were deprived of hTSLP for 24 hours prior
+to use in the assay. The Ba/F3-STAT5-hTSLPR/hIL-7R-Luc cells had a dose dependent
+response to hTSLP, 1 ng/mL hTSLP was used as a final concentration for this assay.
+[00802] In a 96-well cell culture microplate, serial dilutions of 4X anti-TSLP antibodies in
+25 μl of assay media (RPMI-1640 + 10% FBS + 1%P/S) were pre-incubated with 25 μl of 4
+ng/mL (4X) hTSLP cytokine at 37°C for 30 minutes. The cytokines used in this assay were
+purchased from a single source commercial vendor and reconstituted based on vendor
+instructions. Afterwards 20,000 Ba/F3-STAT5-hTSLPR/hIL-7R-Luc cells in 50 μl of cell
+media were plated and incubated with 4X antibodies (each of AB-2a, AB-2b, the Reference
+Antibody, IgG1 isotype control, and IgG2 isotype control was added at 4X concentration)
+and TSLP cytokine for four hours. After four hours, 100 μl of luciferase reagent was added to
+each well of the plate and rocked gently for 15 minutes at room temperature (RT), protected
+from light. Luminescence was measured with a luminometer (Envision) within one hour of
+luciferase reagent addition
+[00803] Graphpad Prism 9.2.0 was used to analyze data. Average luminescence values of
+three technical replicates per concentration from three independent experiments were baseline
+192

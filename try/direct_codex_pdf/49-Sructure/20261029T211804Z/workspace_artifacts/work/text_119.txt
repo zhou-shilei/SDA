@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+therapeutic agents (e.g., concurrently, or sequentially with one or more additional therapeutic
+agents) or prophylactic agents (e.g., concurrently, or sequentially with one or more
+prophylactic agents)
+[00583] In some embodiments, treating a TSLP-associated disease or condition further
+comprises administering a therapeutically effective amount of one or more additional
+therapeutic agents to a subject at the same time as, or following administration of a
+composition (e.g., a polypeptide or pharmaceutical composition). In some embodiments,
+treating a TSLP-associated disease or condition further comprises administering a
+therapeutically effective amount of one or more prophylactic agents to a subject before, at the
+same time as, or following administration of a composition (e.g., a polypeptide or a
+pharmaceutical composition).
+[00584] Administration of two or more therapeutic agents encompasses co-administration
+of the therapeutic agents in a substantially simultaneous manner, such as in a pharmaceutical
+combination. Alternatively, such administration encompasses co-administration in multiple
+containers, or separate containers (e.g., capsules, powders, and liquids) for each therapeutic
+agent. Such administration also encompasses use of each type of therapeutic agent in a
+sequential manner, either at approximately the same time or at different times. A composition
+and a second therapeutic agent can be administered via the same administration route or via
+different administration routes
+[00585] The disclosure also provides, among other things, a method of reducing (e.g.,
+inhibiting) binding of TSLP to TSLPR in a cell, comprising contacting the cell an effective
+amount of any one or more of the polypeptides or fusion proteins disclosed herein.
+[00586] In some embodiments, reducing (e.g., inhibiting) binding of TSLP to TSLPR in a
+cell comprises contacting the cell an effective amount of a polypeptide comprising:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:5; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:21 (AB-2)
+[00587] In some embodiments, reducing (e.g., inhibiting) binding of TSLP to TSLPR in a
+cell comprises contacting the cell an effective amount of a polypeptide comprising:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21 (AB-2).
+118

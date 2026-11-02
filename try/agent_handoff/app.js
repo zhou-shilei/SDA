@@ -24,8 +24,9 @@
     if(call.stage==='template'||call.stage==='vision')return [{label:call.stage==='template'?'实际表格与表题输入':'图片定位与单元格输入',value:call.request.value.payload,path:call.request.original_path+' #/payload'}];
     if (call.stage === 'reader') return [artifactChoice('seed'), artifactChoice('template_raw'), artifactChoice('template', '/document_plan', 'Template 返回（程序恢复后）'), artifactChoice('template')].filter(Boolean);
     if (call.stage === 'action') return [artifactChoice('action_input'), artifactChoice('seed'), artifactChoice('action_status')].filter(Boolean);
+    if (call.stage === 'answer_action') return [artifactChoice('answer_action_input'), artifactChoice('dataset2_business'), artifactChoice('answer_actions'), artifactChoice('answer_action_status')].filter(Boolean);
     const choices = [call.upstream_pointer !== null ? artifactChoice('questions', call.upstream_pointer, '本题问题（首轮队列）') : null,
-      artifactChoice('questions'), artifactChoice('first_pass')].filter(Boolean);
+      artifactChoice('questions'), artifactChoice('dataset2_business'), artifactChoice('first_pass')].filter(Boolean);
     return choices.length ? choices : [{label: '上游问题队列未保存', missing: true, path: '未记录；实收问题仍可在下游 payload.question 中查看'}];
   }
   function tree(container, value, missing = false) {
@@ -112,7 +113,7 @@
       const top = el('span', undefined, 'call-top'); top.append(el('strong', call.id), el('span', call.response ? '已返回' : '未记录', call.response ? 'status-ok' : 'status-pending'));
       const actions=call.request.value.payload.reader_actions;
       const actionCount=Array.isArray(actions)?actions.length:Object.values(actions||{}).reduce((n,t)=>n+(t.rows?.length||0),0);
-      b.append(top, el('span', call.stage === 'template'?`Template · ${call.request.value.payload.tables?.length||0} 张表`:call.stage==='vision'?'图片序列复核':call.stage === 'reader' ? `Reader · ${call.request.value.payload.sources?.length || 0} 条来源` : call.stage === 'action' ? `ActionAgent · ${actionCount} 条建议` : clip(namesFor(call) || 'Answer · 定向补全', 55), 'call-subtitle'));
+      b.append(top, el('span', call.stage === 'template'?`Template · ${call.request.value.payload.tables?.length||0} 张表`:call.stage==='vision'?'图片序列复核':call.stage === 'reader' ? `Reader · ${call.request.value.payload.sources?.length || 0} ${call.request.value.payload.source_encoding?'组来源':'条来源'}` : ['action','answer_action'].includes(call.stage) ? `${call.stage==='action'?'Action①':'Action②'} · ${actionCount} 条建议` : clip(namesFor(call) || 'Answer · 定向补全', 55), 'call-subtitle'));
       $('calls').append(b);
     });
     if (!calls.length) $('calls').append(el('p', '没有匹配的调用', 'empty'));
@@ -142,6 +143,7 @@
     state.call = call;
     $('call-stage').textContent = call.stage === 'reader' ? 'TEMPLATE → SEED → READER' : call.stage === 'action' ? 'SEED + READER ACTIONS → ACTIONAGENT → DATASET' : 'QUESTION → RETRIEVAL → ANSWER';
     $('call-title').textContent = call.stage === 'reader' ? `${call.id} · Reader 分块读取` : call.stage === 'action' ? 'ActionAgent · 全文语义整合' : `${call.id} · 定向补全`;
+    if(call.stage==='answer_action'){$('call-stage').textContent='DATASET2 + ANSWER ACTIONS → ACTION② → DATASET3';$('call-title').textContent='Action② · 问答建议综合';}
     if(call.stage==='template'||call.stage==='vision'){$('call-stage').textContent=call.stage==='template'?'表格 + 表题 → TEMPLATE → DATASET1':'裁图 + OCR → 原图序列复核';$('call-title').textContent=call.stage==='template'?'TemplateAgent · 本轮真实调用':`${call.id} · 原图序列复核`;}
     $('call-status').textContent = call.response ? '已有结构校验返回' : '尚无已保存返回';
     if(call.current===false)$('call-status').textContent=call.response?'历史返回 · 非本轮接纳':'历史尝试 · 无已保存返回';
@@ -156,12 +158,14 @@
       {label: '约束输出 · schema', value: request.value.schema, path: request.original_path + ' #/schema'}
     ];
     const outputs = [{label: '通过结构校验的返回', value: call.response?.value, missing: !call.response, path: call.response?.original_path || '未记录；不使用其他调用的结果替代'}];
-    if(call.stage==='action'&&call.key===data.artifacts.action_status?.value?.provider?.key){
-      const canonical=data.artifacts.action_dataset;
+    if(['action','answer_action'].includes(call.stage)&&call.key===data.artifacts[call.stage==='action'?'action_status':'answer_action_status']?.value?.provider?.key){
+      const canonical=data.artifacts[call.stage==='action'?'action_dataset':'answer_action_dataset'];
       if(canonical)outputs.unshift({label:'通过完整校验的完整业务数据集',value:canonical.value,path:canonical.original_path,hash:canonical.sha256});
     }
     call.attempts.forEach((a, i) => outputs.push({label: `原始尝试 ${i + 1}（不等同于接纳）`, value: a.value, path: a.original_path, hash: a.sha256}));
     if(call.stage === 'action') $('call-note').textContent='完整初始 dataset、所有 Reader actions 和实际引用的原文共同进入 ActionAgent；输出完整业务数据集，并保存逐条 action 的处理和校验状态。';
+    if(call.stage==='answer_action')$('call-note').textContent='完整固定 Dataset2、全部有效 Answer 建议和对应原文共同进入 Action②；模型返回完整 Dataset3，保留逐条建议处理、域保护与校验记录。';
+    if(call.stage==='answer'&&payload.dataset2_hash)$('call-note').textContent=`本题读取与其他 Answer 相同的固定 Dataset2（${payload.dataset2_hash}）。回答仅作为候选建议在副本校验；是否补全以综合后的最终状态为准。${report?`状态：${report.status}；最终补全：${report.resolved===undefined?'未记录':report.resolved?'是':'否'}。`:''}`;
     if(call.stage==='template'||call.stage==='vision')$('call-note').textContent='输入、指令、Schema、图片身份与原始返回均来自本轮保存的请求。Template 程序恢复后的计划单独保留，没有替代原始模型返回。';
     const titles = [call.stage === 'action' ? '完整底稿 / 综合上下文' : call.stage === 'reader' ? '上游输出 / 中间产物' : '上游问题 / 参考产物', '下游实际输入', '下游返回'];
     if(call.stage==='template'||call.stage==='vision')titles[0]='上游表格 / 图片定位';
@@ -202,7 +206,8 @@
   });
   const time = new Date(data.captured_at).toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai', hour12: false});
   $('subtitle').textContent = `${data.document_id} · 保存于 ${time}（北京时间）`;
-  const metrics=data.actual_full_run?[[data.calls.filter(c=>c.stage==='reader').length,'并行 Reader'],[data.calls.filter(c=>c.stage==='answer'&&c.current).length,'本轮补全请求'],[data.calls.filter(c=>c.stage==='action'&&c.current).length,'最终 Action 整合']]:[[data.calls.filter(c => c.stage === 'reader').length, 'Reader 调用'], [data.calls.filter(c => c.stage === 'answer').length, '补全调用'], [data.calls.filter(c => !c.response).length, '返回未记录']];
+  const integration=data.artifacts.answer_action_status?.value;
+  const metrics=data.actual_full_run?[[data.calls.filter(c=>c.stage==='reader').length,'并行 Reader'],[data.calls.filter(c=>c.stage==='answer'&&c.current).length,'本轮补全请求'],[integration?.status==='not_needed'?'跳过':integration?.status==='failed'?'失败':integration?data.calls.filter(c=>c.stage==='answer_action'&&c.current).length:'未记录','本轮 Action②']]:[[data.calls.filter(c => c.stage === 'reader').length, 'Reader 调用'], [data.calls.filter(c => c.stage === 'answer').length, '补全调用'], [data.calls.filter(c => !c.response).length, '返回未记录']];
   for (const [n, label] of metrics) { const item = el('div'); item.append(el('strong', n), el('span', label)); $('metrics').append(item); }
   data.notes.forEach(note => $('notes').append(el('li', note))); $('origin').textContent = `源运行：${data.reader_dir}`;
   window.HandoffInspector = {data, tree, el, button, copy, selectCall, currentCall: () => state.call};

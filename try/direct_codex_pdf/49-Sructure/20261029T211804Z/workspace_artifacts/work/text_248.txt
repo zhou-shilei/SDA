@@ -1,0 +1,35 @@
+WO2024/020591
+FIG.10C
+Mouse TSLP Binding ELISA
+4
+AB-2a
+Abse ae nnmm
+
+AB-2b
+3
+Reference
+2
+. IgG1 Isotype
+O
+IgG2 Isotype
+0.000010.0001 0.001 0.01 0.1
+10
+mAb concentration (μg/ml)
+21/27
+Human IL-7 Binding ELISA
+FIG.10D
+4
+PRO-17101-004
+Abse ae Asnnm
+AB-2a
+3
+AB-2b
+PCT/US2023/070790
+2
+
+Reference
+IgG1 Isotype
+IgG2 Isotype
+0.000010.0001 0.001 0.01 0.1
+10
+mAb concentration (μg/ml)

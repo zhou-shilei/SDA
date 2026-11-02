@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+103.The system of any of Embodiments 99-102, wherein the target molecule is a target
+polypeptide.
+104.
+The system of any of Embodiments 99-103, wherein scoring the polypeptide using the
+CBO model is implemented by the script of Appendix A
+105. The system of any of Embodiment 99-104, wherein the CBO model is substantially
+similar to the table of Appendix B.
+106.
+The system of any of Embodiments 99-105, wherein scoring the polypeptide further
+includes:
+extracting a plurality of positions from the amino acid sequence, the plurality
+of positions being positions where mutations were applied during training of the CBO
+model;
+wherein calculating the plurality of energy scores is performed on the
+extracted plurality of positions.
+107.
+The system of any of Embodiments 99-106, wherein scoring the polypeptide further
+includes scoring a pair of amino acid sequences, and scoring the polypeptide further
+comprises:
+aligning a first amino acid sequence and second amino acid sequence of the
+pair of amino acid sequences such that the first amino acid sequence and second
+amino acid sequence are the same length and that given sections of the first amino
+acid sequence and second amino acid sequence are the same.
+108.
+The system of any of Embodiments 99-107, wherein the plurality of energy scores
+includes a first-order energy score associated with each amino acid being at its
+position and, for each pair of amino acid positions of the amino acid sequence, a
+second-order energy score associated with the pair of amino acid positions, the first-
+order energy score and second-order energy score being calculated by respective
+entries from a trained first- and second- order energy score table of outputted weights
+of a model trained by a plurality of known amino acid sequences and corresponding
+properties of the known amino acid sequences.
+109.The system of any of Embodiments 99-108, further comprising:
+177
+RECTIFIED SHEET (RULE 91)

@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+antigen, but structurally differ from native antibody structures. Non-limiting examples of
+antibody mimetics include Adnectins, Affibodies, Affilins, Affimers, Affitins, Alphabodies,
+Anticalins, Avimers, DARPins, Fynomers, Kunitz domain peptides, monobodies,
+nanobodies, nanoCLAMPs, and Versabodies.
+[00486] In some embodiments, a polypeptide is an antigen-binding fragment of an
+antibody. The term “antigen-binding fragment" refers to a portion of an immunoglobulin
+molecule (e.g., antibody) that retains the antigen binding properties of the full-length
+Reference Antibody. Non-limiting examples of antigen-binding fragments include a VH
+region, a VL region, an Fab fragment, an F(ab')2 fragment, an Fd fragment, an Fv fragment
+and a domain antibody (dAb) consisting of one VH domain or one VL domain, etc. VH and VL
+domains may be linked together via a synthetic linker to form various types of single-chain
+antibody designs in which the VH/VL domains pair intramolecularly, or intermolecularly in
+those cases when the Ví and VL domains are expressed by separate chains, to form a
+monovalent antigen binding site, such as single chain Fv (scFv) or diabody. In some
+embodiments, a polypeptide disclosed herein is an antigen binding fragment selected from
+Fab, F(ab')2, Fab', scFv, or Fv. In some embodiments, a polypeptide is a scFv.
+[00487] In some embodiments, a polypeptide is an isolated polypeptide.
+[00488] In some embodiments, a polypeptide (e.g., an isolated polypeptide) is
+recombinantly produced. In some embodiments, a polypeptide (e.g., an isolated polypeptide)
+is synthetically produced
+[00489] In some embodiments, a polypeptide is linked to a second polypeptide. The term
+"linked" means attached, via a covalent or noncovalent interaction. Conjugation can employ a
+suitable linking agent. Non-limiting examples include peptide linkers, compound linkers, and
+chemical cross-linking agents. In some embodiments, the linker is a disulfide bond.
+[00490] In some embodiments, a polypeptide is conjugated to a heterologous moiety. The
+term “conjugated" refers to attached, via a covalent or noncovalent interaction. Conjugation
+can employ any one or more of suitable linking agents. Non-limiting examples include
+peptide linkers, compound linkers, and chemical cross-linking agents.
+[00491] In some embodiments, a heterologous moiety comprises a therapeutic agent, a
+diagnostic agent, or both. In some embodiments, a heterologous moiety is selected from
+polyethylene glycol (PEG), hexadecanoic acid, hydrogels, nanoparticles, multimerization
+domains and carrier peptides.
+101

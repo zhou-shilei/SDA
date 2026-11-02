@@ -1,0 +1,46 @@
+WO 2024/020591
+PCT/US2023/070790
+lymphoid cell (ILC2), a hematopoietic progenitor cell, a lymphocyte, a macrophage, a mast
+cell, and a monocyte.
+AB-2
+[00596] The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 comprising the amino acid sequence of SEQ ID NO:31, a HCDR2
+comprising the amino acid sequence of SEQ ID NO:35, and a HCDR3
+comprising the amino acid sequence of SEQ ID NO:50; and
+b)
+a LCDR 1 comprising the amino acid sequence of SEQ ID NO:60, a LCDR2
+comprising the amino acid sequence of SEQ ID NO:67, and a LCDR3
+comprising the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-bindingfragment thereof.
+[00597] The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 consisting of the amino acid sequence of SEQ ID NO:31, a
+HCDR2 consisting of the amino acid sequence of SEQ ID NO:35, and a
+HCDR3 consisting of the amino acid sequence of SEQ ID NO:50; and
+b)
+a LCDR 1 consisting of the amino acid sequence of SEQ ID NO:60, a LCDR2
+consisting of the amino acid sequence of SEQ ID NO:67, and a LCDR3
+consisting of the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-binding fragment thereof.
+[00598]
+AB-2 CDR amino acid sequences as determined by Kabat numbering are:
+[00599]
+HCDR1: TYGMH (SEQ ID NO:130)
+[00600]
+HCDR2: VVWYDGSYTHYADSVKG (SEQ ID NO:131)
+[00601]
+HCDR3: SPQWEEIFEAMDI (SEQ ID NO:132)
+[00602]
+LCDR1: GGNNIGSKSVH (SEQ ID NO:133)
+[00603]
+LCDR2: DDSDRPS (SEQ ID NO:134)
+[00604]
+LCDR3: QIWDSSSSLVV (SEQ ID NO:71)
+[00605]
+The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 comprising the amino acid sequence of SEQ ID NO:130, a HCDR2
+comprising the amino acid sequence of SEQ ID NO:131, and a HCDR3
+comprising the amino acid sequence of SEQ ID NO:132; and
+120

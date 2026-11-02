@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+X₂ is W;
+X3 is D or S;
+X₄ is S or T;
+X5 is N, Y or D;
+X6 is K or T;
+X7 is A or S;
+X8 is A or S;
+X9 is L, D, E or S;
+X10 is V or I;
+X11 is H or F;
+X12 is A or S;
+X13 is F or M; or
+X1₄ is I or V, or
+any combination of the foregoing.
+[00345] In some embodiments:
+X1 is V;
+X₂ is W;
+X3 is S;
+X₄ is T;
+X5 is Y or D;
+X6 is T;
+X7 is S;
+X8 is S;
+X9 is D, E or S;
+X10 is I;
+Xn is F;
+X12 is S;
+X13 is M;
+X14 is V,
+or any combination of the foregoing.
+[00346] In some embodiments, X₁ is not I. In some embodiments, X1 is I or V. In some
+embodiments, X₁ is V. In some embodiments, X1 is I.
+[00347] In some embodiments, X₂ is W.
+76

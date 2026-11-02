@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8);
+SEQ ID NO:12 and SEQ ID NO:20 (AB-9);
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14), or
+a combination thereof.
+[00300] In some embodiments, a polypeptide comprises a paratope that differs from a
+paratope of an antibody comprising a VH/VL combination selected from: SEQ ID NO:4/SEQ
+ID NO:20 (AB-1), SEQ ID NO:5/SEQ ID NO:21 (AB-2), SEQ ID NO:6/SEQ ID NO:20
+(AB-3) or SEQ ID NO:7/SEQ ID NO:22 (AB-4).
+[00301] In some embodiments, a polypeptide comprises a paratope that differs from a
+paratope of an antibody comprising a VH/VL combination selected from: SEQ ID NO:4/SEQ
+ID NO:20 (AB-1), SEQ ID NO:5/SEQ ID NO:21 (AB-2), SEQ ID NO:6/SEQ ID NO:20
+(AB-3) or SEQ ID NO:7/SEQ ID NO:22 (AB-4), by substitution (e.g., conservative
+substitution such as highly conservative substitution) of from 1 to 3 (e.g., 1, 2 or 3) residues.
+[00302] In some embodiments, a polypeptide comprises a paratope that is substantially
+similar (e.g., having at least about 90% sequence identity) to a paratope of an antibody
+comprising a VH/VL combination selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4), or
+a combination thereof.
+[00303] In some embodiments, a polypeptide comprises a paratope that is substantially
+similar (e.g., having at least about 90% sequence identity) to, and substantially preserves one
+or more functional properties of, a paratope of an antibody comprising a VH/VL combination
+selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4), or
+67

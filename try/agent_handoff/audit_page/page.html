@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>49-Sructure · 看懂 Template 到 Dataset 的缺口</title>
+  <link rel="icon" href="data:,">
+  <style>@@STYLE@@</style>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="index.html">SDA <span>/ 识别质量说明</span></a><a class="back" href="index.html">返回整体流程 <span aria-hidden="true">↗</span></a></header>
+  <main>
+    <aside style="margin-top:24px;padding:13px 17px;background:#eaf0e3;border:1px solid #cfdcc8;border-radius:4px;font-size:13px"><a href="text-comparison.html">新增：仅表格、表格＋正文、完整 PDF 模型参考，三组真实对照 →</a></aside>
+    <section class="hero" aria-labelledby="page-title">
+      <div><p class="eyebrow">49-SRUCTURE · TEMPLATE AGENT · V6</p><h1 id="page-title">模型识别出来了，<br>数据为什么还没齐？</h1><p class="lead">实验骨架已建立。<br>序列关联、带区间的数值和供者条件，还没有完整接进 Dataset。</p><a class="jump" href="#example">先跟着 AB-1 看一遍 <span aria-hidden="true">↓</span></a></div>
+      <aside class="verdict"><span class="status"><span class="dot"></span>本次记录：Template 已完成</span><p class="verdict-question">现在能直接当完整数据集用吗？</p><p class="verdict-answer">能做初始化，<br><em>还需继续补全。</em></p><p>45 个实体、16 个实验配置和 197 条测量已经组织起来；完整 VH/VL 序列配对仍为 0。</p><div class="stamp">2026-10-31 · 北京时间<br>固定审计快照 · Reader / Answer 尚未执行</div></aside>
+    </section>
+
+    <section class="chapter" id="flow" aria-labelledby="flow-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / 先区分这四步</p><h2 id="flow-title">模型的回答，还要走两步才能成为数据。</h2></div><span class="caption">点选步骤，查看职责</span></div>
+      <div class="pipeline" role="group" aria-label="数据处理的四个步骤">
+        <button class="pipe" data-step="0" aria-pressed="false"><span class="step-no">01</span><strong>提供证据</strong><span class="pipe-number">28 <small>张表</small></span><span class="pipe-bottom">表头、数据行、正文</span></button>
+        <button class="pipe" data-step="1" aria-pressed="false"><span class="step-no">02 · 模型</span><strong>Template 识别</strong><span class="pipe-number">89 <small>条序列关联</small></span><span class="pipe-bottom">筛选表格、定位、建立关系</span></button>
+        <button class="pipe" data-step="2" aria-pressed="true"><span class="step-no">03 · 程序</span><strong>证据校验</strong><span class="pipe-number amber-text">18 <small>条关联保留</small></span><span class="pipe-bottom">71 条没有通过规则</span></button>
+        <button class="pipe" data-step="3" aria-pressed="false"><span class="step-no">04 · 程序</span><strong>组装 Dataset1</strong><span class="pipe-number">197 <small>条测量</small></span><span class="pipe-bottom">接上实体、实验和来源</span></button>
+      </div>
+      <div id="step-detail" class="step-detail" aria-live="polite"></div>
+      <p class="fineprint">图中使用同一份真实模型回答经最新规则重新校验的结果。不是一次新模型回答，也不是 Reader 补全后的最终数据。</p>
+    </section>
+
+    <section class="chapter" id="example" aria-labelledby="sequence-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / 一个抗体的完整例子</p><h2 id="sequence-title">AB-1 的编号被识别到了，为什么序列仍然缺失？</h2></div><label class="select-label">换个抗体看<select id="entity-select" aria-label="选择抗体"></select></label></div>
+      <div class="example-grid">
+        <article class="evidence-paper"><div class="paper-top"><span>真实输入 · 正文 OCR</span><span class="mono" id="example-name">AB-1</span></div><blockquote id="source-quote"></blockquote><code id="source-ref" class="source-ref"></code><div class="annotation"><span class="annotation-no">!</span><p>OCR 把重链变量区的 VH 写成了 <strong>Ví</strong>。模型在这 14 段正文中仍提出了对应编号，但链类型校验没有接住；修复前还需要核对原页。</p></div></article>
+        <article class="relation-paper"><p class="overline">同一条信息，经过三个阶段</p><div class="relation-table-wrap"><table class="relation-table"><thead><tr><th>链</th><th>模型回答</th><th>校验后</th><th>氨基酸序列</th></tr></thead><tbody id="example-relations"></tbody></table></div><div class="key-idea"><strong>有 SEQ ID，不等于已有序列内容。</strong><p>例如 SEQ ID 20 是编号；还要找到它对应的氨基酸字符串、确认范围和来源，才能填入序列。当前 Dataset1 尚无序列定义，Reader 还没执行。</p></div><details><summary>查看这个抗体实际入库的序列状态</summary><pre id="entity-json"></pre></details></article>
+      </div>
+      <div class="subset-strip"><div><strong>28 / 28</strong><span>检查的编号关系与模型回答一致</span></div><span class="strip-arrow" aria-hidden="true">→</span><div><strong class="amber-text">14 / 28</strong><span>校验后保留（均为 VL）</span></div><p>只检查 AB-1～AB-14 的这 28 条关系。<br>这不是全篇准确率，也没有验证全部序列残基。</p></div>
+      <details class="evidence-details"><summary>展开 AB-1～AB-14 的逐条对照</summary><div class="table-scroll"><table><thead><tr><th>抗体</th><th>链</th><th>SEQ ID</th><th>模型与正文编号对应</th><th>校验后保留</th><th>正文来源</th></tr></thead><tbody id="mapping-rows"></tbody></table></div></details>
+    </section>
+
+    <section class="chapter" id="measurements" aria-labelledby="measure-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / 另一个缺口，发生在导出</p><h2 id="measure-title">表格定位对了，数值仍可能没有入库。</h2></div><span class="count-note"><strong>24</strong> 个结果单元格缺失</span></div>
+      <div class="measurement-example"><div><span class="overline">第 208 页 · 真实单元格</span><p class="measurement-value"><strong>0.03</strong> <span>(0.03 to 0.04)</span></p><p class="number-labels"><span>点估计</span><span>95% 置信区间</span></p><code class="source-ref">p0208-r0001:R3C1</code></div><div class="measurement-explanation"><span class="pill ok">Template 已定位</span><span class="connector" aria-hidden="true">→</span><span class="pill warning">Dataset 未写入</span><p>现有数值解析器主要接收单个数字，接不住这种“数值＋区间”。EC80 还存在指标枚举缺口。这两张表的 24 个结果因此都没进入 Dataset1。</p><p class="subtle">这里不是 24 个错误值，而是 24 个未入库的结果。区间上下限不单独算测量。</p></div></div>
+      <div class="coverage-block"><div class="coverage-heading"><h3>检查的七张实验表：221 个数值结果</h3><span><strong>89.1%</strong> 单元格入库覆盖</span></div><div class="coverage-bar" role="img" aria-label="221 个已检查的结果单元格中，197 个已入库，24 个未入库"><span class="covered">197 已入库</span><span class="uncovered">24</span></div><div class="legend"><span><i class="green-swatch"></i>197 条已进入 Dataset1</span><span><i class="amber-swatch"></i>24 条待支持区间解析 / 指标</span></div><p class="fineprint">89.1% = 197 ÷ (197 + 24)。只描述这七张表的结果单元格覆盖，不能当作语义准确率或整篇召回率。</p></div>
+      <details class="evidence-details"><summary>查看这 24 个漏掉的结果</summary><div class="filter-line"><label>筛选表格 <select id="missing-filter"><option value="all">全部 · 24 个</option><option value="p0208-r0001">EC 表 · 18 个</option><option value="p0208-r0002">IC 表 · 6 个</option></select></label><span id="missing-count" aria-live="polite"></span></div><div class="table-scroll"><table><thead><tr><th>来源单元格</th><th>抗体</th><th>指标原文</th><th>结果原文</th><th>当前 Dataset</th></tr></thead><tbody id="missing-rows"></tbody></table></div></details>
+    </section>
+
+    <section class="chapter" id="conditions" aria-labelledby="donor-title">
+      <div class="section-heading"><div><p class="eyebrow">04 / 值留下了，条件还要整理</p><h2 id="donor-title">同一个抗体的五个值，来自五名供者。</h2></div><span class="caption">第 207 页 · AB-1 的真实 IC50</span></div>
+      <div class="table-scroll donor-table"><table><thead><tr><th>原表条件</th><th>Donor 1</th><th>Donor 2</th><th>Donor 3</th><th>Donor 4</th><th>Donor 5</th></tr></thead><tbody><tr id="donor-values"><th>IC50 / nM</th></tr><tr><th>Dataset 的 donor 字段</th><td>未填写</td><td>未填写</td><td>未填写</td><td>未填写</td><td>未填写</td></tr></tbody></table></div>
+      <p class="body-note">这张表的 50 条测量都保留了表头来源引用，仍可追溯到供者；但没有把条件明确写进 <code>donor</code> 字段。后续比较数据时，还需要从引用中读回这些条件。</p>
+    </section>
+
+    <section class="chapter" id="conclusion" aria-labelledby="conclusion-title">
+      <div class="section-heading"><div><p class="eyebrow">05 / 回答最开始的问题</p><h2 id="conclusion-title">Template 有用，但完整数据还需要后续处理。</h2></div></div>
+      <div class="answer-grid"><article class="answer good"><span class="overline">已经做到</span><h3>把实验数据组织成骨架</h3><p>实体、实验、197 条测量已有关系。197 条记录均有实验归属；与已解析测量相比，没有新增文字或实体传递差异。</p></article><article class="answer pending"><span class="overline">尚未完成</span><h3>让序列和条件真正接齐</h3><p>当前序列定义、完整 VH/VL 配对均为 0；带区间的测量未导出，供者条件尚未显式整理。Reader 的补全效果还未验证。</p></article></div>
+      <div class="priorities"><h3>下一步应优先修复</h3><ol><li><strong>校验能理解有依据的链类型。</strong>核对原页，处理 VH → Ví 的 OCR 问题，并支持表格与正文共同证明一条关系。</li><li><strong>导出器保留数值和置信区间。</strong>补齐 EC80 等指标表达，覆盖第 208 页的 24 个结果。</li><li><strong>把条件和序列补完整。</strong>传递 donor 等字段，再通过 Reader 补充序列定义，检查完整序列—测量配对。</li></ol><p class="fineprint">以上是审计后的修复建议，页面没有把修复后的预期数字冒充成已完成结果。</p></div>
+    </section>
+
+    <section class="provenance" aria-labelledby="provenance-title"><div class="section-heading"><div><p class="eyebrow">数据口径与证据</p><h2 id="provenance-title">同一份模型回答，两次程序处理。</h2></div><button id="download-audit" class="download">下载本页审计 JSON ↓</button></div><div class="table-scroll"><table><thead><tr><th>处理版本</th><th>实体</th><th>序列关联</th><th>测量</th><th>说明</th></tr></thead><tbody><tr><th>原始 v6 试跑</th><td>44</td><td>16</td><td>181</td><td>Template 完成后的首次结果</td></tr><tr><th>同回答重新校验 · 本页主口径</th><td>45</td><td>18</td><td>197</td><td>修复别名等程序处理后重新组装，没有新增模型调用</td></tr></tbody></table></div><p class="fineprint" id="run-times"></p><p class="fineprint">本页为已保存产物的固定审计视图，不显示实时进度。28 张表全部提供，63 个正文片段因预算未提供；未完成全篇人工标注，不能给出全局准确率。</p><details class="evidence-details"><summary>查看来源路径、文件哈希与核对范围</summary><pre id="provenance-json"></pre></details></section>
+  </main>
+  <footer><span>SDA / 49-Sructure / v6 固定审计</span><a href="#page-title">回到顶部 ↑</a></footer>
+  <script id="audit-data" type="application/json">@@DATA@@</script>
+  <script>@@APP@@</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{
+  "implementation": "document.pdf2doc.extract_table_evidence_batch",
+  "scope": "Three source table images, automatic orientation and addressed row/cell crops; no manual crop coordinates",
+  "reference": "Prior frozen assistant visual transcription; not independent human gold",
+  "checks": [
+    {
+      "name": "AB-1",
+      "table_matches": true,
+      "figure_matches": true,
+      "table_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "figure_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS"
+    },
+    {
+      "name": "AB-2",
+      "table_matches": true,
+      "figure_matches": true,
+      "table_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "figure_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS"
+    },
+    {
+      "name": "AB-5",
+      "table_matches": true,
+      "figure_matches": true,
+      "table_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "figure_sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS"
+    }
+  ],
+  "tables": [
+    {
+      "page": 196,
+      "successful_cells": 15,
+      "failed_cells": 1,
+      "failed": [
+        {
+          "ref": "p0196-r0001:R1C2",
+          "error": "No sequence text lines inside the addressed cell"
+        }
+      ],
+      "comparisons": {
+        "matched": 9,
+        "mismatch": 6,
+        "uncompared": 0
+      }
+    },
+    {
+      "page": 229,
+      "successful_cells": 14,
+      "failed_cells": 1,
+      "failed": [
+        {
+          "ref": "p0229-r0001:R2C1",
+          "error": "No sequence text lines inside the addressed cell"
+        }
+      ],
+      "comparisons": {
+        "matched": 0,
+        "mismatch": 0,
+        "uncompared": 14
+      }
+    },
+    {
+      "page": 230,
+      "successful_cells": 15,
+      "failed_cells": 0,
+      "failed": [],
+      "comparisons": {
+        "matched": 0,
+        "mismatch": 0,
+        "uncompared": 15
+      }
+    }
+  ]
+}

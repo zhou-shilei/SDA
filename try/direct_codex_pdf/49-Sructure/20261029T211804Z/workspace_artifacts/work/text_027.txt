@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+amount that results in a beneficial or desired result in a subject as compared to a control. As
+defined herein, a therapeutically effective amount of a composition (e.g., a pharmaceutical
+composition) disclosed herein may be readily determined by one of ordinary skill by routine
+methods known in the art. Dosage regimen and route of administration may be adjusted to
+provide the optimum therapeutic response.
+Thymic Stromal Lymphopoietin (TSLP)
+[00115]As used herein, TSLP includes wild-type TSLP proteins (e.g., wild-type human
+TSLP proteins or homologs thereof) and truncated forms thereof, mutant, and engineered
+versions of full-length and truncated TSLP proteins, and modified forms (e.g., post-
+translationally modified forms) of full-length and truncated TSLP proteins.
+[00116] A non-limiting example of human TSLP sequences is GenBank: AAK67490.1
+(SEQ ID NO:1).
+[00117] MFPFALLYVLSVSFRKIFILQLVGLVLTYDFTNCDFEKIKAAYLSTISKDLIT
+YMSGTKSTEFNNTVSCSNRPHCLTEIOSLTFNPTAGCASLAKEMFAMKTKAALAIWC
+PGYSETQINATQAMKKRRKRKVTTNKCLEQVSQLQGLWRRFNRPLLKQQ (SEQ ID
+NO:1).
+[00118] A non-limiting example of cyno monkey TSLP sequences is GenBank:
+EHH54440.1 (SEQ ID NO:83).
+[00119] MKSLGQSKKEEVSFRKFFIFQLVGLVLTYDFTNCDFQKIEADYLRTISKDLI
+TYMSGTKSTDFNNTVSCSNRPHCLTEIQSLTFNPTPRCASLAKEMFARKTKATLALW
+CPGYSETQINATQAMKKRRKRKVTTNKCLEQVSQLLGLWRRFIRTLLKKQ (SEQ ID
+NO:83).
+[00120] In some embodiments, a polypeptide binds to a wild-type TSLP protein (e.g., a
+TSLP protein having the amino acid sequence of SEQ ID NO:1, SEQ ID NO:83, or both). In
+some embodiments, a polypeptide binds to a TSLP protein comprising the amino acid
+sequence of SEQ ID NO: 1. In some embodiments, a polypeptide binds to a TSLP protein
+comprising the amino acid sequence of SEQ ID NO:1 and a TSLP protein comprising the
+amino acid sequence of SEQ ID NO:83.
+[00121] In some embodiments, a polypeptide binds to a mutant or engineered TSLP
+protein. In some embodiments, a mutant or engineered TSLP protein comprises an amino
+acid sequence that has at least about 90% sequence identity to a wildtype TSLP protein, for
+example, at 1east about: 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98%, 99%, 99.1%, 99.2%,
+26

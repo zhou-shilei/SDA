@@ -1,0 +1,141 @@
+196 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+196 2 len 141 122 ratio 0.928 diff [('1', ''), ('2', ''), ('3', ''), ('4', ''), ('5', ''), ('6', ''), ('7', ''), ('8', ''), ('9', ''), ('10', ''), ('11', ''), ('12', ''), ('13', ''), ('14', '')]
+196 3 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 4 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 5 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 6 len 122 122 ratio 0.967 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 7 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 8 len 122 122 ratio 0.992 diff [('Q', 'O')]
+196 9 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 10 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 11 len 122 122 ratio 0.943 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 12 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 13 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+196 14 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 15 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 16 len 122 122 ratio 0.984 diff [('Q', 'O'), ('Q', 'O')]
+196 17 len 122 122 ratio 0.975 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+197 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+197 18 len 134 108 ratio 0.86 diff [('Q', 'O'), ('15', ''), ('16', ''), ('17', ''), ('18', ''), ('19', ''), ('QQ', 'OO'), ('Q', 'O'), ('20', ''), ('21', ''), ('22', ''), ('23', ''), ('24', ''), ('25', ''), ('26', ''), ('27', '')]
+197 19 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 20 len 108 108 ratio 0.954 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+197 21 len 108 108 ratio 0.991 diff [('Q', 'O')]
+197 22 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 23 len 108 108 ratio 0.991 diff [('Q', 'O')]
+197 24 len 108 108 ratio 1.0 diff []
+197 25 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 26 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 27 len 108 108 ratio 0.954 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+197 28 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 29 len 108 108 ratio 0.991 diff [('Q', 'O')]
+197 30 len 108 108 ratio 0.944 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+197 unmatched ['Name'] SEQ IDAmino Acid Sequence
+197 unmatched [] HCDR1
+197 unmatched ['Consensus, Reference, AB-1-14'] NO:31GFTFRTYG
+197 unmatched [] HCDR2
+197 unmatched ['Consensus'] NO:32x₁X₂YX₃GX₄X₅X₆
+197 unmatched ['Reference'] NO:33IWYDGSNK
+197 unmatched ['AB-1'] NO:34VWYSGSYT
+197 unmatched ['AB-2'] NO:35VWYDGSYT
+197 unmatched ['AB-3'] NO:36IWYDGTYT
+197 unmatched ['AB-4'] NO:37IWYSGSDT
+197 unmatched ['AB-5'] NO:38VWYDGYDT
+197 unmatched ['AB-6'] NO:39VWYDGSDI
+197 unmatched ['AB-7'] NO:40IWYSGAYI
+197 unmatched ['AB-8, 9'] NO:41IWYDGSYT
+197 unmatched ['AB-10'] NO:42IWYSGTTT
+197 unmatched ['AB-11'] NO:43ISYSGSYI
+198 unmatched ['AB-12'] NO:44VWYDGSNT
+198 unmatched ['AB-13'] NO:45ISYDGSTK
+198 unmatched ['AB-14'] NO:46IWYDGSTK
+198 unmatched [] HCDR3
+198 unmatched ['Consensus'] NO:47X7RX8PQWEX9X1₀X₁1EX1₂X13DX1₄
+198 unmatched ['Reference, AB-14'] NO:48ARAPQWELVHEAFDI
+198 unmatched ['AB-1, 7'] NO:49SRSPQWEDIFEAMDI
+198 unmatched ['AB-2'] NO:50ARSPQWEEIFEAMDI
+198 unmatched ['AB-3, 9'] NO:51ARSPQWESIFEAFDI
+198 unmatched ['AB-4'] NO:52ARSPQWEDIFESMDV
+198 unmatched ['AB-5, 6, 10'] NO:53SRSPQWEDIFESMDI
+198 unmatched ['AB-8'] NO:54ARSPQWEDIFEAFDI
+198 unmatched ['AB-11'] NO:55TRSPQWEEVYEALDI
+198 unmatched ['AB-12'] NO:56ARAPQWESVHEAFDI
+198 unmatched ['AB-13'] NO:57ARAPQWESVYEAFDI
+198 unmatched [] LCDR1
+198 unmatched ['Consensus'] NO:58x₁sX₁₆GX₁7X₁8X19
+198 unmatched ['Reference, AB-5'] NO:59NLGSKS
+198 unmatched ['AB-1-3, 6, 8, 9'] NO:60NIGSKS
+198 unmatched ['AB-4'] NO:61YIGSFS
+198 unmatched ['AB-7'] NO:62NLGSYS
+198 unmatched ['AB-10, 14'] NO:63NIGSKN
+198 unmatched ['AB-11'] NO:64NIGSFS
+198 unmatched ['AB-12'] NO:65NIGRFS
+198 unmatched ['AB-13'] NO:66NLGSFS
+198 unmatched [] LCDR2
+198 unmatched ['Consensus, Reference, AB-1-14'] NO:67DDS
+198 unmatched [] LCDR3
+198 unmatched ['Consensus'] NO:68QX₂₀X₂₁X₂₂X₂₃X₂₄X₂₅X₂₆X₂7VV
+198 unmatched ['Reference'] NO:69QVWDSSSDHVV
+198 unmatched ['AB-1, 3, 8, 9'] NO:70QVWDSSSSLVV
+198 unmatched ['AB-2'] NO:71QIWDSSSSLVV
+198 unmatched ['AB-4'] NO:72QIYVSASRLVV
+198 unmatched ['AB-5'] NO:73QVWDMSSDLVV
+198 unmatched ['AB-6'] NO:74QIWDSSSDHVV
+198 unmatched ['AB-7'] NO:75QVWDMSSSLVV
+198 unmatched ['AB-10'] NO:76QVWDSSDFLVV
+198 unmatched ['AB-11'] NO:77QVWSSTSRHVV
+198 unmatched ['AB-12'] NO:78QVWVSTSDKVV
+198 unmatched ['AB-13'] NO:79QVWDSSEDLVV
+198 unmatched ['AB-14'] NO:80QVWDESSDEVV
+198 unmatched [] Table 4. Heavy Chain Amino Acid Sequences
+198 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+198 81 len 448 162 ratio 0.525 diff [('Q', 'O'), ('Q', 'O'), ('WNSGALTSGVHTFPAVLQSSGLYSLSSVVTVPSSNFGTQTYTCNVDHKPSNTKVDKTVERKCCVECPPCPAPPVAGPSVFLFPPKPKDTLMISRTPEVTCVVVDVSHEDPEVQFNWYVDGVEVHNAKTKPREEQFNSTFRVVSVLTVVHQDWLNGKEYKCKVSNKGLPAPIEKTISKTKGQPREPQVYTLPPSREEMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYKTTPPMLDSDGSFFLYSKLTVDKSRWQQGNVFSCSVMHEALHNHYTQKSLSLSPGK', '')]
+199 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+199 unmatched [] WNSGALTSGVHTFPAVLOSSGLYSLSSVVTVPSSNFGTOTYTCNVDHKPSNTKVDKTVERKCCVE
+199 91 len 452 452 ratio 0.976 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('QQ', 'OO')]
+199 92 len 452 452 ratio 0.971 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+199 93 len 452 452 ratio 0.969 diff [('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+199 94 len 452 452 ratio 0.985 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('F', 'E')]
+199 95 len 452 452 ratio 0.978 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+200 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+200 96 len 452 452 ratio 0.967 diff [('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO')]
+200 97 len 452 452 ratio 0.989 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+200 98 len 452 452 ratio 0.971 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+200 99 len 452 452 ratio 0.967 diff [('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+200 100 len 452 452 ratio 0.987 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+200 101 len 452 452 ratio 0.978 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+201 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+201 102 len 452 452 ratio 0.965 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO')]
+201 103 len 452 452 ratio 0.989 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+201 104 len 452 452 ratio 0.976 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+201 105 len 452 452 ratio 0.967 diff [('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+201 106 len 452 452 ratio 0.987 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+201 107 len 452 452 ratio 0.978 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+202 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+202 108 len 452 452 ratio 0.965 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO')]
+202 109 len 452 452 ratio 0.989 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+202 110 len 452 452 ratio 0.976 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+202 111 len 452 452 ratio 0.967 diff [('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O')]
+202 112 len 452 452 ratio 0.978 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('V', 'Y'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+202 113 len 452 452 ratio 0.978 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+203 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+203 114 len 452 452 ratio 0.965 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO')]
+203 115 len 452 452 ratio 0.985 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+203 116 len 452 452 ratio 0.985 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+203 117 len 452 452 ratio 0.969 diff [('Q', 'O'), ('F', 'E'), ('F', 'E'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('I', 'L'), ('Q', 'O'), ('QQ', 'OO')]
+203 118 len 452 452 ratio 0.991 diff [('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+203 unmatched [] Table 5. Light Chain Amino Acid Sequences
+203 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+203 82 len 214 214 ratio 0.963 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+203 119 len 214 110 ratio 0.66 diff [('QQ', 'OO'), ('Q', 'O'), ('PKAAPSVTLFPPSSEELQANKATLVCLISDFYPGAVTVAWKADSSPVKAGVETTTPSKQSNNKYAASSYLSLTPEQWKSHRSYSCQVTHEGSTVEKTVAPTECS', '')]
+204 unmatched ['Name', 'SEQ ID'] Amino Acid Sequence
+204 unmatched [] PKAAPSVTLFPPSSEELOANKATLVCLISDFYPGAVTVAWKADSSPVKAGVETTTPSKOSNNKYA
+204 120 len 214 214 ratio 0.949 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+204 121 len 214 214 ratio 0.986 diff [('F', 'E'), ('Q', 'O'), ('F', 'E')]
+204 122 len 214 214 ratio 0.991 diff [('Q', 'O'), ('Q', 'O')]
+204 123 len 214 214 ratio 0.958 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+204 124 len 214 214 ratio 0.981 diff [('QQ', 'OO'), ('Q', 'O'), ('Q', 'O')]
+204 125 len 214 214 ratio 0.958 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+204 126 len 214 214 ratio 0.977 diff [('Q', 'O'), ('Q', 'O'), ('F', 'E'), ('Q', 'O'), ('F', 'E')]
+204 127 len 214 165 ratio 0.85 diff [('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('PSKQSNNKYAASSYLSLTPEQWKSHRSYSCQVTHEGSTVEKTVAPTECS', '')]
+204 128 len 214 214 ratio 0.958 diff [('Q', 'O'), ('Q', 'O'), ('QQ', 'OO'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O'), ('Q', 'O')]
+204 129 len 214 214 ratio 0.967 diff [('QQ', 'OO'), ('Q', 'O'), ('F', 'E'), ('Q', 'O'), ('F', 'E'), ('Q', 'O')]

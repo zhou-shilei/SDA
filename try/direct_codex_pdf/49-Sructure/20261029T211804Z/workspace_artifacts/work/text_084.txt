@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+about 60% sequence identity to the amino acid sequence of SEQ ID NO:85. For example, a
+polypeptide can comprise an antibody heavy chain constant domain sequence that has at least
+about: 61%, 62%, 63%, 64%, 65%, 66%, 67%, 68%, 69%, 70%, 71%, 72%, 73%, 74%, 75%,
+76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%, 90%, 91%,
+92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence identity to the amino acid sequence
+of SEQ ID NO:85. In some embodiments, a polypeptide comprises an antibody heavy chain
+constant domain sequence that has at least about 70% or at least about 80% sequence identity
+to the amino acid sequence of SEQ ID NO:85.
+[00391] In some embodiments, a polypeptide comprises an antibody heavy chain constant
+domain sequence that comprises at least one amino acid substitution relative to the amino
+acid sequence of SEQ ID NO:85. For example, the number of amino acid substitutions can be
+at least about: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 or 20, or about: 1-20,
+1-19, 2-19, 2-18, 2-17, 3-17, 3-16, 4-16, 4-15, 5-15, 5-14, 6-14, 6-13, 7-13, 7-12, 8-12, 8-11
+or 9-11. In some embodiments, a polypeptide comprises an antibody heavy chain constant
+domain sequence that comprises about 1-10 amino acid substitutions, relative to the amino
+acid sequence of SEQ ID NO:85
+[00392] In some embodiments, a polypeptide comprises an antibody heavy chain constant
+domain sequence that has 100% sequence identity to the amino acid sequence of SEQ ID
+NO:85. Antibodies disclosed herein using a designation "AB-[]b" (e.g., AB-2b, see, e.g.,
+Table 4)) comprise the heavy chain constant domain amino acid sequence of SEQ ID NO:85,
+i.e., comprising Y135, T137, and E139).
+[00393] In some embodiments, a polypeptide comprises an Fc polypeptide, or Fc domain
+(e.g., an IgG1 domain, an IgG2 domain or an IgG4 domain). In some embodiments, an Fc
+domain comprises one or more mutations that, for example, decreases (e.g., inhibits, ablates)
+an effector function of the Fc domain, increases half-life of an antibody or antibody fragment
+that comprises the Fc domain, or a combination thereof. See, e.g., Dumet et al., Insights into
+the IgG heavy chain engineering patent landscape as applied to IgG4 antibody development,
+Mabs. 11(8): 1341-50 (2019) (particularly Tables 1 and 2 therein) and WO02060919, the
+contents of which are incorporated by reference herein in their entirety. In some
+embodiments, an Fc domain comprises a LS modification (i.e., M428L/N434S substitutions
+with numbering determined by Kabat) or a YTE modification (i.e., M252Y/S254T/T256E
+substitutions as determined by Kabat numbering, corresponding to M135Y/S137T/T139E
+83

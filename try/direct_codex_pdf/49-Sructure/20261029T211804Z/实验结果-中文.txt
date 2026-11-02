@@ -1,0 +1,31 @@
+49-Sructure 原始PDF直接交给Codex：实际用量对照
+
+1倍基数 = 174,165 token（全文OCR文字一次 + 紧凑初始dataset一次，仅输入基线）。
+
+试验：仅提供原始263页扫描PDF，Codex自主OCR、读图、建数据集；未提供已有OCR、seed或dataset。
+模型：gpt-6.1-sol，推理强度：xhigh，Codex CLI 0.160.0。
+用时：24.33分钟。
+
+实际输入：13,317,737 token（76.47倍）
+  其中缓存输入：13,120,640 token，占输入98.52%，已包含在输入中。
+  非缓存输入：197,097 token。
+实际输出：65,917 token（0.38倍）
+  其中推理输出：27,021 token，已包含在输出中。
+实际合计：13,383,654 token（76.84倍基数）。
+
+现有完整流程已知合计：4,460,089 token（25.61倍，另3次用量未知）。
+直接Codex的总token约为现有流程已知总量的3.00倍。
+本次绝大部分输入来自缓存复用。以上是token数量对照，不是费用对照。
+
+结果：263/263页生成有效非空OCR文件；70实体、173序列定义、354序列链接、20实验、291测量、259关系、16问题。
+JSON解析、重复ID、实体/实验引用和证据页码范围检查通过。
+状态：completed_with_limitations。尚未做独立逐项准确性验收，不能认为与原流程结果质量等同。
+仍包含部分暂定的a后缀轻链归属；未逐点数字化曲线；未获取PDF外的XML及附录文件。
+
+结果和完整审计目录：/project_c20250601/252705034/SDA/try/direct_codex_pdf/49-Sructure/20261029T211804Z
+数据集：dataset.json
+提取报告：extraction_report.json
+实测用量：usage_summary.json（原始turn.completed见events.jsonl末尾）
+对照CSV：comparison.csv
+详细实验报告：experiment_report.json
+模型自行编写的脚本与OCR中间结果：workspace_artifacts/

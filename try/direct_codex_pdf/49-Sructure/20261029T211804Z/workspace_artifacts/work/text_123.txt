@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a LCDR 1 consisting of the amino acid sequence of SEQ ID NO:133, a
+LCDR2 consisting of the amino acid sequence of SEQ ID NO:134, and a
+LCDR3 consisting of the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-bindingfragment thereof.
+[00616] In some embodiments, a polypeptide comprises:
+a)
+a Ví that is humanized, contains human framework regions, or a combination
+thereof;
+b)
+a VL that is humanized, contains human framework regions, or a combination
+thereof,
+or both a) and b).
+[00617] In some embodiments, a polypeptide comprises:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5;
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21,
+or both a) and b).
+[00618]In some embodiments, an antigen-binding fragment comprises a single-chain
+fragment variable (scFv), a variable heavy domain of heavy chain (VHí), a fragment antigen-
+binding (Fab), a Fab' or a F(ab')2.
+[00619] In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain constant domain;
+b)
+an antibody light chain constant domain,
+or both a) and b).
+[00620] In some embodiments, an antibody heavy chain constant domain is an IgG1,
+IgG2, IgG3 or IgG4 constant domain. In some embodiments, an antibody heavy chain
+constant domain is an IgG1 or IgG2 constant domain. In some embodiments, an antibody
+heavy chain constant domain comprises one or more mutations which increase serum half-life
+of the antibody or antigen-binding fragment thereof in humans. In some embodiments, an
+antibody heavy chain constant domain comprises, relative to a wild-type human IgG constant
+domain, amino acid substitutions with tyrosine, threonine and glutamic acid at amino acid
+residues 252, 254 and 256, respectively, wherein the amino acid residues are numbered
+according to the EU index as in Kabat.
+[00621] In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain (HC) comprising the amino acid sequence of SEQ ID
+NO:92;
+122

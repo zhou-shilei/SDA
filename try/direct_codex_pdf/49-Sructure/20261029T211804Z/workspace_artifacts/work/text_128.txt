@@ -1,0 +1,50 @@
+W0 2024/020591
+PCT/US2023/070790
+specified positions are extracted to form a trimmed and concatenated sequence. The positions
+used to extract the residues are positions where mutations were applied during training of the
+model. The positions used to confirm that the given sections of both sequences are the same
+as the reference sequence(s) are the positions where mutations were not applied during
+training of the model. Once trimmed to the positions used to train the model, the two input
+sequences are concatenated together. Then an energy score is calculated for the given
+concatenated sequence and the two hash tables. The following steps describe some
+embodiments of calculating the energy score.
+[00643] First, let  designate the sequence being scored with σ being its i-th amino acids.
+Further, let h represent the self-energy matrix (e.g., first-order matrix) of the Potts model,
+such that h(a) is the energy associated with amino acid a being at position i. Finally, let J
+represent the pair-energy matrix (e.g., second-order matrix) of the model, such that J(a, b)
+is the pair energy associated with amino acids a and b being at positions i and j, respectively.
+With this notation, the total energy of sequence  under the model is:
+N
+N-1
+E(σ) =∑hi(σi)+∑∑Ji(σv,σj)
+i=1
+i=1j=i+1
+[00644] where N is the length of the sequence. Further, →a can represent a sequence
+resulting in replacing the i-th amino acids of sequence  with amino acid a. With this
+notation, a pseudo-likelihood of sequence  under the model can be calculated as:
+N
+e−E(@)
+ρ() =
+i=1
+[00645] where µ is the total number of possible amino acids. In some embodiments, μ is
+20 but a person of ordinary skill in the art can recognize that the value of μ can vary. Finally,
+the logarithm of the pseudo-likelihood of  can be expressed as:
+N
+e−E(σ)
+N
+log[ρ(@)] =
+log
+= −
+E(ð) +log
+e−E(i→a)
+e−E(@i→a)
+i=1
+a=1
+i=1
+a=1
+[00646] The score sequence function of the script of Appendix A calculates and returns
+the above value. The score_sequence function return represents a logarithmic probability that
+the sequence would occur given the weights of the Potts model that are inputted to the script.
+If the score is greater than the threshold, which in this embodiment is -7.7, then the sequences
+can meet the required parameters (e.g., be confirmed/verified by the Potts model) and the
+127

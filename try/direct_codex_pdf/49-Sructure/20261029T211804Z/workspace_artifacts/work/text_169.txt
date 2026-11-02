@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+46.
+The polypeptide of Embodiment 44, wherein the heterologous moiety is selected from
+the group consisting of polyethylene glycol (PEG), hexadecanoic acid, a hydrogel, a
+lipid nanoparticle, a polymer nanoparticle, and a heterologous polypeptide sequence,
+or a combination thereof
+47.
+The polypeptide of Embodiment 46, wherein the polymer nanoparticle comprises
+poly(lactic-co-glycolic) acid (PLGA)
+48.
+The polypeptide of Embodiment 44, wherein the heterologous polypeptide sequence
+comprises a carrier polypeptide
+49.
+The polypeptide of Embodiment 48, wherein the carrier polypeptide is albumin or an
+Fc polypeptide.
+50.
+The polypeptide of any one of Embodiments 1-49, wherein the polypeptide:
+a)
+is capable of binding to an epitope in a TSLP protein (e.g., a full-length human
+TSLP);
+b)
+binds a TSLP protein with a KD of 1 μM or less;
+c)
+neutralizes an activity of a TSLP protein;
+d)
+reduces a TSLP-induced signal in a human cell,
+or any combination of the foregoing
+51.
+The polypeptide of Embodiment 50, wherein the polypeptide binds TSLP with a KD
+of about 2 pM or less as measured by KinExA
+52.
+The polypeptide of Embodiment 50, wherein the polypeptide neutralizes an activity of
+TSLP with an IC50 of about 500 pM or less.
+53.
+The polypeptide of Embodiment 50, wherein the polypeptide reduces a TSLP-induced
+signal in a human cell by at least about 30%.
+54.
+A fusion protein comprising the polypeptide of any one of Embodiments 1-53
+55.
+A polynucleotide (e.g., DNA or RNA; linear or circular; optionally containing one or
+more modified nucleotides) comprising a sequence encoding the polypeptide of any
+one of Embodiments 1-53 or the fusion protein of Embodiment 54.
+168

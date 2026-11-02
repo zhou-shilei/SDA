@@ -1,0 +1,41 @@
+WO 2024/020591
+PCT/US2023/070790
+X13 is not F;
+X14 is not I,
+or any combination of the foregoing.
+[0022]
+In some embodiments, a polypeptide comprises a VL comprising SEQ ID NO:18,
+wherein:
+X15 is not N;
+X16 is not L;
+X17 is not S;
+X18 is not K;
+X19 is not S;
+X20 is not V;
+X21 is not W;
+X22 is not D;
+X23 is not S;
+X24 is not S;
+X25 is not S;
+X26 is not D;
+X27 is not H,
+or any combination of the foregoing.
+[0023]
+The disclosure also provides, among other things, a polypeptide (e.g., an antibody
+or an antigen binding fragment thereof) comprising a VH sequence that has at least 70%
+sequence identity to SEQ ID NO:3, a VL sequence that has at least 70% sequence identity to
+SEQ ID NO: 19, or both, wherein the VH sequence does not comprise SEQ ID NO:3, the VL
+sequence does not comprise SEQ ID NO:19, or both.
+[0024] The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 comprising the amino acid sequence of SEQ ID NO:31, a HCDR2
+comprising the amino acid sequence of SEQ ID NO:35, and a HCDR3
+comprising the amino acid sequence of SEQ ID NO:50; and
+b)
+a LCDR 1 comprising the amino acid sequence of SEQ ID NO:60, a LCDR2
+comprising the amino acid sequence of SEQ ID NO:67, and a LCDR3
+comprising the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-binding fragment thereof.
+[0025]
+The disclosure also provides, among other things, a polypeptide comprising:
+7

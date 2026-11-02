@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+SEQ ID NO:5, SEQ ID NO:6 or SEQ ID NO:7, or a combination of the foregoing. In certain
+embodiments, the at least 1 amino acid substitution replaces only a HCDR1, a HCDR2 and/or
+a HCDR3 residue, of SEO ID NO:4, SEO ID NO:5, SEO ID NO:6 or SEO ID NO:7, or a
+combination of the foregoing. In particular embodiments, the at least 1 amino acid
+substitution replaces only a non-CDR residue (e.g., within a framework region), of SEQ ID
+NO:4, SEQ ID NO:5, SEQ ID NO:6 or SEQ ID NO:7, or a combination of the foregoing
+[00701] In some embodiments, the CBO polypeptide comprises a VL that has at least about
+70% sequence identity to the amino acid sequence of SEQ ID NO:20, SEQ ID NO:21 or SEQ
+ID NO:22, or a combination of the foregoing. For example, the VL can be at least about: 71%,
+72%, 73%, 74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%, 86%, 87%.
+88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence identity to
+the amino acid sequence of SEQ ID NO:20, SEQ ID NO:21 or SEQ ID NO:22, or a
+combination of the foregoing. In some embodiments, the VL has at least about 85% or at least
+about 90% sequence identity to the amino acid sequence of SEQ ID NO:20, SEQ ID NO:21
+or SEQ ID NO:22, or a combination of the foregoing
+[00702] In some embodiments, the CBO polypeptide comprises a VL that comprises at
+least 1 amino acid substitution relative to the amino acid sequence of SEQ ID NO:20, SEQ
+ID NO:21 or SEQ ID NO:22, or a combination of the foregoing. For example, the number of
+amino acid substitutions can be at least about: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+17, 18, 19 or 20, or about: 1-20, 1-19, 2-19, 2-18, 2-17, 3-17, 3-16, 4-16, 4-15, 5-15, 5-14, 6-
+14, 6-13, 7-13, 7-12, 8-12, 8-11 or 9-11. In some embodiments, the VL comprises about 1-10
+amino acid substitutions, relative to the amino acid sequence of SEQ ID NO:20, SEQ ID
+NO:21 or SEQ ID NO:22, or a combination of the foregoing. In certain embodiments, the at
+least 1 amino acid substitution replaces only a LCDR1, a LCDR2 and/or a LCDR3 residue, of
+SEQ ID NO:20, SEQ ID NO:21 or SEQ ID NO:22, or a combination of the foregoing. In
+particular embodiments, the at least 1 amino acid substitution replaces only a non-CDR
+residue (e.g., within a framework region), of SEQ ID NO:20, SEQ ID NO:21 or SEQ ID
+NO:22, or a combination of the foregoing
+[00703] In particular embodiments, the CBO polypeptide does not comprise a VH and VL
+pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1),
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2),
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3),
+143

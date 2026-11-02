@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+Consensus Sequences
+[00308] In some embodiments, a polypeptide (e.g., an antibody or antigen-binding
+fragment thereof) comprises a VH comprising the amino acid sequence of SEQ ID NO:2,
+wherein:
+X1 is not I;
+X₂ is not W;
+X3 is not D;
+X₄ is not S;
+X5 is not N;
+X6 is not K;
+X7 is not A;
+X8 is not A;
+X9 is not L;
+X10 is not V;
+X11 is not H;
+X12 is not A;
+X13 is not F; or
+X14 is not I, or
+any combination of the foregoing.
+[00309] The sequence identified as SEQ ID NO:2 is shown in Table 1, which is a
+consensus Ví sequence for SEQ ID Nos:3-17 herein.
+[00310] In some embodiments:
+X1 is I or V;
+X₂ is W or S;
+X3 is D or S;
+X4 is S, T, Y or A;
+X5 is N, Y, D or T;
+X6 is K, T or I;
+X7 is A, S or T;
+X8 is A or S;
+X9 is L, D, E or S;
+X10 is V or I;
+X1 is H, F or Y;
+69

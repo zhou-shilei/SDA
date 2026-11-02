@@ -51,6 +51,16 @@ assert.ok(constantInspector.includes("ACD&lt;residues>"));
 assert.ok(!constantInspector.includes("HEAVYCONSTANT"));
 context.constantRecord.sequence_ocr_failures = [{chain: "VL", message: "Re-read <image>"}];
 assert.ok(vm.runInContext("renderSdaFields(constantRecord)", context).includes("Re-read &lt;image>"));
+context.state = {selectedField: "antibody_id", locale: "zh"};
+context.fullChainRecord = {full_chain_sequences: [{region: "H_CHAIN", seq_id: 38,
+  sequence: "ACD<chain>", evidence: [{page: 20}]}]};
+const fullChainInspector = vm.runInContext("renderSdaFields(fullChainRecord)", context);
+assert.ok(fullChainInspector.includes('data-full-chain="H_CHAIN"'));
+assert.ok(fullChainInspector.includes("SEQ ID NO: 38"));
+assert.ok(fullChainInspector.includes("ACD&lt;chain>"));
+assert.ok(fullChainInspector.includes("VH 字段仍为空"));
+assert.ok(fullChainInspector.includes("原文页码：20"));
+assert.equal(context.fullChainRecord.vh, undefined);
 context.evaluated = {anarci_review: {status: "passed", chains: {VH: {domains: [{chain_type: "H", coverage: 1, bitscore: 190,
   regions: {CDR3: "ACD<test>"}}]}}}, esm2_review: {status: "manual_review", chains: {
   VH: {metric_status: "scored", mean_pll: -0.5123, pseudo_perplexity: 1.6691},
@@ -73,3 +83,12 @@ assert.ok(riskInspector.includes("VL · 56 W&lt;test>"));
 assert.ok(riskInspector.includes("10352"));
 assert.ok(!riskInspector.includes("W<test>"));
 console.log("PASS: table/text conflict badges, filtering, evidence details and escaping.");
+
+context.op = {ophiuchus_review: {status: "manual_review", chains: {
+  VH: {metric_status: "scored", mean_pll: -1.2345}, VL: {metric_status: "scored", mean_pll: -0.4567}}}};
+assert.ok(vm.runInContext("reviewCheckBadges(op)", context).includes("reviewCheck.ophiuchusScored"));
+assert.ok(vm.runInContext("renderSequenceReviewInspector(op)", context).includes("-1.2345"));
+assert.ok(vm.runInContext("renderSequenceReviewInspector(op)", context).includes("reviewCheck.ophiuchusMetrics"));
+context.recordOnly = {record_verification: {status: "error", messages: ["source <mismatch>"]}};
+assert.equal(vm.runInContext('reviewCheckStatus(recordOnly, "record")', context), "error");
+assert.ok(vm.runInContext("renderSequenceReviewInspector(recordOnly)", context).includes("source &lt;mismatch>"));

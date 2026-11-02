@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+[00341] In some embodiments, X26 is not D. In some embodiments, X26 is D, S, R or F. In
+some embodiments, X26 is S, R or F. In some embodiments, X26 is S. In some embodiments,
+X26 is R. In some embodiments, X26 is F. In some embodiments, X26 is D.
+[00342] In some embodiments, X27 is not H. In some embodiments, X27 is H, L, K or E. In
+some embodiments, X₂7 is L, K or E. In some embodiments, X27 is L. In some embodiments,
+X27 is K. In some embodiments, X27 is E. In some embodiments, X27 is H.
+[00343] In some embodiments,
+a)
+X1 is V, X₂ is W, X₃ is S, X4 is S, X5 is Y, X6 is T, X7 is S, X8 is S, X9 is D,
+X10 is I, X11 is F, X12 is A, X13 is M, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is V, X₂1 is W, X22 is D, X23 is S, X24 is S, X25 is S, X26 is S,
+or X27 is L, or a combination thereof;
+b)
+X1 is V, X2 is W, X3 is D, X4 is S, X5 is Y, X6 is T, X7 is A, X8 is S, X9 is E,
+X10 is I, X11 is F, X12 is A, X13 is M, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is I, X₂1 is W, X22 is D, X23 is S, X₂4 is S, X25 is S, X26 is S, or
+X27 is L, or a combination thereof;
+c)
+X1 is I, X₂ is W, X3 is D, X4 is T, X5 is Y, X6 is T, X7 is A, X8 is S, X9 is S,
+X10 is I, X11 is F, X12 is A, X13 is F, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is V, X₂1 is W, X22 is D, X23 is S, X24 is S, X25 is S, X26 is S,
+or X27 is L, or a combination thereof;
+d)
+X1 is I, X₂ is W, X3 is S, X4 is S, X5 is D, X6 is T, X7 is A, X8 is S, X9 is D,
+X10 is I, X11 is F, X12 is S, X13 is M, X14 is V, X15 is Y, X16 is I, X17 is S, X18 is
+F, X19 is S, X20 is I, X₂1 is Y, X22 is V, X23 is S, X24 is A, X25 is S, X26 is R, or
+X27 is L, or a combination thereof;
+e)
+X1 is V, X2 is W, X3 is D, X4 is Y, X5 is D, X6 is T, X7 is S, X8 is S, X9 is D,
+X10 is I, X11 is F, X12 is S, X13 is M, X1₄ is I, X15 is N, X16 is L, X17 is S, X18 is
+K, X19 is S, X₂0 is V, X₂1 is W, X₂2 is D, X23 is M, X24 is S, X25 is S, X26 is D,
+or X27 is L, or a combination thereof;
+f)
+X1 is V, X2 is W, X3 is D, X4 is S, X5 is D, X6 is I, X7 is S, X8 is S, X9 is D,
+X10 is I, X11 is F, X12 is S, X13 is M, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is I, X₂1 is W, X22 is D, X23 is S, X24 is S, X25 is S, X26 is D, or
+X27 is H, or a combination thereof;
+g)
+X1 is I, X₂ is W, X₃ is S, X4 is A, X5 is Y, X₆ is I, X7 is S, X8 is S, X9 is D, X10
+is I, X11 is F, X12 is A, X13 is M, X14 is I, X15 is N, X16 is L, X17 is S, X18 is Y,
+74

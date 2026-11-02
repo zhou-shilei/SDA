@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+1.1, 1.0 or 0.9 angstroms, or about: 0.9-5.0, 0.9-4.8. 1.0-5, 1.0-4.5, 1.0-4.0, 1.0-3.5, 1.1-3.5,
+1.1-3.0, 1.2-3.0, 1.2-2.5, 1.3-2.5, 1.3-2.4, 1.4-2.4, 1.4-2.3, 1.5-2.3, 1.5-2.2, 1.6-2.2, 1.6-2.1,
+1.7-2.1, 1.7-2.0 or 1.8-2.0 angstroms, from the epitope. In some embodiments, less than all of
+the amino acid residues constituting a paratope (e.g., about 40%, about 50%, about 60%,
+about 70%, about 80%, about 90%, about 95%, about 96%, about 97%, about 98%, or about
+99% of the amino acid residues) in the paratope are oriented less than about 5.0 angstroms
+from an epitope on a target antigen when a polypeptide is bound to the target antigen.
+[00287] In some embodiments, a polypeptide (e.g., an antibody or antigen-binding
+fragment thereof) comprising a paratope disclosed herein comprises a Ví and a VL. In some
+embodiments, paratope residues are contained within the Ví and VL of a polypeptide.
+[00288] In some embodiments, a polypeptide comprises a paratope that differs from a
+paratope of an antibody comprising a VH/VL combination of SEQ ID NO:3/SEQ ID NO:19.
+[00289] In some embodiments, a polypeptide comprises a paratope that differs from a
+paratope of an antibody comprising a VH/VL combination of SEQ ID NO:3/SEQ ID NO:19,
+by substitution (e.g., conservative substitution such as highly conservative substitution) of
+from 1 to 3 (e.g., 1, 2 or 3) residues.
+[00290]In some embodiments, a polypeptide comprises a paratope that is substantially
+similar (e.g., having at least about 90% sequence identity) to a paratope of an antibody
+comprising a VH/VL combination of SEQ ID NO:3/SEQ ID NO:19. In some embodiments, a
+polypeptide comprises a paratope that is substantially similar (e.g., having at least about 90%
+sequence identity) to, and substantially preserves one or more functional properties of, a
+paratope of an antibody comprising a VH/VL combination of SEQ ID NO:3/SEQ ID NO:19.
+[00291] In some embodiments, a polypeptide comprises a paratope that has 100%
+sequence identity to a paratope of an antibody comprising a VH/VL combination of SEQ ID
+NO:3/SEQ IDNO:19
+[00292] In some embodiments, a polypeptide comprises a paratope that differs from a
+paratope of an antibody comprising a VH/VL combination selected from: SEQ ID NO:4/SEQ
+ID NO:20 (AB-1), SEQ ID NO:5/SEQ ID NO:21 (AB-2), SEQ ID NO:6/SEQ ID NO:20
+(AB-3), SEQ ID NO:7/SEQ ID NO:22 (AB-4), SEQ ID NO:8/SEQ ID NO:23 (AB-5), SEQ
+ID NO:9/SEQ ID NO:24 (AB-6), SEQ ID NO:10/SEQ ID NO:25 (AB-7), SEQ ID
+NO:11/SEQ ID NO:20 (AB-8), SEQ ID NO:12/SEQ ID NO:20 (AB-9), SEQ ID NO: 13/SEQ
+ID NO:26 (AB-10), SEQ ID NO:14/SEQ ID NO:27 (AB-11), SEQ ID NO:15/SEQ ID NO:28
+63

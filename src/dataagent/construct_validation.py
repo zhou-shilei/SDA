@@ -389,12 +389,17 @@ def apply_construct_validations(
             record["agent_review"] = agent_review
             record["anarci_review"] = anarci_review
             record["esm2_review"] = esm2_review
+            record["ophiuchus_review"] = validation.get("ophiuchus_review", {
+                "status": "manual_review", "model": "Ophiuchus-Ab", "mode": "single", "chains": {},
+                "message": "Final Ophiuchus evaluation has not been run."})
+            record["ophiuchus_review_status"] = record["ophiuchus_review"]["status"]
             record["link_status"] = (
                 "linked"
                 if {
                     agent_review["status"],
                     anarci_review["status"],
                     esm2_review["status"],
+                    record.get("ophiuchus_review_status", "passed"),
                 } == {"passed"} and record.get("record_verification_status", "passed") == "passed"
                 else "review"
             )
@@ -410,6 +415,7 @@ def apply_construct_validations(
                 "agent_review": agent_review,
                 "anarci_review": anarci_review,
                 "esm2_review": esm2_review,
+                "ophiuchus_review": record["ophiuchus_review"],
                 "issues": validation["issues"],
             }]
         else:
@@ -431,6 +437,9 @@ def apply_construct_validations(
             record["agent_review"] = agent_review
             record["anarci_review"] = anarci_review
             record["esm2_review"] = esm2_review
+            record["ophiuchus_review_status"] = "manual_review"
+            record["ophiuchus_review"] = {"status": "manual_review", "model": "Ophiuchus-Ab", "chains": {},
+                "message": "Ophiuchus review is pending because the construct mapping is unresolved."}
             record["link_status"] = "review"
         updated.append(record)
     return updated

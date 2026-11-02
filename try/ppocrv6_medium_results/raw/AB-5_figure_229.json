@@ -1,0 +1,30 @@
+{
+  "signature": "4e3b1ec5a5d3ce2932ecc81e3349b044384b82959c7a496a76849f04a23a87a8",
+  "case": {
+    "id": "AB-5_figure_229",
+    "kind": "figure_sequence",
+    "item": "AB-5",
+    "page": 229,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-5_p229_sequence.png",
+    "crop_box_upright": [
+      342,
+      701,
+      3382,
+      776
+    ],
+    "row_selection": "ink_projection_plus_reviewed_row_order",
+    "image_sha256": "9757938864f69a3a2b23217c8cd3219c1d0302afb827ba11c999169560407e0b"
+  },
+  "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+  "confidence": 0.9997192025184631,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-5_p229_sequence.png",
+      "page_index": null,
+      "rec_text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+      "rec_score": 0.9997192025184631
+    }
+  },
+  "seconds": 0.0145
+}

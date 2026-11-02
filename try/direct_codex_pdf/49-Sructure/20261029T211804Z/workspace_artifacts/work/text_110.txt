@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+comprises an inducible promoter sequence. The term “promoter" refers to a region of DNA to
+which RNA polymerase binds and initiates the transcription of a gene. The term "operably
+linked" means that the nucleic acid is positioned in the recombinant polynucleotide, e.g.,
+vector, in such a way that enables expression of the nucleic acid under control of the element
+(e.g., promoter) to which it is linked. The term “selectable marker element" is an element that
+confers a trait suitable for artificial selection. Selectable marker elements can be negative or
+positive selection markers.
+[00535]The disclosure also provides, among other things, an expression host cell
+comprising any one or more of the polynucleotides or expression vectors disclosed herein.
+[00536] The term “expression host cell" refers to a cell useful for receiving, maintaining.
+reproducing and/or amplifying a vector. Non-limiting examples of expression host cells
+include mammalian cells such as hybridoma cells, Chinese hamster ovary (CHO) cells, COS
+cells, human embryonic kidney (HEK), yeast cells such as Pichia pastoris cells, or bacterial
+cells such as E. coli, including DH5α, etc.
+Compositions
+[00537]The disclosure also provides, among other things, a composition comprising any
+one of the polypeptides or fusion proteins disclosed herein. In some embodiments, a
+composition is a pharmaceutical composition.
+[00538] In some embodiments, a composition (e.g., pharmaceutical composition) further
+comprises pharmaceutically acceptable carriers, excipients, stabilizers, diluents or tonifiers
+(Remington's Pharmaceutical Sciences 16th edition, Osol, A. Ed. (1980)). Suitable
+pharmaceutically acceptable carriers, excipients, or stabilizers are nontoxic to recipients at
+the dosages and concentrations employed. Non-limiting examples of pharmaceutically
+acceptable carriers, excipients, stabilizers, diluents or tonifiers include buffers (e.g.,
+phosphate, citrate, histidine), antioxidants (e.g., ascorbic acid or methionine), preservatives,
+proteins (e.g., serum albumin, gelatin or immunoglobulins); hydrophilic polymers, amino
+acids, carbohydrates (e.g., monosaccharides, disaccharides, glucose, mannose or dextrins);
+chelating agents (e.g., EDTA), sugars (e.g., sucrose, mannitol, trehalose or sorbitol), salt-
+forming counter-ions (e.g., sodium), metal complexes (e.g., Zn-protein complexes); non-ionic
+surfactants (e.g., Tween), PLURONICSTMand polyethylene glycol (PEG).
+[00539] In some embodiments, a composition (e.g., a pharmaceutical composition) is
+formulated for a suitable administration schedule and route. Non-limiting examples of
+109

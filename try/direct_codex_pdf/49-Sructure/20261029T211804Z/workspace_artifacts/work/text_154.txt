@@ -1,0 +1,40 @@
+WO 2024/020591
+PCT/US2023/070790
+and second- order energy score table of outputted weights of a model trained by a plurality of
+known amino acid sequences and corresponding properties of the known amino acid
+sequences.
+[00738] In some embodiments, the processor further is configured to cause the system to
+return, based on the score, a flag indicating whether the sequence has the functional property
+associated with the polypeptide.
+[00739]In some embodiments, the functional property is at least one of:
+a)
+a binding affinity for the TSLP characterized by a KD of 10 pM or less (e.g., as
+measured by KinExA);
+b)
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP;
+c)
+a neutralizing activity against the TSLP (e.g., a full-1ength human TSLP); or
+d)
+an inhibitory activity against TSLP-mediated signaling,
+e)
+or a combination of the foregoing.
+[00740] In some embodiments, the score being above the particular threshold represents
+that the functional property is met for the given polypeptide.
+[00741] In some embodiments, a polypeptide that specifically binds a thymic stromal
+lymphopoietin (TSLP) comprises an amino acid sequence that is assigned a score above a
+predetermined threshold by a computationally binding optimized (CBO) model upon scoring
+the amino acid sequence of the polypeptide.
+[00742] In some embodiments, the polypeptide is assigned the score by the CBO model
+that is calculated by a table substantially similar to that of Computer Program Listing
+Appendix B.
+[00743]In some embodiments, the polypeptide is assigned the score that is calculated
+using the Computer Program Listing Appendix B.
+[00744]In some embodiments, the polypeptide is assigned the score by a script
+substantially similar to Computer Program Listing Appendix A, the script employing the
+CBO model substantially similar to the table of Computer Program Listing Appendix B. In
+some embodiments, the polypeptide has a logarithmic score above or equivalent to being
+above at 1east one of -7.7, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, 2.9, -2.8, -2.7, -2.6,
+-2.5, -2.4, -2.3, -2.2, -2.1, -2.0, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1.0, 0.9, -0.8, -
+0.7, -0.6, -0.5, -0.4, -0.3, -0.2, and -0.1.
+153

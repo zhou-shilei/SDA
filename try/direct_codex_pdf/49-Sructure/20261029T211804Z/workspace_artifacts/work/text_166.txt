@@ -1,0 +1,51 @@
+WO 2024/020591
+PCT/US2023/070790
+NO:27, SEQ ID NO:28, SEQ ID NO:29 or SEQ ID NO:30, or a combination of the
+foregoing.
+19.
+The polypeptide of any one of Embodiments 1-18, wherein the VL comprises about 1-
+10 amino acid substitutions, relative to the amino acid sequence of SEQ ID NO:20,
+SEQ ID NO:21, SEQ ID NO:22, SEQ ID NO:23, SEQ ID NO:24, SEQ ID NO:25,
+SEQ ID NO:26, SEQ ID NO:27, SEQ ID NO:28, SEQ ID NO:29 or SEQ ID NO:30,
+or a combination of the foregoing.
+20.
+The polypeptide of Embodiment 17 or 19, wherein the amino acid substitutions are
+conservative substitutions.
+21.
+The polypeptide of Embodiment 20, wherein the amino acid substitutions are highly
+conservative substitutions.
+22.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:4; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:20.
+23.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:5; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:21.
+24.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:6; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:20.
+25.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:7; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:22.
+26.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:8; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:23.
+27.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:9; and
+165

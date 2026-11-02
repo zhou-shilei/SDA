@@ -1,7 +1,6 @@
 """Create a separate strategy run over an immutable copy of the same OCR."""
 
 import hashlib
-import os
 from pathlib import Path
 import shutil
 from time import perf_counter
@@ -64,10 +63,11 @@ def create_comparison(server, identity, engine):
             evidence_document_id=evidence_id, source_pdf_sha256=hashlib.sha256(source_pdf.read_bytes()).hexdigest(),
             input_dir=str(snapshot / "layout"), text_context_dir=str(snapshot / "layout"),
             structured_dir=str(snapshot), result_dir=str(run / "results" / evidence_id),
-            run_id=run.name, started_at=now(), created_at=now(), finished_at=None,
-            worker_pid=None, runner_pid=os.getpid(), error=None, log=str(run / "pipeline.log"),
+            run_id=run.name, queued_at=now(), started_at=None, created_at=now(), finished_at=None,
+            worker_pid=None, runner_pid=None, execution_config=server.execution_config(),
+            error=None, log=str(run / "pipeline.log"),
             stage_current=None, stage_total=None, ocr_branches={"text": "completed", "table": "completed"})
-        server.workers.submit(run_comparison, server, comparison_id, run)
+        server.submit_task(comparison_id)
     return next(p for p in workspace.patents() if p["document_id"] == comparison_id)
 
 

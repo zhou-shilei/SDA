@@ -3,6 +3,7 @@
   'use strict';
   const {data,el,button,tree,copy}=HandoffInspector;
   const F=JSON.parse(document.getElementById('flow-data').textContent);
+  const current=JSON.parse(document.getElementById('current-contract-data').textContent);
   const link=(text,path)=>{const a=el('a',text);a.href=path;a.target='_blank';a.rel='noopener';return a;};
   const arrays=value=>Object.entries(value||{}).filter(([,v])=>Array.isArray(v)).map(([k,v])=>`${k}: ${v.length}`).join(' · ');
   let generation=0;
@@ -11,7 +12,12 @@
     if(stage.kind!=='llm'){
       target.append(el('h3','这一步由程序 / OCR 执行'),el('p','本节点没有文本 LLM Prompt。输入、输出文件和实际处理逻辑分别在“内容与样例”“JSON”“源码”中查看。','note'));return;
     }
-    if(!call){target.append(el('p','没有找到本轮实际请求，不能用当前代码中的模板冒充实际 Prompt。','note'));return;}
+    if(!call){
+      target.append(el('p','本快照没有这个节点的实际模型请求；以下仅展示当前定义，未作为本轮 Prompt 发送。','note'));
+      const definition=current.prompts?.[stage.id];
+      if(definition)target.append(el('h3','当前 Instructions · 未记录实际调用'),el('pre',definition.text,'prompt-full'));
+      return;
+    }
     const request=call.request.value;
     const info=el('div',undefined,'request-summary');
     for(const [k,v] of [['模型',request.model],['推理预算',request.effort],['请求哈希',call.key],['接纳状态',call.current?'本轮使用的请求':'历史尝试 / 未作为最终接纳请求']]){
@@ -112,7 +118,7 @@
     generation++;
     if(['source_index','provenance'].includes(stage.id))return sourcePreview(target);
     if(stage.id==='review')return reviewPreview(target);
-    if(stage.id==='retrieval'&&call){const p=call.request.value.payload;target.replaceChildren(el('h3','本题程序实际取证结果'),el('p','这是已保存的 Answer 输入；程序已经完成检索，模型随后按这份证据回答。','note'));const stats=el('div',undefined,'retrieval-summary');for(const [k,v] of [['原文来源',p.sources?.length||0],['已知可变区定义',p.known_variable_definitions?.length||0],['已知恒定区定义',p.known_constant_definitions?.length||0],['预算未容纳来源',p.omitted_matching_sources??'未记录']])stats.append(el('span',k+'：'+v));const box=el('div',undefined,'json-tree');target.append(stats,box);tree(box,p);return true;}
+    if(stage.id==='retrieval'&&call){const p=call.request.value.payload;target.replaceChildren(el('h3','本题程序实际取证结果'),el('p','这是已保存的 Answer 输入；程序已经完成检索，模型随后按这份证据回答。','note'));const stats=el('div',undefined,'retrieval-summary');for(const [k,v] of [['原文来源',p.sources?.length||0],['已知定义',p.known_definitions?.length??((p.known_variable_definitions?.length||0)+(p.known_constant_definitions?.length||0))],['必要证据字符',p.retrieval?.required_source_chars??'未记录'],['预算未容纳可选证据组',p.retrieval?.omitted_optional_bundles??p.omitted_matching_sources??'未记录']])stats.append(el('span',k+'：'+v));const box=el('div',undefined,'json-tree');target.append(stats,box);tree(box,p);return true;}
     const datasetKeys={seed:data.artifacts.reader_initial?'reader_initial':'seed',ledger:'first_pass',final:'final_dataset'};
     if(datasetKeys[stage.id]&&data.artifacts[datasetKeys[stage.id]]){HandoffDataset.render(target,datasetKeys[stage.id],{seed:'初始 Dataset1',ledger:'ActionAgent 后 Dataset2',final:'最终 Dataset3'}[stage.id]);return true;}
     if(stage.id==='template'||stage.id==='table_input'){
@@ -126,7 +132,7 @@
       target.replaceChildren(el('h3',`${call.id} · 原图序列复核`));const image=F.images?.[call.id];if(image){const img=el('img');img.src=image.path;img.alt=call.id;img.className='review-image';target.append(img);}const box=el('div',undefined,'json-tree');target.append(el('h4','该图的实际模型返回'),box);tree(box,call.response?.value,!call.response);return true;
     }
     if(stage.id==='chunking'){
-      target.replaceChildren(el('h3','62 个 chunk 的实际边界'));const list=el('div',undefined,'chunk-directory');target.append(list);
+      target.replaceChildren(el('h3',`${data.artifacts.manifest.value.chunks.length} 个 chunk 的实际边界`));const list=el('div',undefined,'chunk-directory');target.append(list);
       for(const c of data.artifacts.manifest.value.chunks){const call=data.calls.find(x=>x.stage==='reader'&&x.id===c.id);list.append(button(`${c.id.toUpperCase()} · core ${c.core.length} · context ${c.context.length}`,()=>navigate(call?'call/'+call.key:'stage/reader')));}return true;
     }
     if(stage.id==='pdf'&&F.pdf){target.replaceChildren(el('h3','本轮输入的原始专利 PDF'),link('打开原始 PDF',F.pdf.path),el('p',`SHA-256 ${F.pdf.sha256}`,'note'));return true;}

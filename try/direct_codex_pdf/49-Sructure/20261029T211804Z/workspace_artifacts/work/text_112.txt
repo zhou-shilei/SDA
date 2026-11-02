@@ -1,0 +1,42 @@
+WO 2024/020591
+PCT/US2023/070790
+embodiments, a combination therapy comprises a beta-agonist (e.g., a long-acting beta-
+agonist). Non-limiting examples of long-acting beta-agonists include albuterol sulfate,
+formoterol fumarate, salmeterol xinafoate, arformoterol tartrate, olodaterol, and combinations
+thereof. In some embodiments, a combination therapy comprises a muscarinic antagonist. In
+some embodiments, a combination therapy comprises an IL-4 and/or IL-13 antagonist (e.g.,
+for the treatment of allergic and/or asthmatic conditions). Non-limiting examples of IL-4
+and/or IL-13 antagonists include Pitrakinra, anti-IL-13 antibodies or antigen-binding
+fragments thereof, anti-IL-4 antibodies or antigen-binding fragments thereof, and anti-IL-4R
+antibodies or antigen-binding fragments thereof. Non-limiting examples of antibodies or
+antigen-binding fragments thereof include anti-IL-13 antibodies or antigen-binding fragments
+thereof (e.g., Lebrikizumab, Tralokinumab, and Anrukinzumab), anti-IL-4 antibodies or
+antigen-binding fragments thereof (e.g., Pascolizumab (SB 240683)), anti-IL-4R antibodies
+or antigen-binding fragments thereof (e.g., Dupilumab).
+[00545] In some embodyments, a composition is formulated to be administered with an
+inhaled corticosteroid (ICS), a long-acting β2-agonist (LABA), a long-acting muscarinic
+antagonist (LAMA), or any combination thereof.
+[00546] In some embodiments, a composition (e.g., a pharmaceutical composition)
+comprises a polypeptide comprising:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:5; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:21 (AB-2).
+[00547] In some embodiments, a composition (e.g., a pharmaceutical composition)
+comprises a polypeptide comprising
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21 (AB-2).
+[00548] In some embodiments, a composition (e.g., a pharmaceutical composition)
+comprises a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:120 (AB-
+2b).
+[00549] In some embodiments, a composition (e.g., a pharmaceutical composition)
+comprises a polypeptide comprising:
+111

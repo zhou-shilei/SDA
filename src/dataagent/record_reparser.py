@@ -145,7 +145,7 @@ def refresh_selected_metadata(
         selected = [r for r in verified if r.get("record_id") in record_ids]
         for record in selected:
             record["link_status"] = "linked" if all(record.get(field) == "passed" for field in (
-                "agent_review_status", "anarci_review_status", "esm2_review_status", "record_verification_status",
+                "agent_review_status", "anarci_review_status", "esm2_review_status", "ophiuchus_review_status", "record_verification_status",
             )) and record.get("sequence_coverage_status") == "complete" else "review"
         changed_keys = {v["construct_key"] for v in validations}
         updates["construct_validations"] = [v for v in read("construct_validations", [])

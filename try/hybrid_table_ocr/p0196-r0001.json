@@ -1,0 +1,4563 @@
+{
+  "version": 1,
+  "document_id": "WO2024020591A9",
+  "table_id": "p0196-r0001",
+  "page": 196,
+  "bbox": [
+    69.12,
+    94.08,
+    523.68,
+    701.76
+  ],
+  "coordinate_space": "pdf_points",
+  "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/WO2024020591A9_table-0001-page-0196.png",
+  "image_sha256": "6a9464540515573e262e53a62eef486cccd62d221adc1c29f2d7271b6d69cd80",
+  "backend": "vl",
+  "backend_version": "3.7.0",
+  "device": "gpu:0",
+  "text": "<table><tr><td>Name</td><td>SEQ ID</td><td>Amino Acid Sequence</td></tr><tr><td>Consensus</td><td>NO:2</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS</td></tr><tr><td>Reference</td><td>NO:3</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-1</td><td>NO:4</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-2</td><td>NO:5</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-3</td><td>NO:6</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-4</td><td>NO:7</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS</td></tr><tr><td>AB-5</td><td>NO:8</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-6</td><td>NO:9</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-7</td><td>NO:10</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-8</td><td>NO:11</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-9</td><td>NO:12</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-10</td><td>NO:13</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-11</td><td>NO:14</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS</td></tr><tr><td>AB-12</td><td>NO:15</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-13</td><td>NO:16</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-14</td><td>NO:17</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr></table>",
+  "text_sha256": "dd688d6c55939a4c213823b539546dc082d81765e3ce85697e55131f62787678",
+  "cells": [
+    {
+      "text": "Name",
+      "ref": "p0196-r0001:R0C0",
+      "row": 0,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "SEQ ID",
+      "ref": "p0196-r0001:R0C1",
+      "row": 0,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "Amino Acid Sequence",
+      "ref": "p0196-r0001:R0C2",
+      "row": 0,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "Consensus",
+      "ref": "p0196-r0001:R1C0",
+      "row": 1,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:2",
+      "ref": "p0196-r0001:R1C1",
+      "row": 1,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS",
+      "ref": "p0196-r0001:R1C2",
+      "row": 1,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R1C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS",
+        "status": "failed",
+        "lines": [],
+        "error": "Sequence cell has no unique addressed row/column location"
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS"
+    },
+    {
+      "text": "Reference",
+      "ref": "p0196-r0001:R2C0",
+      "row": 2,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:3",
+      "ref": "p0196-r0001:R2C1",
+      "row": 2,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R2C2",
+      "row": 2,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R2C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line1.png",
+            "image_sha256": "939090be236566d499d8cebb18ee5a81011852a8cf17853358231bbf31b8ea05",
+            "bbox_upright": [
+              693,
+              363,
+              2525,
+              425
+            ],
+            "bbox_crop": [
+              693,
+              363,
+              2525,
+              425
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9923534393310547
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line2.png",
+            "image_sha256": "c0f57613f4139f1b4061ff1d233b7ec506a008f5254398c260d9bc7d9573d8a8",
+            "bbox_upright": [
+              710,
+              448,
+              2509,
+              487
+            ],
+            "bbox_crop": [
+              710,
+              448,
+              2509,
+              487
+            ],
+            "text": "GSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+            "confidence": 0.9999459385871887
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line3.png",
+            "image_sha256": "a1fdf993f3ab4f880534b74d159dcf7d143f4ea3d613e05c65f48f60cf705707",
+            "bbox_upright": [
+              713,
+              511,
+              1172,
+              550
+            ],
+            "bbox_crop": [
+              713,
+              511,
+              1172,
+              550
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998393654823303
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          693,
+          363,
+          2525,
+          550
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+      "bbox": [
+        693,
+        363,
+        2525,
+        550
+      ],
+      "bbox_crop": [
+        693,
+        363,
+        2525,
+        550
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-1",
+      "ref": "p0196-r0001:R3C0",
+      "row": 3,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:4",
+      "ref": "p0196-r0001:R3C1",
+      "row": 3,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R3C2",
+      "row": 3,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R3C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line1.png",
+            "image_sha256": "81a9e3ec9fa8b4800cb09540733032b70ac5f7e79ae7abb3ff85b12468472616",
+            "bbox_upright": [
+              693,
+              566,
+              2522,
+              627
+            ],
+            "bbox_crop": [
+              693,
+              566,
+              2522,
+              627
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYS",
+            "confidence": 0.9998918175697327
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line2.png",
+            "image_sha256": "b08877625492133d6dd8dcc1eedfd8512f15f541910283e838d7a0d4976d8f2f",
+            "bbox_upright": [
+              710,
+              651,
+              2509,
+              690
+            ],
+            "bbox_crop": [
+              710,
+              651,
+              2509,
+              690
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+            "confidence": 0.999936580657959
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line3.png",
+            "image_sha256": "f7a3d9688dfcdc83b13adcc9e44160bb5e13b1c9f2369f4a864d676b6e46e514",
+            "bbox_upright": [
+              710,
+              714,
+              1172,
+              753
+            ],
+            "bbox_crop": [
+              710,
+              714,
+              1172,
+              753
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998117089271545
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          693,
+          566,
+          2522,
+          753
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "bbox": [
+        693,
+        566,
+        2522,
+        753
+      ],
+      "bbox_crop": [
+        693,
+        566,
+        2522,
+        753
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-2",
+      "ref": "p0196-r0001:R4C0",
+      "row": 4,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:5",
+      "ref": "p0196-r0001:R4C1",
+      "row": 4,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R4C2",
+      "row": 4,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R4C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line1.png",
+            "image_sha256": "6d6e9434cb569e6bad1931fcf0940e9754c165ca1ef60c017c67908b203428aa",
+            "bbox_upright": [
+              691,
+              768,
+              2525,
+              830
+            ],
+            "bbox_crop": [
+              691,
+              768,
+              2525,
+              830
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9944491982460022
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line2.png",
+            "image_sha256": "86a1a8ff714dcf77b42988360a0b941635772b9935b1ca0f8ce8bdc7720b894d",
+            "bbox_upright": [
+              710,
+              854,
+              2509,
+              893
+            ],
+            "bbox_crop": [
+              710,
+              854,
+              2509,
+              893
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEA",
+            "confidence": 0.9999582767486572
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line3.png",
+            "image_sha256": "a40d4b7bed21ed174af6bbbda4edab7b007516993c45bd4590f746bbd4547777",
+            "bbox_upright": [
+              710,
+              916,
+              1172,
+              955
+            ],
+            "bbox_crop": [
+              710,
+              916,
+              1172,
+              955
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997734427452087
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          768,
+          2525,
+          955
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "bbox": [
+        691,
+        768,
+        2525,
+        955
+      ],
+      "bbox_crop": [
+        691,
+        768,
+        2525,
+        955
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-3",
+      "ref": "p0196-r0001:R5C0",
+      "row": 5,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:6",
+      "ref": "p0196-r0001:R5C1",
+      "row": 5,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R5C2",
+      "row": 5,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R5C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line1.png",
+            "image_sha256": "fa397116e6300be15c6605658ec5a31e84cc2f20a9a8e9061a7374437acc50d3",
+            "bbox_upright": [
+              690,
+              971,
+              2527,
+              1033
+            ],
+            "bbox_crop": [
+              690,
+              971,
+              2527,
+              1033
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9998833537101746
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line2.png",
+            "image_sha256": "aba7dca6c12f1be814e62359241b97374a274cf4fa017750ee9928d04cc23464",
+            "bbox_upright": [
+              710,
+              1056,
+              2509,
+              1096
+            ],
+            "bbox_crop": [
+              710,
+              1056,
+              2509,
+              1096
+            ],
+            "text": "GTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+            "confidence": 0.9999595284461975
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line3.png",
+            "image_sha256": "8ef4740cfe83e37766a94600320ec2058465e337bce3a5567b3a80ea661655b7",
+            "bbox_upright": [
+              713,
+              1119,
+              1172,
+              1158
+            ],
+            "bbox_crop": [
+              713,
+              1119,
+              1172,
+              1158
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998378157615662
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          971,
+          2527,
+          1158
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+      "bbox": [
+        690,
+        971,
+        2527,
+        1158
+      ],
+      "bbox_crop": [
+        690,
+        971,
+        2527,
+        1158
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-4",
+      "ref": "p0196-r0001:R6C0",
+      "row": 6,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:7",
+      "ref": "p0196-r0001:R6C1",
+      "row": 6,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+      "ref": "p0196-r0001:R6C2",
+      "row": 6,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R6C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line1.png",
+            "image_sha256": "9afde096b2b548d96e22214367afd65e45974ddf33991145cc39d99f4e6093b2",
+            "bbox_upright": [
+              689,
+              1174,
+              2526,
+              1236
+            ],
+            "bbox_crop": [
+              689,
+              1174,
+              2526,
+              1236
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.999674379825592
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line2.png",
+            "image_sha256": "4c28a63a2bbf95fff565426e1c79876c80f0d9a08d97d061c76d79a4c5c60b60",
+            "bbox_upright": [
+              710,
+              1259,
+              2505,
+              1298
+            ],
+            "bbox_crop": [
+              710,
+              1259,
+              2505,
+              1298
+            ],
+            "text": "GSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFES",
+            "confidence": 0.9999409317970276
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line3.png",
+            "image_sha256": "b42f38454d1f744ee2c2c2725014e7439c85c71fd0806884fa7529b02269e989",
+            "bbox_upright": [
+              710,
+              1323,
+              1172,
+              1362
+            ],
+            "bbox_crop": [
+              710,
+              1323,
+              1172,
+              1362
+            ],
+            "text": "MDVWGQGTMVTVSS",
+            "confidence": 0.9999183416366577
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          1174,
+          2526,
+          1362
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+      "bbox": [
+        689,
+        1174,
+        2526,
+        1362
+      ],
+      "bbox_crop": [
+        689,
+        1174,
+        2526,
+        1362
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-5",
+      "ref": "p0196-r0001:R7C0",
+      "row": 7,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:8",
+      "ref": "p0196-r0001:R7C1",
+      "row": 7,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R7C2",
+      "row": 7,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R7C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line1.png",
+            "image_sha256": "9345273ef7e270196437a444645b85b6688d1d25ffc033761303b1a4b3b7a99b",
+            "bbox_upright": [
+              689,
+              1376,
+              2527,
+              1438
+            ],
+            "bbox_crop": [
+              689,
+              1376,
+              2527,
+              1438
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9999400973320007
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line2.png",
+            "image_sha256": "644225ac11325212491c195bb1184d8562d27f37cb6794d67614a41b783e0d8a",
+            "bbox_upright": [
+              710,
+              1462,
+              2505,
+              1501
+            ],
+            "bbox_crop": [
+              710,
+              1462,
+              2505,
+              1501
+            ],
+            "text": "GYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.9999515414237976
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line3.png",
+            "image_sha256": "e6c297605a7396317b0dda5dccea527954c42a8dc6c8d697ad1882aa743bb55c",
+            "bbox_upright": [
+              710,
+              1526,
+              1172,
+              1565
+            ],
+            "bbox_crop": [
+              710,
+              1526,
+              1172,
+              1565
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998043179512024
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          1376,
+          2527,
+          1565
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "bbox": [
+        689,
+        1376,
+        2527,
+        1565
+      ],
+      "bbox_crop": [
+        689,
+        1376,
+        2527,
+        1565
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-6",
+      "ref": "p0196-r0001:R8C0",
+      "row": 8,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:9",
+      "ref": "p0196-r0001:R8C1",
+      "row": 8,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R8C2",
+      "row": 8,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R8C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line1.png",
+            "image_sha256": "aee572005ace7e580d1dbde09c6a7e5fb83022f8c7a2bb34f738b95bd350c304",
+            "bbox_upright": [
+              690,
+              1579,
+              2527,
+              1641
+            ],
+            "bbox_crop": [
+              690,
+              1579,
+              2527,
+              1641
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9999419450759888
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line2.png",
+            "image_sha256": "8d1b85ed73f1ca70a11ea32ee27905c27adcdc94b05274c9c33f4189b91fd692",
+            "bbox_upright": [
+              710,
+              1664,
+              2505,
+              1704
+            ],
+            "bbox_crop": [
+              710,
+              1664,
+              2505,
+              1704
+            ],
+            "text": "GSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.9983416795730591
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line3.png",
+            "image_sha256": "ef7f802ac49e5709409cf22d89ffb7fc56d0e5e33990255e39230632fd11ae89",
+            "bbox_upright": [
+              710,
+              1728,
+              1172,
+              1768
+            ],
+            "bbox_crop": [
+              710,
+              1728,
+              1172,
+              1768
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998124241828918
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          1579,
+          2527,
+          1768
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "bbox": [
+        690,
+        1579,
+        2527,
+        1768
+      ],
+      "bbox_crop": [
+        690,
+        1579,
+        2527,
+        1768
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-7",
+      "ref": "p0196-r0001:R9C0",
+      "row": 9,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:10",
+      "ref": "p0196-r0001:R9C1",
+      "row": 9,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R9C2",
+      "row": 9,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R9C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line1.png",
+            "image_sha256": "d71072305ebd8e4e8a50fa17bbb1cbed929bf4190068d924c4db2696b2b8dde3",
+            "bbox_upright": [
+              691,
+              1782,
+              2524,
+              1844
+            ],
+            "bbox_crop": [
+              691,
+              1782,
+              2524,
+              1844
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.9998638033866882
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line2.png",
+            "image_sha256": "543a3cdac5feab41a8b9d75fff71fd1aace57ba12e2b5c0809ba77df5364e800",
+            "bbox_upright": [
+              710,
+              1867,
+              2509,
+              1906
+            ],
+            "bbox_crop": [
+              710,
+              1867,
+              2509,
+              1906
+            ],
+            "text": "GAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+            "confidence": 0.9999425411224365
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line3.png",
+            "image_sha256": "90fdbb987264368b0f288a0d118b0eedd07f338ff535595558345a1ec66ef2b4",
+            "bbox_upright": [
+              710,
+              1931,
+              1172,
+              1970
+            ],
+            "bbox_crop": [
+              710,
+              1931,
+              1172,
+              1970
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997803568840027
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          1782,
+          2524,
+          1970
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "bbox": [
+        691,
+        1782,
+        2524,
+        1970
+      ],
+      "bbox_crop": [
+        691,
+        1782,
+        2524,
+        1970
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-8",
+      "ref": "p0196-r0001:R10C0",
+      "row": 10,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:11",
+      "ref": "p0196-r0001:R10C1",
+      "row": 10,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R10C2",
+      "row": 10,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R10C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line1.png",
+            "image_sha256": "03fc76ff233708d96867cb860f60cc3a1ecafca8bafbcbca80f2c49d0c534fa4",
+            "bbox_upright": [
+              690,
+              1984,
+              2527,
+              2046
+            ],
+            "bbox_crop": [
+              690,
+              1984,
+              2527,
+              2046
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9998786449432373
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line2.png",
+            "image_sha256": "90caa8069efb380b6ac83d17c8ce372306ec448a733d2e9d4faa465fc90fb1be",
+            "bbox_upright": [
+              710,
+              2070,
+              2509,
+              2109
+            ],
+            "bbox_crop": [
+              710,
+              2070,
+              2509,
+              2109
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEA",
+            "confidence": 0.9999469518661499
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line3.png",
+            "image_sha256": "46bf58bd62f247b2799e8c65b3e73643369d13b4a18da002e170b26d7bb1fd4f",
+            "bbox_upright": [
+              713,
+              2134,
+              1172,
+              2173
+            ],
+            "bbox_crop": [
+              713,
+              2134,
+              1172,
+              2173
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998394250869751
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          1984,
+          2527,
+          2173
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+      "bbox": [
+        690,
+        1984,
+        2527,
+        2173
+      ],
+      "bbox_crop": [
+        690,
+        1984,
+        2527,
+        2173
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-9",
+      "ref": "p0196-r0001:R11C0",
+      "row": 11,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:12",
+      "ref": "p0196-r0001:R11C1",
+      "row": 11,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R11C2",
+      "row": 11,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R11C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line1.png",
+            "image_sha256": "00104ef38faea089a13b9a4d061a3518ce1852ea92a476384a784f93de767859",
+            "bbox_upright": [
+              689,
+              2187,
+              2526,
+              2249
+            ],
+            "bbox_crop": [
+              689,
+              2187,
+              2526,
+              2249
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9999058842658997
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line2.png",
+            "image_sha256": "3e559d76c9629a3845c4c91d73719ec62abdf2f489b7568fe9e0fb65d9839f27",
+            "bbox_upright": [
+              710,
+              2272,
+              2509,
+              2312
+            ],
+            "bbox_crop": [
+              710,
+              2272,
+              2509,
+              2312
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+            "confidence": 0.9999507069587708
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line3.png",
+            "image_sha256": "44bb4d4e42720589f72ca7d1cd40f45036a68e73efcfc7ad9a7c84f2c2e789c4",
+            "bbox_upright": [
+              690,
+              2337,
+              1189,
+              2391
+            ],
+            "bbox_crop": [
+              690,
+              2337,
+              1189,
+              2391
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998745918273926
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2187,
+          2526,
+          2391
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+      "bbox": [
+        689,
+        2187,
+        2526,
+        2391
+      ],
+      "bbox_crop": [
+        689,
+        2187,
+        2526,
+        2391
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-10",
+      "ref": "p0196-r0001:R12C0",
+      "row": 12,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:13",
+      "ref": "p0196-r0001:R12C1",
+      "row": 12,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R12C2",
+      "row": 12,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R12C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line1.png",
+            "image_sha256": "bc7546b60dfc68cede5b197cfb2ef09e3404a46c51ec0a50d9718eb85c491e87",
+            "bbox_upright": [
+              689,
+              2390,
+              2525,
+              2452
+            ],
+            "bbox_crop": [
+              689,
+              2390,
+              2525,
+              2452
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.9999070167541504
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line2.png",
+            "image_sha256": "ceebe01f37e2288f2fa99c2c405f954ad16dae887f300c4e46cfd262daba519f",
+            "bbox_upright": [
+              710,
+              2475,
+              2505,
+              2514
+            ],
+            "bbox_crop": [
+              710,
+              2475,
+              2505,
+              2514
+            ],
+            "text": "GTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.999941885471344
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line3.png",
+            "image_sha256": "d79491c2e8a6fea3a24127e1ebe375ef848b09071dde86c9ec9c393d8a4bd04f",
+            "bbox_upright": [
+              710,
+              2539,
+              1172,
+              2578
+            ],
+            "bbox_crop": [
+              710,
+              2539,
+              1172,
+              2578
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997765421867371
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2390,
+          2525,
+          2578
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "bbox": [
+        689,
+        2390,
+        2525,
+        2578
+      ],
+      "bbox_crop": [
+        689,
+        2390,
+        2525,
+        2578
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-11",
+      "ref": "p0196-r0001:R13C0",
+      "row": 13,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:14",
+      "ref": "p0196-r0001:R13C1",
+      "row": 13,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R13C2",
+      "row": 13,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R13C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line1.png",
+            "image_sha256": "3d83a39b10bac6b6c9ef6b6b1010f4198406bede769b42c375d233b9602e0ab4",
+            "bbox_upright": [
+              689,
+              2593,
+              2525,
+              2654
+            ],
+            "bbox_crop": [
+              689,
+              2593,
+              2525,
+              2654
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYS",
+            "confidence": 0.9997344017028809
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line2.png",
+            "image_sha256": "abdbeb018afb175aca4eef9595e026801414d3ef29dd56fb43283ef5fe6ec61b",
+            "bbox_upright": [
+              710,
+              2653,
+              2509,
+              2717
+            ],
+            "bbox_crop": [
+              710,
+              2653,
+              2509,
+              2717
+            ],
+            "text": "GSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEA",
+            "confidence": 0.9911000728607178
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line3.png",
+            "image_sha256": "53b053f0b6dd5d56e24a0d71fb89c5e76d9530545adff835658851fbbb2b0fa2",
+            "bbox_upright": [
+              711,
+              2742,
+              1172,
+              2781
+            ],
+            "bbox_crop": [
+              711,
+              2742,
+              1172,
+              2781
+            ],
+            "text": "LDIWGQGTMVTVSS",
+            "confidence": 0.9998884797096252
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2593,
+          2525,
+          2781
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+      "bbox": [
+        689,
+        2593,
+        2525,
+        2781
+      ],
+      "bbox_crop": [
+        689,
+        2593,
+        2525,
+        2781
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-12",
+      "ref": "p0196-r0001:R14C0",
+      "row": 14,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:15",
+      "ref": "p0196-r0001:R14C1",
+      "row": 14,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R14C2",
+      "row": 14,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R14C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line1.png",
+            "image_sha256": "328c29f73430b977f3d887bb0d58b45478960f05b1a4340fd4904ac6280edb19",
+            "bbox_upright": [
+              691,
+              2795,
+              2525,
+              2857
+            ],
+            "bbox_crop": [
+              691,
+              2795,
+              2525,
+              2857
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9911461472511292
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line2.png",
+            "image_sha256": "d7dca47ac1f39516b433839833703b5221d7fb8413f2292f2cdfa88fdd1b17a6",
+            "bbox_upright": [
+              710,
+              2856,
+              2509,
+              2920
+            ],
+            "bbox_crop": [
+              710,
+              2856,
+              2509,
+              2920
+            ],
+            "text": "GSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEA",
+            "confidence": 0.9999333620071411
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line3.png",
+            "image_sha256": "dc333b88ae928c2aa1d6f13f6631313fd4b3038b95a4c7f0040e70cb2ea3add6",
+            "bbox_upright": [
+              713,
+              2945,
+              1172,
+              2984
+            ],
+            "bbox_crop": [
+              713,
+              2945,
+              1172,
+              2984
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998425245285034
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          2795,
+          2525,
+          2984
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+      "bbox": [
+        691,
+        2795,
+        2525,
+        2984
+      ],
+      "bbox_crop": [
+        691,
+        2795,
+        2525,
+        2984
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-13",
+      "ref": "p0196-r0001:R15C0",
+      "row": 15,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:16",
+      "ref": "p0196-r0001:R15C1",
+      "row": 15,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R15C2",
+      "row": 15,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R15C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line1.png",
+            "image_sha256": "5d26bc86e27754a9e7c8d442b217ef2baf96e65d0cb91fd04d6805a60cdd8746",
+            "bbox_upright": [
+              689,
+              2998,
+              2526,
+              3060
+            ],
+            "bbox_crop": [
+              689,
+              2998,
+              2526,
+              3060
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYD",
+            "confidence": 0.9999160766601562
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line2.png",
+            "image_sha256": "ad345094a9c455cac7c31c72f4e6b27fc614d7da5819c9f745e8a9309d58fba0",
+            "bbox_upright": [
+              710,
+              3058,
+              2509,
+              3123
+            ],
+            "bbox_crop": [
+              710,
+              3058,
+              2509,
+              3123
+            ],
+            "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEA",
+            "confidence": 0.9999505281448364
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line3.png",
+            "image_sha256": "c1ab7ffe0df0a804385904a3d23c639c09abb17fed7b863e0155e6e433a0d45d",
+            "bbox_upright": [
+              713,
+              3147,
+              1172,
+              3187
+            ],
+            "bbox_crop": [
+              713,
+              3147,
+              1172,
+              3187
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998204112052917
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2998,
+          2526,
+          3187
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+      "bbox": [
+        689,
+        2998,
+        2526,
+        3187
+      ],
+      "bbox_crop": [
+        689,
+        2998,
+        2526,
+        3187
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    },
+    {
+      "text": "AB-14",
+      "ref": "p0196-r0001:R16C0",
+      "row": 16,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "NO:17",
+      "ref": "p0196-r0001:R16C1",
+      "row": 16,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+      "ref": "p0196-r0001:R16C2",
+      "row": 16,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "sequence_ocr": {
+        "ref": "p0196-r0001:R16C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line1.png",
+            "image_sha256": "6d9e7527f6bc8fc583156a8f97a0ad3ccb82af5a2473a01610a4eb53ddb43ac7",
+            "bbox_upright": [
+              690,
+              3201,
+              2527,
+              3263
+            ],
+            "bbox_crop": [
+              690,
+              3201,
+              2527,
+              3263
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.999877393245697
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line2.png",
+            "image_sha256": "e7b008a645db276ad1a6812441cdd619b4731aa6fcfdd714e517bffb45a48a96",
+            "bbox_upright": [
+              710,
+              3286,
+              2509,
+              3325
+            ],
+            "bbox_crop": [
+              710,
+              3286,
+              2509,
+              3325
+            ],
+            "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+            "confidence": 0.9999480247497559
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line3.png",
+            "image_sha256": "c39cbb8a121c826792e5de3a5c83a2066e331c3b1b74a602e64225a07bc00588",
+            "bbox_upright": [
+              713,
+              3350,
+              1172,
+              3389
+            ],
+            "bbox_crop": [
+              713,
+              3350,
+              1172,
+              3389
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998378157615662
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          3201,
+          2527,
+          3389
+        ]
+      },
+      "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+      "bbox": [
+        690,
+        3201,
+        2527,
+        3389
+      ],
+      "bbox_crop": [
+        690,
+        3201,
+        2527,
+        3389
+      ],
+      "coordinate_space": "crop_pixels",
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "ppocrv6_sequence_lines"
+    }
+  ],
+  "grid": [
+    [
+      {
+        "text": "Name",
+        "ref": "p0196-r0001:R0C0",
+        "row": 0,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "SEQ ID",
+        "ref": "p0196-r0001:R0C1",
+        "row": 0,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "Amino Acid Sequence",
+        "ref": "p0196-r0001:R0C2",
+        "row": 0,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1
+      }
+    ],
+    [
+      {
+        "text": "Consensus",
+        "ref": "p0196-r0001:R1C0",
+        "row": 1,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:2",
+        "ref": "p0196-r0001:R1C1",
+        "row": 1,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS",
+        "ref": "p0196-r0001:R1C2",
+        "row": 1,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R1C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS",
+          "status": "failed",
+          "lines": [],
+          "error": "Sequence cell has no unique addressed row/column location"
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS"
+      }
+    ],
+    [
+      {
+        "text": "Reference",
+        "ref": "p0196-r0001:R2C0",
+        "row": 2,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:3",
+        "ref": "p0196-r0001:R2C1",
+        "row": 2,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R2C2",
+        "row": 2,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R2C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line1.png",
+              "image_sha256": "939090be236566d499d8cebb18ee5a81011852a8cf17853358231bbf31b8ea05",
+              "bbox_upright": [
+                693,
+                363,
+                2525,
+                425
+              ],
+              "bbox_crop": [
+                693,
+                363,
+                2525,
+                425
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+              "confidence": 0.9923534393310547
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line2.png",
+              "image_sha256": "c0f57613f4139f1b4061ff1d233b7ec506a008f5254398c260d9bc7d9573d8a8",
+              "bbox_upright": [
+                710,
+                448,
+                2509,
+                487
+              ],
+              "bbox_crop": [
+                710,
+                448,
+                2509,
+                487
+              ],
+              "text": "GSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+              "confidence": 0.9999459385871887
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line3.png",
+              "image_sha256": "a1fdf993f3ab4f880534b74d159dcf7d143f4ea3d613e05c65f48f60cf705707",
+              "bbox_upright": [
+                713,
+                511,
+                1172,
+                550
+              ],
+              "bbox_crop": [
+                713,
+                511,
+                1172,
+                550
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998393654823303
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            693,
+            363,
+            2525,
+            550
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox": [
+          693,
+          363,
+          2525,
+          550
+        ],
+        "bbox_crop": [
+          693,
+          363,
+          2525,
+          550
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-1",
+        "ref": "p0196-r0001:R3C0",
+        "row": 3,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:4",
+        "ref": "p0196-r0001:R3C1",
+        "row": 3,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R3C2",
+        "row": 3,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R3C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line1.png",
+              "image_sha256": "81a9e3ec9fa8b4800cb09540733032b70ac5f7e79ae7abb3ff85b12468472616",
+              "bbox_upright": [
+                693,
+                566,
+                2522,
+                627
+              ],
+              "bbox_crop": [
+                693,
+                566,
+                2522,
+                627
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYS",
+              "confidence": 0.9998918175697327
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line2.png",
+              "image_sha256": "b08877625492133d6dd8dcc1eedfd8512f15f541910283e838d7a0d4976d8f2f",
+              "bbox_upright": [
+                710,
+                651,
+                2509,
+                690
+              ],
+              "bbox_crop": [
+                710,
+                651,
+                2509,
+                690
+              ],
+              "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+              "confidence": 0.999936580657959
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line3.png",
+              "image_sha256": "f7a3d9688dfcdc83b13adcc9e44160bb5e13b1c9f2369f4a864d676b6e46e514",
+              "bbox_upright": [
+                710,
+                714,
+                1172,
+                753
+              ],
+              "bbox_crop": [
+                710,
+                714,
+                1172,
+                753
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9998117089271545
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            693,
+            566,
+            2522,
+            753
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox": [
+          693,
+          566,
+          2522,
+          753
+        ],
+        "bbox_crop": [
+          693,
+          566,
+          2522,
+          753
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-2",
+        "ref": "p0196-r0001:R4C0",
+        "row": 4,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:5",
+        "ref": "p0196-r0001:R4C1",
+        "row": 4,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R4C2",
+        "row": 4,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R4C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line1.png",
+              "image_sha256": "6d6e9434cb569e6bad1931fcf0940e9754c165ca1ef60c017c67908b203428aa",
+              "bbox_upright": [
+                691,
+                768,
+                2525,
+                830
+              ],
+              "bbox_crop": [
+                691,
+                768,
+                2525,
+                830
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+              "confidence": 0.9944491982460022
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line2.png",
+              "image_sha256": "86a1a8ff714dcf77b42988360a0b941635772b9935b1ca0f8ce8bdc7720b894d",
+              "bbox_upright": [
+                710,
+                854,
+                2509,
+                893
+              ],
+              "bbox_crop": [
+                710,
+                854,
+                2509,
+                893
+              ],
+              "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEA",
+              "confidence": 0.9999582767486572
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line3.png",
+              "image_sha256": "a40d4b7bed21ed174af6bbbda4edab7b007516993c45bd4590f746bbd4547777",
+              "bbox_upright": [
+                710,
+                916,
+                1172,
+                955
+              ],
+              "bbox_crop": [
+                710,
+                916,
+                1172,
+                955
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9997734427452087
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            691,
+            768,
+            2525,
+            955
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "bbox": [
+          691,
+          768,
+          2525,
+          955
+        ],
+        "bbox_crop": [
+          691,
+          768,
+          2525,
+          955
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-3",
+        "ref": "p0196-r0001:R5C0",
+        "row": 5,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:6",
+        "ref": "p0196-r0001:R5C1",
+        "row": 5,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R5C2",
+        "row": 5,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R5C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line1.png",
+              "image_sha256": "fa397116e6300be15c6605658ec5a31e84cc2f20a9a8e9061a7374437acc50d3",
+              "bbox_upright": [
+                690,
+                971,
+                2527,
+                1033
+              ],
+              "bbox_crop": [
+                690,
+                971,
+                2527,
+                1033
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+              "confidence": 0.9998833537101746
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line2.png",
+              "image_sha256": "aba7dca6c12f1be814e62359241b97374a274cf4fa017750ee9928d04cc23464",
+              "bbox_upright": [
+                710,
+                1056,
+                2509,
+                1096
+              ],
+              "bbox_crop": [
+                710,
+                1056,
+                2509,
+                1096
+              ],
+              "text": "GTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+              "confidence": 0.9999595284461975
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line3.png",
+              "image_sha256": "8ef4740cfe83e37766a94600320ec2058465e337bce3a5567b3a80ea661655b7",
+              "bbox_upright": [
+                713,
+                1119,
+                1172,
+                1158
+              ],
+              "bbox_crop": [
+                713,
+                1119,
+                1172,
+                1158
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998378157615662
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            690,
+            971,
+            2527,
+            1158
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox": [
+          690,
+          971,
+          2527,
+          1158
+        ],
+        "bbox_crop": [
+          690,
+          971,
+          2527,
+          1158
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-4",
+        "ref": "p0196-r0001:R6C0",
+        "row": 6,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:7",
+        "ref": "p0196-r0001:R6C1",
+        "row": 6,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "ref": "p0196-r0001:R6C2",
+        "row": 6,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R6C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line1.png",
+              "image_sha256": "9afde096b2b548d96e22214367afd65e45974ddf33991145cc39d99f4e6093b2",
+              "bbox_upright": [
+                689,
+                1174,
+                2526,
+                1236
+              ],
+              "bbox_crop": [
+                689,
+                1174,
+                2526,
+                1236
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+              "confidence": 0.999674379825592
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line2.png",
+              "image_sha256": "4c28a63a2bbf95fff565426e1c79876c80f0d9a08d97d061c76d79a4c5c60b60",
+              "bbox_upright": [
+                710,
+                1259,
+                2505,
+                1298
+              ],
+              "bbox_crop": [
+                710,
+                1259,
+                2505,
+                1298
+              ],
+              "text": "GSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFES",
+              "confidence": 0.9999409317970276
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line3.png",
+              "image_sha256": "b42f38454d1f744ee2c2c2725014e7439c85c71fd0806884fa7529b02269e989",
+              "bbox_upright": [
+                710,
+                1323,
+                1172,
+                1362
+              ],
+              "bbox_crop": [
+                710,
+                1323,
+                1172,
+                1362
+              ],
+              "text": "MDVWGQGTMVTVSS",
+              "confidence": 0.9999183416366577
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            1174,
+            2526,
+            1362
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "bbox": [
+          689,
+          1174,
+          2526,
+          1362
+        ],
+        "bbox_crop": [
+          689,
+          1174,
+          2526,
+          1362
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-5",
+        "ref": "p0196-r0001:R7C0",
+        "row": 7,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:8",
+        "ref": "p0196-r0001:R7C1",
+        "row": 7,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R7C2",
+        "row": 7,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R7C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line1.png",
+              "image_sha256": "9345273ef7e270196437a444645b85b6688d1d25ffc033761303b1a4b3b7a99b",
+              "bbox_upright": [
+                689,
+                1376,
+                2527,
+                1438
+              ],
+              "bbox_crop": [
+                689,
+                1376,
+                2527,
+                1438
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+              "confidence": 0.9999400973320007
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line2.png",
+              "image_sha256": "644225ac11325212491c195bb1184d8562d27f37cb6794d67614a41b783e0d8a",
+              "bbox_upright": [
+                710,
+                1462,
+                2505,
+                1501
+              ],
+              "bbox_crop": [
+                710,
+                1462,
+                2505,
+                1501
+              ],
+              "text": "GYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+              "confidence": 0.9999515414237976
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line3.png",
+              "image_sha256": "e6c297605a7396317b0dda5dccea527954c42a8dc6c8d697ad1882aa743bb55c",
+              "bbox_upright": [
+                710,
+                1526,
+                1172,
+                1565
+              ],
+              "bbox_crop": [
+                710,
+                1526,
+                1172,
+                1565
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9998043179512024
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            1376,
+            2527,
+            1565
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox": [
+          689,
+          1376,
+          2527,
+          1565
+        ],
+        "bbox_crop": [
+          689,
+          1376,
+          2527,
+          1565
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-6",
+        "ref": "p0196-r0001:R8C0",
+        "row": 8,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:9",
+        "ref": "p0196-r0001:R8C1",
+        "row": 8,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R8C2",
+        "row": 8,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R8C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line1.png",
+              "image_sha256": "aee572005ace7e580d1dbde09c6a7e5fb83022f8c7a2bb34f738b95bd350c304",
+              "bbox_upright": [
+                690,
+                1579,
+                2527,
+                1641
+              ],
+              "bbox_crop": [
+                690,
+                1579,
+                2527,
+                1641
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+              "confidence": 0.9999419450759888
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line2.png",
+              "image_sha256": "8d1b85ed73f1ca70a11ea32ee27905c27adcdc94b05274c9c33f4189b91fd692",
+              "bbox_upright": [
+                710,
+                1664,
+                2505,
+                1704
+              ],
+              "bbox_crop": [
+                710,
+                1664,
+                2505,
+                1704
+              ],
+              "text": "GSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+              "confidence": 0.9983416795730591
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line3.png",
+              "image_sha256": "ef7f802ac49e5709409cf22d89ffb7fc56d0e5e33990255e39230632fd11ae89",
+              "bbox_upright": [
+                710,
+                1728,
+                1172,
+                1768
+              ],
+              "bbox_crop": [
+                710,
+                1728,
+                1172,
+                1768
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9998124241828918
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            690,
+            1579,
+            2527,
+            1768
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox": [
+          690,
+          1579,
+          2527,
+          1768
+        ],
+        "bbox_crop": [
+          690,
+          1579,
+          2527,
+          1768
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-7",
+        "ref": "p0196-r0001:R9C0",
+        "row": 9,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:10",
+        "ref": "p0196-r0001:R9C1",
+        "row": 9,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R9C2",
+        "row": 9,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R9C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line1.png",
+              "image_sha256": "d71072305ebd8e4e8a50fa17bbb1cbed929bf4190068d924c4db2696b2b8dde3",
+              "bbox_upright": [
+                691,
+                1782,
+                2524,
+                1844
+              ],
+              "bbox_crop": [
+                691,
+                1782,
+                2524,
+                1844
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+              "confidence": 0.9998638033866882
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line2.png",
+              "image_sha256": "543a3cdac5feab41a8b9d75fff71fd1aace57ba12e2b5c0809ba77df5364e800",
+              "bbox_upright": [
+                710,
+                1867,
+                2509,
+                1906
+              ],
+              "bbox_crop": [
+                710,
+                1867,
+                2509,
+                1906
+              ],
+              "text": "GAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+              "confidence": 0.9999425411224365
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line3.png",
+              "image_sha256": "90fdbb987264368b0f288a0d118b0eedd07f338ff535595558345a1ec66ef2b4",
+              "bbox_upright": [
+                710,
+                1931,
+                1172,
+                1970
+              ],
+              "bbox_crop": [
+                710,
+                1931,
+                1172,
+                1970
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9997803568840027
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            691,
+            1782,
+            2524,
+            1970
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox": [
+          691,
+          1782,
+          2524,
+          1970
+        ],
+        "bbox_crop": [
+          691,
+          1782,
+          2524,
+          1970
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-8",
+        "ref": "p0196-r0001:R10C0",
+        "row": 10,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:11",
+        "ref": "p0196-r0001:R10C1",
+        "row": 10,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R10C2",
+        "row": 10,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R10C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line1.png",
+              "image_sha256": "03fc76ff233708d96867cb860f60cc3a1ecafca8bafbcbca80f2c49d0c534fa4",
+              "bbox_upright": [
+                690,
+                1984,
+                2527,
+                2046
+              ],
+              "bbox_crop": [
+                690,
+                1984,
+                2527,
+                2046
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+              "confidence": 0.9998786449432373
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line2.png",
+              "image_sha256": "90caa8069efb380b6ac83d17c8ce372306ec448a733d2e9d4faa465fc90fb1be",
+              "bbox_upright": [
+                710,
+                2070,
+                2509,
+                2109
+              ],
+              "bbox_crop": [
+                710,
+                2070,
+                2509,
+                2109
+              ],
+              "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEA",
+              "confidence": 0.9999469518661499
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line3.png",
+              "image_sha256": "46bf58bd62f247b2799e8c65b3e73643369d13b4a18da002e170b26d7bb1fd4f",
+              "bbox_upright": [
+                713,
+                2134,
+                1172,
+                2173
+              ],
+              "bbox_crop": [
+                713,
+                2134,
+                1172,
+                2173
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998394250869751
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            690,
+            1984,
+            2527,
+            2173
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "bbox": [
+          690,
+          1984,
+          2527,
+          2173
+        ],
+        "bbox_crop": [
+          690,
+          1984,
+          2527,
+          2173
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-9",
+        "ref": "p0196-r0001:R11C0",
+        "row": 11,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:12",
+        "ref": "p0196-r0001:R11C1",
+        "row": 11,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R11C2",
+        "row": 11,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R11C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line1.png",
+              "image_sha256": "00104ef38faea089a13b9a4d061a3518ce1852ea92a476384a784f93de767859",
+              "bbox_upright": [
+                689,
+                2187,
+                2526,
+                2249
+              ],
+              "bbox_crop": [
+                689,
+                2187,
+                2526,
+                2249
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+              "confidence": 0.9999058842658997
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line2.png",
+              "image_sha256": "3e559d76c9629a3845c4c91d73719ec62abdf2f489b7568fe9e0fb65d9839f27",
+              "bbox_upright": [
+                710,
+                2272,
+                2509,
+                2312
+              ],
+              "bbox_crop": [
+                710,
+                2272,
+                2509,
+                2312
+              ],
+              "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+              "confidence": 0.9999507069587708
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line3.png",
+              "image_sha256": "44bb4d4e42720589f72ca7d1cd40f45036a68e73efcfc7ad9a7c84f2c2e789c4",
+              "bbox_upright": [
+                690,
+                2337,
+                1189,
+                2391
+              ],
+              "bbox_crop": [
+                690,
+                2337,
+                1189,
+                2391
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998745918273926
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            2187,
+            2526,
+            2391
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox": [
+          689,
+          2187,
+          2526,
+          2391
+        ],
+        "bbox_crop": [
+          689,
+          2187,
+          2526,
+          2391
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-10",
+        "ref": "p0196-r0001:R12C0",
+        "row": 12,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:13",
+        "ref": "p0196-r0001:R12C1",
+        "row": 12,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R12C2",
+        "row": 12,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R12C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line1.png",
+              "image_sha256": "bc7546b60dfc68cede5b197cfb2ef09e3404a46c51ec0a50d9718eb85c491e87",
+              "bbox_upright": [
+                689,
+                2390,
+                2525,
+                2452
+              ],
+              "bbox_crop": [
+                689,
+                2390,
+                2525,
+                2452
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+              "confidence": 0.9999070167541504
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line2.png",
+              "image_sha256": "ceebe01f37e2288f2fa99c2c405f954ad16dae887f300c4e46cfd262daba519f",
+              "bbox_upright": [
+                710,
+                2475,
+                2505,
+                2514
+              ],
+              "bbox_crop": [
+                710,
+                2475,
+                2505,
+                2514
+              ],
+              "text": "GTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+              "confidence": 0.999941885471344
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line3.png",
+              "image_sha256": "d79491c2e8a6fea3a24127e1ebe375ef848b09071dde86c9ec9c393d8a4bd04f",
+              "bbox_upright": [
+                710,
+                2539,
+                1172,
+                2578
+              ],
+              "bbox_crop": [
+                710,
+                2539,
+                1172,
+                2578
+              ],
+              "text": "MDIWGQGTMVTVSS",
+              "confidence": 0.9997765421867371
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            2390,
+            2525,
+            2578
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox": [
+          689,
+          2390,
+          2525,
+          2578
+        ],
+        "bbox_crop": [
+          689,
+          2390,
+          2525,
+          2578
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-11",
+        "ref": "p0196-r0001:R13C0",
+        "row": 13,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:14",
+        "ref": "p0196-r0001:R13C1",
+        "row": 13,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R13C2",
+        "row": 13,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R13C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line1.png",
+              "image_sha256": "3d83a39b10bac6b6c9ef6b6b1010f4198406bede769b42c375d233b9602e0ab4",
+              "bbox_upright": [
+                689,
+                2593,
+                2525,
+                2654
+              ],
+              "bbox_crop": [
+                689,
+                2593,
+                2525,
+                2654
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYS",
+              "confidence": 0.9997344017028809
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line2.png",
+              "image_sha256": "abdbeb018afb175aca4eef9595e026801414d3ef29dd56fb43283ef5fe6ec61b",
+              "bbox_upright": [
+                710,
+                2653,
+                2509,
+                2717
+              ],
+              "bbox_crop": [
+                710,
+                2653,
+                2509,
+                2717
+              ],
+              "text": "GSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEA",
+              "confidence": 0.9911000728607178
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line3.png",
+              "image_sha256": "53b053f0b6dd5d56e24a0d71fb89c5e76d9530545adff835658851fbbb2b0fa2",
+              "bbox_upright": [
+                711,
+                2742,
+                1172,
+                2781
+              ],
+              "bbox_crop": [
+                711,
+                2742,
+                1172,
+                2781
+              ],
+              "text": "LDIWGQGTMVTVSS",
+              "confidence": 0.9998884797096252
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            2593,
+            2525,
+            2781
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "bbox": [
+          689,
+          2593,
+          2525,
+          2781
+        ],
+        "bbox_crop": [
+          689,
+          2593,
+          2525,
+          2781
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-12",
+        "ref": "p0196-r0001:R14C0",
+        "row": 14,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:15",
+        "ref": "p0196-r0001:R14C1",
+        "row": 14,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R14C2",
+        "row": 14,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R14C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line1.png",
+              "image_sha256": "328c29f73430b977f3d887bb0d58b45478960f05b1a4340fd4904ac6280edb19",
+              "bbox_upright": [
+                691,
+                2795,
+                2525,
+                2857
+              ],
+              "bbox_crop": [
+                691,
+                2795,
+                2525,
+                2857
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+              "confidence": 0.9911461472511292
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line2.png",
+              "image_sha256": "d7dca47ac1f39516b433839833703b5221d7fb8413f2292f2cdfa88fdd1b17a6",
+              "bbox_upright": [
+                710,
+                2856,
+                2509,
+                2920
+              ],
+              "bbox_crop": [
+                710,
+                2856,
+                2509,
+                2920
+              ],
+              "text": "GSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEA",
+              "confidence": 0.9999333620071411
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line3.png",
+              "image_sha256": "dc333b88ae928c2aa1d6f13f6631313fd4b3038b95a4c7f0040e70cb2ea3add6",
+              "bbox_upright": [
+                713,
+                2945,
+                1172,
+                2984
+              ],
+              "bbox_crop": [
+                713,
+                2945,
+                1172,
+                2984
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998425245285034
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            691,
+            2795,
+            2525,
+            2984
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "bbox": [
+          691,
+          2795,
+          2525,
+          2984
+        ],
+        "bbox_crop": [
+          691,
+          2795,
+          2525,
+          2984
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-13",
+        "ref": "p0196-r0001:R15C0",
+        "row": 15,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:16",
+        "ref": "p0196-r0001:R15C1",
+        "row": 15,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R15C2",
+        "row": 15,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R15C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line1.png",
+              "image_sha256": "5d26bc86e27754a9e7c8d442b217ef2baf96e65d0cb91fd04d6805a60cdd8746",
+              "bbox_upright": [
+                689,
+                2998,
+                2526,
+                3060
+              ],
+              "bbox_crop": [
+                689,
+                2998,
+                2526,
+                3060
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYD",
+              "confidence": 0.9999160766601562
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line2.png",
+              "image_sha256": "ad345094a9c455cac7c31c72f4e6b27fc614d7da5819c9f745e8a9309d58fba0",
+              "bbox_upright": [
+                710,
+                3058,
+                2509,
+                3123
+              ],
+              "bbox_crop": [
+                710,
+                3058,
+                2509,
+                3123
+              ],
+              "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEA",
+              "confidence": 0.9999505281448364
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line3.png",
+              "image_sha256": "c1ab7ffe0df0a804385904a3d23c639c09abb17fed7b863e0155e6e433a0d45d",
+              "bbox_upright": [
+                713,
+                3147,
+                1172,
+                3187
+              ],
+              "bbox_crop": [
+                713,
+                3147,
+                1172,
+                3187
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998204112052917
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            689,
+            2998,
+            2526,
+            3187
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "bbox": [
+          689,
+          2998,
+          2526,
+          3187
+        ],
+        "bbox_crop": [
+          689,
+          2998,
+          2526,
+          3187
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ],
+    [
+      {
+        "text": "AB-14",
+        "ref": "p0196-r0001:R16C0",
+        "row": 16,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "NO:17",
+        "ref": "p0196-r0001:R16C1",
+        "row": 16,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "ref": "p0196-r0001:R16C2",
+        "row": 16,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "sequence_ocr": {
+          "ref": "p0196-r0001:R16C2",
+          "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line1.png",
+              "image_sha256": "6d9e7527f6bc8fc583156a8f97a0ad3ccb82af5a2473a01610a4eb53ddb43ac7",
+              "bbox_upright": [
+                690,
+                3201,
+                2527,
+                3263
+              ],
+              "bbox_crop": [
+                690,
+                3201,
+                2527,
+                3263
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+              "confidence": 0.999877393245697
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line2.png",
+              "image_sha256": "e7b008a645db276ad1a6812441cdd619b4731aa6fcfdd714e517bffb45a48a96",
+              "bbox_upright": [
+                710,
+                3286,
+                2509,
+                3325
+              ],
+              "bbox_crop": [
+                710,
+                3286,
+                2509,
+                3325
+              ],
+              "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+              "confidence": 0.9999480247497559
+            },
+            {
+              "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line3.png",
+              "image_sha256": "c39cbb8a121c826792e5de3a5c83a2066e331c3b1b74a602e64225a07bc00588",
+              "bbox_upright": [
+                713,
+                3350,
+                1172,
+                3389
+              ],
+              "bbox_crop": [
+                713,
+                3350,
+                1172,
+                3389
+              ],
+              "text": "FDIWGQGTMVTVSS",
+              "confidence": 0.9998378157615662
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+          "bbox_crop": [
+            690,
+            3201,
+            2527,
+            3389
+          ]
+        },
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox": [
+          690,
+          3201,
+          2527,
+          3389
+        ],
+        "bbox_crop": [
+          690,
+          3201,
+          2527,
+          3389
+        ],
+        "coordinate_space": "crop_pixels",
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "ppocrv6_sequence_lines"
+      }
+    ]
+  ],
+  "blocks": [
+    {
+      "block_label": "table",
+      "block_content": "<table><tr><td>Name</td><td>SEQ ID</td><td>Amino Acid Sequence</td></tr><tr><td>Consensus</td><td>NO:2</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS</td></tr><tr><td>Reference</td><td>NO:3</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-1</td><td>NO:4</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-2</td><td>NO:5</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-3</td><td>NO:6</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-4</td><td>NO:7</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS</td></tr><tr><td>AB-5</td><td>NO:8</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-6</td><td>NO:9</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-7</td><td>NO:10</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-8</td><td>NO:11</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-9</td><td>NO:12</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-10</td><td>NO:13</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-11</td><td>NO:14</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS</td></tr><tr><td>AB-12</td><td>NO:15</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-13</td><td>NO:16</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-14</td><td>NO:17</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr></table>",
+      "block_bbox": [
+        0,
+        0,
+        2593,
+        3443
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0
+    }
+  ],
+  "lines": [],
+  "batch_runtime": {
+    "backend": "vl",
+    "device": "gpu:0",
+    "configured_submission_batch_size": 1,
+    "effective_model_batch_size": 1,
+    "worker_pid": 2667091,
+    "submission_size": 1,
+    "initialization_seconds": 6.825024843215942,
+    "inference_wall_seconds": 37.171307142823935
+  },
+  "status": "success",
+  "sequence_ocr": {
+    "version": "ppvl16-ppocrv6-sequence-v1",
+    "policy": "table_sequence_recognition_authoritative_page_text_advisory",
+    "model": "PP-OCRv6_medium_rec",
+    "candidate_count": 16,
+    "cells": [
+      {
+        "ref": "p0196-r0001:R1C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS",
+        "status": "failed",
+        "lines": [],
+        "error": "Sequence cell has no unique addressed row/column location"
+      },
+      {
+        "ref": "p0196-r0001:R2C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line1.png",
+            "image_sha256": "939090be236566d499d8cebb18ee5a81011852a8cf17853358231bbf31b8ea05",
+            "bbox_upright": [
+              693,
+              363,
+              2525,
+              425
+            ],
+            "bbox_crop": [
+              693,
+              363,
+              2525,
+              425
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9923534393310547
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line2.png",
+            "image_sha256": "c0f57613f4139f1b4061ff1d233b7ec506a008f5254398c260d9bc7d9573d8a8",
+            "bbox_upright": [
+              710,
+              448,
+              2509,
+              487
+            ],
+            "bbox_crop": [
+              710,
+              448,
+              2509,
+              487
+            ],
+            "text": "GSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+            "confidence": 0.9999459385871887
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R2C2-line3.png",
+            "image_sha256": "a1fdf993f3ab4f880534b74d159dcf7d143f4ea3d613e05c65f48f60cf705707",
+            "bbox_upright": [
+              713,
+              511,
+              1172,
+              550
+            ],
+            "bbox_crop": [
+              713,
+              511,
+              1172,
+              550
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998393654823303
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          693,
+          363,
+          2525,
+          550
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R3C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line1.png",
+            "image_sha256": "81a9e3ec9fa8b4800cb09540733032b70ac5f7e79ae7abb3ff85b12468472616",
+            "bbox_upright": [
+              693,
+              566,
+              2522,
+              627
+            ],
+            "bbox_crop": [
+              693,
+              566,
+              2522,
+              627
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYS",
+            "confidence": 0.9998918175697327
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line2.png",
+            "image_sha256": "b08877625492133d6dd8dcc1eedfd8512f15f541910283e838d7a0d4976d8f2f",
+            "bbox_upright": [
+              710,
+              651,
+              2509,
+              690
+            ],
+            "bbox_crop": [
+              710,
+              651,
+              2509,
+              690
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+            "confidence": 0.999936580657959
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R3C2-line3.png",
+            "image_sha256": "f7a3d9688dfcdc83b13adcc9e44160bb5e13b1c9f2369f4a864d676b6e46e514",
+            "bbox_upright": [
+              710,
+              714,
+              1172,
+              753
+            ],
+            "bbox_crop": [
+              710,
+              714,
+              1172,
+              753
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998117089271545
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          693,
+          566,
+          2522,
+          753
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R4C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line1.png",
+            "image_sha256": "6d6e9434cb569e6bad1931fcf0940e9754c165ca1ef60c017c67908b203428aa",
+            "bbox_upright": [
+              691,
+              768,
+              2525,
+              830
+            ],
+            "bbox_crop": [
+              691,
+              768,
+              2525,
+              830
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9944491982460022
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line2.png",
+            "image_sha256": "86a1a8ff714dcf77b42988360a0b941635772b9935b1ca0f8ce8bdc7720b894d",
+            "bbox_upright": [
+              710,
+              854,
+              2509,
+              893
+            ],
+            "bbox_crop": [
+              710,
+              854,
+              2509,
+              893
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEA",
+            "confidence": 0.9999582767486572
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R4C2-line3.png",
+            "image_sha256": "a40d4b7bed21ed174af6bbbda4edab7b007516993c45bd4590f746bbd4547777",
+            "bbox_upright": [
+              710,
+              916,
+              1172,
+              955
+            ],
+            "bbox_crop": [
+              710,
+              916,
+              1172,
+              955
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997734427452087
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          768,
+          2525,
+          955
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R5C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line1.png",
+            "image_sha256": "fa397116e6300be15c6605658ec5a31e84cc2f20a9a8e9061a7374437acc50d3",
+            "bbox_upright": [
+              690,
+              971,
+              2527,
+              1033
+            ],
+            "bbox_crop": [
+              690,
+              971,
+              2527,
+              1033
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9998833537101746
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line2.png",
+            "image_sha256": "aba7dca6c12f1be814e62359241b97374a274cf4fa017750ee9928d04cc23464",
+            "bbox_upright": [
+              710,
+              1056,
+              2509,
+              1096
+            ],
+            "bbox_crop": [
+              710,
+              1056,
+              2509,
+              1096
+            ],
+            "text": "GTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+            "confidence": 0.9999595284461975
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R5C2-line3.png",
+            "image_sha256": "8ef4740cfe83e37766a94600320ec2058465e337bce3a5567b3a80ea661655b7",
+            "bbox_upright": [
+              713,
+              1119,
+              1172,
+              1158
+            ],
+            "bbox_crop": [
+              713,
+              1119,
+              1172,
+              1158
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998378157615662
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          971,
+          2527,
+          1158
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R6C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line1.png",
+            "image_sha256": "9afde096b2b548d96e22214367afd65e45974ddf33991145cc39d99f4e6093b2",
+            "bbox_upright": [
+              689,
+              1174,
+              2526,
+              1236
+            ],
+            "bbox_crop": [
+              689,
+              1174,
+              2526,
+              1236
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.999674379825592
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line2.png",
+            "image_sha256": "4c28a63a2bbf95fff565426e1c79876c80f0d9a08d97d061c76d79a4c5c60b60",
+            "bbox_upright": [
+              710,
+              1259,
+              2505,
+              1298
+            ],
+            "bbox_crop": [
+              710,
+              1259,
+              2505,
+              1298
+            ],
+            "text": "GSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFES",
+            "confidence": 0.9999409317970276
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R6C2-line3.png",
+            "image_sha256": "b42f38454d1f744ee2c2c2725014e7439c85c71fd0806884fa7529b02269e989",
+            "bbox_upright": [
+              710,
+              1323,
+              1172,
+              1362
+            ],
+            "bbox_crop": [
+              710,
+              1323,
+              1172,
+              1362
+            ],
+            "text": "MDVWGQGTMVTVSS",
+            "confidence": 0.9999183416366577
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          1174,
+          2526,
+          1362
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R7C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line1.png",
+            "image_sha256": "9345273ef7e270196437a444645b85b6688d1d25ffc033761303b1a4b3b7a99b",
+            "bbox_upright": [
+              689,
+              1376,
+              2527,
+              1438
+            ],
+            "bbox_crop": [
+              689,
+              1376,
+              2527,
+              1438
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9999400973320007
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line2.png",
+            "image_sha256": "644225ac11325212491c195bb1184d8562d27f37cb6794d67614a41b783e0d8a",
+            "bbox_upright": [
+              710,
+              1462,
+              2505,
+              1501
+            ],
+            "bbox_crop": [
+              710,
+              1462,
+              2505,
+              1501
+            ],
+            "text": "GYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.9999515414237976
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R7C2-line3.png",
+            "image_sha256": "e6c297605a7396317b0dda5dccea527954c42a8dc6c8d697ad1882aa743bb55c",
+            "bbox_upright": [
+              710,
+              1526,
+              1172,
+              1565
+            ],
+            "bbox_crop": [
+              710,
+              1526,
+              1172,
+              1565
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998043179512024
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          1376,
+          2527,
+          1565
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R8C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line1.png",
+            "image_sha256": "aee572005ace7e580d1dbde09c6a7e5fb83022f8c7a2bb34f738b95bd350c304",
+            "bbox_upright": [
+              690,
+              1579,
+              2527,
+              1641
+            ],
+            "bbox_crop": [
+              690,
+              1579,
+              2527,
+              1641
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9999419450759888
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line2.png",
+            "image_sha256": "8d1b85ed73f1ca70a11ea32ee27905c27adcdc94b05274c9c33f4189b91fd692",
+            "bbox_upright": [
+              710,
+              1664,
+              2505,
+              1704
+            ],
+            "bbox_crop": [
+              710,
+              1664,
+              2505,
+              1704
+            ],
+            "text": "GSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.9983416795730591
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R8C2-line3.png",
+            "image_sha256": "ef7f802ac49e5709409cf22d89ffb7fc56d0e5e33990255e39230632fd11ae89",
+            "bbox_upright": [
+              710,
+              1728,
+              1172,
+              1768
+            ],
+            "bbox_crop": [
+              710,
+              1728,
+              1172,
+              1768
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9998124241828918
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          1579,
+          2527,
+          1768
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R9C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line1.png",
+            "image_sha256": "d71072305ebd8e4e8a50fa17bbb1cbed929bf4190068d924c4db2696b2b8dde3",
+            "bbox_upright": [
+              691,
+              1782,
+              2524,
+              1844
+            ],
+            "bbox_crop": [
+              691,
+              1782,
+              2524,
+              1844
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.9998638033866882
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line2.png",
+            "image_sha256": "543a3cdac5feab41a8b9d75fff71fd1aace57ba12e2b5c0809ba77df5364e800",
+            "bbox_upright": [
+              710,
+              1867,
+              2509,
+              1906
+            ],
+            "bbox_crop": [
+              710,
+              1867,
+              2509,
+              1906
+            ],
+            "text": "GAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEA",
+            "confidence": 0.9999425411224365
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R9C2-line3.png",
+            "image_sha256": "90fdbb987264368b0f288a0d118b0eedd07f338ff535595558345a1ec66ef2b4",
+            "bbox_upright": [
+              710,
+              1931,
+              1172,
+              1970
+            ],
+            "bbox_crop": [
+              710,
+              1931,
+              1172,
+              1970
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997803568840027
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          1782,
+          2524,
+          1970
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R10C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line1.png",
+            "image_sha256": "03fc76ff233708d96867cb860f60cc3a1ecafca8bafbcbca80f2c49d0c534fa4",
+            "bbox_upright": [
+              690,
+              1984,
+              2527,
+              2046
+            ],
+            "bbox_crop": [
+              690,
+              1984,
+              2527,
+              2046
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9998786449432373
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line2.png",
+            "image_sha256": "90caa8069efb380b6ac83d17c8ce372306ec448a733d2e9d4faa465fc90fb1be",
+            "bbox_upright": [
+              710,
+              2070,
+              2509,
+              2109
+            ],
+            "bbox_crop": [
+              710,
+              2070,
+              2509,
+              2109
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEA",
+            "confidence": 0.9999469518661499
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R10C2-line3.png",
+            "image_sha256": "46bf58bd62f247b2799e8c65b3e73643369d13b4a18da002e170b26d7bb1fd4f",
+            "bbox_upright": [
+              713,
+              2134,
+              1172,
+              2173
+            ],
+            "bbox_crop": [
+              713,
+              2134,
+              1172,
+              2173
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998394250869751
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          1984,
+          2527,
+          2173
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R11C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line1.png",
+            "image_sha256": "00104ef38faea089a13b9a4d061a3518ce1852ea92a476384a784f93de767859",
+            "bbox_upright": [
+              689,
+              2187,
+              2526,
+              2249
+            ],
+            "bbox_crop": [
+              689,
+              2187,
+              2526,
+              2249
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.9999058842658997
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line2.png",
+            "image_sha256": "3e559d76c9629a3845c4c91d73719ec62abdf2f489b7568fe9e0fb65d9839f27",
+            "bbox_upright": [
+              710,
+              2272,
+              2509,
+              2312
+            ],
+            "bbox_crop": [
+              710,
+              2272,
+              2509,
+              2312
+            ],
+            "text": "GSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEA",
+            "confidence": 0.9999507069587708
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R11C2-line3.png",
+            "image_sha256": "44bb4d4e42720589f72ca7d1cd40f45036a68e73efcfc7ad9a7c84f2c2e789c4",
+            "bbox_upright": [
+              690,
+              2337,
+              1189,
+              2391
+            ],
+            "bbox_crop": [
+              690,
+              2337,
+              1189,
+              2391
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998745918273926
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2187,
+          2526,
+          2391
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R12C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line1.png",
+            "image_sha256": "bc7546b60dfc68cede5b197cfb2ef09e3404a46c51ec0a50d9718eb85c491e87",
+            "bbox_upright": [
+              689,
+              2390,
+              2525,
+              2452
+            ],
+            "bbox_crop": [
+              689,
+              2390,
+              2525,
+              2452
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYS",
+            "confidence": 0.9999070167541504
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line2.png",
+            "image_sha256": "ceebe01f37e2288f2fa99c2c405f954ad16dae887f300c4e46cfd262daba519f",
+            "bbox_upright": [
+              710,
+              2475,
+              2505,
+              2514
+            ],
+            "bbox_crop": [
+              710,
+              2475,
+              2505,
+              2514
+            ],
+            "text": "GTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFES",
+            "confidence": 0.999941885471344
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R12C2-line3.png",
+            "image_sha256": "d79491c2e8a6fea3a24127e1ebe375ef848b09071dde86c9ec9c393d8a4bd04f",
+            "bbox_upright": [
+              710,
+              2539,
+              1172,
+              2578
+            ],
+            "bbox_crop": [
+              710,
+              2539,
+              1172,
+              2578
+            ],
+            "text": "MDIWGQGTMVTVSS",
+            "confidence": 0.9997765421867371
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2390,
+          2525,
+          2578
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R13C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line1.png",
+            "image_sha256": "3d83a39b10bac6b6c9ef6b6b1010f4198406bede769b42c375d233b9602e0ab4",
+            "bbox_upright": [
+              689,
+              2593,
+              2525,
+              2654
+            ],
+            "bbox_crop": [
+              689,
+              2593,
+              2525,
+              2654
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYS",
+            "confidence": 0.9997344017028809
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line2.png",
+            "image_sha256": "abdbeb018afb175aca4eef9595e026801414d3ef29dd56fb43283ef5fe6ec61b",
+            "bbox_upright": [
+              710,
+              2653,
+              2509,
+              2717
+            ],
+            "bbox_crop": [
+              710,
+              2653,
+              2509,
+              2717
+            ],
+            "text": "GSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEA",
+            "confidence": 0.9911000728607178
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R13C2-line3.png",
+            "image_sha256": "53b053f0b6dd5d56e24a0d71fb89c5e76d9530545adff835658851fbbb2b0fa2",
+            "bbox_upright": [
+              711,
+              2742,
+              1172,
+              2781
+            ],
+            "bbox_crop": [
+              711,
+              2742,
+              1172,
+              2781
+            ],
+            "text": "LDIWGQGTMVTVSS",
+            "confidence": 0.9998884797096252
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2593,
+          2525,
+          2781
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R14C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line1.png",
+            "image_sha256": "328c29f73430b977f3d887bb0d58b45478960f05b1a4340fd4904ac6280edb19",
+            "bbox_upright": [
+              691,
+              2795,
+              2525,
+              2857
+            ],
+            "bbox_crop": [
+              691,
+              2795,
+              2525,
+              2857
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+            "confidence": 0.9911461472511292
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line2.png",
+            "image_sha256": "d7dca47ac1f39516b433839833703b5221d7fb8413f2292f2cdfa88fdd1b17a6",
+            "bbox_upright": [
+              710,
+              2856,
+              2509,
+              2920
+            ],
+            "bbox_crop": [
+              710,
+              2856,
+              2509,
+              2920
+            ],
+            "text": "GSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEA",
+            "confidence": 0.9999333620071411
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R14C2-line3.png",
+            "image_sha256": "dc333b88ae928c2aa1d6f13f6631313fd4b3038b95a4c7f0040e70cb2ea3add6",
+            "bbox_upright": [
+              713,
+              2945,
+              1172,
+              2984
+            ],
+            "bbox_crop": [
+              713,
+              2945,
+              1172,
+              2984
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998425245285034
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          691,
+          2795,
+          2525,
+          2984
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R15C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line1.png",
+            "image_sha256": "5d26bc86e27754a9e7c8d442b217ef2baf96e65d0cb91fd04d6805a60cdd8746",
+            "bbox_upright": [
+              689,
+              2998,
+              2526,
+              3060
+            ],
+            "bbox_crop": [
+              689,
+              2998,
+              2526,
+              3060
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYD",
+            "confidence": 0.9999160766601562
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line2.png",
+            "image_sha256": "ad345094a9c455cac7c31c72f4e6b27fc614d7da5819c9f745e8a9309d58fba0",
+            "bbox_upright": [
+              710,
+              3058,
+              2509,
+              3123
+            ],
+            "bbox_crop": [
+              710,
+              3058,
+              2509,
+              3123
+            ],
+            "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEA",
+            "confidence": 0.9999505281448364
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R15C2-line3.png",
+            "image_sha256": "c1ab7ffe0df0a804385904a3d23c639c09abb17fed7b863e0155e6e433a0d45d",
+            "bbox_upright": [
+              713,
+              3147,
+              1172,
+              3187
+            ],
+            "bbox_crop": [
+              713,
+              3147,
+              1172,
+              3187
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998204112052917
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          689,
+          2998,
+          2526,
+          3187
+        ]
+      },
+      {
+        "ref": "p0196-r0001:R16C2",
+        "vl_text": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line1.png",
+            "image_sha256": "6d9e7527f6bc8fc583156a8f97a0ad3ccb82af5a2473a01610a4eb53ddb43ac7",
+            "bbox_upright": [
+              690,
+              3201,
+              2527,
+              3263
+            ],
+            "bbox_crop": [
+              690,
+              3201,
+              2527,
+              3263
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYD",
+            "confidence": 0.999877393245697
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line2.png",
+            "image_sha256": "e7b008a645db276ad1a6812441cdd619b4731aa6fcfdd714e517bffb45a48a96",
+            "bbox_upright": [
+              710,
+              3286,
+              2509,
+              3325
+            ],
+            "bbox_crop": [
+              710,
+              3286,
+              2509,
+              3325
+            ],
+            "text": "GSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEA",
+            "confidence": 0.9999480247497559
+          },
+          {
+            "image_path": "/project_c20250601/252705034/SDA/.studio/patents/WO2024020591A9/runs/0bfd050356294c83a55dc1fc317c4732/document/structured/layout/sequence_ocr/WO2024020591A9_table-0001-page-0196-6a9464540515/R16C2-line3.png",
+            "image_sha256": "c39cbb8a121c826792e5de3a5c83a2066e331c3b1b74a602e64225a07bc00588",
+            "bbox_upright": [
+              713,
+              3350,
+              1172,
+              3389
+            ],
+            "bbox_crop": [
+              713,
+              3350,
+              1172,
+              3389
+            ],
+            "text": "FDIWGQGTMVTVSS",
+            "confidence": 0.9998378157615662
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS",
+        "bbox_crop": [
+          690,
+          3201,
+          2527,
+          3389
+        ]
+      }
+    ],
+    "image_sha256": "6a9464540515573e262e53a62eef486cccd62d221adc1c29f2d7271b6d69cd80",
+    "rotation_counterclockwise": 0,
+    "upright_to_crop": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "orientation_confidence": 0.5356699824333191,
+    "successful_cells": 15,
+    "failed_cells": 1,
+    "seconds": 15.49,
+    "status": "partial"
+  },
+  "vl_text": "<table><tr><td>Name</td><td>SEQ ID</td><td>Amino Acid Sequence</td></tr><tr><td>Consensus</td><td>NO:2</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVX1X2YX3GX4X5X6HYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCX7RX8PQWEX5X10X1EX12X13DX14WGQGTMVTVSS</td></tr><tr><td>Reference</td><td>NO:3</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-1</td><td>NO:4</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-2</td><td>NO:5</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-3</td><td>NO:6</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDGTYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-4</td><td>NO:7</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYGSGDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS</td></tr><tr><td>AB-5</td><td>NO:8</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-6</td><td>NO:9</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-7</td><td>NO:10</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGAYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS</td></tr><tr><td>AB-8</td><td>NO:11</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEDIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-9</td><td>NO:12</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWESIFEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-10</td><td>NO:13</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYSGTTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS</td></tr><tr><td>AB-11</td><td>NO:14</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCTRSPQWEEVYEALDIWGQGTMVTVSS</td></tr><tr><td>AB-12</td><td>NO:15</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGNTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVHEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-13</td><td>NO:16</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWESVYEAFDIWGQGTMVTVSS</td></tr><tr><td>AB-14</td><td>NO:17</td><td>QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIYWYDSGSKHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARAPQWELVHEAFDIWGQGTMVTVSS</td></tr></table>"
+}

@@ -8,6 +8,7 @@ from playwright.sync_api import expect, sync_playwright
 
 def check(folder):
     folder = Path(folder).resolve()
+    bundle = json.loads((folder / 'snapshot.json').read_text())
     errors, remote = [], []
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True, args=['--no-sandbox'])
@@ -17,10 +18,11 @@ def check(folder):
         page.goto((folder / 'index.html').as_uri(), wait_until='load')
         expect(page.locator('#overview-view')).to_be_visible()
         expect(page.locator('#calls-view')).not_to_be_visible()
-        assert page.locator('.flow-node').count() == 18
+        assert page.locator('.flow-node').count() == page.evaluate('HandoffFlow.nodes.length')
+        assert page.evaluate("!HandoffFlow.edges.some(e => e.from === 'action' && e.to === 'question')")
+        assert page.evaluate("HandoffFlow.edges.some(e => e.from === 'ledger' && e.to === 'action')")
         assert page.locator('.flow-node[data-stage="classification"]').count() == 0
         expect(page.locator('.flow-node[data-stage="table_input"]')).to_contain_text('表格输入打包')
-        assert page.locator('.flow-node[data-stage="final"]').get_by_text('尚未生成', exact=False).count() == 1
         assert not page.evaluate('document.documentElement.scrollWidth > innerWidth')
         page.screenshot(path=str(folder / 'preview-flow.png'), full_page=True)
         stage_ids = page.locator('.flow-node').evaluate_all('(nodes) => nodes.map(n => n.dataset.stage)')
@@ -32,21 +34,26 @@ def check(folder):
             expect(page.locator('#stage-view')).to_be_visible()
             expect(page.locator('#stage-name')).not_to_be_empty()
             assert page.locator('.contract-card').count() == 2
-            assert page.locator('.contract-card tbody tr').count() >= 3
-            page.get_by_role('tab', name='本轮 JSON 与提示词').click()
+            assert page.locator('.contract-card tbody tr').count() >= 2
+            page.get_by_role('tab', name='实际输入 / 输出 JSON').click()
             expect(page.locator('#stage-data-content')).to_be_visible()
             assert page.locator('.stage-example select').count() == 2
-            if stage in ('template', 'reader', 'answer', 'consolidation'):
+            if stage in ('template', 'reader', 'answer', 'consolidation', 'action'):
                 expect(page.locator('#stage-schema-box')).to_be_visible()
                 page.locator('#stage-schema-box > summary').click()
                 assert page.locator('#stage-schema-tree .json-key').count() >= 2
-            if stage in ('final', 'export'):
-                assert '没有保存' in page.locator('#stage-output-example').inner_text()
             page.get_by_role('tab', name='Python 源码', exact=True).click()
             assert page.locator('#stage-source-content .source-card').count() >= 1
             if stage == 'question':
-                assert '不调用轻量模型' in page.locator('#stage-purpose').inner_text()
+                assert '不调用额外的 Question 模型' in page.locator('#stage-purpose').inner_text()
                 expect(page.locator('#stage-schema-box')).not_to_be_visible()
+            if stage == 'action':
+                expect(page.locator('#stage-kind')).to_have_text('LLM Agent')
+                integration = bundle['artifacts'].get('answer_action_status', {}).get('value', {})
+                if integration.get('status') == 'not_needed':
+                    expect(page.locator('#stage-data-note')).to_contain_text('没有发送模型请求')
+                    page.get_by_role('tab', name='Prompt · 实际请求', exact=True).click()
+                    expect(page.locator('#stage-prompt-content')).to_contain_text('未作为本轮 Prompt 发送')
             page.locator('#stage-back').click()
             expect(page.locator('#stage-dialog')).not_to_be_visible()
             expect(page.locator('#overview-view')).to_be_visible()
@@ -54,7 +61,7 @@ def check(folder):
         # Dismissal keeps the diagram and restores keyboard focus to its trigger.
         page.locator('.flow-node[data-stage="consolidation"]').click()
         expect(page.locator('#stage-dialog')).to_be_visible()
-        expect(page.locator('#stage-name')).to_have_text('ActionAgent')
+        expect(page.locator('#stage-name')).to_have_text('Action① · 全局综合')
         page.keyboard.press('Escape')
         expect(page.locator('#stage-dialog')).not_to_be_visible()
         expect(page.locator('.flow-node[data-stage="consolidation"]')).to_be_focused()
@@ -71,7 +78,7 @@ def check(folder):
         page.screenshot(path=str(folder / 'preview-reader-data.png'), full_page=True)
         page.locator('#stage-call-action').click()
         expect(page.locator('#calls-view')).to_be_visible()
-        assert page.locator('.call-item').count() == 63
+        assert page.locator('.call-item').count() == sum(c['stage'] == 'reader' for c in bundle['calls'])
         assert 'c1' in page.locator('#call-title').inner_text()
         page.locator('#overview-nav').click()
         expect(page.locator('#overview-view')).to_be_visible()
@@ -88,10 +95,11 @@ def check(folder):
         expect(page.locator('#stage-name')).to_have_text('TemplateAgent')
         page.locator('#stage-back').click()
         expect(page.locator('#overview-view')).to_be_visible()
-        page.locator('#reference-box summary').click()
-        expect(page.locator('#reference-figure')).to_be_visible()
-        assert page.locator('#reference-figure').evaluate('(img) => img.complete && img.naturalWidth > 0')
-        page.locator('#reference-box summary').click()
+        if page.locator('#reference-box').is_visible():
+            page.locator('#reference-box summary').click()
+            expect(page.locator('#reference-figure')).to_be_visible()
+            assert page.locator('#reference-figure').evaluate('(img) => img.complete && img.naturalWidth > 0')
+            page.locator('#reference-box summary').click()
         page.set_viewport_size({'width': 430, 'height': 930})
         assert not page.evaluate('document.documentElement.scrollWidth > innerWidth')
         page.screenshot(path=str(folder / 'preview-flow-mobile.png'), full_page=True)

@@ -1,0 +1,35 @@
+WO 2024/020591
+PCT/US2023/070790
+[00317] In some embodiments, X₆ is not K. In some embodiments, X₆ is K, T or I. In some
+embodiments, X6 is T or I. In some embodiments, X6 is T. In some embodiments, X6 is I. In
+some embodiments, X6 is K.
+[00318] In some embodiments, X7 is not A. In some embodiments, X7 is A, S or T. In
+some embodiments, X7 is S or T. In some embodiments, X7 is S. In some embodiments, X7 is
+T. In some embodiments, X7 is A.
+[00319] In some embodiments, Xs is not A. In some embodiments, Xs is A or S. In some
+embodiments, Xs is S. In some embodiments, X8 is A
+[00320] In some embodiments, X9 is not L. In some embodiments, X9 is L, D, E or S. In
+some embodiments, X9 is D, E or S. In some embodiments, X9 is D. In some embodiments,
+X9 is E. In some embodiments, X9 is S. In some embodiments, X9 is L.
+[00321] In some embodiments, X1o is not V. In some embodiments, X1o is V or I. In some
+embodiments, X10 is I. In some embodiments, X10 is V.
+[00322] In some embodiments, X1 is not H. In some embodiments, X₁ is H, F or Y. In
+some embodiments, X1 is F or Y. In some embodiments, X1 is F. In some embodiments, X1
+is Y. In some embodiments, X1 is H.
+[00323] In some embodiments, X12 is not A. In some embodiments, X1₂ is A or S. In some
+embodiments, X12 is S. In some embodiments, X12 is A.
+[00324] In some embodiments, X13 is not F. In some embodiments, X13 is F, M or L. In
+some embodiments, X13 is M or L. In some embodiments, X13 is M. In some embodiments.
+X13 is L. In some embodiments, X13 is F.
+[00325] In some embodiments, X14 is not I. In some embodiments, X14 is I or V. In some
+embodiments, X14 is V. In some embodiments, X1₄ is I.
+[00326] In some embodiments, the polypeptides comprise a VL comprising the amino acid
+sequence of SEQ ID NO:18, wherein:
+X15 is not N;
+X16 is not L;
+X17 is not S;
+X18 is not K;
+X19 is not S;
+X20 is not V;
+X21 is not W;
+71

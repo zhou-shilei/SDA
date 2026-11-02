@@ -1,0 +1,36 @@
+WO2024/020591
+PCT/US2023/070790
+[00671] In some embodiments, the CBO polypeptide comprises a paratope that differs
+from the paratope of a VH/VL combination selected from: SEQ ID NO:4/SEQ ID NO:20 (AB-
+1), SEQ ID NO:5/SEQ ID NO:21 (AB-2), SEQ ID NO:6/SEQ ID NO:20 (AB-3) or SEQ ID
+NO:7/SEQ ID NO:22 (AB-4).
+[00672] In particular embodiments, the CBO polypeptide does not comprise a VH and VL
+pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1),
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2),
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3),
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4), and
+combinations thereof.
+[00673] In some embodiments, a CBO polypeptide comprises:
+a VH amino acid sequence comprising a HCDR1, a HCDR2 and a HCDR3 that are
+substantially similar to a HCDR1, a HCDR2 and a HCDR3, respectively, of SEQ ID NO:4,
+SEQ ID NO:5, SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10,
+SEQ ID NO: 11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO: 14, SEQ ID NO:15, SEQ ID
+NO:16 or SEQ ID NO:17; and
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that are
+substantially similar to a LCDR1, a LCDR2 and a LCDR3, respectively, of SEQ ID NO:20,
+SEQ ID NO:21, SEQ ID NO:22, SEQ ID NO:23, SEQ ID NO:24, SEQ ID NO:25, SEQ ID
+NO:26, SEQ ID NO:27, SEQ ID NO:28, SEQ ID NO:29 or SEQ ID NO:30.
+[00674] In some embodiments, the CBO polypeptide comprises a HCDR1, a HCDR2, a
+HCDR3, a LCDR1, a LCDR2 and a LCDR3 that substantially preserve one or more
+functional properties of a HCDR1, a HCDR2, a HCDR3, a LCDR1, a LCDR2 and a LCDR3
+of AB-1, AB-2, AB-3, AB-4, AB-5, AB-6, AB-7, AB-8, AB-9, AB-10, AB-11, AB-12, AB-
+13 or AB-14.
+[00675] In some embodiments, the CBO polypeptide comprises a HCDR1, a HCDR2, a
+HCDR3, a LCDR1, a LCDR2 and a LCDR3 comprising only one or more conservative
+substitutions (e.g., only one or more highly conservative substitutions), relative a HCDR1, a
+HCDR2, a HCDR3, a LCDR1, a LCDR2 and a LCDR3 of AB-1, AB-2, AB-3, AB-4, AB-5,
+AB-6, AB-7, AB-8, AB-9, AB-10, AB-11, AB-12, AB-13 or AB-14.
+[00676] In certain embodiments, the CBO polypeptide comprises a HCDR1, a HCDR2, a
+HCDR3, a LCDR1, a LCDR2 and a LCDR3 comprising up to 1, 2, or 3 conservative
+134

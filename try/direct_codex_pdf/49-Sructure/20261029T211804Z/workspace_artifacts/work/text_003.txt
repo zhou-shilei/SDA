@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+b)
+File name: fit model.etab; , uploaded July 22, 2023 and available at
+https://zenodo.org/record/8174726/files/fit_model.etab?download=1 or at
+https://doi.org/10.5281/zenodo.8174726 and selecting "fit_model.etab",
+2,888,059 Bytes in size. The entire teachings of the above file are incorporated
+herein by reference in their entirety.
+[0006]The entire teachings of the above files are incorporated herein by reference in
+their entirety. The script in claim.py is intended to be run in a Python environment in the
+same folder as fit_model.etab to use the data of fit_model.etab.
+BACKGROUND
+[0007] Thymic stromal lymphopoietin (TSLP) is a cytokine that has been implicated in
+the pathogenesis of a variety of inflammatory conditions. Released upon epithelial exposure
+to “insults" such as allergens, TSLP initiates a cascade of downstream inflammation. TSLP
+receptors (TSLPRs) are expressed in a wide range of cell types, including airway smooth
+muscle cells (ASMCs), basophils, dendritic cells, eosinophils, group 2 innate lymphoid cells
+(ILC2s), hematopoietic progenitor cells, lymphocytes, macrophages, mast cells and
+monocytes (Gauvreau et al., Thymic stromal lymphopoietin: its role and potential as a
+therapeutic target in asthma, Expert Opin Ther Targets 24(8):777-92 (2020)). There is
+compelling evidence that dysregulated TSLP expression can lead to allergic disease through
+the development of type 2 inflammatory responses (Ziegler et al., The biology of thymic
+stromal lymphopoietin (TSLP), Adv Pharmacol. 66:129-55 (2013)).
+SUMMARY
+[0008] There is a critical need for therapeutic agents for modulating (e.g., reducing or
+neutralizing) thymic stromal lymphopoietin (TSLP) binding and/or activity. The disclosure
+provides such agents.
+[0009]The disclosure provided herein is based, in part, on the discovery that
+polypeptides disclosed herein specifically bind to TSLP and demonstrate various additional
+beneficial properties. Accordingly, the disclosure generally relates to polypeptides (e.g.,
+antibodies), compositions (e.g., pharmaceutical compositions) and methods that are useful for
+modulating (e.g., reducing or neutralizing) TSLP function and/or activity (e.g., in vivo).
+[0010] Provided herein, among other things, are polypeptides (e.g., antibodies and
+antigen binding fragments thereof) that specifically bind TSLP (e.g., a full-1ength human
+2

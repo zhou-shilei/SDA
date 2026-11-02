@@ -1,0 +1,22 @@
+{
+  "event": "turn.completed",
+  "item_type": null,
+  "seconds": 1458.1,
+  "event_counts": {
+    "thread.started": 1,
+    "turn.started": 1,
+    "item.completed": 112,
+    "item.started": 101,
+    "turn.completed": 1
+  },
+  "terminal_event": {
+    "type": "turn.completed",
+    "usage": {
+      "input_tokens": 13317737,
+      "cached_input_tokens": 13120640,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 65917,
+      "reasoning_output_tokens": 27021
+    }
+  }
+}

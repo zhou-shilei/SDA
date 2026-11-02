@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+d)
+a LCDR1 comprising at least one amino acid substitution relative to at least
+one amino acid sequence set forth in SEQ ID NOs:59-61 (e.g., at least one
+amino acid sequence set forth in SEQ ID NO:60 or SEQ ID NO:61);
+e)
+a LCDR2 comprising the amino acid sequence set forth in SEQ ID NO:67;
+f)
+a LCDR3 comprising at least one amino acid substitution relative to at least
+one amino acid sequence set forth in SEQ ID NOs:69-72 (e.g., at least one
+amino acid sequence set forth in SEQ ID NOs:70-72);
+or any combination of the foregoing.
+[00247] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a VH amino acid sequence of SEQ ID NO:5;
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00248] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a VH amino acid sequence of SEQ ID NO:5; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of SEQ ID NO:21.
+[00249] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of SEQ ID
+NO:5; or
+54

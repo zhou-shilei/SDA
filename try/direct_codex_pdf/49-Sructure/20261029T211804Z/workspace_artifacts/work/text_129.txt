@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+function returns true. This score represents a logarithmic probability. Otherwise, the function
+returns false and the sequence pair is not confirmed the model. When the function returns
+true, this indicates that the sequence pair is suitable for the given purpose (e.g., a purpose
+related to binding to human TSLP).
+[00647] A person of ordinary skill in the art can recognize that other thresholds can be
+employed that represent a logarithmic probability that sequences can meet the required
+parameters. In some embodiments, an example range of thresholds calculated by the script
+can include about -7.7, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, 2.9, -2.8, -2.7, -2.6, -
+2.5, -2.4, -2.3, -2.2, -2.1, -2.0, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1.0, 0.9, -0.8, -
+0.7, -0.6, -0.5, -0.4, -0.3, -0.2, and -0.1. As the thresholds increase towards zero, the
+sequences spaces scored within those thresholds represent smaller sequence spaces that have
+higher levels of confidence. In some embodiments, the constants may be modified in script or
+the hash table, such as by multiplying all constants by a constant. In such an event, the
+threshold may be adjusted, as can be determined by a person of ordinary skill in the art. The
+threshold can further be calculated in a non-logarithmic manner, and represented as a
+confidence interval, or in a non-logarithmic range, or represented as another probabilistic
+threshold.
+[00648] In some embodiments, the script of Appendix A defines a sequence scoring
+function (sequence_energy). This function calculates a sequence energy for the replacement
+of a residue (e.g., an amino acid) with each other possible residue a group of positions in the
+sequence using a Potts model trained on replacing residues at those positions. As described
+above, the scoring checks each possible residue at each position requested. A person of
+ordinary skill in the art can recognize that the script can replace residues at each given
+position (as in the script of Appendix A). In some embodiments, a similar script could add
+residues into the sequence. Each score is calculated with a sequence_energy function, and is
+added to an array of scores. For each position examined, sum of the scores in the array are
+summed and normalized with a softmax function. The scores are them logarithmically
+summed and returned.
+[00649] In some embodiments, the sequence energy function inputs a sequence and the
+hash tables determined from the inputted etab file (or another format). The function iterates
+over all first order combinations, scoring them with a first hash table, and all second order
+combinations, scoring them with a second hash table. The sequence_energy function
+128

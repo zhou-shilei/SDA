@@ -1,0 +1,27 @@
+WO 2024/020591
+Human TSLP Binding ELISA
+3.5
+3.0
+AB-12
+2.5
+---AB-5
+……AB-3
+A450
+2.0
+---AB-8
+7/27
+1.5
+-3
+1.0
+wAB-11
+AB-2
+0.5
+Reference
+0.0
+0.01
+0.1
+10
+100
+PCT/US2023/070790
+mAb (nM)
+FIG.4B

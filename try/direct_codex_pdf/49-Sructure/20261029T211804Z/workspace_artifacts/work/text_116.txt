@@ -1,0 +1,41 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21 (AB-2).
+[00568] In some embodiments, treating a TSLP-associated disease or condition in a
+subject comprises administering to the subject an effective amount of a pharmaceutical
+composition comprising a pharmaceutically acceptable carrier and a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:120 (AB-
+2b).
+[00569] In some embodiments, treating a TSLP-associated disease or condition in a
+subject comprises administering to the subject an effective amount of a pharmaceutical
+composition comprising a pharmaceutically acceptable carrier and a polypeptide comprising
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:92; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:120 (AB-2a).
+[00570] In some embodiments, treating a TSLP-associated disease or condition comprises
+treating asthma (e.g., severe and/or uncontrolled asthma). In some embodiments, treating a
+TSLP-associated disease or condition comprises treating moderate-to-severe asthma. In some
+embodiments, treating a TSLP-associated disease or condition comprises treating severe
+asthma. In some embodiments, treating a TSLP-associated disease or condition comprises
+treating uncontrolled asthma. In some embodiments, treating a TSLP-associated disease or
+condition comprises treating severe, uncontrolled asthma. In some embodiments, treating a
+TSLP-associated disease or condition comprises treating AD.
+[00571] In some embodiments, treating a TSLP-associated disease or condition is a
+prophylactic therapy
+[00572]In some embodiments, an effective amount is sufficient to prevent the subject of
+developing a TSLP-associated disease or condition (e.g., a disease or condition associated
+with dysregulated TSLP expression).
+[00573] In some embodiments, an effective amount is sufficient to reduce TSLPR
+occupancy in a subject. In some embodiments, an effective amount is sufficient to reduce
+TSLPR occupancy by at least about 10%, e.g., by at least about: 15%, 20%, 25%, 30%, 35%,
+40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 91%, 92%, 93%, 94%, 95%.
+96%, 97%, 98% or 99%. In some embodiments, an effective amount is sufficient to reduce
+TSLPR occupancy by about 10-99%, e.g., by about: 10-98%, 15-98%, 15-97%, 20-97%, 20-
+115

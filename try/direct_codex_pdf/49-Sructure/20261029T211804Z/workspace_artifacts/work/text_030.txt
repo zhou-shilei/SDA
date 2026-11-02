@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+[00132] In some embodiments, a comparator polypeptide is an antibody referred to herein
+as the "Reference Antibody." The Reference Antibody comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:81; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:82.
+[00133]
+See Table 4 for SEQ ID NO:81. See Table 5 for SEQ ID NO:82.
+[00134]
+The Reference Antibody binds and neutralizes TSLP.
+Polypeptides
+In some embodiments, a polypeptide specifically binds a TSLP.
+In some embodiments, a polypeptide is an antibody or antigen-binding fragment thereof.
+Variable Domains
+[00135] In some embodiments, a polypeptide (e.g., an antibody or antigen-binding
+fragment thereof) comprises an immunoglobulin heavy chain variable region (VH), an
+immunoglobulin light chain variable region (VL), or both. In some embodiments, a
+polypeptide comprises a Ví having less than 100% sequence identity to the amino acid
+sequence of SEQ ID NO:3, a VL having less than 100% sequence identity to the amino acid
+sequence of SEQ ID NO:19, or both.
+[00136] In some embodiments, a polypeptide comprises a VH (e.g., a mammalian VH such
+as a rodent (e.g., mouse) VH, a primate (e.g., a human) Ví). In some embodiments, a
+polypeptide comprises a VH that is humanized (e.g., at least about: 10%, 20%, 30%, 40%,
+50%, 60%, 70%, 80%, 90%, 95%, 98% or 99% humanized), contains human framework
+regions, or both.
+[00137] In some embodiments, a polypeptide comprises a Ví that has less than 100%
+sequence identity to the amino acid sequence of SEQ ID NO:3.
+[00138] In some embodiments, a polypeptide comprises a Ví that has at least about 70%
+sequence identity to the amino acid sequence of SEQ ID NO:3. In some embodiments, a
+polypeptide comprises a VH that has at least about: 71%, 72%, 73%, 74%, 75%, 76%, 77%,
+78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%,
+94%, 95%, 96%, 97%, 98% or 99% sequence identity to the amino acid sequence of SEQ ID
+NO:3. In some embodiments, a polypeptide comprises a Ví that has at least about 85%
+sequence identity to the amino acid sequence of SEQ ID NO:3. In some embodiments, a
+29

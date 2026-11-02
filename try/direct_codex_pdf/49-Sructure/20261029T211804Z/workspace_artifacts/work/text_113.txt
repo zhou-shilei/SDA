@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:92; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-2a).
+Methods of Use
+[00550]The disclosure also provides, among other things, a method of neutralizing a
+TSLP protein (e.g., a full-length TSLP protein) in a subject, comprising administering to the
+subject an effective amount of a pharmaceutical composition comprising a pharmaceutically
+acceptable carrier and, wherein as an active ingredient, any one of the polypeptides or fusion
+proteins disclosed herein.
+[00551]In some embodiments, neutralizing a TSLP protein in a subject comprises
+administering to the subject an effective amount of a pharmaceutical composition comprising
+a pharmaceutically acceptable carrier and a polypeptide comprising:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:5; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:21 (AB-2)
+[00552] In some embodiments, neutralizing a TSLP protein in a subject comprises
+administering to the subject an effective amount of a pharmaceutical composition comprising
+a pharmaceutically acceptable carrier and a polypeptide comprising:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21 (AB-2).
+[00553] In some embodiments, neutralizing a TSLP protein in a subject comprises
+administering to the subject an effective amount of a pharmaceutical composition comprising
+a pharmaceutically acceptable carrier and a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-
+2b).
+[00554] In some embodiments, neutralizing a TSLP protein in a subject comprises
+administering to the subject an effective amount of a pharmaceutical composition comprising
+a pharmaceutically acceptable carrier and a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:92; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-2a).
+112

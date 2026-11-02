@@ -57,6 +57,35 @@ class SnapshotTest(unittest.TestCase):
             self.assertFalse(out.exists())
             self.assertFalse(list(root.glob('.handoff-*')))
 
+    def test_second_action_keeps_its_own_input_output_and_status(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            run, out = root / 'run/dataagent2', root / 'snapshot'
+            write_json(run / 'manifest.json', {'document_id': 'fixture', 'followup_revision': 1})
+            write_json(run / 'seed.json', {})
+            write_json(run / 'action_agent.json', {'status': 'validated', 'provider': {'key': 'first'}})
+            write_json(run / 'answer_action.json', {'status': 'validated', 'provider': {'key': 'second'}})
+            write_json(run / 'dataset2.business.json', {'entities': [{'id': 'before'}]})
+            write_json(run / 'dataset3.business.json', {'entities': [{'id': 'after'}]})
+            write_json(run / 'answer_action/action_agent.input.json', {'initial_dataset': {'stage': 2}})
+            write_json(run / 'answer_action/action_agent.dataset.json', {'entities': [{'id': 'after'}]})
+            for key, stage in [('first', 'action'), ('second', 'answer_action')]:
+                write_json(run / f'requests/{key}/input.json', {'stage': stage, 'payload': {'stage': stage}})
+                write_json(run / f'requests/{key}/validated.json', {'stage': stage, 'dataset': {}})
+            build(run, out, root)
+            bundle = json.loads((out / 'snapshot.json').read_text())
+            first, second = bundle['calls']
+            self.assertEqual([first['stage'], second['stage']], ['action', 'answer_action'])
+            self.assertTrue(first['current'])
+            self.assertTrue(second['current'])
+            self.assertEqual(second['upstream'], 'answer_action_input')
+            self.assertEqual(second['report'], bundle['artifacts']['answer_action_status']['value'])
+            self.assertEqual(second['response']['value']['stage'], 'answer_action')
+            self.assertEqual((out / second['request']['path']).read_bytes(),
+                             (run / 'requests/second/input.json').read_bytes())
+            self.assertNotEqual(bundle['artifacts']['dataset2_business']['value'],
+                                bundle['artifacts']['dataset3_business']['value'])
+
 
 if __name__ == '__main__':
     unittest.main()

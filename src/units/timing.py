@@ -125,6 +125,10 @@ class TimingRecorder:
 
 
 def write_timing_report(output_dir, report):
+    report = {**report}
+    for key in ("phase_ranking", "stage_ranking", "slowest_requests", "events"):
+        report.setdefault(key, [])
+    report.setdefault("note", "")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     path = output_dir / "_timings.json"

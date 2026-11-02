@@ -1,0 +1,54 @@
+{
+  "signature": "36f7981c4716001b72ff1292ecea21d30f30701e0b60fd085bdd5ca52e21ebf1",
+  "case": {
+    "id": "upright_table_230",
+    "kind": "upright_table",
+    "page": 230,
+    "prompt": "table",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/page_230_upright.png",
+    "image_sha256": "2dae8cec2a5804b7df31b56d8c2e1346686bdc0fb3ca4cae12dbda1e56de5fe5"
+  },
+  "text": "<table><tr><td>Reference</td><td>★</td><td>★</td><td>★</td></tr><tr><td>AB-1</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVVHEAFDI</td><td>WGQGTMVTVSS(SEQIDNO:3)</td><td></td></tr><tr><td>AB-2</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFEAMDIWGQGTMVTVSS(SEQIDNO:4)</td><td></td></tr><tr><td>AB-3</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEEIFEAMDIWGQGTMVTVSS(SEQIDNO:5)</td><td></td></tr><tr><td>AB-4</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWESIFEAFDIWGQGTMVTVSS(SEQIDNO:6)</td><td></td></tr><tr><td>AB-5</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEDIFESMDVWGQGTMVTVSS(SEQIDNO:7)</td><td></td></tr><tr><td>AB-6</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:8)</td><td></td></tr><tr><td>AB-7</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:9)</td><td></td></tr><tr><td>AB-8</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEDIFEAFDIWGQGTMVTVSS(SEQIDNO:10)</td><td></td></tr><tr><td>AB-9</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWESIFEAFDIWGQGTMVTVSS(SEQIDNO:11)</td><td></td></tr><tr><td>AB-10</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:12)</td><td></td></tr><tr><td>AB-11</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>TRSPQWEEVYEALDIWGQGTMVTVSS(SEQIDNO:13)</td><td></td></tr><tr><td>AB-12</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWESVHEAFDIWGQGTMVTVSS(SEQIDNO:14)</td><td></td></tr><tr><td>AB-13</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWESVYEAFDIWGQGTMVTVSS(SEQIDNO:15)</td><td></td></tr><tr><td>AB-14</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWELVVHEAFDIWGQGTMVTVSS(SEQIDNO:16)</td><td></td></tr></table>",
+  "seconds": 19.747,
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/page_230_upright.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 3448,
+    "height": 1667,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "table",
+        "block_content": "<table><tr><td>Reference</td><td>★</td><td>★</td><td>★</td></tr><tr><td>AB-1</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVVHEAFDI</td><td>WGQGTMVTVSS(SEQIDNO:3)</td><td></td></tr><tr><td>AB-2</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFEAMDIWGQGTMVTVSS(SEQIDNO:4)</td><td></td></tr><tr><td>AB-3</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEEIFEAMDIWGQGTMVTVSS(SEQIDNO:5)</td><td></td></tr><tr><td>AB-4</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWESIFEAFDIWGQGTMVTVSS(SEQIDNO:6)</td><td></td></tr><tr><td>AB-5</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEDIFESMDVWGQGTMVTVSS(SEQIDNO:7)</td><td></td></tr><tr><td>AB-6</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:8)</td><td></td></tr><tr><td>AB-7</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:9)</td><td></td></tr><tr><td>AB-8</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWEDIFEAFDIWGQGTMVTVSS(SEQIDNO:10)</td><td></td></tr><tr><td>AB-9</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARSPQWESIFEAFDIWGQGTMVTVSS(SEQIDNO:11)</td><td></td></tr><tr><td>AB-10</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>SRSPQWEDIFESMDIWGQGTMVTVSS(SEQIDNO:12)</td><td></td></tr><tr><td>AB-11</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>TRSPQWEEVYEALDIWGQGTMVTVSS(SEQIDNO:13)</td><td></td></tr><tr><td>AB-12</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWESVHEAFDIWGQGTMVTVSS(SEQIDNO:14)</td><td></td></tr><tr><td>AB-13</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWESVYEAFDIWGQGTMVTVSS(SEQIDNO:15)</td><td></td></tr><tr><td>AB-14</td><td>FTITRDNSKNTLNQLMNSLRAEDTAVYYC</td><td>ARAPQWELVVHEAFDIWGQGTMVTVSS(SEQIDNO:16)</td><td></td></tr></table>",
+        "block_bbox": [
+          0,
+          0,
+          3448,
+          1667
+        ],
+        "block_id": 0,
+        "block_order": null,
+        "group_id": 0
+      }
+    ]
+  }
+}

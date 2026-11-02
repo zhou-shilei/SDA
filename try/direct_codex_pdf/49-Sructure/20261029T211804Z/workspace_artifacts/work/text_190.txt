@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+[00782]The ka of each antibody-TSLP interaction was measured using the direct method.
+Fixed concentrations of antibody were mixed with the human TSLP or cyno TSLP
+concentration that bound approximately 80% of the CBP in the solution equilibrium binding
+experiments, and the concentration of free CBP present in the sample was repeatedly
+measured over time using the human TSLP or cyno TSLP coated azlactone beads. The
+resulting exponential curve of unbound antibody as a function of time was fitted to calculate
+the ka of the antibody-TSLP interaction. The kd was determined by multiplying the ka value
+measured from the direct method by the Kp value obtained from the solution equilibrium
+binding experiment (Table 9).
+Example 7. Inhibition of STAT5-Luciferase Signal
+[00783] Generation of the Ba/F3-STAT5-Luciferase-hTSLPR/hIL-7R Cell Line
+[00784] Human TSLP Receptor (CRLF2) forms a heterodimeric complex with the IL-7Rα
+(CD127) after binding of TSLP. A hIL-7Rα-P2A-hTSLPR construct was synthesized and
+cloned into a pcDNA3.1(+)/Hygro plasmid. The plasmid was transfected into the Ba/F3-
+STAT5-Luc cell line, which contains a STS5-inducible Luciferase reporter, to create a stable
+cell line expressing hTSLPR and hIL-7Rα. Ba/F3-STAT5-Luc cells expressing hTSLPR/hIL-
+7R were maintained in RPMI-1640 with Glutamax medium containing 10% fetal bovine
+serum (FBS), 1% penicillin-streptomycin, 10 ng/mL hTSLP, and 400 μg/mL hygromycin
+selection antibiotic. The hTSLPR/hIL-7R-expressing Ba/F3-STAT5-Luc cells had a dose
+dependent response to hTSLP with an EC50 of 0.03 nM (FIG. 8A).
+[00785] Ba/F3-STAT5-Luc Assay
+[00786] In a 96-well maxi-sorp (Thermo Fisher Scientific) plate, serial dilutions of anti-
+TSLP antibodies in 25 μl of Assay Media (RPMI-1640 + 10% FBS) were pre-incubated with
+25μl of 4 ng/mL hTSLP cytokine (BioLegend) at 37°C for 30 minutes. After incubation,
+20,000 Ba/F3-STAT5-hTSLPR/hIL-7R-Luc cells in 50 μl of cell media were plated and
+incubated with antibodies and TSLP cytokine for four hours. After four hours, 100 μl of
+luciferase reagent (BPS Bioscience Inc., San Diego, CA) was added to each well of the plate
+and rocked gently for 15 minutes at room temperature, protected from light. Luminescence
+was measured with a luminometer within one hour of luciferase reagent addition.
+[00787] FIGs. 8B-8C show effects of the anti-TSLP antibodies on STAT5-dependent
+luciferase expression. The results demonstrate that the anti-TSLP antibodies block binding of
+hTSLP to TSLPR and in turn, inhibit STAT5 signaling. The luminescence signal values were
+189

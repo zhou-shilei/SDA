@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+value of about: 0, 1, 2, 3 or 4. In some embodiments, a polypeptide has an AC-SINS value of
+at least about: 0, 1, 2, 3, 4, 5, 6 or 7. In some embodiments, a polypeptide has an AC-SINS
+value of about 0-4.
+[00524] In some embodiments, a polypeptide has an AC-SINS value that is at least about
+10% 1ower than that of the Reference Antibody, for example, by at least about: 15%, 20%,
+25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 91%, 92%,
+93%, 94%, 95%, 96%, 97%, 98% or 99% 1ower than that of the Reference Antibody. In some
+embodiments, a polypeptide has an AC-SINS value that is at least about 30% lower than that
+of the Reference Antibody.
+[00525] In some embodiments, a polypeptide has an AC-SINS value that is less than about
+90% of that of the Reference Antibody, for example, less than about: 85%, 80%, 75%, 70%,
+65%, 60%, 55%, 50%, 45%, 40%, 35%, 30%, 25%, 20%, 15%, 10%, 9%, 8%, 7%, 6%, 5%,
+4%, 3%, 2% or 1% of that of the Reference Antibody
+[00526] In some embodiments, a polypeptide has an AC-SINS value that is about 1-90%
+relative to that of the Reference Antibody, for example, about: 2-90%, 2-85%, 3-85%, 3-
+80%, 4-80%, 4-75%, 5-75%, 5-70%, 6-70%, 6-65%, 7-65%, 7-60%, 8-60%, 8-55%, 9-55%,
+9-50%, 10-50%, 10-45%, 15-45%, 15-40%, 20-40%, 20-35%, 25-35% or 25-30%, relative to
+that of the Reference Antibody
+Fusion Proteins
+[00527] The disclosure also provides, among other things, a fusion protein comprising one
+or more of the polypeptides disclosed herein.
+[00528]The term “fusion protein" refers to a synthetic, semi-synthetic or recombinant
+single protein molecule. A fusion protein can comprise all or a portion of two or more
+different proteins and/or polypeptides that are attached by covalent bonds (e.g., peptide
+bonds).
+[00529] Fusion proteins of the disclosure can be produced recombinantly or synthetically,
+using routine methods and reagents that are well known in the art. For example, a fusion
+protein of the disclosure can be produced recombinantly in a suitable host cell (e.g., bacteria)
+according to methods known in the art. See, e.g., Current Protocols in Molecular Biology,
+Second Edition, Ausubel et al. eds., John Wiley & Sons, 1992; and Molecular Cloning: a
+Laboratory Manual, 2nd edition, Sambrook et al., 1989, Cold Spring Harbor Laboratory
+Press. For example, a nucleic acid molecule comprising a nucleotide sequence encoding a
+107

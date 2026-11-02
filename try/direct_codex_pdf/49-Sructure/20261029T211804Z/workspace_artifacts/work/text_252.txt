@@ -1,0 +1,27 @@
+WO2024/020591
+Fig. 12B
+Receive a given polypeptide
+1050
+1052
+sequence (or pair)
+Score sequence or sequence pair using
+1054
+script of Appendix A (claimpy.txt or
+claim.py) and model weights provided in
+Appendix B (fit_model_etab or
+fit_model.etab).
+25/27
+1056
+No
+Is model above
+Yes
+predetermined
+threshold?
+Do not claim
+Claim sequence or
+sequence or
+PCT/US2023/070790
+sequence pair
+sequence pair
+1058
+1060

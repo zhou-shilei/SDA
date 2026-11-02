@@ -1,0 +1,38 @@
+WO 2024/020591
+PCT/US2023/070790
+Complementarity Determining Regions (CDRs)
+[00217] A CDR (e.g., HCDR1, HCDR2, HCDR3, LCDR1, LCDR2 and/or LCDR3) can
+be a CDR defined by any art-recognized method for identifying CDR residues of an antibody,
+as described further herein (e.g., a CDR as defined by Kabat, a CDR as defined by Chothia
+or a CDR as defined by IMGT).
+[00218] In some embodiments, a polypeptide (e.g., an antibody or antigen-binding
+fragment thereof) does not comprise all six CDRs of an antibody that comprises a Ví amino
+acid sequence of SEQ ID NO:3 and a VL amino acid sequence of SEQ ID NO:19. In some
+embodiments, a polypeptide does not comprise all six sequences of SEQ ID NO:31, SEQ ID
+NO:33, SEQ ID NO:48, SEQ ID NO:59, SEQ ID NO:67 and SEQ ID NO:69. See Table 3 for
+SEQ ID NO:31, SEQ ID NO:33, SEQ ID NO:48, SEQ ID NO:59, SEQ ID NO:67 and SEQ
+ID NO:69. In some embodiments, a polypeptide does not comprise all four sequences of SEQ
+ID NO:33, SEQ ID NO:48, SEQ ID NO:59, and SEQ ID NO:69.
+[00219] In some embodiments, a polypeptide comprises fewer than six (e.g., 1, 2, 3, 4 or
+5) CDRs of an antibody that comprises a VH amino acid sequence of SEQ ID NO:3 and a VL
+amino acid sequence of SEQ ID NO:19. In some embodiments, a polypeptide comprises 1, 2,
+3, 4 or 5 sequences, but not al1 6 sequences, selected from SEQ ID NO:31, SEQ ID NO:33,
+SEQ ID NO:48, SEQ ID NO:59, SEQ ID NO:67 and SEQ ID NO:69. In some embodiments,
+a polypeptide comprises 1, 2, or 3 sequences, but not all 4 sequences, selected from SEQ ID
+NO:33, SEQ ID NO:48, SEQ ID NO:59, and SEQ ID NO:69.
+[00220] In some embodiments, a polypeptide comprises all six CDRs of a specific
+polypeptide disclosed herein. In some embodiments, a polypeptide comprises fewer than six
+(e.g., 1, 2, 3, 4 or 5) of CDRs of a specific polypeptide disclosed herein.
+[00221]In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-17;
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of any one or more of SEQ ID NOs:20-30, or
+45

@@ -1,0 +1,28 @@
+{
+  "signature": "72ee4482d60a99809cecb6a9e1ec10d0b582991a359fd8894c37607cb8c37e54",
+  "case": {
+    "id": "AB-2_original",
+    "item": "AB-2",
+    "variant": "original",
+    "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_original.png",
+    "image_sha256": "03eda5372dc0adb17b9f8ef36dc7356085dc674c4e91e6f85b8c1b7d83fae000",
+    "size": [
+      1817,
+      41
+    ]
+  },
+  "text": "MDIWGOGTMVTVSS",
+  "value": "MDIWGOGTMVTVSS",
+  "exact": false,
+  "edit_distance": 1,
+  "confidence": 0.9790964126586914,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_original.png",
+      "page_index": null,
+      "rec_text": "MDIWGOGTMVTVSS",
+      "rec_score": 0.9790964126586914
+    }
+  },
+  "seconds": 0.0215
+}

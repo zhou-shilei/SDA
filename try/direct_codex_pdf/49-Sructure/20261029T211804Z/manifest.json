@@ -1,0 +1,18 @@
+{
+  "started_at_utc": "2026-10-29T21:18:04.868340+00:00",
+  "mode": "raw_pdf_autonomous_codex",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "xhigh",
+  "source_pdf": "/project_c20250601/252705034/SDA/.studio/patents/49-Sructure/runs/c5d425f1b0fe4784b692a87a4b7d5bc1/document/source.pdf",
+  "source_pdf_sha256": "cd553828376ec75b4e585b5358e5107c9c7f3d79d19f5de89171d5ce3e6f7723",
+  "source_pdf_bytes": 11217443,
+  "working_directory": "/tmp/sda-direct-pdf-49-20261029T211804Z",
+  "audit_directory": "/project_c20250601/252705034/SDA/try/direct_codex_pdf/49-Sructure/20261029T211804Z",
+  "seed_supplied": false,
+  "precomputed_ocr_supplied": false,
+  "baseline_tokens": 174165,
+  "status": "completed",
+  "codex_pid": 3383076,
+  "runner_pid": 3383069,
+  "finished_at_utc": "2026-10-29T21:42:47.890198+00:00"
+}

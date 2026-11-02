@@ -1,0 +1,54 @@
+{
+  "signature": "d4be89769e1b5c1876116704caf742a26c33b184f3dcbc4324d1291bada7e67d",
+  "case": {
+    "id": "original_table_229",
+    "kind": "original_table",
+    "page": 229,
+    "prompt": "table",
+    "path": "/project_c20250601/252705034/SDA/report/images/WO2024020591A9_table-0022-page-0229.png",
+    "image_sha256": "4bf269b9e24f89213eeb88413040d6c3382d14e5994dd4a9f52bc600701332ae"
+  },
+  "text": "<table><tr><td>Reference</td><td>$ HCDR1 $</td><td>$ HCDR2 $</td></tr><tr><td rowspan=\"2\"></td><td>*</td><td>*** *** *</td></tr><tr><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR</td><td></td></tr><tr><td>AB-1</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-2</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-3</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR</td><td></td></tr><tr><td>AB-4</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR</td><td></td></tr><tr><td>AB-5</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR</td><td></td></tr><tr><td>AB-6</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR</td><td></td></tr><tr><td>AB-7</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR</td><td></td></tr><tr><td>AB-8</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-9</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-10</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR</td><td></td></tr><tr><td>AB-11</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR</td><td></td></tr><tr><td>AB-12</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR</td><td></td></tr><tr><td>AB-13</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR</td><td></td></tr><tr><td>AB-14</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR</td><td></td></tr></table>",
+  "seconds": 21.15,
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/report/images/WO2024020591A9_table-0022-page-0229.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 1758,
+    "height": 3382,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "table",
+        "block_content": "<table><tr><td>Reference</td><td>$ HCDR1 $</td><td>$ HCDR2 $</td></tr><tr><td rowspan=\"2\"></td><td>*</td><td>*** *** *</td></tr><tr><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR</td><td></td></tr><tr><td>AB-1</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-2</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-3</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR</td><td></td></tr><tr><td>AB-4</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR</td><td></td></tr><tr><td>AB-5</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR</td><td></td></tr><tr><td>AB-6</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR</td><td></td></tr><tr><td>AB-7</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR</td><td></td></tr><tr><td>AB-8</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-9</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-10</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR</td><td></td></tr><tr><td>AB-11</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR</td><td></td></tr><tr><td>AB-12</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR</td><td></td></tr><tr><td>AB-13</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR</td><td></td></tr><tr><td>AB-14</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR</td><td></td></tr></table>",
+        "block_bbox": [
+          0,
+          0,
+          1758,
+          3382
+        ],
+        "block_id": 0,
+        "block_order": null,
+        "group_id": 0
+      }
+    ]
+  }
+}

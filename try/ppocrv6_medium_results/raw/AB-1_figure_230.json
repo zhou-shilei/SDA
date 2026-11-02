@@ -1,0 +1,30 @@
+{
+  "signature": "2864fd9a59e3bfe15373ab66b9f36861cdbf3f2fc268e158235925bb303d2bc8",
+  "case": {
+    "id": "AB-1_figure_230",
+    "kind": "figure_sequence",
+    "item": "AB-1",
+    "page": 230,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-1_p230_sequence.png",
+    "crop_box_upright": [
+      359,
+      192,
+      2811,
+      268
+    ],
+    "row_selection": "ink_projection_plus_reviewed_row_order",
+    "image_sha256": "5825d943e81354a122218921a9ff08f5216a77a541e5d6e723ba320be22b9b39"
+  },
+  "text": "FTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+  "confidence": 0.9998815655708313,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-1_p230_sequence.png",
+      "page_index": null,
+      "rec_text": "FTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "rec_score": 0.9998815655708313
+    }
+  },
+  "seconds": 0.0182
+}

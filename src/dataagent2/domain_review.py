@@ -9,6 +9,12 @@ from .contracts import REFS, S, array, obj
 from .ledger import fact_region, ground_sequence, normalized
 
 
+class DomainReviewValidationError(ValueError):
+    def __init__(self, message, paths):
+        super().__init__(message)
+        self.paths = paths
+
+
 REVIEW_SCHEMA = obj({
     "item": S, "region": {"type": "string", "enum": ["VH", "VL"]},
     "status": {"type": "string", "enum": ["supported", "unresolved", "not_applicable"]},
@@ -145,43 +151,47 @@ def validate_domain_reviews(payload, response, assembled):
                 raise ValueError("Domain candidate has no unambiguous retained owner: " + item)
             item = matches[0]
         candidates[item, candidate["region"]].append(candidate)
-    seen, errors = set(), []
-    for review in response["domain_reviews"]:
+    seen, errors, paths = set(), [], set()
+    for review_index, review in enumerate(response["domain_reviews"]):
+        def reject(message):
+            errors.append(message)
+            paths.add(f"/domain_reviews/{review_index}")
+
         pair = review["item"], review["region"]
         if pair not in expected or pair in seen:
-            errors.append("Unknown or repeated domain review: " + str(pair))
+            reject("Unknown or repeated domain review: " + str(pair))
             continue
         seen.add(pair)
         required = {c["id"] for c in candidates[pair]}
         if set(review["candidate_ids"]) != required or len(review["candidate_ids"]) != len(required):
-            errors.append("Domain review omitted or invented candidates: " + str(pair))
+            reject("Domain review omitted or invented candidates: " + str(pair))
         if not review["reason"].strip() or not review["refs"]:
-            errors.append("Domain review needs an explanation and evidence: " + str(pair))
+            reject("Domain review needs an explanation and evidence: " + str(pair))
         supported = entities[pair[0]]["sequences"][pair[1]]["status"] == "supported"
         if (review["status"] == "supported") != supported:
-            errors.append("Domain review contradicts the assembled domain: " + str(pair))
+            reject("Domain review contradicts the assembled domain: " + str(pair))
         if review["status"] == "unresolved":
             if not review["missing_evidence"] or any(not s.strip() for s in review["missing_evidence"]):
-                errors.append("Unresolved domain needs a specific evidence gap: " + str(pair))
+                reject("Unresolved domain needs a specific evidence gap: " + str(pair))
             generic = {"missing mapping", "missing_mapping", "insufficient evidence", "missing evidence",
                        "boundary missing", "missing definition", "unknown", "unresolved"}
             if review["missing_evidence"] and all(s.strip().casefold().rstrip(".") in generic
                                                  for s in review["missing_evidence"]):
-                errors.append("Unresolved domain has only a generic evidence gap: " + str(pair))
+                reject("Unresolved domain has only a generic evidence gap: " + str(pair))
         elif review["missing_evidence"]:
-            errors.append("Resolved or inapplicable domain cannot have missing_evidence: " + str(pair))
+            reject("Resolved or inapplicable domain cannot have missing_evidence: " + str(pair))
         targets = []
         for path in review["targets"]:
             pieces = path.split("/")
             if len(pieces) != 4 or pieces[1] != "dataset" or pieces[2] not in {"links", "issues"} or not pieces[3].isdigit():
-                errors.append("Domain review needs a concrete link/issue target: " + path)
+                reject("Domain review needs a concrete link/issue target: " + path)
                 continue
             try:
                 targets.append(response["dataset"][pieces[2]][int(pieces[3])])
             except IndexError:
-                errors.append("Domain review target does not exist: " + path)
+                reject("Domain review target does not exist: " + path)
         if supported and not any(t.get("item") == pair[0] and t.get("region") == pair[1] for t in targets):
-            errors.append("Supported domain review has no corresponding link target: " + str(pair))
+            reject("Supported domain review has no corresponding link target: " + str(pair))
         for candidate in candidates[pair]:
             # A supported direct mapping may use other evidence. Unresolved exact candidates
             # must show that each actual component and the owner mapping were inspected.
@@ -190,10 +200,11 @@ def validate_domain_reviews(payload, response, assembled):
             groups = [candidate["mapping_refs"], *[definitions[candidate[k]]["refs"]
                        for k in ("full_chain", "variable", "constant")]]
             if any(not set(group) & set(review["refs"]) for group in groups):
-                errors.append("Unresolved candidate review lacks compared evidence: " + candidate["id"])
+                reject("Unresolved candidate review lacks compared evidence: " + candidate["id"])
     if seen != expected:
         errors.append("Missing per-entity domain reviews: " + str(sorted(expected - seen)))
     if errors:
-        raise ValueError("Domain completeness review errors:\n" + "\n".join(errors))
+        raise DomainReviewValidationError("Domain completeness review errors:\n" + "\n".join(errors),
+                                          sorted(paths) if seen == expected else [])
     return {"reviewed_domains": len(seen), "candidates": len(index["candidates"]),
             "statuses": dict(Counter(r["status"] for r in response["domain_reviews"]))}

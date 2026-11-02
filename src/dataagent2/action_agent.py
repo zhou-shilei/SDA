@@ -11,7 +11,15 @@ from .domain_review import (REVIEW_SCHEMA, REVIEW_INSTRUCTIONS, build_domain_rev
                             validate_domain_reviews)
 
 
-REVISION = 2
+REVISION = 3
+
+
+class ActionValidationError(ValueError):
+    """A rejected complete response with explicitly located repairable records."""
+
+    def __init__(self, message, paths):
+        super().__init__(message)
+        self.paths = sorted(set(paths))
 
 
 class DuplicateActionDecisions(ValueError):
@@ -258,7 +266,12 @@ def validate_action_result(data, payload, response):
     allowed = {row[0] for row in rows}
     emitted = source_ids(response)
     if not emitted <= allowed:
-        raise ValueError("ActionAgent cited sources absent from its request: " + str(sorted(emitted - allowed)))
+        paths = [f"/dataset/{kind}/{i}" for kind in ("entities", *FACT_KINDS)
+                 for i, record in enumerate(result[kind]) if source_ids(record) - allowed]
+        paths += [f"/{kind}/{i}" for kind in ("action_decisions", "domain_reviews", "seed_changes", "conflicts")
+                  for i, record in enumerate(response[kind]) if source_ids(record) - allowed]
+        raise ActionValidationError("ActionAgent cited sources absent from its request: "
+                                    + str(sorted(emitted - allowed)), paths)
     entities = {entity["id"]: entity for entity in result["entities"]}
     initial_entities = {entity["id"]: entity for entity in initial["entities"]}
     if len(entities) != len(result["entities"]):
@@ -284,11 +297,20 @@ def validate_action_result(data, payload, response):
     actions = {a["id"]: a for a in payload["reader_actions"]}
     seen = set()
     semantic_errors = []
+    repair_paths, unlocated = set(), False
+
+    def invalid(message, *paths):
+        nonlocal unlocated
+        semantic_errors.append(message)
+        repair_paths.update(paths)
+        unlocated |= not paths
+
     duplicate_actions, accounting_error_count, unsafe_accounting = set(), 0, False
     conflicting = {a for conflict in response["conflicts"] for a in conflict["action_ids"]}
     if not conflicting <= set(actions):
         raise ValueError("Conflict references an unknown Reader action")
-    for decision in response["action_decisions"]:
+    for decision_index, decision in enumerate(response["action_decisions"]):
+        decision_path = f"/action_decisions/{decision_index}"
         ids = decision["action_ids"]
         repeated = sorted({identity for identity, count in Counter(ids).items() if count > 1} | (set(ids) & seen))
         unknown = sorted(set(ids) - set(actions))
@@ -296,12 +318,18 @@ def validate_action_result(data, payload, response):
             duplicate_actions.update(repeated)
             accounting_error_count += 1
             unsafe_accounting |= not ids or bool(unknown)
-            semantic_errors.append("Reader actions must be accounted for exactly once; "
-                f"repeated={repeated[:20]}, unknown={unknown[:20]}, group={ids[:5]}")
+            related = [f"/action_decisions/{i}" for i, group in enumerate(response["action_decisions"])
+                       if set(group["action_ids"]) & set(repeated)]
+            invalid("Reader actions must be accounted for exactly once; "
+                    f"repeated={repeated[:20]}, unknown={unknown[:20]}, group={ids[:5]}",
+                    decision_path, *related)
         seen.update(set(ids) & set(actions))
         if not decision["reason"].strip():
             raise ValueError("Action decision needs a reason")
-        targets = [target_at(result, path) for path in decision["targets"]]
+        try:
+            targets = [target_at(result, path) for path in decision["targets"]]
+        except ValueError as error:
+            raise ActionValidationError(str(error), [decision_path]) from error
         if decision["outcome"] in ("accept", "merge") and not targets:
             raise ValueError("Accepted action has no output record")
         if decision["outcome"] in ("accept", "merge"):
@@ -313,14 +341,14 @@ def validate_action_result(data, payload, response):
                 expected = "entities" if kind == "new_items" else kind
                 if (kind != "mentions" and expected not in target_kinds
                         and not alias_relation_in_entity(actions[identity], targets, entities)):
-                    semantic_errors.append("Accepted action has no output record of its kind: " + identity)
+                    invalid("Accepted action has no output record of its kind: " + identity, decision_path)
             if not decision["refs"] or not set(decision["refs"]) & source_ids(targets):
-                semantic_errors.append("Accepted action needs cited output evidence: " + str(ids[:5]))
+                invalid("Accepted action needs cited output evidence: " + str(ids[:5]), decision_path)
         if decision["outcome"] == "conflict" and not set(ids) <= conflicting:
             raise ValueError("Conflicting action has no retained conflict")
     if seen != set(actions):
         omitted = sorted(set(actions) - seen)
-        semantic_errors.append(f"ActionAgent silently omitted {len(omitted)} Reader actions (first 20): " + str(omitted[:20]))
+        invalid(f"ActionAgent silently omitted {len(omitted)} Reader actions (first 20): " + str(omitted[:20]))
     changed = set()
     for change in response["seed_changes"]:
         if not change["seed_paths"] or not change["refs"] or not change["reason"].strip():
@@ -341,7 +369,7 @@ def validate_action_result(data, payload, response):
                 if f'/initial_dataset/{kind}/{index}' not in changed:
                     missing_seed.append(f"/initial_dataset/{kind}/{index}")
     if missing_seed:
-        semantic_errors.append("Initial facts silently removed or changed without seed_changes: " + ", ".join(missing_seed))
+        invalid("Initial facts silently removed or changed without seed_changes: " + ", ".join(missing_seed))
 
     scratch = {**data, "style_definitions": [], "seed": {"entities": list(entities.values()),
         "links": [], "experiments": [], "observations": [], "annotations": []}}
@@ -349,18 +377,23 @@ def validate_action_result(data, payload, response):
     facts = empty_response()
     for kind in FACT_KINDS:
         facts[kind] = copy.deepcopy(result[kind])
-    for definition in facts["sequences"]:
+    for index, definition in enumerate(facts["sequences"]):
         returned_value = definition.pop("value")
         try:
             value, _ = ground_sequence(definition["parts"], data["sources"])
         except (ValueError, KeyError, TypeError) as error:
-            semantic_errors.append("Sequence parts: " + str(error))
+            invalid("Sequence parts: " + str(error), f"/dataset/sequences/{index}")
         else:
             if value != returned_value:
-                semantic_errors.append("ActionAgent changed literal sequence characters")
+                invalid("ActionAgent changed literal sequence characters", f"/dataset/sequences/{index}")
     ledger.apply(facts, sorted(allowed), "action-agent")
     if ledger.rejections:
-        semantic_errors.append("ActionAgent dataset contains ungrounded facts: " + str(ledger.rejections))
+        rejected_paths = []
+        for rejected in ledger.rejections:
+            kind = rejected["kind"]
+            rejected_paths.extend(f"/dataset/{kind}/{i}" for i, fact in enumerate(facts[kind])
+                                  if fact == rejected["fact"])
+        invalid("ActionAgent dataset contains ungrounded facts: " + str(ledger.rejections), *rejected_paths)
     try:
         assembled = ledger.assemble()
         domain_summary = validate_domain_reviews(payload, response, assembled)
@@ -368,14 +401,17 @@ def validate_action_result(data, payload, response):
         for protected in payload.get("protected_domains", []):
             slot = by_id[protected["item"]]["sequences"][protected["region"]]
             if slot["status"] != "supported" or slot["value"] != protected["value"]:
-                semantic_errors.append("Answer integration changed an already supported domain: "
-                                       + str((protected["item"], protected["region"])))
+                invalid("Answer integration changed an already supported domain: "
+                        + str((protected["item"], protected["region"])))
     except (ValueError, KeyError, TypeError) as error:
-        semantic_errors.append(str(error))
+        invalid(str(error), *getattr(error, "paths", []))
     if semantic_errors:
         if duplicate_actions and not unsafe_accounting and len(semantic_errors) == accounting_error_count:
             raise DuplicateActionDecisions(duplicate_actions, "\n".join(semantic_errors))
-        raise ValueError("ActionAgent validation errors: " + "\n".join(semantic_errors))
+        message = "ActionAgent validation errors: " + "\n".join(semantic_errors)
+        if repair_paths and not unlocated:
+            raise ActionValidationError(message, repair_paths)
+        raise ValueError(message)
     # Keep the original baseline for seed counts; entities/facts above are the authoritative output.
     ledger.data = data
     ledger.action_conflicts = [{"kind": "action_conflict", **copy.deepcopy(conflict)} for conflict in response["conflicts"]]
@@ -441,29 +477,62 @@ def run_action_payload(data, payload, provider, output, *, stage="action", instr
                 payload = {**original, "validation_errors": [str(exc)]}
                 continue
         write_json(output / f"action_agent.response.{attempt + 1}.json", response)
-        accounting_meta = None
-        try:
+        accounting_meta, repair_meta = None, None
+
+        def validate(candidate):
+            nonlocal accounting_meta
             try:
-                ledger = validate_action_result(data, original, response)
+                return candidate, validate_action_result(data, original, candidate)
             except DuplicateActionDecisions as error:
                 from .action_accounting import repair_accounting
-                write_json(output / f"action_agent.response.before_accounting.{attempt + 1}.json", response)
-                response, accounting_meta = repair_accounting(original, response, error.identities, provider, output)
-                ledger = validate_action_result(data, original, response)
+                write_json(output / f"action_agent.response.before_accounting.{attempt + 1}.json", candidate)
+                candidate, accounting_meta = repair_accounting(original, candidate, error.identities, provider, output)
+                return candidate, validate_action_result(data, original, candidate)
+
+        try:
+            response, ledger = validate(response)
         except (ValueError, KeyError, TypeError) as exc:
             write_json(output / f"action_agent.validation.{attempt + 1}.json", {"status": "rejected", "error": str(exc)})
             if meta.get("key") and hasattr(provider, "reject_cached_response"):
                 provider.reject_cached_response(meta["key"], str(exc))
-            if attempt:
-                raise ValueError("ActionAgent failed complete-dataset validation: " + str(exc)) from exc
+            # Each complete attempt gets at most one bounded local correction.
+            # The full retry often resolves global errors and leaves only a few
+            # precise defects; those deserve the same complete-validation path.
+            repaired = False
             payload = {**original, "validation_errors": [str(exc)]}
-            continue
+            if isinstance(exc, ActionValidationError) and exc.paths:
+                from .action_repair import repair_action_result
+                name = f"action_repair.{attempt + 1}"
+                write_json(output / f"action_agent.response.before_repair.{attempt + 1}.json", response)
+                try:
+                    candidate, repair_meta = repair_action_result(
+                        data, original, response, exc, provider, output, name=name, stage=stage)
+                    candidate, ledger = validate(candidate)
+                except (ValueError, KeyError, TypeError) as repair_error:
+                    if repair_meta and repair_meta.get("key") and hasattr(provider, "reject_cached_response"):
+                        provider.reject_cached_response(repair_meta["key"], str(repair_error))
+                    write_json(output / f"{name}.validation.json", {"status": "rejected", "error": str(repair_error)})
+                    payload = {**original, "validation_errors": [str(exc), "Local repair failed: " + str(repair_error)]}
+                    repair_meta, accounting_meta = None, None
+                else:
+                    response, repaired = candidate, True
+                    write_json(output / f"{name}.validation.json", {"status": "validated",
+                               "complete_response_hash": digest(response), "full_validation": True})
+            if not repaired:
+                if attempt:
+                    message = "ActionAgent failed complete-dataset validation: " + "\n".join(payload["validation_errors"])
+                    if isinstance(exc, ActionValidationError):
+                        raise ActionValidationError(message, exc.paths) from exc
+                    raise ValueError(message) from exc
+                continue
         metadata = {**ledger.action_metadata, "stage": stage, "attempt": attempt + 1, "provider": meta,
                     "input_hash": digest(original), "response_hash": digest(response),
                     "request_encoding": request.get("input_encoding"), "request_hash": digest(request),
                     "response_encoding": "explicit_record_references" if record_refs else "full_records"}
         if accounting_meta:
             metadata["accounting_repair"] = accounting_meta
+        if repair_meta:
+            metadata["local_repair"] = repair_meta
         write_json(output / f"action_agent.validation.{attempt + 1}.json",
                    {"status": "validated", "response_hash": metadata["response_hash"]})
         write_json(output / "action_agent.response.json", response)

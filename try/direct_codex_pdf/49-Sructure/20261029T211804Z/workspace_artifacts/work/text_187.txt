@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+secondary antibody (Promega, Madison, WI) at 1:2000 dilution in 1x ELISA assay diluent
+was added to detect binding of the primary antibody to the antigen. The plate was incubated
+for 30 minutes at 37°C with the secondary detection antibody, then the plate was washed and
+developed with tetramethyl benzidine (TMB) substrate solution (Thermo Fisher Scientific,
+Waltham, MA). The HRP enzymatic reaction was stopped after about 1 minute with acidic
+stop solution (Thermo Fisher Scientific), and the absorbance at 450 nm was determined using
+a standard plate reader. The ECso values were calculated by fitting a four-parameter non-
+linear regression line to the average of two technical replicates per concentration.
+[00769]To determine the binding profile of anti-TSLP antibodies, a binding ELISA
+against recombinant human TSLP was completed. ELISA assay plates were coated with
+human TSLP cytokine, and subsequently serial dilutions of anti-TSLP antibodies were plated.
+After one hour of incubation, the plates were washed and the binding of anti-TSLP antibodies
+to hTSLP was detected with anti-human IgG Fc conjugated to HRP and developed with TMB
+substrate. FIGs. 4A-4B demonstrate the binding profile of anti-TSLP mAbs to hTSLP. The
+EC5o values were determined by curve fitting (non-linear regression) (Table 7).
+[00770] Cynomolgus Monkey TSLP Binding ELISA
+[00771] The human indirect TSLP binding ELISA assay protocol as described above was
+used to determine species cross-reactivity of anti-TSLP antibodies to cynomolgus monkey
+TSLP (ACROBiosystems, Newark, DE). EC50 values for primary antibodies binding
+cynomolgus monkey TSLP and human TSLP were compared.
+[00772] To determine the binding profile of anti-TSLP antibodies, a binding ELISA
+against recombinant cynomolgus TSLP was completed. ELISA assay plates were coated with
+cynomolgus TSLP cytokine and subsequently serial dilutions of anti-TSLP antibodies were
+plated. After one hour of incubation, the plates were washed and the binding of anti-TSLP
+antibodies to cynoTSLP was detected with anti-human IgG Fc conjugated to HRP and
+developed with TMB substrate. FIGs. 5A-5B demonstrate the binding profile of anti-TSLP
+mAbs to cynoTSLP The ECs0 values were determined by curve fitting (non-linear regression)
+(Table 7).
+Example 5. TSLP Blocking ELISA
+[00773] Human TSLP Blocking ELISA
+[00774] A 96 well half area flat bottom plate was coated with 50 μL of recombinant
+heterodimeric human TSLPR and human IL-7Rα Fc tagged fusion protein (2 μg/mL) in
+186

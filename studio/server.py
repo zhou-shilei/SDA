@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 from email import policy
 from email.parser import BytesParser
 import hashlib
@@ -17,23 +16,22 @@ from pathlib import Path
 import re
 import shutil
 import signal
-import subprocess
 import sys
 import threading
-from time import perf_counter
 from urllib.parse import parse_qs, unquote, urlsplit
 import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from studio.sda_data import Workspace, now, read_json, review_payload
-from studio.document_input import prepare_document_input
-from studio.ocr_settings import table_worker_settings
+from studio.pipeline_executor import PipelineExecutor
+from studio.task_queue import TaskQueue, ensure_worker
+from studio.review_queue import ReviewQueue, QueueConflict
 from units.cache_policy import cache_enabled
 
 MAX_UPLOAD = 300 * 1024 * 1024
 IDENTITY = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{2,79}\Z")
 STATIC = {"index.html", "styles.css", "app.js", "collection_review.js", "job_eta.js",
-          "patent_identity.js", "table_columns.js", "intake_metrics.js", "run.html"}
+          "patent_identity.js", "table_columns.js", "intake_metrics.js", "database_columns.js", "review_queue.js", "processing_queue.js", "run.html"}
 EXTRACTION_ENGINES = {"dataagent1": "dataagent", "dataagent2": "dataagent2"}
 
 
@@ -43,42 +41,29 @@ def extraction_engine(value):
     return value
 
 
-class StudioServer(ThreadingHTTPServer):
+class StudioServer(PipelineExecutor, ThreadingHTTPServer):
     daemon_threads = True
 
     def __init__(self, address, workspace, *, python=None, ocr_device="gpu:0", ocr_backend="vl",
                  text_backend="paddle", text_workers=1, table_workers=None, ocr_parallel=True):
         if table_workers is not None and (type(table_workers) is not int or table_workers < 1):
             raise ValueError("table_workers 必须为正整数")
-        self.workspace = workspace
-        self.python = python or sys.executable
-        self.ocr_device, self.ocr_backend = ocr_device, ocr_backend
-        self.text_backend, self.text_workers = text_backend, text_workers
-        self.table_workers, self.ocr_parallel = table_workers, ocr_parallel
-        self.workers = ThreadPoolExecutor(max_workers=1, thread_name_prefix="sda-import")
+        PipelineExecutor.__init__(self, workspace, python=python, ocr_device=ocr_device,
+                                  ocr_backend=ocr_backend, text_backend=text_backend,
+                                  text_workers=text_workers, table_workers=table_workers,
+                                  ocr_parallel=ocr_parallel)
+        self.queue = TaskQueue(workspace)
+        self.review_queue = ReviewQueue(workspace.root)
         self.render_lock = threading.Lock()
-        self.processes = {}
-        self.process_lock = threading.Lock()
-        self.closing = threading.Event()
-        super().__init__(address, StudioHandler)
+        ThreadingHTTPServer.__init__(self, address, StudioHandler)
 
-    def table_ocr_source(self, identity, result_dir):
-        """Find persisted OCR even when extraction failed before table export."""
-        for path in result_dir.glob("*.json"):
-            row = read_json(path, {})
-            if isinstance(row, dict) and row.get("table_id") and isinstance(row.get("table_text"), str) and row["table_text"].strip():
-                return result_dir
-        checkpoint = read_json(result_dir / "dataagent_checkpoint.json", {}) or read_json(result_dir / "dataagent2_checkpoint.json", {})
-        job = self.workspace.jobs().get(identity, {})
-        candidates = [checkpoint.get("inputs", {}).get("table_ocr")]
-        if job.get("structured_dir"):
-            candidates.append(str(Path(job["structured_dir"]) / "table_ocr/tables.jsonl"))
-        for value in candidates:
-            if value:
-                path = Path(value).resolve()
-                if path.is_relative_to(self.workspace.root) and (path.is_file() or path.is_dir() and any(path.glob("*.json"))):
-                    return path
-        raise ValueError("没有可复用的表格 OCR，请先解析 PDF")
+    def submit_task(self, identity):
+        return self.queue.submit(identity, config=self.execution_config())
+
+    def execution_config(self):
+        return {key: getattr(self, key) for key in (
+            "python", "ocr_device", "ocr_backend", "text_backend", "text_workers",
+            "table_workers", "ocr_parallel")}
 
     def enqueue(self, identity, *, operation="pipeline", engine=None):
         workspace = self.workspace
@@ -114,241 +99,25 @@ class StudioServer(ThreadingHTTPServer):
                 shutil.copyfile(bundle["pdf"], source)
             run = parent / "runs" / uuid.uuid4().hex
             input_dir = previous_inputs if operation == "analyze" else run / "data" / identity
-            workspace.update_job(identity, status="queued", stage="queued", progress=0, error=None,
+            workspace.update_job(identity, status="queued", stage="queued", progress=0, error=None, failure_details=None,
                                  input_dir=str(input_dir), text_context_dir=str(run / "data" / identity),
                                  result_dir=str(run / "results" / identity), operation=operation, extraction_engine=engine,
                                  previous_result_dir=str(previous_results), previous_input_dir=str(previous_inputs),
                                  run_id=run.name, worker_pid=None, finished_at=None,
+                                 runner_pid=None, runner_pid_token=None, worker_pid_token=None,
                                  stage_current=None, stage_total=None,
-                                 started_at=now(), log=str(run / "pipeline.log"))
-            self.workers.submit(self.run_pipeline, identity, run, operation)
+                                 execution_config=self.execution_config(),
+                                 queued_at=now(), started_at=None, log=str(run / "pipeline.log"))
+            self.submit_task(identity)
         return next(p for p in workspace.patents() if p["document_id"] == identity)
 
     def compare(self, identity, *, engine):
         from studio.comparison import create_comparison
         return create_comparison(self, identity, engine)
 
-    def run_pipeline(self, identity, run, operation="pipeline"):
-        workspace = self.workspace
-        started = perf_counter()
-        started_at_utc = now()
-        try:
-            run.mkdir(parents=True, exist_ok=True)
-            source = workspace.state / "patents" / identity / "source.pdf"
-            job = workspace.jobs()[identity]
-            engine = extraction_engine(job.get("extraction_engine", "dataagent1"))
-            mode = EXTRACTION_ENGINES[engine]
-            evidence_id = job.get("evidence_document_id") or identity
-            inputs = Path(job["input_dir"])
-            context = Path(job["text_context_dir"])
-            previous_inputs = Path(job["previous_input_dir"])
-            workspace.update_job(identity, status="processing", stage="layout" if operation == "pipeline" else "extraction", progress=2)
-            with (run / "pipeline.log").open("w", encoding="utf-8") as log:
-                if operation == "pipeline":
-                    work = run / "document"
-                    result_dir = work / "results" / identity
-                    input_dir = work / "data" / identity
-                    ocr_settings = table_worker_settings(self.ocr_device, self.ocr_backend, self.table_workers,
-                        page_workers=self.text_workers if self.ocr_parallel else 1)
-                    log.write("table-ocr-configuration " + json.dumps(ocr_settings, ensure_ascii=False) + "\n")
-                    log.flush()
-                    workspace.update_job(identity, input_dir=str(input_dir), text_context_dir=str(input_dir),
-                                         result_dir=str(result_dir), structured_dir=str(work / "structured"),
-                                         ocr_branches={}, evidence_document_id=identity, ocr_configuration=ocr_settings)
-                    command = [self.python, str(workspace.root / "src/document/run_document_pdf.py"), str(source),
-                               "--document-id", identity, "--run-dir", str(work), "--device", self.ocr_device,
-                               "--text-backend", self.text_backend, "--table-backend", self.ocr_backend,
-                               "--text-workers", str(self.text_workers), "--table-ocr-workers", str(ocr_settings["workers"]),
-                               "--ocr-execution", "parallel" if self.ocr_parallel else "serial"]
-                    command.extend(["--extraction-mode", mode])
-                    catalog = previous_inputs / "wipo/sequences.json"
-                    if catalog.is_file():
-                        command.extend(["--catalog", str(catalog)])
-                    code = self.command(identity, command, log)
-                    report = read_json(work / "run_summary.json", {})
-                    if code or report.get("status") not in {"complete", "partial"}:
-                        if self.closing.is_set():
-                            reason = "服务停止或重启，解析任务已中断；已有产物保留，可重新解析"
-                        elif code < 0:
-                            reason = f"解析进程被信号 {signal.Signals(-code).name} 终止；已有产物保留"
-                        else:
-                            reason = report.get("error") or f"解析进程退出码 {code}，未生成有效运行汇总"
-                        raise RuntimeError(f"文档提取失败：{reason}；日志：{run / 'pipeline.log'}")
-                    workspace.update_job(identity, status="completed", stage="completed", progress=100,
-                                         semantic_status=report.get("status"), preprocessing_status=report.get("preprocessing_status"),
-                                         finished_at=now(), worker_pid=None)
-                    return
-                log.write("复用已保存的原始表格 OCR，重新抽取；不运行版面检测与表格 OCR。\n")
-                previous_bundle = workspace._build(identity, Path(job["previous_result_dir"]), previous_inputs)
-                evidence_pdf = previous_bundle["pdf"] or source
-                manifest = read_json(previous_inputs / f"{evidence_id}_manifest.json", {})
-                prepare_document_input(context, evidence_id,
-                                       evidence_pdf if evidence_pdf.is_file() else None,
-                                       existing=previous_inputs, extract_text=False)
-                workspace.update_job(identity, stage="ocr" if operation == "pipeline" else "extraction", progress=30)
-                extraction = [self.python, str(workspace.root / "src/graph.py"),
-                              "--image-dir", str(inputs), "--output-dir", str(run / "results"),
-                              "--text-context-dir", str(context),
-                              "--ocr-device", self.ocr_device, "--ocr-backend", self.ocr_backend]
-                if operation == "analyze":
-                    previous_result = Path(job["previous_result_dir"])
-                    extraction.extend(["--reuse-table-ocr-from", str(self.table_ocr_source(identity, previous_result))])
-                    checkpoint = read_json(previous_result / "dataagent_checkpoint.json", {}) or read_json(previous_result / "dataagent2_checkpoint.json", {})
-                    structured_dir = job.get("structured_dir") or previous_bundle.get("run", {}).get("structured_dir")
-                    candidates = [checkpoint.get("inputs", {}).get("text_pages_jsonl"),
-                                  str(Path(structured_dir) / "page_ocr/pages.jsonl") if structured_dir else None,
-                                  str(previous_result.parent.parent / "text_ocr/pages.jsonl")]
-                    pages = next((path for value in candidates if value and (path := workspace.local_path(value))), None)
-                    if pages is None:
-                        raise RuntimeError("缺少已保存的全文 OCR；请先运行完整 PDF 解析，再重新提取")
-                    extraction.extend(["--extraction-mode", mode, "--text-pages-jsonl", str(pages),
-                                       "--document-id", evidence_id])
-                    if structured_dir:
-                        extraction.extend(["--structured-dir", str(structured_dir)])
-                code = self.command(identity, extraction, log)
-                summary = read_json(run / "results/_batch_summary.json", {})
-                if code or not summary or summary.get("status") == "failed":
-                    raise RuntimeError(f"SDA 提取未全部成功（退出码 {code}），已保存的产物可继续审阅")
-                result_dir = run / "results" / evidence_id
-                workspace.update_job(identity, result_dir=str(result_dir))
-                dataset = read_json(result_dir / "dataset.json", {})
-                structured_dir = job.get("structured_dir") or previous_bundle.get("run", {}).get("structured_dir")
-                structured_summary = read_json(Path(structured_dir) / "summary.json", {}) if structured_dir else {}
-                preprocessing_status = previous_bundle.get("run", {}).get("preprocessing_status") or structured_summary.get("status")
-                if preprocessing_status == "partial" and dataset.get("status") == "complete":
-                    dataset["status"] = summary["status"] = "partial"
-                    dataset["preprocessing"] = {"status": "partial", "document_file": str(Path(structured_dir) / "document.json") if structured_dir else None}
-                    (result_dir / "dataset.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2), encoding="utf-8")
-                report = {"document_id": identity, "run_kind": "ocr_reanalysis", "status": summary["status"],
-                          "extraction_mode": mode, "extraction_engine": engine, "started_at_utc": started_at_utc,
-                          "preprocessing_status": preprocessing_status,
-                          "wall_seconds": perf_counter() - started, "token_usage": summary["token_usage"],
-                          "result_dir": str(result_dir), "run_dir": str(run), "finished_at_utc": now(),
-                          "total_pages": previous_bundle["pages"]["page_count"],
-                          "table_count": structured_summary.get("tables", len(previous_bundle["ocr"])),
-                          "cache_policy": "复用表格 OCR 的重新提取；不是完整 PDF 首次解析耗时。",
-                          "records": len(dataset.get("records", [])), "phases": [],
-                          "experiments": len(dataset.get("experiments", [])), "relations": len(dataset.get("relations", []))}
-                if structured_dir:
-                    report["structured_dir"] = structured_dir
-                    report["structured_document"] = str(Path(structured_dir) / "document.json")
-                (result_dir / "run_summary.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-                (run / "run_summary.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-                workspace.update_job(identity, status="completed", stage="completed", progress=100,
-                                     preprocessing_status=manifest.get("status"), worker_pid=None,
-                                     semantic_status=summary.get("status"), finished_at=now())
-        except Exception as exc:
-            branches = dict(workspace.jobs().get(identity, {}).get("ocr_branches", {}))
-            branches = {branch: "failed" if status == "processing" else status
-                        for branch, status in branches.items()}
-            workspace.update_job(identity, status="failed", stage="failed", worker_pid=None,
-                                 error=str(exc), ocr_branches=branches, finished_at=now())
-            with (run / "pipeline.log").open("a", encoding="utf-8") as log:
-                log.write(f"\nSDA pipeline failed: {exc}\n")
-
-    def command(self, identity, command, log):
-        env = os.environ.copy()
-        env["PYTHONUNBUFFERED"] = "1"
-        with self.process_lock:
-            if self.closing.is_set():
-                raise RuntimeError("服务停止，解析任务已中断；已有产物保留")
-            process = subprocess.Popen(command, cwd=self.workspace.root, env=env,
-                                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-                                       start_new_session=True)
-            self.processes[identity] = process
-        with process:
-            self.workspace.update_job(identity, worker_pid=process.pid)
-            log.write("$ " + json.dumps(command, ensure_ascii=False) + "\n")
-            log.flush()
-            try:
-                for line in process.stdout:
-                    log.write(line)
-                    log.flush()
-                    self.update_progress(identity, line)
-                code = process.wait()
-                log.write(f"\nSDA process exited: returncode={code}\n")
-                log.flush()
-                return code
-            finally:
-                with self.process_lock:
-                    self.processes.pop(identity, None)
-                self.workspace.update_job(identity, worker_pid=None)
-
-    def update_progress(self, identity, line):
-        changes = None
-        if line.startswith("sda-dataagent2-progress "):
-            event = json.loads(line.removeprefix("sda-dataagent2-progress "))
-            current, total = int(event["completed"]), int(event["total"])
-            stage, base, span = {"reader": ("reader", 76, 12), "action": ("action", 88, 2), "questions": ("tst", 90, 6),
-                                 "answer_action": ("action", 96, 2), "export": ("build", 98, 0)}[event["phase"]]
-            changes = {"stage": stage, "stage_current": current, "stage_total": total,
-                       "progress": base + round(span * min(current, total) / max(1, total))}
-        elif line.startswith("PDF stage="):
-            stage = line.strip().split("=", 1)[1]
-            progress = {"structured_document": 5, "document_extraction": 65,
-                        "layout": 5, "text_ocr": 20, "table_ocr_and_extraction": 40}.get(stage, 50)
-            changes = {"stage": {"structured_document": "layout", "document_extraction": "extraction",
-                                  "text_ocr": "ocr", "table_ocr_and_extraction": "extraction"}.get(stage, stage), "progress": progress}
-        elif line.startswith("pdf2doc stage="):
-            stage = line.strip().split("=", 1)[1]
-            state, progress = {"orientation_and_layout": ("layout", 5), "recognition": ("ocr", 20),
-                               "assembly": ("assembly", 55), "export": ("export", 60)}.get(stage, ("ocr", 20))
-            changes = {"stage": state, "progress": progress, "stage_current": None, "stage_total": None}
-        elif match := re.match(r"llm-(classification|sequence-progress) (\d+)/(\d+)", line):
-            kind, current, total = match.groups()
-            current, total = int(current), int(total)
-            stage, base, span = ("classify", 65, 7) if kind == "classification" else ("sequence_extract", 76, 12)
-            changes = {"stage": stage, "stage_current": current, "stage_total": total,
-                       "progress": base + round(span * min(current, total) / max(1, total))}
-        elif line.startswith("llm-template-start"):
-            changes = {"stage": "template", "progress": 74, "stage_current": None, "stage_total": None}
-        elif line.startswith("llm-questions:") or line.startswith("llm-answer:"):
-            match = re.search(r"question (\d+)/(\d+)", line)
-            changes = {"stage": "tst", "progress": 90,
-                       "stage_current": int(match[1]) if match else None,
-                       "stage_total": int(match[2]) if match else None}
-        elif line.startswith("sda-ocr-progress "):
-            event = json.loads(line.removeprefix("sda-ocr-progress "))
-            if event.get("branch") in {"text", "table"}:
-                branches = dict(self.workspace.jobs().get(identity, {}).get("ocr_branches", {}))
-                branches[event["branch"]] = event["status"]
-                finished = sum(status in {"completed", "partial", "failed"} for status in branches.values())
-                changes = {"stage": "ocr", "ocr_branches": branches, "progress": 20 + finished * 12}
-                if event["branch"] == "table" and "total" in event:
-                    changes.update(stage_current=event.get("completed", 0), stage_total=event["total"])
-        elif line.startswith("sda-progress "):
-            event = json.loads(line.removeprefix("sda-progress "))
-            if event.get("stage") == "tst":
-                changes = {"stage": "tst", "progress": 90, "stage_current": event["request_index"],
-                           "stage_total": None, "stage_phase": event.get("phase")}
-        elif "orientation-page " in line or "layout-page " in line:
-            changes = {"stage": "layout", "progress": 5}
-        elif "进入固定 schema" in line:
-            changes = {"stage": "template", "progress": 87, "stage_current": None, "stage_total": None}
-        elif "进入序列与实验数据拼接" in line or "进入最终数据构建" in line:
-            changes = {"stage": "construct", "progress": 96, "stage_current": None, "stage_total": None}
-        else:
-            match = re.search(r"\[(\d+)/(\d+)\]", line)
-            if match:
-                current, total = map(int, match.groups())
-                changes = {"stage": "extraction", "stage_current": current, "stage_total": total,
-                           "progress": 30 + round(55 * current / max(1, total))}
-        if changes:
-            current = self.workspace.jobs().get(identity, {}).get("progress", 0)
-            changes["progress"] = max(current, changes["progress"])
-            self.workspace.update_job(identity, **changes)
-
     def server_close(self):
         self.closing.set()
-        super().server_close()
-        self.workers.shutdown(wait=False, cancel_futures=True)
-        with self.process_lock:
-            for process in self.processes.values():
-                if process.poll() is None:
-                    try:
-                        os.killpg(process.pid, signal.SIGTERM)
-                    except ProcessLookupError:
-                        pass
+        ThreadingHTTPServer.server_close(self)
 
 
 class StudioHandler(BaseHTTPRequestHandler):
@@ -417,7 +186,16 @@ class StudioHandler(BaseHTTPRequestHandler):
             file = Path(__file__).parent / name
             return self.send_bytes(file.read_bytes(), mimetypes.guess_type(file)[0] or "application/octet-stream")
         if path == "/api/patents":
-            return self.json({"patents": self.workspace.patents()})
+            queue = self.server.queue.snapshot()
+            return self.json({"patents": self.workspace.patents(),
+                              "queue": {key: value for key, value in queue.items() if key != "positions"}})
+        if path == "/api/queue":
+            return self.json(self.server.queue.snapshot())
+        if path == "/api/reviews/queue":
+            with self.workspace.lock:
+                tasks = self.server.review_queue.list(self.workspace.patents(), query.get("document_id", [None])[0])
+                processing_queue = self.server.queue.snapshot()
+            return self.json({"tasks": tasks, "processing_queue": processing_queue})
         if path == "/api/dataset/folders":
             return self.json({"folders": self.workspace.folders()})
         if path == "/api/dataset/records":
@@ -427,7 +205,7 @@ class StudioHandler(BaseHTTPRequestHandler):
             return self.json({"reviews": self.workspace.reviews()})
         if path == "/api/health":
             return self.json({"status": "ok", "service": "SDA Studio", "extraction_engines": list(EXTRACTION_ENGINES),
-                              "agent_comparison": True})
+                              "agent_comparison": True, "persistent_queue": True, "team_review_queue": True})
         match = re.fullmatch(r"/api/patents/([^/]+)/(.+)", path)
         if not match:
             return self.json({"error": "接口不存在"}, 404)
@@ -482,6 +260,8 @@ class StudioHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             self.post()
+        except QueueConflict as exc:
+            self.json({"error": str(exc)}, 409)
         except KeyError as exc:
             self.json({"error": str(exc)}, 404)
         except (ValueError, TypeError, json.JSONDecodeError) as exc:
@@ -511,19 +291,31 @@ class StudioHandler(BaseHTTPRequestHandler):
         payload = json.loads(body)
         if not isinstance(payload, dict):
             raise ValueError("请求必须是 JSON 对象")
+        if path == "/api/reviews/queue":
+            with self.workspace.lock:
+                task = self.server.review_queue.act(self.workspace.patents(), payload)
+            return self.json({"task": task})
         if path == "/api/dataset/folders":
             folder = self.workspace.create_folder(payload.get("name"))
             return self.json({"folder": folder, "folders": self.workspace.folders()}, 201)
         if path == "/api/reviews/human":
-            return self.json({"review": self.workspace.save_review(payload)})
+            with self.workspace.lock:
+                self.server.review_queue.authorize(payload.get("document_id"), payload, require_claim=True)
+                return self.json({"review": self.workspace.save_review(payload)})
         if path == "/api/patents/publish-records":
-            return self.json(self.workspace.publish(payload.get("document_id"), payload.get("record_ids"), payload.get("dataset_id", "SDA")))
+            with self.workspace.lock:
+                self.server.review_queue.authorize(payload.get("document_id"), payload)
+                return self.json(self.workspace.publish(payload.get("document_id"), payload.get("record_ids"), payload.get("dataset_id", "SDA")))
         if path == "/api/patents/retry":
-            return self.json({"patent": self.server.enqueue(payload.get("document_id"), engine=payload.get("extraction_engine"))}, 202)
+            with self.workspace.lock:
+                self.server.review_queue.authorize(payload.get("document_id"), payload)
+                return self.json({"patent": self.server.enqueue(payload.get("document_id"), engine=payload.get("extraction_engine"))}, 202)
         if path == "/api/patents/compare":
             return self.json({"patent": self.server.compare(payload.get("document_id"), engine=payload.get("extraction_engine"))}, 202)
         if path == "/api/patents/analyze":
-            return self.json({"patent": self.server.enqueue(payload.get("document_id"), operation="analyze", engine=payload.get("extraction_engine"))}, 202)
+            with self.workspace.lock:
+                self.server.review_queue.authorize(payload.get("document_id"), payload)
+                return self.json({"patent": self.server.enqueue(payload.get("document_id"), operation="analyze", engine=payload.get("extraction_engine"))}, 202)
         if path == "/api/patents/check-text":
             identity = payload.get("document_id")
             self.workspace.bundle(identity)
@@ -538,7 +330,7 @@ class StudioHandler(BaseHTTPRequestHandler):
         message = BytesParser(policy=policy.default).parsebytes(
             f"Content-Type: {content_type}\r\nMIME-Version: 1.0\r\n\r\n".encode() + body)
         parts = {part.get_param("name", header="content-disposition"): part for part in message.iter_parts()}
-        engine = extraction_engine(parts["extraction_engine"].get_content().strip() if "extraction_engine" in parts else "dataagent1")
+        engine = extraction_engine(parts["extraction_engine"].get_content().strip() if "extraction_engine" in parts else "dataagent2")
         identity = parts["document_id"].get_content().strip() if "document_id" in parts else ""
         if not IDENTITY.fullmatch(identity) or identity in {".", ".."}:
             raise ValueError("专利编号无效")
@@ -552,6 +344,11 @@ class StudioHandler(BaseHTTPRequestHandler):
         with pymupdf.open(stream=data, filetype="pdf") as document:
             if document.needs_pass or not len(document):
                 raise ValueError("PDF 为空或需要密码")
+        # Browser FormData text fields usually omit a charset. MIME's ASCII
+        # default would turn Chinese submitter names into replacement characters.
+        submitter_part = parts.get("submitted_by")
+        submitted_by = (submitter_part.get_payload(decode=True).decode(
+            submitter_part.get_content_charset() or "utf-8").strip()[:40] if submitter_part else "")
         with self.workspace.lock:
             if identity in self.workspace.locations():
                 raise ValueError("专利已存在")
@@ -559,6 +356,7 @@ class StudioHandler(BaseHTTPRequestHandler):
             parent.mkdir(parents=True, exist_ok=False)
             (parent / "source.pdf").write_bytes(data)
             self.workspace.update_job(identity, filename=Path(pdf_part.get_filename() or f"{identity}.pdf").name,
+                                      submitted_by=submitted_by,
                                       status="uploaded", created_at=now())
             patent = self.server.enqueue(identity, engine=engine)
         return self.json({"patent": patent}, 202)
@@ -573,13 +371,20 @@ class StudioHandler(BaseHTTPRequestHandler):
             for identity in identities:
                 if self.workspace.is_builtin(identity) or identity not in jobs or jobs[identity].get("status") in {"queued", "processing"}:
                     raise ValueError("示例专利或处理中的专利不能删除")
+            with workspace.connection() as db:
+                for identity in identities:
+                    if db.execute("SELECT 1 FROM review_tasks WHERE document_id=? AND owner != ''", (identity,)).fetchone():
+                        raise QueueConflict("文件正在标注，请先退回队列再删除")
             trash = workspace.state / "trash" / uuid.uuid4().hex
             trash.mkdir(parents=True)
             moved = []
             try:
                 with workspace.connection() as db:
-                    archive = {"jobs": {identity: jobs[identity] for identity in identities}, "publications": [], "reviews": []}
+                    archive = {"jobs": {identity: jobs[identity] for identity in identities}, "publications": [], "reviews": [], "review_tasks": [], "review_task_events": []}
                     for identity in identities:
+                        for table in ("review_tasks", "review_task_events"):
+                            archive[table].extend(db.execute(f"SELECT * FROM {table} WHERE document_id=?", (identity,)).fetchall())
+                            db.execute(f"DELETE FROM {table} WHERE document_id=?", (identity,))
                         archive["publications"].extend(db.execute("SELECT * FROM publications WHERE document_id=?", (identity,)).fetchall())
                         archive["reviews"].extend(db.execute("SELECT * FROM reviews WHERE document_id=?", (identity,)).fetchall())
                         shutil.move(str(workspace.state / "patents" / identity), str(trash / identity))
@@ -616,13 +421,20 @@ def main():
     if args.table_workers is not None and args.table_workers < 1:
         parser.error("--table-workers 必须为正整数；省略时自动选择")
     workspace = Workspace(args.root)
-    for identity, job in workspace.jobs().items():
-        if job.get("status") in {"queued", "processing"}:
-            workspace.update_job(identity, status="failed", stage="failed", error="服务曾中断；已有结果保留，可点击重试")
     server = StudioServer((args.host, args.port), workspace, python=args.python,
                           ocr_device=args.ocr_device, ocr_backend=args.ocr_backend,
                           text_backend=args.text_backend, text_workers=args.text_workers,
                           table_workers=args.table_workers, ocr_parallel=args.ocr_execution == "parallel")
+    server.queue.recover(config=server.execution_config())
+    # The detached worker survives HTTP restarts. Its file lock enforces one GPU task.
+    def supervise_worker():
+        while not server.closing.is_set():
+            try:
+                ensure_worker(workspace, python=args.python)
+            except OSError as exc:
+                print(f"Queue worker unavailable: {exc}", file=sys.stderr, flush=True)
+            server.closing.wait(5)
+    threading.Thread(target=supervise_worker, daemon=True, name="sda-queue-supervisor").start()
     signal.signal(signal.SIGTERM, lambda *_: threading.Thread(target=server.shutdown, daemon=True).start())
     print(f"SDA Studio: http://{args.host}:{server.server_port}/studio/", flush=True)
     try:

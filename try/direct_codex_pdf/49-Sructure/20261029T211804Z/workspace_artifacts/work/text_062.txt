@@ -1,0 +1,61 @@
+WO 2024/020591
+PCT/US2023/070790
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:54;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:60;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:70, or
+any combination of the foregoing.
+[00279] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:41;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:51;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:60;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:70, or
+any combination of the foregoing.
+[00280] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:42;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:53;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:63;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:76, or
+any combination of the foregoing.
+[00281] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:43;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:55;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:64;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:77, or
+any combination of the foregoing.
+[00282] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:44;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:56;
+61

@@ -1,0 +1,38 @@
+WO 2024/020591
+PCT/US2023/070790
+a binding affinity for the TSLP characterized by a KD of 10 pM or less (e.g., as
+measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP;
+a neutralizing activity against the TSLP (e.g., a full-length human TSLP); or
+an inhibitory activity against TSLP-mediated signaling,
+or a combination of the foregoing.
+2.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP),
+comprising a paratope that is substantially similar to the paratope of an antibody
+comprising an amino acid sequence selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8);
+SEQ ID NO:12 and SEQ ID NO:20 (AB-9);
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14), or
+a combination of the foregoing.
+3.
+The polypeptide of Embodiment 1 or 2, comprising an immunoglobulin heavy chain
+variable domain (VH) and an immunoglobulin light chain variable domain (VL).
+4.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP),
+comprising:
+a)
+an immunoglobulin heavy chain variable domain (Ví) amino acid sequence
+comprising a heavy chain complementarity determining region 1 (HCDR1), a
+158

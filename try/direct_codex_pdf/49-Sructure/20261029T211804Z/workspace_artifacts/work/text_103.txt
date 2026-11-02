@@ -1,0 +1,41 @@
+WO 2024/020591
+PCT/US2023/070790
+[00492] In some embodiments, a nanoparticle is a lipid nanoparticle. In some
+embodiments, a nanoparticle is a polymer nanoparticle. In some embodiments, a polymer is
+an amphiphilic polymer. In some embodiments, a polymer is a hydrophobic or hydrophilic
+polymer. Non-limiting examples of polymers include poly(lactic acid)-poly(ethylene glycol),
+poly(lactic-co-glycolic acid)-poly(ethylene glycol), poly(lactic-co-glycolic) acid (PLGA),
+poly(lactic-co-glycolic acid)-d-α-tocopheryl polyethylene glycol succinate, poly(lactic-co-
+glycolic acid)-ethylene oxide fumarate, poly(glycolic acid)-poly(ethylene glycol),
+polycaprolactone-poly(ethylene glycol), or any salts thereof. In some embodiments, a
+polymer nanoparticle comprises poly(lactic-co-glycolic) acid (PLGA).
+[00493] In some embodiments, a carrier polypeptide is albumin or an Fc polypeptide
+[00494] In some embodiments, a polypeptide:
+a)
+binds to a TSLP protein with a Kd of 10 pM or less (e.g., as measured by
+KinExA);
+b)
+binds to AB-loop region and C-terminal region of helix D of a TSLP protein;
+c)
+binds to an epitope in a TSLP protein (e.g., a full-length human TSLP);
+d)
+competes with the Reference Antibody for binding to a TSLP protein;
+e)
+reduces binding of a TSLP protein to a TSLPR
+f)
+modulates (e.g., reduces, inhibits, neutralizes) against a TSLP-mediated
+biological activity, or
+a combination of the foregoing
+[00495] In some embodiments, a polypeptide binds to a TSLP (e.g., human )with a KD of
+10 pM or less (e.g., as measured by KinExA)
+[00496] In some embodiments, a polypeptide binds (e.g., has a binding affinity for, has a
+binding specificity for) an AB-loop region and a C-terminal region of helix D of a TSLP
+[00497] In some embodiments, a polypeptide has neutralizing activity against a TSLP
+(e.g., a full-length human TSLP). In some embodiments, the polypeptides have inhibitory
+activity against TSLP-mediated signaling
+[00498] In some embodiments, a polypeptide binds to a TSLP protein (e.g., SEQ ID NO:1)
+with a KD of about: 10 pM, 8 pM, 5 pM, 4 pM, 3 pM, 2 pM, 1.8 pM, 1.5 pM, 1.2 pM, 1.0
+pM, 0.9 pM, 0.8 pM, 0.7 pM, 0.6 pM, 0.5 pM, 0.4 pM, 0.3 pM, 0.2 pM or 0.1 pM, or 1ess; or
+about: 0.1-10 pM, 0.2-10 pM, 0.2-8 pM, 0.3-8 pM, 0.3-5 pM, 0.4-5 pM, 0.4-4 pM, 0.5-4 pM,
+0.5-3 pM, 0.6-3 pM, 0.6-2 pM, 0.7-2 pM, 0.7-1.8 pM, 0.8-1.8 pM, 0.8-1.5 pM, 1.0-1.5 pM or
+102

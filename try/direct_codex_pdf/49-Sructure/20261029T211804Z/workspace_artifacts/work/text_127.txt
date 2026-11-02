@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00639] FIG. 12B is a flow diagram 1050 illustrating an example of the process used by
+embodiments of this disclosure to determine claimed sequences. First, the process receives a
+given polypeptide sequence or pair of sequences (1052). The sequence pair, in different
+embodiments, can be separate polypeptide chains or, in some embodiments, a single
+polypeptide chain, e.g., an scFV. A person of ordinary skill in the art can further recognize
+that model of Appendix B, in embodiments, can be used to generate polypeptide sequences or
+pairs of sequences to test using the script of Appendix A. The script of Appendix A scores the
+sequence using model weights provided in Appendix B (1054). The script then determines
+whether the score is above a predetermined threshold (although, a person of ordinary skill in
+the art can recognize that with different scoring regimes, the score may be below the
+threshold) (1056). If not, the polypeptide sequence or pair of sequences is not verified (1058).
+If it is, the polypeptide sequence or pair of sequences is verified (1060).
+[00640]The Potts Model disclosed herein was generated from experimental validation of
+approximately 100 sequences to identify sequences with advantageous functions. The model
+coefficients are stored in the ASCII text file [fit_model.etab]. These sequences when assayed
+had acceptable polyspecific reactivity, self-aggregation propensity, and expression.
+Additionally, they all possessed biological function as determined by a SEAP reporter assay.
+The resulting model was verified to only claim sequences not reported in existing literature.
+[00641] In some embodiments, a script is employed to determine whether a sequence pair
+(e.g., VH and VL—although, for clarity, the sequence pair, in different embodiments, can be
+separate polypeptide chains or, in some embodiments, a single polypeptide chain, e.g., an
+scFV) is claimed under the model, when scored, is above a threshold. The script is referred to
+as a computationally binding optimizing (CBO) script. Two hash tables are loaded from an
+existing file, and the script extracts first- and second-order index/position values, residue
+values, and corresponding scores for each. For the first-order table, the script extracts one
+position, one residue, and one score associated with the residue at the position. For the
+second-order table, the script extracts a first position, a second position, a first residue, a
+second residue, and a score associated with the first residue at the first position and the
+second residue at the second position.
+[00642]The two sequences, the Ví sequence and VL sequence, are inputted to the script
+are then aligned. The alignment confirms that the Ví sequence and VL sequence are the same
+1ength as reference sequence(s) and that given sections of both sequences are the same as the
+reference sequence(s). Once confirmed, residues from both of the inputted sequences at
+126

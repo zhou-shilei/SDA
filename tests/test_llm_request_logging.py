@@ -137,6 +137,25 @@ class RequestLoggingTests(unittest.TestCase):
         self.assertEqual(events[-1]["status"], template["status"])
         self.assertLess(output.getvalue().index("llm-template-start"), output.getvalue().index("template_prepare_start"))
 
+    def test_template_has_its_own_timeout_and_batch_workers_disable_plugin_loading(self):
+        for task, expected in [("document-template-test", 1800), ("table-classification-test", 600)]:
+            with self.subTest(task=task):
+                observed = []
+                def process(command, **kwargs):
+                    for feature in ["plugins", "remote_plugin", "apps"]:
+                        self.assertTrue(any(command[i:i + 2] == ["--disable", feature]
+                                            for i in range(len(command) - 1)))
+                    base = self.process(command, **kwargs)
+                    communicate = base.communicate
+                    def wrapped(prompt, timeout=None):
+                        observed.append(timeout)
+                        return communicate(prompt, timeout)
+                    base.communicate = wrapped
+                    return base
+                with redirect_stdout(io.StringIO()), patch.object(runtime.subprocess, "Popen", process):
+                    self.provider.generate(task, "Return ok", {}, ConnectivityResult)
+                self.assertEqual(observed, [expected])
+
 
 if __name__ == "__main__":
     unittest.main()

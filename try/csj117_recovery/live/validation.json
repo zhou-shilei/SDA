@@ -1,0 +1,67 @@
+{
+  "source": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808-dataagent2-bfc155b3/runs/2f3c915cef194930b4210d8937dcb922/structured/table_ocr/tables.jsonl",
+  "source_sha256": "878157dd1d3dd5fb056dbc947ecb14e94ddaf04197fd2608f343eff097efdeb2",
+  "scope": "Saved PPVL structure; fresh local detection, pixel crops and PP-OCRv6 recognition. No LLM calls or historical writes.",
+  "checks": [
+    {
+      "seq_id": 65,
+      "region": "VL",
+      "status": "success",
+      "expected_lines": 3,
+      "recognized_lines": 3,
+      "length": 107,
+      "sequence": "SYELTQPLSVSVALGQTARITCSGDNIGSKYVHWYQQKPGQAPVLVIYGDNERPSGIPERFSGSNSGNTATLTISRAQAGDEADYYCQAADWVDFYVFGGGTKLTVL",
+      "error": null,
+      "localization": {
+        "method": "row_anchored_ocr",
+        "detected_lines": 3,
+        "column_left": 896
+      }
+    },
+    {
+      "seq_id": 66,
+      "region": "VH",
+      "status": "success",
+      "expected_lines": 3,
+      "recognized_lines": 3,
+      "length": 120,
+      "sequence": "EVQLVESGGGLVKPGGSLRLSCAASGFTFSDYWMHWVRQAPGKGLEWVGHIKSKTDAGTTDYAAPVKGRFTISRDDSKNTLYLQMNSLKTEDTAVYYCAREIYYYAFDSWGQGTLVTVSS",
+      "error": null,
+      "localization": {
+        "method": "row_anchored_ocr",
+        "detected_lines": 3,
+        "column_left": 896
+      }
+    },
+    {
+      "seq_id": 67,
+      "region": "CL",
+      "status": "success",
+      "expected_lines": 3,
+      "recognized_lines": 3,
+      "length": 106,
+      "sequence": "GQPKAAPSVTLFPPSSEELQANKATLVCLISDFYPGAVTVAWKADSSPVKAGVETTTPSKQSNNKYAASSYLSLTPEQWKSHRSYSCQVTHEGSTVEKTVAPTECS",
+      "error": null,
+      "localization": {
+        "method": "row_anchored_ocr",
+        "detected_lines": 3,
+        "column_left": 896
+      }
+    },
+    {
+      "seq_id": 68,
+      "region": "CH",
+      "status": "success",
+      "expected_lines": 8,
+      "recognized_lines": 8,
+      "length": 330,
+      "sequence": "ASTKGPSVFPLAPSSKSTSGGTAALGCLVKDYFPEPVTVSWNSGALTSGVHTFPAVLQSSGLYSLSSVVTVPSSSLGTQTYICNVNHKPSNTKVDKRVEPKSCDKTHTCPPCPAPELLGGPSVFLFPPKPKDTLMISRTPEVTCVVVDVSHEDPEVKFNWYVDGVEVHNAKTKPREEQYNSTYRVVSVLTVLHQDWLNGKEYKCKVSNKALPAPIEKTISKAKGQPREPQVYTLPPSREEMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYKTTPPVLDSDGSFFLYSKLTVDKSRWQQGNVFSCSVMHEALHNHYTQKSLSLSPGK",
+      "error": null,
+      "localization": {
+        "method": "row_anchored_ocr",
+        "detected_lines": 8,
+        "column_left": 896
+      }
+    }
+  ]
+}

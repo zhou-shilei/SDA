@@ -1,0 +1,119 @@
+(12) INTERNATIONAL APPLICATION PUBLISHED UNDER THE PATENT COOPERATION TREATY (PCT)
+CORRECTED VERSION
+(19) World Intellectual Property
+Organization
+International Bureau
+(10) International Publication Number
+(43) International Publication Date
+WO 2024/020591 A9
+25 January 2024 (25.01.2024)
+WIPOIPCT
+(51) International Patent Classification:
+(74) Agent: BALICKY, Eric, M. et al.; Hamilton, Brook, Smith
+A61P11/00 (2006.01)
+C07K 16/24 (2006.01)
+& Reynolds, P.C., 55 Old Bedford Rd., Suite 200, Lincoln,
+MA 01773 (US).
+(21) International Application Number:
+PCT/US2023/070790
+(81) Designated States (unless otherwise indicated, for every
+kind of national protection available): AE, AG, AL, AM,
+(22) International Filing Date:
+22 July 2023 (22.07.2023)
+AO, AT, AU, AZ, BA, BB, BG, BH, BN, BR, BW, BY, BZ,
+CA, CH, CL, CN, CO, CR, CU, CV, CZ, DE, DJ, DK, DM,
+(25) Filing Language:
+English
+DO, DZ, EC, EE, EG, ES, FI, GB, GD, GE, GH, GM, GT,
+(26) Publication Language:
+English
+HN, HR, HU, ID, IL, IN, IQ, IR, IS, IT, JM, JO, JP, KE, KG.
+KH, KN, KP, KR, KW, KZ, LA, LC, LK, LR, LS, LU, LY,
+(30) Priority Data:
+MA, MD, MG, MK, MN, MU, MW, MX, MY, MZ, NA,
+63/369,152
+22 July 2022 (22.07.2022)
+US
+NG, NI, NO, NZ, OM, PA, PE, PG, PH, PL, PT, QA, RO,
+63/369,158
+22 July 2022 (22.07.2022)
+US
+RS, RU, RW, SA, SC, SD, SE, SG, SK, SL, ST, SV, SY, TH,
+63/369,165
+22 July 2022 (22.07.2022)
+US
+TJ, TM, TN, TR, TT, TZ, UA, UG, US, UZ, VC, VN, WS,
+63/369,175
+22 July 2022 (22.07.2022)
+US
+ZA, ZM, ZW.
+63/369,202
+22 July 2022 (22.07.2022)
+US
+(84) Designated States (unless otherwise indicated, for every
+63/369,203
+22 July 2022 (22.07.2022)
+US
+kind of regional protection available): ARIPO (BW, CV,
+63/369,204
+22 July 2022 (22.07.2022)
+US
+GH, GM, KE, LR, LS, MW, MZ, NA, RW, SC, SD, SL, ST,
+63/369,206
+22 July 2022 (22.07.2022)
+US
+US
+SZ, TZ, UG, ZM, ZW), Eurasian (AM, AZ, BY, KG, KZ,
+18/356,891
+21 July 2023 (21.07.2023)
+RU, TJ, TM), European (AL, AT, BE, BG, CH, CY, CZ,
+(63) Related by continuation (CON) or continuation-in-part
+DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IS, IT, LT,
+(CIP) to earlier application:
+LU, LV, MC, ME, MK, MT, NL, NO, PL, PT, RO, RS, SE.
+US
+18/356,891 (CIP)
+SI, SK, SM, TR), OAPI (BF, BJ, CF, CG, CI, CM, GA, GN.
+Filed on
+21 July 2023 (21.07.2023)
+GQ, GW, KM, ML, MR, NE, SN, TD, TG).
+(71) Applicant: FLAGSHIP PIONEERING INNO-
+Published:
+VATIONS VI, LLC [US/US]; 55 Cambridge Parkway, 8th
+Floor, Cambridge, MA 02142 (US).
+with international search report (Art. 21(3))
+with sequence listing part of description (Rule 5.2(a))
+(72) Inventors: ALIPRANTIS, Antonios O.; 55 Cambridge
+with information concerning authorization of rectification
+Parkway, 8th Floor, Cambridge, MA 02142 (US).
+of an obvious mistake under Rule 91.3 (b) (Rule 48.2(i))
+COSTELLO, Zachary Kohl; 55 Cambridge Parkway,
+(88) Date of publication of the international search report:
+8th Floor, Cambridge, MA 02142 (US). COYLE, Antho-
+29 February 2024 (29.02.2024)
+ny John; 55 Cambridge Parkway, 8th Floor, Cambridge,
+MA 02142 (US). HOPSON, Kristen Park; 55 Cambridge
+Date of publication of the revised international search
+Parkway, 8th Floor, Cambridge, MA 02142 (US). PHEN-
+report:
+NICIE, Ryan Terrell; 55 Cambridge Parkway, 8th Floor,
+30 May 2024 (30.05.2024)
+Cambridge, MA 02142 (US). RAMOS, Alexis Hiram;
+(48) Date of publication of this corrected version:
+55 Cambridge Parkway, 8th Floor, Cambridge, MA 02142
+14 November 2024 (14.11.2024)
+(US). ROOT, Adam Reid; 55 Cambridge Parkway, 8th
+Floor, Cambridge, MA 02142 (US). DINIC,Lana; 55 Cam-
+(15) Information about Correction:
+bridge Parkway, 8th Floor, Cambridge, MA 02142 (US).
+see Notice of 14 November 2024 (14.11,2024)
+REIF, Karin, Alma Frieda; 55 Cambridge Parkway, 8th
+Previous Correction:
+Floor, Cambridge, MA 02142 (US).
+see Notice of 30 May 2024 (30.05.2024)
+01221 9
+(54) Title: ANTIGEN BINDING MOLECULES TARGETING THYMIC STROMAL LYMPHOPOIETIN (TSLP)
+(57) Abstract: The disclosure provides, in various embodiments, polypeptides (e.g, antibodies and antigen binding fragments thereof)
+that specifically bind to a thymic stromal lymphopoietin (TSLP) (e.g., a full-length human TSLP). The disclosure also provides, in
+various embodiments, fusion proteins comprising one or more of the polypeptides, polynucleotides encoding the polypeptides, vectors
+and host cells suitable for expressing the polypeptides, and methods for treating a TSLP-associated disease or condition.

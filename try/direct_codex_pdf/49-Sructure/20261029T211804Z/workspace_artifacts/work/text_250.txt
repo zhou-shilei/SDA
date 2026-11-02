@@ -1,0 +1,23 @@
+WO2024/020591
+Cynomolgus Monkey (IL-7Rα/TSLPR) BAF/3 Assay
+100
+AB-2a
+sin io iii%l
+80
+llAB-2b
+60
+. Reference
+23/27
+40
+ IgG1 Isotype
+-IgG2 Isotype
+20
+0
+0.00010.0010.01
+0.1
+1
+10
+100
+mAb concentration (μg/ml)
+PCT/US2023/070790
+FIG.11B

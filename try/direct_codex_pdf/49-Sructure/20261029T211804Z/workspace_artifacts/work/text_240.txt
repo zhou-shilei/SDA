@@ -1,0 +1,28 @@
+WO2024/020591
+hTSLPR-IL7Ra/cynoTSLP Blocking ELISA
+120
+AB-12
+100
+AB-5
+--▲--AB-3
+Periichion
+80
+......AB-8
+13/27
+60
+--0-AB-13
+AB-11
+40
+AB-2
+20
+∇Reference
+0-
+0.01
+0.1
+1
+10
+100
+PCT/US2023/070790
+-20
+mAb (nM)
+FIG.7B

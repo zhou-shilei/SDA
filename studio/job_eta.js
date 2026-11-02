@@ -192,7 +192,7 @@ export class JobEtaEstimator {
       high += stageHigh;
       preliminary ||= !budget.learned;
     }
-    const started = timestamp(patent.timing?.run_started_at) ?? job.runStarted;
+    const started = (queued ? timestamp(patent.queued_at) : timestamp(patent.started_at || patent.timing?.run_started_at)) ?? job.runStarted;
     return { lowSeconds: Math.max(15, low), highSeconds: Math.max(30, high),
       elapsedSeconds: Math.max(0, (now - started) / 1000),
       preliminary, observed, recalculating, queued, queueAhead: 0 };
@@ -206,12 +206,15 @@ export class JobEtaEstimator {
     let ahead = active.length;
     const blocked = active.some((patent) => results.get(patent.document_id)?.recalculating);
     const queued = patents.filter((patent) => patent.status === "queued")
-      .sort((left, right) => (timestamp(left.updated_at || left.created_at) || 0) - (timestamp(right.updated_at || right.created_at) || 0));
+      .sort((left, right) => (left.queue_position ?? Infinity) - (right.queue_position ?? Infinity)
+        || (timestamp(left.queued_at || left.updated_at || left.created_at) || 0)
+         - (timestamp(right.queued_at || right.updated_at || right.created_at) || 0));
     for (const patent of queued) {
       const estimate = results.get(patent.document_id);
       estimate.lowSeconds += waitingLow;
       estimate.highSeconds += waitingHigh;
-      estimate.queueAhead = ahead++;
+      estimate.queueAhead = Number.isInteger(patent.queue_ahead) ? patent.queue_ahead : ahead;
+      ahead++;
       estimate.recalculating ||= blocked;
       waitingLow = estimate.lowSeconds;
       waitingHigh = estimate.highSeconds;

@@ -1,0 +1,436 @@
+{
+  "scope": "Audit of latest located v6 seed-only run and its saved-response revalidation; no new model calls or production changes. Coverage against inspected supplied evidence, not full PDF ground-truth accuracy.",
+  "run": {
+    "path": "/project_c20250601/252705034/SDA/try/agent_handoff/runs/49-Sructure-v6-seed-20261031/document/results/49-Sructure",
+    "state": "seed_ready",
+    "started_at_utc": "2026-10-30T16:31:10.897433+00:00",
+    "finished_at_utc": "2026-10-30T16:40:18.703753+00:00",
+    "reader_or_answer_executed": false
+  },
+  "original_dataset": {
+    "entities": 44,
+    "links": 16,
+    "observations": 181
+  },
+  "revalidated_dataset": {
+    "entities": 45,
+    "links": 18,
+    "experiments": 16,
+    "observations": 197,
+    "sequence_definitions": 0,
+    "complete_variable_pairs": 0,
+    "observations_without_experiment": 0
+  },
+  "raw_model_counts": {
+    "tables": 28,
+    "entities": 45,
+    "sequence_links": 89,
+    "assay_profiles": 16,
+    "unresolved": 13
+  },
+  "inspected_ab1_to_ab14_mapping_subset": {
+    "expected_links": 28,
+    "model_matches": 28,
+    "retained_matches": 14,
+    "retained_recall": 0.5,
+    "note": "VH is OCRed as Ví in all fourteen named paired-chain passages; semantic chain interpretation needs original-page review before any normalization fix. This is an inspected subset, not overall model precision.",
+    "checks": [
+      {
+        "entity": "AB-1",
+        "chain": "VH",
+        "seq_id": 4,
+        "source": "sequence:p0044-l0030:p0044-l0034",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-1",
+        "chain": "VL",
+        "seq_id": 20,
+        "source": "sequence:p0044-l0030:p0044-l0034",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-2",
+        "chain": "VH",
+        "seq_id": 5,
+        "source": "sequence:p0044-l0035:p0044-l0039",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-2",
+        "chain": "VL",
+        "seq_id": 21,
+        "source": "sequence:p0044-l0035:p0044-l0039",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-3",
+        "chain": "VH",
+        "seq_id": 6,
+        "source": "sequence:p0044-l0040:p0044-l0044",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-3",
+        "chain": "VL",
+        "seq_id": 20,
+        "source": "sequence:p0044-l0040:p0044-l0044",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-4",
+        "chain": "VH",
+        "seq_id": 7,
+        "source": "sequence:p0044-l0045:p0044-l0049",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-4",
+        "chain": "VL",
+        "seq_id": 22,
+        "source": "sequence:p0044-l0045:p0044-l0049",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-5",
+        "chain": "VH",
+        "seq_id": 8,
+        "source": "sequence:p0045-l0003:p0045-l0007",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-5",
+        "chain": "VL",
+        "seq_id": 23,
+        "source": "sequence:p0045-l0003:p0045-l0007",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-6",
+        "chain": "VH",
+        "seq_id": 9,
+        "source": "sequence:p0045-l0008:p0045-l0012",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-6",
+        "chain": "VL",
+        "seq_id": 24,
+        "source": "sequence:p0045-l0008:p0045-l0012",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-7",
+        "chain": "VH",
+        "seq_id": 10,
+        "source": "sequence:p0045-l0013:p0045-l0017",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-7",
+        "chain": "VL",
+        "seq_id": 25,
+        "source": "sequence:p0045-l0013:p0045-l0017",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-8",
+        "chain": "VH",
+        "seq_id": 11,
+        "source": "sequence:p0045-l0018:p0045-l0022",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-8",
+        "chain": "VL",
+        "seq_id": 20,
+        "source": "sequence:p0045-l0018:p0045-l0022",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-9",
+        "chain": "VH",
+        "seq_id": 12,
+        "source": "sequence:p0045-l0023:p0045-l0027",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-9",
+        "chain": "VL",
+        "seq_id": 20,
+        "source": "sequence:p0045-l0023:p0045-l0027",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-10",
+        "chain": "VH",
+        "seq_id": 13,
+        "source": "sequence:p0045-l0028:p0045-l0032",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-10",
+        "chain": "VL",
+        "seq_id": 26,
+        "source": "sequence:p0045-l0028:p0045-l0032",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-11",
+        "chain": "VH",
+        "seq_id": 14,
+        "source": "sequence:p0045-l0033:p0045-l0037",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-11",
+        "chain": "VL",
+        "seq_id": 27,
+        "source": "sequence:p0045-l0033:p0045-l0037",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-12",
+        "chain": "VH",
+        "seq_id": 15,
+        "source": "sequence:p0045-l0038:p0045-l0042",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-12",
+        "chain": "VL",
+        "seq_id": 28,
+        "source": "sequence:p0045-l0038:p0045-l0042",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-13",
+        "chain": "VH",
+        "seq_id": 16,
+        "source": "sequence:p0045-l0043:p0045-l0047",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-13",
+        "chain": "VL",
+        "seq_id": 29,
+        "source": "sequence:p0045-l0043:p0045-l0047",
+        "raw_model_matches": true,
+        "retained_matches": true
+      },
+      {
+        "entity": "AB-14",
+        "chain": "VH",
+        "seq_id": 17,
+        "source": "sequence:p0045-l0048:p0045-l0052",
+        "raw_model_matches": true,
+        "retained_matches": false
+      },
+      {
+        "entity": "AB-14",
+        "chain": "VL",
+        "seq_id": 30,
+        "source": "sequence:p0045-l0048:p0045-l0052",
+        "raw_model_matches": true,
+        "retained_matches": true
+      }
+    ]
+  },
+  "measurement_coverage": {
+    "existing_exported_rows": 197,
+    "dataset_rows": 197,
+    "adapter_literal_or_identity_exceptions": [],
+    "additional_inspected_numeric_cells": 24,
+    "additional_cells_present": 0,
+    "coverage_in_7_inspected_assay_tables": 0.8914027149321267,
+    "coverage_note": "Counts result cells, not confidence-interval bounds. Does not establish full-document recall, OCR accuracy, endpoint accuracy or correct condition assignment.",
+    "missing_cells": [
+      {
+        "ref": "p0208-r0001:R3C1",
+        "text": "0.03 (0.03 to 0.04)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R3C2",
+        "text": "0.03 (0.02 to 0.05)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R3C3",
+        "text": "0.06 (0.06 to 0.07)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R4C1",
+        "text": "0.09 (0.06 to 0.13)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R4C2",
+        "text": "0.10 (0.06 to 0.19)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R4C3",
+        "text": "0.14 (0.11 to 0.18)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R5C1",
+        "text": "0.15 (0.08 to 0.27)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R5C2",
+        "text": "0.18 (0.09 to 0.45)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R5C3",
+        "text": "0.23 (0.16 to 0.31)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R7C1",
+        "text": "0.04 (0.03 to 0.04)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R7C2",
+        "text": "0.04 (0.03 to 0.04)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R7C3",
+        "text": "0.06 (0.05 to 0.07)",
+        "endpoint_header": "$ EC_{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R8C1",
+        "text": "0.10 (0.07 to 0.13)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R8C2",
+        "text": "0.10 (0.08 to 0.14)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R8C3",
+        "text": "0.18 (0.13 to 0.24)",
+        "endpoint_header": "$ EC_{80} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R9C1",
+        "text": "0.17 (0.11 to 0.26)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R9C2",
+        "text": "0.19 (0.13 to 0.29)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0001:R9C3",
+        "text": "0.33 (0.22 to 0.50)",
+        "endpoint_header": "$ EC_{90} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R3C1",
+        "text": "0.02 (0.004 to 0.12)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R3C2",
+        "text": "0.03 (0.006 to 0.18)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R3C3",
+        "text": "0.17 (0.05 to 0.65)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R5C1",
+        "text": "0.03 (0.01 to 0.07)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R5C2",
+        "text": "0.04 (0.02 to 0.07)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      },
+      {
+        "ref": "p0208-r0002:R5C3",
+        "text": "0.14 (0.05 to 0.40)",
+        "endpoint_header": "IC $ _{50} $",
+        "present_in_dataset": false
+      }
+    ]
+  },
+  "donor_conditions": {
+    "table_id": "p0207-r0001",
+    "dataset_rows": 50,
+    "rows_with_donor_field": 0,
+    "note": "Donor column header references survive, but donor/condition fields are not explicitly materialized."
+  },
+  "input_bounds": {
+    "tables": 28,
+    "omitted_tables": 0,
+    "omitted_passages": 63
+  },
+  "provenance": {
+    "/project_c20250601/252705034/SDA/try/agent_handoff/runs/49-Sructure-v6-seed-20261031/document/results/49-Sructure/shared_seed/requests/0561e7538d59de531bd587f43e968acf46e535aa2de2638cf04db239338a1784-420d0e1ff0ad460884082f2552d35c31/input.json": "911cce064cb905949721245b0c9ecd909d480a4e8ce8ca0ee62722d4a7692c42",
+    "/project_c20250601/252705034/SDA/try/agent_handoff/runs/49-Sructure-v6-seed-20261031/document/results/49-Sructure/shared_seed/requests/0561e7538d59de531bd587f43e968acf46e535aa2de2638cf04db239338a1784-420d0e1ff0ad460884082f2552d35c31/attempt-c017c5e14922/answer.json": "306ca0832854177a9602f8bca6dc71cd01520d282c5fc780a8ceeb5c5dd38429",
+    "/project_c20250601/252705034/SDA/try/agent_handoff/runs/49-Sructure-v6-seed-20261031/document/results/49-Sructure/revalidated-v2/revalidation.json": "f5cb9d293812062b6b59b6f0f2c49fab7dd58cfb5e1e3883663e8f96ea3ea09f",
+    "/project_c20250601/252705034/SDA/try/agent_handoff/runs/49-Sructure-v6-seed-20261031/document/results/49-Sructure/revalidated-v2/dataset1.json": "ea5f89686f94657d91ef2d8bffac698f7d138fe907c6b932d6c2a152b4a37abb"
+  }
+}

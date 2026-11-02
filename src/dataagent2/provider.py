@@ -34,6 +34,9 @@ def response_schema(stage, *, action_record_refs=False, payload=None):
     if stage == "action_accounting":
         from .action_accounting import SCHEMA_ACCOUNTING
         return SCHEMA_ACCOUNTING
+    if stage == "action_repair":
+        from .action_repair import repair_schema
+        return repair_schema(payload)
     if stage in {"action", "answer_action"}:
         if action_record_refs:
             from .action_record_refs import SCHEMA_ACTION_RECORD_REFS, record_reference_schema
@@ -96,7 +99,7 @@ def event_error(stdout):
 class Provider:
     def __init__(self, output, *, model="gpt-6.1-sol", effort="xhigh", timeout=600,
                  action_timeout=None, action_record_refs=None, action_effort=None, request_interval=0,
-                 answer_effort="medium"):
+                 answer_effort="medium", reuse_readers_from=None):
         self.output = Path(output)
         self.model, self.effort, self.timeout = model, effort, timeout
         # Complete-dataset output is much larger than one Reader's proposals.
@@ -107,6 +110,11 @@ class Provider:
         self.request_interval = max(0, request_interval)
         self.lock = threading.RLock()
         self.calls = []
+        self.reuse_readers_from = Path(reuse_readers_from).resolve() if reuse_readers_from else None
+        if self.reuse_readers_from is not None and not self.reuse_readers_from.is_dir():
+            raise ValueError("Reader reuse directory does not exist")
+        reuse_log = self.output / "reused_readers.jsonl"
+        self.reused_readers = [json.loads(x) for x in reuse_log.read_text().splitlines() if x.strip()] if reuse_log.is_file() else []
         log = self.output / "calls.jsonl"
         if log.is_file():
             self.calls = [json.loads(x) for x in log.read_text().splitlines() if x.strip()]
@@ -145,6 +153,7 @@ class Provider:
                 (c.get("usage") or {}).get("total_tokens") is None for c in unique.values()),
                 failed_requests=sum(c["status"] != "ok" for c in unique.values()),
                 model=self.model, effort=self.effort)
+            result["reused_reader_requests"] = len({r["key"] for r in self.reused_readers})
             result["by_stage"] = {}
             for stage in sorted({c["stage"] for c in unique.values()}):
                 rows = [c for c in unique.values() if c["stage"] == stage]
@@ -153,7 +162,7 @@ class Provider:
                 result["by_stage"][stage]["efforts"] = sorted({c.get("effort", self.effort) for c in rows})
                 result["by_stage"][stage].update(requests=len(rows), unknown_requests=sum(
                     (c.get("usage") or {}).get("total_tokens") is None for c in rows))
-            result["note"] = "Actual terminal usage; input includes cached input, output includes reasoning. Unknown attempts are not zero. Resume retains prior attempts; cache hits add no call."
+            result["note"] = "Actual terminal usage; input includes cached input, output includes reasoning. Unknown attempts are not zero. Resume retains prior attempts; cache hits add no call. Explicitly reused Readers are recorded separately, not counted as new model usage."
             return result
 
     def generate(self, stage, instructions, payload):
@@ -161,7 +170,7 @@ class Provider:
         if record_refs is None:
             record_refs = stage in {"action", "answer_action"} and "output_encoding" in payload
         schema = response_schema(stage, action_record_refs=record_refs, payload=payload)
-        effort = self.action_effort if stage in {"action", "answer_action", "action_accounting"} and self.action_effort else self.effort
+        effort = self.action_effort if stage in {"action", "answer_action", "action_accounting", "action_repair"} and self.action_effort else self.effort
         if stage == "answer" and payload.get("workflow_revision") and self.answer_effort:
             effort = self.answer_effort
         fingerprint = {"stage": stage, "instructions": instructions, "payload": payload,
@@ -173,6 +182,28 @@ class Provider:
             response = json.loads(saved.read_text())
             check_shape(response, schema)
             return response, {"key": key, "cache_hit": True}
+        if stage == "reader" and self.reuse_readers_from is not None:
+            prior = self.reuse_readers_from / "requests" / key
+            if (prior / "validated.json").is_file():
+                prior_input = json.loads((prior / "input.json").read_text())
+                # OCR metadata can have integer dict keys in memory; JSON
+                # stores those as strings. Compare the serialized fingerprint.
+                if digest(prior_input) != key:
+                    raise ValueError("Saved Reader request fingerprint does not match current evidence/settings")
+                response = json.loads((prior / "validated.json").read_text())
+                check_shape(response, schema)
+                # Copy only an exact Reader request; Action and Answers still
+                # run under current rules and perform all semantic checks.
+                with self.lock:
+                    write_json(folder / "input.json", fingerprint)
+                    write_json(folder / "schema.json", schema)
+                    write_json(saved, response)
+                    reuse = {"key": key, "source": str(prior), "response_hash": digest(response)}
+                    self.reused_readers.append(reuse)
+                    with (self.output / "reused_readers.jsonl").open("a", encoding="utf-8") as log:
+                        log.write(compact(reuse) + "\n")
+                    write_json(self.output / "token_usage.json", self.usage())
+                return response, {"key": key, "cache_hit": True, "reused_from": str(prior)}
         if SERVICE_STOP.is_set():
             raise RuntimeError("Model service circuit open after persistent rate/auth limit; resume this command later")
         folder.mkdir(parents=True, exist_ok=True)
@@ -224,6 +255,8 @@ class Provider:
                         "usage": event_usage(stdout), "started_at_unix": started_at_unix,
                         "seconds": round(time.monotonic() - started, 3),
                         "input_characters": len(prompt), "error": error, "audit_dir": str(run)}
+                if stage == "action_repair":
+                    call["parent_stage"] = payload.get("parent_stage", "action")
                 self.record(call)
             if error is None:
                 write_json(saved, response)

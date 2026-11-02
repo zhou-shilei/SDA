@@ -284,13 +284,15 @@ def export_sda_result(document_id, native_dir, output_dir, data_dir, usage):
             if entity.get(field.upper(), {}).get("sequence", {}).get("value") == sequence.get(field)}
         if validation and all(entity.get(chain, {}).get("sequence", {}).get("value") == (sequence.get(chain.lower()) or None)
                               for chain in ("VH", "VL")):
-            evaluation = {k: copy.deepcopy(validation[k]) for k in ("agent_review", "anarci_review", "esm2_review",
+            evaluation = {k: copy.deepcopy(validation[k]) for k in ("agent_review", "anarci_review", "esm2_review", "ophiuchus_review",
                 "overall_review_status", "pair_status", "sequence_sha256") if k in validation}
             # Full numbering remains in eval/ JSON; the UI uses regions and scores.
             for chain in evaluation.get("anarci_review", {}).get("chains", {}).values():
                 for domain in chain.get("domains", []):
                     domain.pop("numbering", None)
-            for chain in evaluation.get("esm2_review", {}).get("chains", {}).values():
+            for chain in [*evaluation.get("esm2_review", {}).get("chains", {}).values(),
+                          *evaluation.get("ophiuchus_review", {}).get("chains", {}).values()]:
+                chain.pop("source_hashes", None)
                 chain.pop("position_scores", None)  # Full profiles remain in eval/; show flagged sites in Studio.
             entity["sequence_evaluation"] = evaluation
     for decision in state.get("sequence_extraction", {}).get("decisions", []):

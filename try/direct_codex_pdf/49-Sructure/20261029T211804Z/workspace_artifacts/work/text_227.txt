@@ -1,0 +1,23 @@
+WO 2024/020591
+PCT/US2023/070790
+46.
+A polypeptide:
+wherein the polypeptide comprises an amino acid sequence that is assigned a score
+above a predetermined threshold by a computationally binding optimized (CBO)
+model upon scoring the amino acid sequence of the polypeptide.
+47.
+A polypeptide that binds human thymic stromal lymphopoietin (TSLP), wherein the
+polypeptide is designed by a method comprising:
+generating a polypeptide sequence with a CBO model;
+verifying the generated polypeptide sequence using the CBO model by:
+for each amino acid position of the polypeptide sequence, calculating a
+plurality of energy scores, the energy scores based on having substituted the
+amino acid at a given position in the polypeptide sequence with each of a
+plurality of different amino acids,
+adding each energy score calculated to an array,
+generating a normalized sum of the energy scores for each position,
+calculating a logarithm of each energy score calculated, and
+generating a score of the polypeptide sequence by summing the
+logarithms of each energy score calculated, the score representing a functional
+property of the polypeptide's ability to bind to human TSLP.
+226

@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+considers all replacement residues and their first and second order combinations, and sums
+those energies together.
+[00650] In some embodiments, the etab file is read with a read_etab function. Each line in
+the file having three items is unpacked and converted into an entry in a first hash table for
+first order combinations. Each line in the file having five items is unpacked and converted
+into an entry of a second hash table for second order combinations. The two hash tables are
+returned.
+[00651]The above steps and functions describe a “computationally binding optimized"
+(CBO) sequence, amino acid sequence, or polypeptide sequence. Such a sequence is a
+sequence that, when inputted into the above computationally binding optimizing script,
+returns a value of true. A person having ordinary skill in the art can recognize that the script
+can be implemented in other ways or with other series of steps. A person having ordinary
+skill in the art can also recognize that other functionally equivalent tables and constants can
+be used. However, the provided Python script, tables, and constants, when executed by a
+processor, are configured to output whether a given polypeptide sequence is a CBO sequence.
+Therefore, any sequence that, when run by the script, causes a Boolean “true" output is
+considered a CBO sequence. Any sequence that, when run by the script, causes a Boolean
+“false" output is considered excluded from the group of the CBO sequences. Thereby, in
+some embodiments, the script of Appendix A itself does not determine CBO sequences but is
+a tool to confirm whether a given sequence is a CBO sequence or not. When a CBO sequence
+is an amino acid sequence, the corresponding molecule having the amino acid sequence is
+referred to as a CBO polypeptide.
+[00652] In some embodiments, a similar script is able to return the calculated scores of a
+given or multiple sequences in addition to or separate from a Boolean value representing a
+threshold.
+[00653] In some embodiments, a similar script can return one or more generated sequences
+from the Potts model. To generate sequences, markov chain monte carlo [MCMC] sampling
+can be performed on the model. Then, the resulting samples can be reintegrated into the
+constant template. In some embodiments, a brute force method can be applied using the
+scoring functions.
+[00654] In view of the above, Table 10 illustrates the trimmed sequences (vlt, vht) for
+proteins AB-1 through AB-14, the concatenated/combined sequences (vhvlt), and the
+resulting Potts model scores when the above script was applied to them. The sequences for
+129

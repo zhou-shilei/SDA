@@ -1,0 +1,38 @@
+{
+  "signature": "c80d8b9f52f8677947d84203250c2b025d30e2cb47f189927c1f8a6740b77ff5",
+  "case": {
+    "item": "AB-2",
+    "page": 196,
+    "source_ref": "p0196-r0001:R4C2",
+    "crop_box_upright": [
+      697,
+      787,
+      2514,
+      842
+    ],
+    "geometry_precision": "ocr_row",
+    "id": "AB-2_line_1",
+    "kind": "sequence_line",
+    "line": 1,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-2_line_1.png",
+    "image_sha256": "802346c3041b36d7facdd3ae42c11d3cee52caff2cee20ae2e9327dcbf0ebc66",
+    "correction": "restore eight original pixel rows below old boundary, trim right whitespace",
+    "size": [
+      1817,
+      55
+    ]
+  },
+  "model": "PP-OCRv6",
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-2_line_1.png",
+      "page_index": null,
+      "rec_text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+      "rec_score": 0.9998216032981873
+    }
+  },
+  "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+  "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYD",
+  "seconds": 0.0195
+}

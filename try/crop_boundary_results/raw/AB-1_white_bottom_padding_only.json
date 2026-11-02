@@ -1,0 +1,28 @@
+{
+  "signature": "1dfa786c0e18272fb691c160db593105803f459573a6ffdfcd10477475da47c4",
+  "case": {
+    "id": "AB-1_white_bottom_padding_only",
+    "item": "AB-1",
+    "variant": "white_bottom_padding_only",
+    "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_white_bottom_padding_only.png",
+    "image_sha256": "4953ac4e382ea7d4998a744074d01439cf2c4a2a307301142a16ed682f2503f5",
+    "size": [
+      1815,
+      48
+    ]
+  },
+  "text": "MDIWGOGTMVTVSS",
+  "value": "MDIWGOGTMVTVSS",
+  "exact": false,
+  "edit_distance": 1,
+  "confidence": 0.9986686110496521,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_white_bottom_padding_only.png",
+      "page_index": null,
+      "rec_text": "MDIWGOGTMVTVSS",
+      "rec_score": 0.9986686110496521
+    }
+  },
+  "seconds": 0.0233
+}

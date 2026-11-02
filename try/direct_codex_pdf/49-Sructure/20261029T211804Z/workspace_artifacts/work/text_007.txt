@@ -1,0 +1,37 @@
+W02024/020591
+PCT/US2023/070790
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14).
+[0019] In some embodiments, a polypeptide comprises a HCDR1, a HCDR2 and a
+HCDR3, and a LCDR1, a LCDR2 and a LCDR3, of an antibody comprising a VH/VL
+combination selected from
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4).
+[0020] In some embodiments, a polypeptide comprises a paratope that has 100%
+sequence identity to a paratope of an antibody comprising a VH/VL combination selected
+from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4).
+[0021]
+The disclosure also provides, among other things, a polypeptide (e.g., an antibody
+or an antigen binding fragment thereof) that comprises a VH comprising SEQ ID NO:2
+wherein:
+X1 is not I;
+X₂ is not W;
+X3 is not D;
+X₄ is not S;
+X5 is not N;
+X6 is not K;
+X7 is not A;
+X8 is not A;
+X9 is not L;
+X10 is not V;
+X1 is not H,
+X12 is not A;
+6

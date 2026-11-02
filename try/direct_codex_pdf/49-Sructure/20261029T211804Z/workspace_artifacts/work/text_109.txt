@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+fusion protein described herein can be introduced and expressed in suitable host cell (e.g., E.
+coli), and the expressed fusion protein can be isolated/purified from the host cell (e.g., in
+inclusion bodies) using routine methods and readily available reagents. For example. DNA
+fragments coding for different protein sequences (e.g., a light-responsive domain, a
+heterologous peptide component) can be ligated together in-frame in accordance with
+conventional techniques. In another embodiment, the fusion gene can be synthesized by
+conventional techniques including automated DNA synthesizers. Alternatively, PCR
+amplification of nucleic acid fragments can be carried out using anchor primers that give rise
+to complementary overhangs between two consecutive nucleic acid fragments that can
+subsequently be annealed and re-amplified to generate a chimeric nucleic acid sequence (see
+Ausubel et al., Current Protocols in Molecular Biology, 1992).
+Nucleic Acids, Vectors, Host Cells
+[00530]The disclosure also provides, among other things, one or more polynucleotides
+(e.g., DNA, RNA, or analogs of either, e.g., optionally including one or more modified
+nucleotides; a polynucleotide may be linear or circular, e.g., a linear or circular RNA)
+encoding any one of the polypeptides or fusion proteins described herein. In some
+embodiments, a polypeptide or fusion protein disclosed herein is encoded by a single
+polynucleotide. In some embodiments, a polypeptide or fusion protein disclosed herein is
+encoded by multiple polynucleotides.
+[00531] In some embodiments, a polynucleotide comprises a nucleotide sequence that is
+codon-optimized for a chosen host cell.
+[00532] The disclosure also provides, among other things, a vector (e.g., an expression
+vector, including a viral-delivery vector) comprising any one or more of the polynucleotides
+disclosed herein.
+[00533] The term “expression vector" refers to a replicable nucleic acid from which one or
+more proteins can be expressed when the expression vector is transformed into a suitable
+expression host cell.
+[00534]In some embodiments, a vector (e.g., expression vector) further comprises an
+expression control polynucleotide sequence operably linked to the polynucleotide, a
+polynucleotide sequence encoding a selectable marker, or both. In some embodiments, an
+expression control polynucleotide sequence comprises a promoter sequence, an enhancer
+sequence, or both. In some embodiments, an expression control polynucleotide sequence
+108

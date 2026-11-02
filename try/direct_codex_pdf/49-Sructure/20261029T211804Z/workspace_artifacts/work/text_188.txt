@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+ELISA coating buffer. The plate was incubated overnight at 4°C and was washed thrice with
+150 μL ELISA Wash Buffer (1X PBS-Tween 0.5%) the next day. The plate was blocked with
+50 μL of ELISA assay diluent for one hour at 37°C and was washed three times with 150 μL
+of ELISA wash buffer. Serial dilutions of primary antibodies were pre-incubated with
+hTSLP-biotin cytokine in 50 μl of ELISA assay diluent for 30 minutes at 37°C, followed by
+addition to the ELISA plate. The ELISA plate was incubated for 1 hour at 37°C followed by
+washing three times with ELISA wash buffer. HRP-Streptavidin (Thermo Fisher Scientific)
+was diluted 1:2000 in ELISA assay diluent 50 μl was added to each well and incubated for 30
+minutes at 37°C followed by washing three times with ELISA wash buffer. The ELISA was
+developed by addition of 50 μL of TMB substrate (Thermo Fisher Scientific) and incubation
+for 2-3 minutes at room temperature (protected from light). The reaction was stopped with
+acidic stop solution (Thermo Fisher Scientific), and the absorbance was read at 450 nm
+wavelength using a standard plate reader. Percent inhibition of signal and ICso values were
+determined.
+[00775]FIGs. 6A-6B demonstrate the ability of anti-TSLP antibodies to block hTSLP
+from binding its receptor (TSLPR). A blocking ELISA was performed by coating an ELISA
+plate with hTSLPR overnight. The next day, serial dilutions of primary antibodies were pre-
+incubated with hTSLP-biotin cytokine for 30 minutes at 37°C, followed by addition to the
+ELISA plate. The ELISA plate was incubated for 1 hour at 37°C, followed by washing of the
+plate. To detect blocking of hTSLP cytokines from binding to the receptors, a detection HRP-
+Streptavidin was added to the plate and incubated for 30 minutes at 37°C, followed by
+washing of the plate. The ELISA was developed with TMB substrate, and the HRP enzymatic
+reaction was stopped with sulfuric acid solution. Percent inhibition of signal and ICso values
+were determined (Table 8)
+[00776]
+ Cynomolgus Monkey TSLP Blocking ELISA
+[00777]The human TSLP blocking ELISA assay protocol as described previously was
+used to determine the ability of primary antibodies to block cynomolgus TSLP cytokine from
+binding cynomolgus TSLPR. IC5o values for primary antibodies ability to block cynomolgus
+monkey TSLP and human TSLP from binding the TSLPR were compared.
+[00778] FIGs. 7A-7B demonstrate the ability of anti-TSLP antibodies to block cynoTSLP
+from binding its receptor (TSLPR). A blocking ELISA was performed by coating an ELISA
+plate with hTSLPR overnight. The next day, serial dilutions of primary antibodies were pre-
+187

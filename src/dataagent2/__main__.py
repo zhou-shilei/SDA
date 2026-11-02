@@ -15,6 +15,8 @@ def main():
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--native-dir", type=Path, help="Explicit original native run; requires one document")
+    parser.add_argument("--reuse-readers-from", type=Path,
+                        help="Reuse exact matching Reader requests from an earlier dataagent2 output; requires one document")
     parser.add_argument("--reference-result", type=Path)
     parser.add_argument("--model", default="gpt-6.1-sol")
     parser.add_argument("--effort", default="xhigh")
@@ -23,6 +25,8 @@ def main():
     parser.add_argument("--answer-effort", default="medium", help="Reasoning effort for focused gap answers")
     parser.add_argument("--answer-workers", type=int, default=4, help="Parallel Answers on one fixed Dataset2")
     parser.add_argument("--chunk-chars", type=int, default=24000)
+    parser.add_argument("--reader-source-format", choices=["rows", "grouped"], default="rows",
+                        help="Opt-in reversible source grouping; does not change seed or chunk membership")
     parser.add_argument("--workers", type=int, default=0,
                         help="Reader concurrency; 0 (default) starts all chunks together")
     parser.add_argument("--document-workers", type=int, default=1)
@@ -40,6 +44,8 @@ def main():
         parser.error("Reader workers/question budget/interval must be nonnegative; document workers/timeout must be positive")
     if args.native_dir and len(args.documents) != 1:
         parser.error("--native-dir requires exactly one document")
+    if args.reuse_readers_from and len(args.documents) != 1:
+        parser.error("--reuse-readers-from requires exactly one document")
     args.output.mkdir(parents=True, exist_ok=True)
 
     def execute(doc):
@@ -60,10 +66,11 @@ def main():
         output.mkdir(exist_ok=True)
         provider = Provider(output, model=args.model, effort=args.effort, timeout=args.timeout,
                             request_interval=args.request_interval, action_effort=args.action_effort,
-                            action_timeout=args.action_timeout, answer_effort=args.answer_effort)
+                            action_timeout=args.action_timeout, answer_effort=args.answer_effort,
+                            reuse_readers_from=args.reuse_readers_from)
         return run(data, provider, output, chunk_chars=args.chunk_chars, workers=args.workers,
                    max_questions=args.max_questions, question_chars=args.question_chars, max_chunks=args.max_chunks,
-                   answer_workers=args.answer_workers)
+                   answer_workers=args.answer_workers, reader_source_format=args.reader_source_format)
 
     reports, errors = [], {}
     with ThreadPoolExecutor(max_workers=args.document_workers) as pool:

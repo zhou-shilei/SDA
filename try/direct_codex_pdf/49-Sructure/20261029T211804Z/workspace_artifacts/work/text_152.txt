@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+score and second-order energy score can be calculated based on corresponding entries of a
+trained first- and second- order energy score table of outputted weights of a model trained by
+a plurality of known amino acid sequences and corresponding properties of the known amino
+acid sequences.
+[00726]In some embodiments, the computer-implemented method includes returning,
+based on the score, a flag indicating whether the sequence has the functional property
+associated with the polypeptide.
+[00727]In some embodiments, the functional property is one or more of:
+a)
+a binding affinity for a thymic stromal lymphopoietin (TSLP) polypeptide
+characterized by a KD of 10 pM or less (optionally, as measured by KinExA);
+b)
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP;
+c)
+a neutralizing activity against the TSLP (optionally, a full-length human
+TSLP); or
+d)
+an inhibitory activity against TSLP-mediated signaling,
+e)
+or a combination of the foregoing
+[00728]In some embodiments, a system includes a processor and a memory with
+computer code instructions stored thereon. The processor and the memory, with the computer
+code instructions, are configured to cause the system to score a polypeptide comprising an
+amino acid sequence with a CBO model for a functional property relating to modulating the
+activity of a target molecule. The CBO model, for each amino acid position of the amino acid
+sequence of the polypeptide, calculates multiple energy scores, the multiple energy scores
+based on the amino acid at a given position in the amino acid sequence. The CBO model
+further adds each energy score calculated to an array. The CBO model further generates a
+normalized sum of the energy scores for each position. The CBO model further generates a
+score of the polypeptide by summing each energy score calculated, the score representing a
+functional property of the polypeptide.
+[00729] In some embodiments, the instructions are further configured to cause the system
+to calculate a logarithm of each energy score calculated
+[00730] In some embodiments, summing each energy score calculated is performed by
+summing the logarithms of each energy score calculated.
+151

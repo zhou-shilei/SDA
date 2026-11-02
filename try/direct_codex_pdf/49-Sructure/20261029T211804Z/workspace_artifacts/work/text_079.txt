@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+X₂1 is W or Y;
+X22 is D or V;
+X23 is S;
+X24 is S or A;
+X25 is S;
+X26 is D, S or R;
+X27 is H or L,
+or any combination of the foregoing
+[00361] In some embodiments:
+X15 is Y;
+X16 is I;
+X17 is S;
+X18 is F;
+X19 is S;
+X20 is I;
+X₂1 is Y;
+X₂2 is V;
+X23 is S;
+X24 is A;
+X25 is S;
+X26 is S or R;
+X27 is L,
+or any combination of the foregoing
+[00362] In some embodiments, X15 is not N. In some embodiments, X1s is N or Y. In some
+embodiments, X1s is Y. In some embodiments, X15 is N.
+[00363] In some embodiments, X16 is not L. In some embodiments, X16 is L or I. In some
+embodiments, X16 is I. In some embodiments, X16 is L.
+[00364] In some embodiments, X17 is S.
+[00365] In some embodiments, X18 is not K. In some embodiments, X18 is K or F. In some
+embodiments, X18 is F. In some embodiments, X18 is K.
+[00366] In some embodiments, X19 is S.
+[00367] In some embodiments, X2o is not V. In some embodiments, X2o is V or I. In some
+embodiments, X2o is I. In some embodiments, X2o is V.
+78

@@ -1,0 +1,32 @@
+{
+  "signature": "e64abeca77035c1254770b5e5fc8f292e5c479a6fdd0b1cedc292a899f09f7a2",
+  "case": {
+    "item": "AB-1",
+    "page": 196,
+    "source_ref": "p0196-r0001:R3C2",
+    "crop_box_upright": [
+      699,
+      710,
+      2514,
+      750
+    ],
+    "geometry_precision": "ocr_row",
+    "id": "AB-1_line_3",
+    "kind": "sequence_line",
+    "line": 3,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-1_p196_line_3.png",
+    "image_sha256": "8c4f88cb925bd15c0b325d8f4df76d2fbeaeddadf3bb52165be1c68ecbae05d3"
+  },
+  "text": "MDIWGOGTMVTVSS",
+  "confidence": 0.9843448996543884,
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-1_p196_line_3.png",
+      "page_index": null,
+      "rec_text": "MDIWGOGTMVTVSS",
+      "rec_score": 0.9843448996543884
+    }
+  },
+  "seconds": 0.0309
+}

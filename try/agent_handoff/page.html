@@ -13,18 +13,18 @@
   <main>
     <section class="intro"><div><p class="eyebrow">DATASETAGENT · PIPELINE EXPLORER</p><h1>沿着流程，看清数据如何交接</h1><p id="subtitle"></p></div><div id="metrics" class="metrics"></div></section>
     <nav id="snapshot-links" class="prompt-tools" aria-label="快照版本与效果对照"></nav>
-    <aside class="version-notice" aria-label="流程与样例版本"><strong>当前流程 · Template → 并行 Reader → ActionAgent → Dataset</strong><p id="run-version-message">Template 生成初始 Dataset1；各 Reader 独立提出建议；ActionAgent 跨块综合并返回完整数据集，经程序校验后检查缺口。真实调用记录保留历史版本。</p><small id="contract-updated-at"></small></aside>
+    <aside class="version-notice" aria-label="流程与样例版本"><strong>当前流程 · Template → 并行 Reader → Action① → 并行 Answer → Action②</strong><p id="run-version-message">Template 生成 Dataset1；Reader 并行提出建议；Action① 输出完整 Dataset2 与域复核缺口。Answer 共享固定底稿并行补证，Action② 汇总有效建议后输出完整 Dataset3；无新建议时跳过调用。</p><small id="contract-updated-at"></small></aside>
     <section id="overview-view">
       <div class="flow-heading"><div><p class="flow-eyebrow">THE EVIDENCE PIPELINE</p><h2>从 PDF 到有证据的数据集</h2><p>顺着主线阅读，移入节点追踪关联，点击查看真实输入与 Prompt。</p></div><div class="flow-legend"><span class="legend-model">LLM Agent</span><span class="legend-program">Python 程序</span><span class="legend-data">结构化数据</span></div></div>
       <div class="input-scope-summary"><article><strong>两路 OCR → 程序对齐坐标</strong><p>PDF OCR 提供全文和文字行框；TableOCR 提供表格行列。截图像素、工作页和原 PDF 之间保留转换。</p></article><article><strong>TemplateAgent → 初级 Dataset1</strong><p>只读取表格、匹配表题和结构信息。正文留在主机来源库，后续交给 Reader。</p></article><article><strong>Dataset1 + C1 / C2 / Cn → Reader</strong><p>同一份完整底稿独立并行读取。ActionAgent 综合全部建议，程序校验后继续定向补全。</p></article></div>
-      <nav id="flow-shortcuts" class="prompt-tools" aria-label="流程重点"><button data-flow-stage="evidence">查看两路 OCR 如何对齐</button><button data-flow-stage="provenance">查看实际原位追溯</button><button data-flow-stage="consolidation">查看 ActionAgent 综合</button><button data-flow-stage="review">查看待复核数据</button></nav>
+      <nav id="flow-shortcuts" class="prompt-tools" aria-label="流程重点"><button data-flow-stage="evidence">查看两路 OCR 如何对齐</button><button data-flow-stage="provenance">查看实际原位追溯</button><button data-flow-stage="consolidation">查看 Action① 域复核</button><button data-flow-stage="answer">查看并行 Answer</button><button data-flow-stage="action">查看 Action② 与实际状态</button><button data-flow-stage="review">查看待复核数据</button></nav>
       <div class="graph-toolbar"><div><span class="graph-status-dot" aria-hidden="true"></span><strong>流程视图</strong><span id="graph-view-note">主流程突出显示，辅助证据线淡显</span></div><div class="graph-mode-switch" role="group" aria-label="连线显示方式"><button data-graph-mode="main" aria-pressed="true">主流程</button><button data-graph-mode="evidence" aria-pressed="false">证据定位</button><button data-graph-mode="all" aria-pressed="false">全部连线</button></div></div>
       <div class="flow-scroll"><div class="flow-canvas" id="flow-canvas" data-view-mode="main">
         <div class="graph-lane graph-lane-a" aria-hidden="true"></div><div class="graph-lane graph-lane-b" aria-hidden="true"></div><div class="graph-lane graph-lane-c" aria-hidden="true"></div><div class="graph-lane graph-lane-d" aria-hidden="true"></div>
         <div class="lane-title lane-a"><span>01</span><strong>定位与原始证据</strong><small>两路 OCR 并行 · 程序对齐坐标</small></div>
         <div class="lane-title lane-b"><span>02</span><strong>表格初始化</strong><small>表格与表题 → Template → 初始底稿</small></div>
         <div class="lane-title lane-c"><span>03</span><strong>并行阅读与全局综合</strong><small id="flow-reader-count"></small></div>
-        <div class="lane-title lane-d"><span>04</span><strong>补全与证据回查</strong><small id="flow-question-count"></small></div>
+        <div class="lane-title lane-d"><span>04</span><strong>并行补证与二次综合</strong><small id="flow-question-count"></small></div>
         <svg id="flow-wires" viewBox="0 0 1680 1470" preserveAspectRatio="none" aria-hidden="true"></svg>
 
       </div></div>
@@ -74,7 +74,7 @@
     <div class="workspace" id="calls-view" hidden>
       <aside class="sidebar">
         <div class="sidebar-head"><h2>调用记录</h2><span id="call-count"></span></div>
-        <label class="sr-only" for="stage-filter">调用阶段</label><select id="stage-filter"><option value="all">全部阶段</option><option value="vision">原图序列复核</option><option value="template">表格 → Template</option><option value="reader">Template → Reader</option><option value="action">Reader → ActionAgent</option><option value="answer">Question → Answer</option></select>
+        <label class="sr-only" for="stage-filter">调用阶段</label><select id="stage-filter"><option value="all">全部阶段</option><option value="vision">原图序列复核</option><option value="template">表格 → Template</option><option value="reader">Template → Reader</option><option value="action">Reader → Action①</option><option value="answer">缺口 → 并行 Answer</option><option value="answer_action">Answer → Action②</option></select>
         <label class="sr-only" for="call-filter">筛选调用</label><input id="call-filter" placeholder="搜索 c1 / q… / 实体名称" type="search">
         <nav id="calls" aria-label="选择 Agent 调用"></nav>
       </aside>

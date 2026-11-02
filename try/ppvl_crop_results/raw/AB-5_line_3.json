@@ -1,0 +1,64 @@
+{
+  "signature": "e4b1f62727a1f999beb2c849f5853cf375fab8512a06935cda86711ac0bf712b",
+  "case": {
+    "item": "AB-5",
+    "page": 196,
+    "source_ref": "p0196-r0001:R7C2",
+    "crop_box_upright": [
+      697,
+      1522,
+      2514,
+      1562
+    ],
+    "geometry_precision": "ocr_row",
+    "id": "AB-5_line_3",
+    "kind": "sequence_line",
+    "line": 3,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-5_p196_line_3.png",
+    "image_sha256": "1c91d7dc4790480fd9c6996f0f3710f6134b7dbd9a39ebd6bbbaa083935c1a9c"
+  },
+  "text": "MDIWGQGTMVTVSS",
+  "seconds": 0.502,
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-5_p196_line_3.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 1817,
+    "height": 40,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "ocr",
+        "block_content": "MDIWGQGTMVTVSS",
+        "block_bbox": [
+          0,
+          0,
+          1817,
+          40
+        ],
+        "block_id": 0,
+        "block_order": 1,
+        "group_id": 0
+      }
+    ]
+  }
+}

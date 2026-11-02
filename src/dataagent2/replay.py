@@ -7,7 +7,7 @@ from pathlib import Path
 from .contracts import ANSWER_INSTRUCTIONS, INSTRUCTIONS, SCHEMA, check_shape
 from .inputs import discover, load_input, read, source_row
 from .ledger import Ledger
-from .pipeline import READER_INPUT_REVISION, compare_reference, initial_dataset, question_tasks, reader_payload
+from .pipeline import READER_INPUT_REVISION, compare_reference, initial_dataset, question_tasks, reader_request
 from .provider import Provider, digest, write_json
 from .action_agent import (ACTION_INSTRUCTIONS, REVISION as ACTION_REVISION, build_action_payload,
                            business_dataset, validate_action_result)
@@ -97,14 +97,25 @@ def replay(output, *, finalize=False):
         settings.update(followup_revision=REVISION, focused_answer_instructions=FOCUSED_ANSWER_INSTRUCTIONS,
             answer_action_instructions=ANSWER_ACTION_INSTRUCTIONS, answer_effort=manifest["answer_effort"],
             question_chars=manifest["question_chars"], max_questions=manifest["max_questions"])
+    source_format = manifest.get("reader_source_format", "rows")
+    from .source_transport import FORMATS, REVISION as SOURCE_REVISION, instructions as source_instructions
+    if source_format not in FORMATS:
+        raise ValueError("Unknown saved Reader source format")
+    if source_format != "rows":
+        if manifest.get("reader_source_revision") != SOURCE_REVISION:
+            raise ValueError("Reader source encoding changed")
+        settings.update(reader_source_format=source_format, reader_source_revision=SOURCE_REVISION,
+                        reader_source_instructions=source_instructions(INSTRUCTIONS, source_format))
     signature = digest(settings)
     if signature != manifest["signature"]:
         raise ValueError("Original inputs/settings changed; replay would mix experiments")
     ledger, completed, completed_responses = Ledger(data), [], {}
     for chunk in manifest["chunks"]:
+        payload, instructions = reader_request(data, chunk, source_format)
         fingerprint = {"stage": "reader", "instructions": INSTRUCTIONS,
-            "payload": reader_payload(data, chunk), "schema": SCHEMA,
+            "payload": payload, "schema": SCHEMA,
             "model": manifest["model"], "effort": manifest["effort"]}
+        fingerprint["instructions"] = instructions
         response = read(output / "requests" / digest(fingerprint) / "validated.json")
         if response is not None:
             check_shape(response)

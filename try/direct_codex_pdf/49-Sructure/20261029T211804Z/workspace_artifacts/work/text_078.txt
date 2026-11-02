@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+[00348] In some embodiments, X3 is not D. In some embodiments, X₃ is D or S. In some
+embodiments, X3 is S. In some embodiments, X3 is D.
+[00349] In some embodiments, X₄ is not S. In some embodiments, X₄ is S or T. In some
+embodiments, X₄ is T. In some embodiments, X₄ is S.
+[00350] In some embodiments, X5 is not N. In some embodiments, X5 is N, Y or D. In
+some embodiments, X5 is Y or D. In some embodiments, X5 is Y. In some embodiments, Xs
+is D. In some embodiments, X5 is N.
+[00351] In some embodiments, X₆ is not K. In some embodiments, X₆ is K or T. In some
+embodiments, X₆ is T. In some embodiments, X₆ is K.
+[00352] In some embodiments, X7 is not A. In some embodiments, X7 is A or S. In some
+embodiments, X7 is S. In some embodiments, X7 is A.
+[00353] In some embodiments, Xs is not A. In some embodiments, Xs is A or S. In some
+embodiments, Xs is S. In some embodiments, Xs is A.
+[00354] In some embodiments, X9 is not L. In some embodiments, X9 is L, D, E or S. In
+some embodiments, X9 is D, E or S. In some embodiments, X9 is D. In some embodiments,
+X9 is E. In some embodiments, X9 is S. In some embodiments, X9 is L.
+[00355] In some embodiments, X1o is not V. In some embodiments, X₁o is V or I. In some
+embodiments, X10 is I. In some embodiments, X10 is V.
+[00356] In some embodiments, X1 is not H. In some embodiments, X11 is H or F. In some
+embodiments, X₁1 is F. In some embodiments, X11 is H.
+[00357] In some embodiments, X1₂ is not A. In some embodiments, X₁₂ is A or S. In some
+embodiments, X12 is S. In some embodiments, X12 is A.
+[00358] In some embodiments, X13 is not F. In some embodiments, X13 is F or M. In some
+embodiments, X13 is M. In some embodiments, X13 is F.
+[00359] In some embodiments, X1₄ is not I. In some embodiments, X1₄ is I or V. In some
+embodiments, X₁₄ is V. In some embodiments, X1₄ is I.
+[00360] In some embodiments:
+X15 is N or Y;
+X16 is L or I;
+X17 is S;
+X18 is K or F;
+X19 is S;
+X20 is V or I;
+77

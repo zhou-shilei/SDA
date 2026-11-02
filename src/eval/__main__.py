@@ -14,11 +14,14 @@ def main():
     parser.add_argument("--anarci-python", type=Path)
     parser.add_argument("--esm2-python", type=Path)
     parser.add_argument("--esm2-model", type=Path)
+    parser.add_argument("--ophiuchus-python", type=Path)
+    parser.add_argument("--ophiuchus-source", type=Path)
+    parser.add_argument("--ophiuchus-model", type=Path)
     parser.add_argument("--device")
     parser.add_argument("--batch-size", type=int)
     args = parser.parse_args()
     config = EvaluationConfig.from_env()
-    for key in ("anarci_python", "esm2_python", "esm2_model", "device", "batch_size"):
+    for key in ("anarci_python", "esm2_python", "esm2_model", "ophiuchus_python", "ophiuchus_source", "ophiuchus_model", "device", "batch_size"):
         if getattr(args, key) is not None:
             setattr(config, key, getattr(args, key))
     source = args.input / "resolved_sequences.json" if args.input.is_dir() else args.input

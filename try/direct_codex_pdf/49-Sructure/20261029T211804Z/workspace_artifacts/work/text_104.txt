@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+1.2-1.5 pM. In some embodiments, a polypeptide binds to a TSLP protein (e.g., SEQ ID
+NO:1) with a KD of 2 pM or less.
+[00499] In some embodiments, a polypeptide binds to a TSLP protein (e.g., SEQ ID NO:1)
+with a KD of about: 2.0 pM, 1.9 pM, 1.8 pM, 1.7 pM, 1.6 pM, 1.5 pM, 1.4 pM, 1.3 pM, 1.2
+pM, 1.1 pM, 1.0 pM, 0.9 pM, 0.8 pM, 0.7 pM, 0.6 pM, 0.5 pM, 0.4 pM, 0.3 pM, 0.2 pM or
+0.1 pM, or 1ess; or about: 0.1-2.0 pM, 0.2-2.0 pM, 0.2-1.9 pM, 0.3-1.9 pM, 0.3-1.8 pM, 0.4-
+1.8 pM, 0.4-1.7 pM, 0.5-1.7 pM, 0.5-1.6 pM, 0.6-1.6 pM, 0.6-1.5 pM, 0.7-1.5 pM, 0.7-1.4
+pM, 0.8-1.4 pM, 0.8-1.3 pM, 0.9-1.3 pM, 1.0-1.3 pM, 1.0-1.2 pM or 1.1-1.2 pM. In some
+embodiments, a polypeptide binds TSLP with a KD of about 1 pM or less.
+[00500] In some embodiments, a polypeptide binds to AB-loop region and C-terminal
+region of helix D of a TSLP protein
+[00501] In some embodiments, a polypeptide binds to an epitope in a TSLP protein (e.g., a
+full-1ength human TSLP).
+[00502] In some embodiments, a polypeptide competes with the Reference Antibody for
+binding to a TSLP protein (e.g., SEQ ID NO: 1). Techniques and assays for assessing
+competition between antibodies are known in the art.
+[00503] In some embodiments, a polypeptide reduces binding of a TSLP protein (e.g., a
+full-length TSLP protein such as SEQ ID NO:1) to its receptor TSLPR (alone or in a
+heterodimeric complex with the IL-7Rα). In some embodiments, a polypeptide reduces
+binding of a TSLP protein to a TSLPR with an IC50 of about 500 pM or less, e.g., about: 450
+pM, 400 pM, 350 pM, 300 pM, 250 pM, 200 pM, 150 pM, 100 pM, 50 pM, 20 pM, 10 pM, 5
+pM, 2 pM, 1 pM, 0.5 pM, 0.2 pM or 0.1 pM or less; or about: 0.1-500 pM, 0.1-450 pM, 0.2-
+450 pM, 0.2-400 pM, 0.5-400 pM, 0.5-350 pM, 1-350 pM, 1-300 pM, 2-300 pM, 2-250 pM,
+5-250 pM, 5-200 pM, 10-200 pM, 10-150 pM, 20-150 pM, 20-100 pM or 50-100 pM.
+[00504] In some embodiments, a polypeptide reduces binding of a TSLP protein (e.g., a
+full-length TSLP protein such as SEQ ID NO:1) to TSLPR by at least about 10%, e.g., by at
+1east about: 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%,
+85%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99%. In some embodiments, a
+polypeptide reduces binding of a TSLP protein (e.g., a full-length TSLP protein such as SEQ
+ID NO:1) to TSLPR by at least about 30%.
+[00505] In some embodiments, a polypeptide modulates (e.g., reduces, inhibits,
+neutralizes) against a TSLP-mediated biological activity.
+103

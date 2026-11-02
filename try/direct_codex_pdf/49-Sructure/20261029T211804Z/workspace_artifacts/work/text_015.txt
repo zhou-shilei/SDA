@@ -1,0 +1,37 @@
+W0 2024/020591
+PCT/US2023/070790
+DETAILED DESCRIPTION
+[0066]
+A description of example embodiments follows.
+[0067]
+Several aspects of the disclosure are described below, with reference to examples
+for illustrative purposes only. It should be understood that numerous specific details,
+relationships, and methods are set forth to provide a full understanding of the disclosure. One
+having ordinary skill in the relevant art, however, will readily recognize that the disclosure
+can be practiced without one or more of the specific details or practiced with other methods,
+protocols, reagents, cell lines and animals. The disclosure is not limited by the illustrated
+ordering of acts or events, as some acts may occur in different orders and/or concurrently
+with other acts or events. Furthermore, not all illustrated acts, steps or events are required to
+implement a methodology in accordance with the disclosure. Many of the techniques and
+procedures described, or referenced herein, are well understood and commonly employed
+using conventional methodology by those skilled in the art.
+Deinitions
+[0068] Unless otherwise defined, all terms of art, notations and other scientific terms or
+terminology used herein are intended to have the meanings commonly understood by those of
+skill in the art to which this disclosure pertains. In some cases, terms with commonly
+understood meanings are defined herein for clarity and/or for ready reference, and the
+inclusion of such definitions herein should not necessarily be construed to represent a
+substantial difference over what is generally understood in the art. It will be further
+understood that terms, such as those defined in commonly-used dictionaries, should be
+interpreted as having a meaning that is consistent with their meaning in the context of the
+relevant art and/or as otherwise defined herein.
+[0069]The terminology used herein is for the purpose of describing particular
+embodiments only and is not intended to be limiting.
+[0070]When introducing elements disclosed herein, the articles “a,"“an,"“the," and
+“said" are intended to mean that there are one or more of the elements. Further, the one or
+more elements may be the same or different. For example, unless the context clearly indicates
+otherwise, “a polypeptide" includes a single polypeptide, and two or more polypeptides.
+[0071]Throughout this specification and the claims which follow, unless the context
+requires otherwise, the term “comprise," and variations such as “comprises" and
+"comprising", will be understood to imply the inclusion of, e.g., a stated integer or step or
+14

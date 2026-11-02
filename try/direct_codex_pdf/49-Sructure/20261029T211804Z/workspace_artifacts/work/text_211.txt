@@ -1,0 +1,29 @@
+WO 2024/020591
+PCT/US2023/070790
+'GLN': 'Q',
+'ARG': 'R',
+'SER': 'S',
+'THR': 'T',
+'VAL': 'V',
+'TRP': 'W',
+'TYR': 'Y',
+-:4}
+def read_etab(etab_file:str) -> (dict,dict):
+"load an etab file and produce two hash tables'"
+h = dict()
+j = dict()
+with open(etab_file,'r') as file:
+for line in file:
+items = line.replace('\n',").split(' ')
+if len(items) == 3:
+#Unpack
+i1, r1, v = items
+#Transform
+i1 = int(i1[1:])
+r1 = tripleToSingle[r1]
+v = float(v)
+#Create New Entry in the hash table
+h[(i1,r1)] = v
+elif len(items) == 5:
+#Unpack
+210

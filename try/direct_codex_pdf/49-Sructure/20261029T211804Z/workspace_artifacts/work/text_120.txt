@@ -1,0 +1,48 @@
+WO 2024/020591
+PCT/US2023/070790
+[00588] In some embodiments, reducing (e.g., inhibiting) binding of TSLP to TSLPR in a
+cell comprises contacting the cell an effective amount of a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-
+2b).
+[00589] In some embodiments, reducing (e.g., inhibiting) binding of TSLP to TSLPR in a
+cell comprises contacting the cell an effective amount of a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:92; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-2a).
+[00590] The disclosure also provides, among other things, a method of inhibiting TSLP-
+induced signaling in a cell, comprising contacting the cell an effective amount of any one of
+the polypeptides or fusion proteins disclosed herein.
+[00591] In some embodiments, inhibiting TSLP-induced signaling in a cell comprises
+contacting the cell an effective amount of a polypeptide comprising:
+a)
+a VH comprising a HCDR1, a HCDR2 and a HCDR3 amino acid sequences of
+SEQ ID NO:5; and
+b)
+a VL comprising a LCDR1, a LCDR2 and a LCDR3 amino acid sequences of
+SEQ ID NO:21 (AB-2)
+[00592] In some embodiments, inhibiting TSLP-induced signaling in a cell comprises
+contacting the cell an effective amount of a polypeptide comprising:
+a)
+a VH comprising the amino acid sequence of SEQ ID NO:5, and
+b)
+a VL comprising the amino acid sequence of SEQ ID NO:21 (AB-2).
+[00593] In some embodiments, inhibiting TSLP-induced signaling in a cell comprises
+contacting the cell an effective amount of a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:106; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:120 (AB-
+2b).
+[00594] In some embodiments, inhibiting TSLP-induced signaling in a cell comprises
+contacting the cell an effective amount of a polypeptide comprising:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:92; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 120 (AB-2a).
+[00595] In some embodiments, a cell is selected from the group consisting of an airway
+smooth muscle cell (ASMC), a basophil, a dendritic cell, an eosinophil, a Group 2 innate
+119

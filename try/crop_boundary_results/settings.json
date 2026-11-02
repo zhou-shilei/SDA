@@ -1,0 +1,6 @@
+{
+  "model": "PP-OCRv6_medium_rec",
+  "weights_sha256": "1b01c79a914587933f615569e75de54f2e638ebb5d3f3b3c1b38c24ede8c7319",
+  "device": "gpu:0",
+  "batch_size": 1
+}

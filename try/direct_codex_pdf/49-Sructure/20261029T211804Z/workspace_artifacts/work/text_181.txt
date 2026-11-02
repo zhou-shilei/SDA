@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+SEQ ID NO: 11 and SEQ ID NO:20 (AB-8);
+SEQ ID NO: 12 and SEQ ID NO:20 (AB-9);
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10):
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO: 16 and SEQ ID NO:29 (AB-13); or
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14).
+121.The polypeptide of any of Embodiments 111-120, wherein the polypeptide comprises
+a Ví and VL pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1):
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3):
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+SEQ ID NO: 11 and SEQ ID NO:20 (AB-8);
+SEQ ID NO: 12 and SEQ ID NO:20 (AB-9);
+SEQ ID NO: 13 and SEQ ID NO:26 (AB-10)
+SEQ ID NO: 14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14).
+The polypeptide of any of Embodiments 111-121, wherein the polypeptide does not
+comprise a Ví and VL pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3):
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4):
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+180
+RECTIFIED SHEET (RULE 91)

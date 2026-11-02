@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+within an acceptable standard deviation, per the practice in the art. Alternatively, “about" can
+mean a range of ± 20%, e.g., ± 10%, ± 5% or ± 1% of a given value. It is to be understood
+that the term “about" can precede any particular value specified herein, except for particular
+values used in the Exemplification. When “about" precedes a range, as in "90-99.9%," the
+term “about" should be read as applying to both given values of the range, such that “about
+90-99.9%"means about 90% repeats to about 99.9%.
+[0078]As used herein, the term “polypeptide" refers to a polymer of at least two amino
+acids covalently linked by an amide bond, regardless of length or post-translational
+modification (e.g., glycosylation or phosphorylation). A polypeptide can comprise any
+suitable L-and/or D-amino acid, for example, common α-amino acids (e.g., alanine, glycine,
+valine), non-α-amino acids (e.g., β-alanine, 4-aminobutyric acid, 6-aminocaproic acid,
+sarcosine, statine), and unusual amino acids (e.g., citrulline, homocitruline, homoserine,
+norleucine, norvaline, ornithine). The amino, carboxyl, and/or other functional groups on a
+polypeptide can be free (e.g., unmodified) or protected with a suitable protecting group.
+Suitable protecting groups for amino and carboxyl groups, and methods for adding or
+removing protecting groups are known in the art and are disclosed in, for example, Green and
+Wuts, "Protecting Groups in Organic Synthesis, " John Wiley and Sons, 1991. The functional
+groups of a polypeptide can also be derivatized (e.g., alkylated) or labeled (e.g., with a
+detectable label, such as a fluorogen or a hapten) using methods known in the art. A
+polypeptide can comprise one or more modifications (e.g., amino acid linkers, acylation,
+acetylation, amidation, methylation, terminal modifiers (e.g., cyclizing modifications), N-
+methyl-α-amino group substitution), if desired. In addition, a polypeptide can be an analog of
+a known and/or naturally-occurring peptide, for example, a peptide analog having
+conservative amino acid residue substitution(s).
+[0079] As used herein, a “polynucleotide" is defined as a plurality of nucleotides and/or
+nucleotide analogs linked together in a single molecule. In some embodiments, a
+polynucleotide disclosed herein comprises deoxyribonucleotides. In some embodiments, the
+polynucleotide comprises ribonucleotides. Non-limiting examples of polynucleotides include
+single-, double- or multi-stranded DNA or RNA, DNA-RNA hybrids (e.g., each "T" position
+may be independently substituted by a “U" or vice versa), or a polymer comprising purine
+and pyrimidine bases, or other natural, chemically, or biochemically modified, non-natural, or
+derivatized nucleotide bases. The backbone of the polynucleotide can comprise sugars and
+16

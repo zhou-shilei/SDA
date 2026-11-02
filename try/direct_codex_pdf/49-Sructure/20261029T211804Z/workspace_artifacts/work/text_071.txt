@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+X12 is A or S;
+X13 is F, M or L
+X14 is I or V,
+or any combination of the foregoing
+[00311] In some embodiments:
+X1 is V;
+X₂ is S;
+X3 is S;
+X₄ is T, Y or A;
+X5 is Y, D or T;
+X6 is T or I;
+X7 is S or T;
+X8 is S;
+X9 is D, E or S;
+X10 is I;
+X11 is F or Y;
+X12 is S;
+X13 is M or L;
+X14 is V,
+or any combination of the foregoing
+[00312] In some embodiments, X₁ is not I. In some embodiments, X1 is I or V. In some
+embodiments, X₁ is V. In some embodiments, X1 is I.
+[00313] In some embodiments, X₂ is not W. In some embodiments, X₂ is W or S. In some
+embodiments, X₂ is S. In some embodiments, X₂ is W.
+[00314] In some embodiments, X3 is not D. In some embodiments, X₃ is D or S. In some
+embodiments, X₃ is S. In some embodiments, X₃ is D.
+[00315] In some embodiments, X₄ is not S. In some embodiments, X₄ is S, T, Y or A. In
+some embodiments, X₄ is T, Y or A. In some embodiments, X₄ is T. In some embodiments,
+X4 is Y. In some embodiments, X₄ is A. In some embodiments, X4 is S
+[00316] In some embodiments, X5 is not N. In some embodiments, X5 is N, Y, D or T. In
+some embodiments, Xs is Y, D or T. In some embodiments, X5 is Y. In some embodiments
+X5 is D. In some embodiments, Xs is T. In some embodiments, X5 is N.
+70

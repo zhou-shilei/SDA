@@ -19,14 +19,16 @@ from typing import Any
 AA = set("ACDEFGHIKLMNPQRSTVWY")
 
 
-def site_threshold(chain: str) -> tuple[float | None, str]:
-    if os.environ.get("DATASETAGENT_ESM2_SITE_SCREEN_ENABLED", "1").lower() in {"0", "false", "off", "no"}:
+def site_threshold(chain: str, tool: str = "ESM2") -> tuple[float | None, str]:
+    if os.environ.get(f"DATASETAGENT_{tool}_SITE_SCREEN_ENABLED", "1").lower() in {"0", "false", "off", "no"}:
         return None, "disabled"
-    value = os.environ.get(f"DATASETAGENT_ESM2_{chain}_SITE_MAX_PPL",
-                           os.environ.get("DATASETAGENT_ESM2_SITE_MAX_PPL"))
+    value = os.environ.get(f"DATASETAGENT_{tool}_{chain}_SITE_MAX_PPL",
+                           os.environ.get(f"DATASETAGENT_{tool}_SITE_MAX_PPL"))
+    if value is None and tool != "ESM2":
+        return None, "unconfigured"
     threshold = float(value) if value is not None else 1000.0
     if not math.isfinite(threshold) or threshold <= 1:
-        raise ValueError("ESM-2 site perplexity threshold must be finite and greater than 1")
+        raise ValueError(f"{tool} site perplexity threshold must be finite and greater than 1")
     return threshold, "configured" if value is not None else "default_screening"
 
 
@@ -38,12 +40,12 @@ def position_score(position: int, residue: str, log_probability: float) -> dict:
         "pseudo_perplexity": math.exp(-log_probability) if -log_probability < 709 else None}
 
 
-def review_thresholds() -> dict[str, dict[str, float] | None]:
+def review_thresholds(tool: str = "ESM2") -> dict[str, dict[str, float] | None]:
     """Load independently configurable VH/VL decision thresholds."""
 
     thresholds = {}
     for chain in ("VH", "VL"):
-        prefix = f"DATASETAGENT_ESM2_{chain}"
+        prefix = f"DATASETAGENT_{tool}_{chain}"
         passed, failed = os.environ.get(f"{prefix}_PASS_PLL"), os.environ.get(f"{prefix}_FAIL_PLL")
         if passed is None and failed is None:
             thresholds[chain] = None
@@ -53,7 +55,7 @@ def review_thresholds() -> dict[str, dict[str, float] | None]:
         passed, failed = float(passed), float(failed)
         if not math.isfinite(passed) or not math.isfinite(failed) or failed >= passed:
             raise ValueError(
-                f"{chain} ESM-2 fail threshold must be lower than pass threshold"
+                f"{chain} {tool} fail threshold must be lower than pass threshold"
             )
         thresholds[chain] = {"pass": passed, "fail": failed}
     return thresholds
@@ -64,9 +66,11 @@ def classify_chain(
     sequence: str,
     metrics: dict[str, float] | None,
     thresholds: dict[str, dict[str, float]],
+    *, tool: str = "ESM2",
 ) -> dict[str, Any]:
     """Turn one chain's score into the three review states used by the UI."""
 
+    label = "ESM-2" if tool == "ESM2" else "Ophiuchus-Ab"
     normalized = "".join(str(sequence).split()).upper()
     invalid = sorted(set(normalized) - AA)
     decision = thresholds[chain]
@@ -87,7 +91,7 @@ def classify_chain(
             "status": "manual_review",
             "length": len(normalized),
             "thresholds": decision,
-            "message": f"{chain} did not receive an ESM-2 score.",
+            "message": f"{chain} did not receive a {label} score.",
         }
 
     mean_pll = float(metrics["mean_pll"])
@@ -108,7 +112,7 @@ def classify_chain(
     if complete and (len(positions) != len(normalized) or not math.isclose(min(p["log_probability"] for p in positions), minimum, abs_tol=1e-6)
                      or not math.isclose(sum(p["log_probability"] for p in positions) / len(positions), mean_pll, abs_tol=1e-6)):
         raise ValueError("ESM-2 position scores are incomplete or inconsistent with chain metrics")
-    maximum, threshold_source = site_threshold(chain)
+    maximum, threshold_source = site_threshold(chain, tool)
     flagged = [p for p in positions if maximum is not None and p["log_probability"] <= -math.log(maximum)]
     site_failure = maximum is not None and minimum <= -math.log(maximum)
     status = (
@@ -119,12 +123,12 @@ def classify_chain(
         else "manual_review"
     )
     message = {
-        "passed": f"{chain} ESM-2 score meets the configured pass threshold.",
-        "error": f"{chain} ESM-2 score is below the configured failure threshold.",
-        "manual_review": f"{chain} ESM-2 score falls in the manual-review interval.",
+        "passed": f"{chain} {label} score meets the configured pass threshold.",
+        "error": f"{chain} {label} score is below the configured failure threshold.",
+        "manual_review": f"{chain} {label} score falls in the manual-review interval.",
     }[status]
     if decision is None:
-        message = f"{chain} ESM-2 score computed; pass/fail thresholds have not been configured."
+        message = f"{chain} {label} score computed; pass/fail thresholds have not been configured."
     if site_failure:
         status = "error"
         locations = ", ".join(f"{p['position']}{p['residue']}" for p in flagged)

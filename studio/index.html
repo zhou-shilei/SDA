@@ -8,7 +8,7 @@
       content="SeqDataAgent"
     />
     <title>SeqDataAgent</title>
-    <link rel="stylesheet" href="./styles.css?v=20261027-agent-strategy-v2" />
+    <link rel="stylesheet" href="./styles.css?v=20261102-onboarding" />
   </head>
   <body>
     <div id="app" class="app-shell" aria-busy="true">
@@ -22,8 +22,12 @@
           <button type="button" class="active" data-app-page="dataset" data-i18n="nav.dataset">数据集</button>
           <button type="button" data-app-page="intake" data-i18n="nav.intake">数据录入</button>
           <button type="button" data-app-page="review" data-i18n="nav.review">数据审阅</button>
+          <button type="button" data-app-page="queue" data-i18n="nav.queue">任务队列</button>
         </nav>
         <div class="topbar-actions">
+          <button id="onboarding-start" class="button onboarding-launcher" type="button" aria-haspopup="dialog">
+            <span aria-hidden="true">?</span><span id="onboarding-start-label">新手引导</span>
+          </button>
           <a id="run-overview-link" class="button" href="./run.html">运行概览</a>
           <button id="reviewer-identity-button" class="button reviewer-identity-button" type="button"
             title="修改当前人工审核人" data-i18n-title="reviewer.change">
@@ -72,7 +76,8 @@
                 <col style="width: 170px" /><col style="width: 220px" />
                 <col style="width: 280px" /><col style="width: 280px" />
                 <col style="width: 95px" /><col style="width: 116px" />
-                <col style="width: 250px" /><col style="width: 320px" />
+                <col style="width: 300px" data-min-width="180" data-previous-default-width="250" />
+                <col style="width: 480px" data-min-width="240" data-previous-default-width="320" />
                 <col style="width: 180px" /><col style="width: 150px" />
                 <col style="width: 88px" />
               </colgroup>
@@ -150,27 +155,30 @@
 
       <section id="intake-page" class="app-page intake-page" aria-label="数据录入" data-i18n-aria-label="intake.aria" hidden>
         <article class="page-card patent-list-panel">
-          <div class="page-card-header">
-            <div class="page-card-title">
-              <h2 data-i18n="intake.collectionTitle">专利收集情况</h2>
-              <span id="patent-count" class="count-pill">0 篇专利</span>
+          <div class="patent-list-heading">
+            <div class="page-card-header">
+              <div class="page-card-title">
+                <h2 data-i18n="intake.collectionTitle">专利收集情况</h2>
+                <span id="patent-count" class="count-pill">0 篇专利</span>
+              </div>
+              <div class="patent-list-actions">
+                <span id="patent-selection-count" class="page-card-description" aria-live="polite" data-i18n="intake.noneSelected">未选择专利</span>
+                <button id="delete-selected-patents" class="button button-ghost-danger table-export-button" type="button" disabled>
+                  <span data-i18n="intake.deleteSelected">删除所选</span>
+                </button>
+                <button id="patent-export-button" class="button button-primary table-export-button" type="button">
+                  <span aria-hidden="true">⇩</span>
+                  <span data-i18n="action.exportPatents">导出专利列表</span>
+                </button>
+              </div>
             </div>
-            <div class="patent-list-actions">
-              <span id="patent-selection-count" class="page-card-description" aria-live="polite" data-i18n="intake.noneSelected">未选择专利</span>
-              <button id="delete-selected-patents" class="button button-ghost-danger table-export-button" type="button" disabled>
-                <span data-i18n="intake.deleteSelected">删除所选</span>
-              </button>
-              <button id="patent-export-button" class="button button-primary table-export-button" type="button">
-                <span aria-hidden="true">⇩</span>
-                <span data-i18n="action.exportPatents">导出专利列表</span>
-              </button>
-            </div>
+            <p id="queue-summary" class="queue-summary" role="status" aria-live="polite"></p>
+            <div id="intake-processing-queue"></div>
           </div>
           <div class="patent-table-wrap">
             <table class="patent-table" data-resizable-table="patents">
               <colgroup>
                 <col style="width: 44px" /><col style="width: 280px" />
-                <col style="width: 172px" />
                 <col style="width: 120px" /><col style="width: 104px" />
                 <col style="width: 132px" /><col style="width: 140px" />
                 <col style="width: 140px" />
@@ -182,7 +190,6 @@
                 <tr>
                   <th class="patent-select-column"><input id="select-all-patents" type="checkbox" aria-label="选择全部可删除专利" data-i18n-aria-label="intake.selectAll" /></th>
                   <th data-i18n="field.patentName">专利号</th>
-                  <th data-i18n="field.agentStrategy">Agent 策略</th>
                   <th class="number-column" data-i18n="field.collectedCount">已收集条数</th>
                   <th class="number-column" data-i18n="field.pdfPages">PDF 页数</th>
                   <th class="number-column" data-i18n="field.processingTime">处理用时</th>
@@ -197,6 +204,7 @@
               <tbody id="patent-rows"></tbody>
             </table>
           </div>
+          <div id="intake-import-host">
           <form id="patent-import-form" class="patent-import-form">
             <input id="patent-name-input" type="hidden" />
             <button id="pdf-drop-zone" class="pdf-drop-zone" type="button">
@@ -206,20 +214,26 @@
                 <small id="selected-pdf-name" data-i18n="intake.choosePdf">点击选择或拖入 PDF</small>
               </span>
             </button>
-            <input id="patent-pdf-input" class="sr-only" type="file" accept="application/pdf,.pdf" />
-            <label class="import-engine-label" for="patent-engine-select">
-              <span data-i18n="intake.engine">解析引擎</span>
-              <select id="patent-engine-select" name="extraction_engine">
-                <option value="dataagent1" data-i18n="intake.engine1">dataagent1 · 多轮检索</option>
-                <option value="dataagent2" data-i18n="intake.engine2">dataagent2 · 分块提取</option>
-              </select>
-            </label>
+            <input id="patent-pdf-input" class="sr-only" type="file" accept="application/pdf,.pdf" multiple />
             <button id="start-agent-button" class="button button-primary import-submit" type="submit" disabled>
               <span aria-hidden="true">▶</span>
-              <span data-i18n="intake.startAgent">导入 PDF 并开始解析</span>
+              <span data-i18n="intake.startAgent">提交 PDF 并加入队列</span>
             </button>
           </form>
+          </div>
         </article>
+      </section>
+
+      <section id="queue-page" class="app-page queue-page" aria-label="团队任务队列" data-i18n-aria-label="nav.queue" hidden>
+        <article class="page-card queue-import-card">
+          <div class="page-card-header"><div>
+            <h2 data-i18n="queue.importTitle">PDF 解析任务</h2>
+            <p class="page-card-description" data-i18n="queue.importHint">选择或拖入 PDF 后，点击“开始解析”加入共享队列，按顺序处理。</p>
+          </div></div>
+          <div id="queue-import-host"></div>
+          <div id="queue-processing-host"></div>
+        </article>
+        <div id="queue-content"></div>
       </section>
 
       <main id="review-page" class="app-page studio-main" hidden>
@@ -228,6 +242,7 @@
             <div class="section-heading">
               <h2 id="dataset-title">SDA</h2>
               <span id="record-count" class="count-pill">0 条记录</span>
+              <button id="review-task-status" class="button count-pill" type="button">任务队列</button>
               <label class="dataset-publish-target">
                 <span data-i18n="datasetPage.publishTarget">推送到</span>
                 <select id="review-dataset-select" aria-label="目标数据集文件夹" data-i18n-aria-label="datasetPage.publishTargetAria"></select>
@@ -287,8 +302,9 @@
                 <col style="width: 42px" /><col style="width: 48px" />
                 <col style="width: 210px" /><col style="width: 245px" />
                 <col style="width: 245px" /><col style="width: 95px" />
-                <col style="width: 116px" /><col style="width: 250px" />
-                <col style="width: 320px" /><col style="width: 180px" />
+                <col style="width: 116px" />
+                <col style="width: 300px" data-min-width="180" data-previous-default-width="250" />
+                <col style="width: 480px" data-min-width="240" data-previous-default-width="320" /><col style="width: 180px" />
                 <col style="width: 150px" /><col style="width: 88px" />
               </colgroup>
               <thead>
@@ -589,6 +605,27 @@
         </form>
       </dialog>
     </div>
-    <script type="module" src="./app.js?v=20261027-agent-strategy-v2"></script>
+    <dialog id="onboarding-dialog" class="onboarding-dialog" aria-labelledby="onboarding-title" aria-describedby="onboarding-description">
+      <svg class="onboarding-mask" aria-hidden="true"><path fill-rule="evenodd"></path></svg>
+      <div class="onboarding-highlight" aria-hidden="true"></div>
+      <section class="onboarding-card">
+        <div class="onboarding-heading">
+          <span id="onboarding-step" class="onboarding-step" role="status" aria-live="polite"></span>
+          <button id="onboarding-close" class="onboarding-close" type="button" aria-label="关闭新手引导">×</button>
+        </div>
+        <h2 id="onboarding-title"></h2>
+        <p id="onboarding-description"></p>
+        <div class="onboarding-progress" aria-hidden="true"></div>
+        <div class="onboarding-actions">
+          <button id="onboarding-skip" class="onboarding-skip" type="button">跳过引导</button>
+          <div>
+            <button id="onboarding-back" class="button button-secondary" type="button">上一步</button>
+            <button id="onboarding-next" class="button button-primary" type="button">下一步</button>
+          </div>
+        </div>
+        <p class="onboarding-keyboard"></p>
+      </section>
+    </dialog>
+    <script type="module" src="./app.js?v=20261102-onboarding-sequence"></script>
   </body>
 </html>

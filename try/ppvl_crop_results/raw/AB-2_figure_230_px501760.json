@@ -1,0 +1,64 @@
+{
+  "signature": "43454455b4e08f8156db40bf004445252bfa923bef6999a0fb9edbe150fc1b64",
+  "case": {
+    "id": "AB-2_figure_230_px501760",
+    "kind": "figure_sequence",
+    "item": "AB-2",
+    "page": 230,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-2_p230_sequence.png",
+    "crop_box_upright": [
+      359,
+      296,
+      2811,
+      371
+    ],
+    "row_selection": "ink_projection_plus_reviewed_row_order",
+    "min_pixels": 501760,
+    "max_pixels": 1003520,
+    "image_sha256": "fecb877bd23d4bfab0b46f12b293de195189311702c70ba4616931eabc585f76"
+  },
+  "text": "FTI TRDNSKNTLNLQMNSLRAEDTAVYYC $ \\underline{\\text{ARSPQWEEFIFEAMDI}} $WGQGTMVTVSS",
+  "seconds": 1.551,
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/try/ppvl_crop_results/images/AB-2_p230_sequence.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2452,
+    "height": 75,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "ocr",
+        "block_content": "FTI TRDNSKNTLNLQMNSLRAEDTAVYYC $ \\underline{\\text{ARSPQWEEFIFEAMDI}} $WGQGTMVTVSS",
+        "block_bbox": [
+          0,
+          0,
+          2452,
+          75
+        ],
+        "block_id": 0,
+        "block_order": 1,
+        "group_id": 0
+      }
+    ]
+  }
+}

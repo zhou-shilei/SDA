@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+Chemokine Ligand 8 (CXCL8), CXCL1 and chemokine (C-C motif) ligand 2 (CCL2));
+basophil differentiation; production of T2 cytokines by mast cells; production of chemokine
+CXCL8 and/or CCL1 by mast cells; and macrophage differentiation (e.g., via enhancing
+CD80 activation marker expression).
+[00513] In some embodiments, a polypeptide reduces a T2 inflammatory response
+mediated by one or more innate immune mechanisms of action of TSLP by at least about
+10%, e.g., by at 1east about: 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%,
+70%, 75%, 80%, 85%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99%. In some
+embodiments, a polypeptide reduces a T2 inflammatory response mediated by one or more
+innate immune mechanisms of action of TSLP by at least about 30%.
+[00514] In some embodiments, a polypeptide reduces a T2 inflammatory response
+mediated by one or more adaptive immune mechanisms of action of TSLP.
+[00515]Non-limiting examples of said T2 inflammatory responses include increased
+expression of major histocompatibility complex class II in dendritic cells; increased
+expression of one or more co-stimulatory molecules (e.g., CD40, CD86, CD54, CD90, CD83
+and/or CD-LAMP) in dendritic cells; increased expression of one or more chemokines (e.g.,
+CXCL8, CCL24, CCL17, CCL22 and CCL1) in dendritic cells; increased expression of
+OX40 ligand (OX40 L); naive T-cell differentiation and/or polarization (e.g., differentiation
+of naive CD4+ T cells into TNF-α+IL-10⁻ T helper (Th) 2 cells); proliferation and/or
+differentiation of naive CD4⁺ T cells into Th2 cells or memory T cells; and increased
+expansion of CD8⁺ T cells upon TCR stimulation.
+[00516] In some embodiments, a polypeptide reduces a T2 inflammatory response
+mediated by an adaptive immune mechanism of action of TSLP by at least about 10%, e.g.,
+by at 1east about: 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%,
+80%, 85%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99%. In some
+embodiments, a polypeptide reduces a T2 inflammatory response mediated by an adaptive
+immune mechanism of action of TSLP by at least about 30%.
+[00517] In some embodiments, a polypeptide has a lower poly-specificity for a non-
+specific target (e.g., DNA) than the Reference Antibody. A DNA polyspecificity reagent
+(PSR) score is a measure of antibody binding to a non-specific DNA target. A DNA PSR
+score is calculated by dividing an ELISA or DELFIA score by a background score of a
+secondary antibody alone. A lower DNA PSR score, indicative of a lower poly-specific
+binding activity, is preferred for a polypeptide of the invention.
+105

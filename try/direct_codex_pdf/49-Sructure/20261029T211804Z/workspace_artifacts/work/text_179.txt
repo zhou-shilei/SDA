@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+returning, based on the score, a flag indicating whether the sequence has the
+functional property associated with the polypeptide.
+110. The system of any of Embodiments 99-109, wherein the functional property is at least
+one of:
+a binding affinity for a thymic stromal lymphopoietin (TSLP) polypeptide
+characterized by a KD of 10 pM or less; (optionally, as measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP polypeptide;
+a neutralizing activity against the TSLP polypeptide (optionally, a full-length
+human TSLP); or
+an inhibitory activity against TSLP-mediated signaling,
+or a combination of the foregoing.
+111. A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP):
+wherein the polypeptide comprises an amino acid sequence that is assigned a
+score above a predetermined threshold by a computationally binding optimized
+(CBO) model upon scoring the amino acid sequence of the polypeptide.
+112.
+The polypeptide of Embodiment 111, wherein the CBO model is calculated by a table
+substantially similar to that of Computer Program Listing Appendix B.
+113.
+The polypeptide of Embodiments 111-112, wherein the polypeptide is assigned the
+score that is calculated using the Computer Program Listing Appendix B.
+114.
+The polypeptide of any of Embodiments 111-113, wherein the polypeptide is assigned
+the score by a script substantially similar to Computer Program Listing Appendix A,
+the script employing the CBO model substantially similar to the table of Computer
+Program Listing Appendix B, wherein the polypeptide has a logarithmic score of
+about: -7.7, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, 2.9, -2.8, -2.7, -2.6, -2.5, -
+2.4, -2.3, -2.2, -2.1, -2.0, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1.0, 0.9, -0.8,
+-0.7, -0.6, -0.5, -0.4, -0.3, -0.2, and -0.1.
+115. The polypeptide of any of Embodiments 111-114, wherein the polypeptide is scorable
+by the script of Computer Program Listing Appendix A.
+178
+RECTIFIED SHEET (RULE 91)

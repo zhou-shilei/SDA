@@ -20,6 +20,8 @@ from .timing import PhaseTimings
 from .action_agent import ACTION_INSTRUCTIONS, REVISION as ACTION_REVISION, run_action_agent
 from .followup import (REVISION as FOLLOWUP_REVISION, ANSWER_INSTRUCTIONS as FOCUSED_ANSWER_INSTRUCTIONS,
                        ANSWER_ACTION_INSTRUCTIONS, run_followup)
+from .source_transport import (FORMATS as SOURCE_FORMATS, REVISION as SOURCE_REVISION,
+                               encode_payload, instructions as source_instructions)
 
 
 READER_INPUT_REVISION = 2
@@ -54,6 +56,11 @@ def reader_payload(data, chunk):
     if status := source_ocr_status(data["sources"], ids):
         payload["source_sequence_ocr"] = status
     return payload
+
+
+def reader_request(data, chunk, source_format="rows"):
+    """Model wire input; canonical payload stays available to old runs and audits."""
+    return encode_payload(reader_payload(data, chunk), source_format), source_instructions(INSTRUCTIONS, source_format)
 
 
 def question_tasks(dataset, data):
@@ -193,7 +200,9 @@ def compare_reference(dataset, reference):
 
 
 def run(data, provider, output, *, chunk_chars=24000, workers=None, max_questions=8, question_chars=8000,
-        max_chunks=None, answer_workers=4):
+        max_chunks=None, answer_workers=4, reader_source_format="rows"):
+    if reader_source_format not in SOURCE_FORMATS:
+        raise ValueError("Unknown Reader source format")
     if answer_workers < 1 or question_chars < 1 or (max_questions is not None and max_questions < 0):
         raise ValueError("Invalid Answer concurrency, evidence budget or question limit")
     if workers is not None and workers < 0:
@@ -208,7 +217,7 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
         # One worker per scheduled chunk by default; do not inherit executor or
         # legacy sequence-agent concurrency caps. Explicit positive limits opt in.
         workers = workers or max(1, len(scheduled))
-        signature = digest({"input": data["signature"], "instructions": INSTRUCTIONS,
+        settings = {"input": data["signature"], "instructions": INSTRUCTIONS,
                             "answer_instructions": ANSWER_INSTRUCTIONS, "chunk_chars": chunk_chars,
                             "model": provider.model, "effort": provider.effort, "chunking_revision": CHUNKING_REVISION,
                             "reader_input_revision": READER_INPUT_REVISION,
@@ -218,7 +227,11 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
                             "focused_answer_instructions": FOCUSED_ANSWER_INSTRUCTIONS,
                             "answer_action_instructions": ANSWER_ACTION_INSTRUCTIONS,
                             "answer_effort": getattr(provider, "answer_effort", None) or provider.effort,
-                            "question_chars": question_chars, "max_questions": max_questions})
+                            "question_chars": question_chars, "max_questions": max_questions}
+        if reader_source_format != "rows":
+            settings.update(reader_source_format=reader_source_format, reader_source_revision=SOURCE_REVISION,
+                            reader_source_instructions=source_instructions(INSTRUCTIONS, reader_source_format))
+        signature = digest(settings)
         existing = read(output / "manifest.json", {})
         if existing and existing.get("signature") != signature:
             raise ValueError("Output belongs to different inputs/settings; choose a fresh output directory")
@@ -227,6 +240,10 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
             "effort": provider.effort, "chunk_chars": chunk_chars, "chunks": chunks,
             "request_interval_seconds": getattr(provider, "request_interval", None), "answer_retrieval_revision": 5,
             "followup_revision": FOLLOWUP_REVISION, "answer_workers": answer_workers, "question_chars": question_chars,
+            "reader_source_format": reader_source_format,
+            "reader_source_revision": SOURCE_REVISION,
+            "reader_source_policy": ("Original seven-column source rows" if reader_source_format == "rows" else
+                                     "Lossless consecutive source grouping; same IDs, text, seed, chunks and evidence scope"),
             "answer_effort": getattr(provider, "answer_effort", None) or provider.effort,
             "followup_policy": "Action domain reviews -> parallel focused Answer proposals on fixed Dataset2 -> LLM Action -> complete Dataset3",
             "unique_sources": len(data["sources"]), "unique_source_text_characters": sum(len(s["text"]) for s in data["sources"].values()),
@@ -249,8 +266,8 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
         merge_index, merged_successes = 0, 0
 
     def read_chunk(chunk):
-        payload = reader_payload(data, chunk)
-        response, meta = provider.generate("reader", INSTRUCTIONS, payload)
+        payload, instructions = reader_request(data, chunk, reader_source_format)
+        response, meta = provider.generate("reader", instructions, payload)
         return response, meta
 
     print(f"{data['document_id']}: sources={len(data['sources'])} chunks={len(chunks)} scheduled={len(scheduled)}", flush=True)
@@ -313,7 +330,9 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
             try:
                 ledger, action_status = run_action_agent(data, chunks, completed, provider, output)
             except Exception as exc:
-                action_status = {"status": "failed", "revision": ACTION_REVISION, "error": str(exc)}
+                action_status = {"status": "failed", "revision": ACTION_REVISION, "error": str(exc),
+                                 "error_type": type(exc).__name__,
+                                 "validation_paths": getattr(exc, "paths", [])}
                 write_json(output / "action_agent.json", action_status)
             print("sda-dataagent2-progress " + compact({"phase": "action", "completed": int(action_status["status"] != "failed"), "total": 1}), flush=True)
         else:
@@ -360,7 +379,9 @@ def run(data, provider, output, *, chunk_chars=24000, workers=None, max_question
     complete_read = len(completed) == len(chunks) and not failed
     answer_failures = sum(a["status"] == "failed" for a in answers)
     complete_benchmark = complete_read and action_complete and followup_complete and not answer_failures
-    total = shared + usage["total_tokens"] if complete_benchmark else None
+    # A recovery reports its actual new usage, but cannot claim a full-run
+    # token reduction without the historical cost of imported Readers.
+    total = shared + usage["total_tokens"] if complete_benchmark and not usage.get("reused_reader_requests") else None
     old = data["baseline"]["total_tokens"]
     report = {"document_id": data["document_id"], "status": final["status"],
         "new_model_usage": usage, "reused_stage_historical_tokens": shared,

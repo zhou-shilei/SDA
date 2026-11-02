@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00555] In some embodiments, a subject is a mammal. In some embodiments, a subject is
+a mammal selected from the group consisting of a dog, a cat, a mouse, a rat, a hamster, a
+guinea pig, a horse, a pig, a sheep, a cow, a chimpanzee, a macaque, a cynomolgus, and a
+human. In some embodiments, a subject is a primate. In some embodiments, a subject is a
+human.
+[00556] In some embodiments, a subject is 18 years of age or older, for example, about:
+20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75 or 80 years of age or older. In some
+embodiments, a subject is 65 years of age or older. In some embodiments, a subject is about:
+18-80, 20-80, 20-75, 25-75, 25-70, 30-70, 30-65, 35-65, 35-60, 40-60, 40-55, 45-55 years of
+age. In some embodiments, a subject is about 18-65 years of age.
+[00557] In some embodiments, a subject is about 18 years of age or younger. In some
+embodiments, a subject is about: 16, 14, 12, 10, 8, 6, 4 or 2 years of age or older. In some
+embodiments, a subject is two years of age or older, for example, about: 2-18, 3-18, 3-16, 4-
+16, 4-14, 5-14, 5-12, 6-12, 6-10 or 8-10 years of age.
+[00558] In some embodiments, a subject is a pediatric patient. In some embodiments, a
+subject is a pediatric patient who is 12 years of age or older.
+[00559] In some embodiments, a subject has a blood eosinophil count of less than 150
+cells/μL. In some embodiments, a subject has a blood eosinophil count of 150 to less than
+300 cells/μL. In some embodiments, a subject has a blood eosinophil count of 300 cells/μL or
+above.
+[00560] In some embodiments, a subject has, or is suspected of having, a TSLP-associated
+disease or condition (e.g., a disease or condition associated with dysregulated TSLP
+expression such as overexpression of TSLP). In some embodiments, a subject has a TSLP-
+associated disease or condition. In some embodiments, a subject has been diagnosed with a
+TSLP-associated disease or condition. In other embodiments, a subject is at risk of
+developing a TSLP-associated disease or condition.
+[00561] Non-limiting examples of TSLP-associated diseases and/or conditions (e.g.,
+diseases and/or conditions associated with dysregulated TSLP expression) include asthma,
+AD, allergic conjunctivitis, chronic obstructive pulmonary disease (COPD), chronic
+spontaneous urticaria (CSU), nasal polyposis, rheumatoid arthritis (RA), rhinosinusitis (RS)
+(e.g., allergic rhinosinusitis, severe chronic rhinosinusitis (e.g., severe chronic rhinosinusitis
+with nasal polyposis)), cancer and food-hypersensitivity reactions. Non-limiting examples of
+TSLP-associated cancer (e.g., a cancer associated with dysregulated TSLP expression)
+113

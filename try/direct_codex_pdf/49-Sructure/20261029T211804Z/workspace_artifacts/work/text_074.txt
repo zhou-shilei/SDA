@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+X23 is M or E;
+X24 is A or T;
+X25 is D or E;
+X26 is S, R or F;
+X27 is L, K or E,
+or any combination of the foregoing
+[00330] In some embodiments, X15 is not N. In some embodiments, X15 is N or Y. In some
+embodiments, X15 is Y. In some embodiments, X15 is N.
+[00331] In some embodiments, X16 is not L. In some embodiments, X16 is L or I. In some
+embodiments, X16 is I. In some embodiments, X16 is L.
+[00332] In some embodiments, X17 is not S. In some embodiments, X17 is S or R. In some
+embodiments, X17 is R. In some embodiments, X17 is S.
+[00333] In some embodiments, X18 is not K. In some embodiments, X18 is K, F or Y. In
+some embodiments, X1s is F or Y. In some embodiments, X1s is F. In some embodiments, X1s
+is Y. In some embodiments, X1s is K
+[00334] In some embodiments, X19 is not S. In some embodiments, X19 is S or N. In some
+embodiments, X19 is N. In some embodiments, X19 is S.
+[00335] In some embodiments, X2o is not V. In some embodiments, X20 is V or I. In some
+embodiments. X20 is I. In some embodiments. X20 is V.
+[00336] In some embodiments, X₂1 is not W. In some embodiments, X₂1 is W or Y. In
+some embodiments, X₂1 is Y. In some embodiments, X₂1 is W.
+[00337] In some embodiments, X22 is not D. In some embodiments, X22 is D, V or S. In
+some embodiments, X22 is V or S. In some embodiments, X22 is V. In some embodiments,
+X₂2 is S. In some embodiments, X₂₂ is D.
+[00338] In some embodiments, X23 is not S. In some embodiments, X23 is S, M or E. In
+some embodiments, X23 is M or E. In some embodiments, X23 is M. In some embodiments,
+X23 is E. In some embodiments, X₂3 is S.
+[00339] In some embodiments, X₂4 is not S. In some embodiments, X₂4 is S, A or T. In
+some embodiments, X24 is A or T. In some embodiments, X2₄ is A. In some embodiments,
+X24 is T. In some embodiments, X₂4 is S
+[00340] In some embodiments, X₂5 is not S. In some embodiments, X₂5 is S, D or E. In
+some embodiments, X₂s is D or E. In some embodiments, X₂s is D. In some embodiments,
+X25 is E. In some embodiments, X₂5 is S.
+73

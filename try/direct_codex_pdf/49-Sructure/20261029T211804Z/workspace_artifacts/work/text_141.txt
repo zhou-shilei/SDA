@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+NO:11, SEQ ID NO:12, SEQ ID NO: 13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID NO:16 or
+SEQ ID NO:17, or a combination of the foregoing. For example, the VH can have at least
+about: 71%, 72%, 73%, 74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%
+86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence
+identity to the amino acid sequence of SEQ ID NO:4, SEQ ID NO:5, SEQ ID NO:6, SEQ ID
+NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO: 10, SEQ ID NO:11, SEQ ID NO:12, SEQ
+ID NO:13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID NO:16 or SEQ ID NO:17, or a
+combination of the foregoing. In some embodiments, the Ví has at least about 85% or at least
+about 90% sequence identity to the amino acid sequence of SEQ ID NO:4, SEQ ID NO:5,
+SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10, SEQ ID
+NO:11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID NO:16 or
+SEQ ID NO:17, or a combination of the foregoing.
+[00695] In some embodiments, the CBO polypeptide comprises a VH that comprises at
+1east 1 amino acid substitution relative to the amino acid sequence of SEQ ID NO:4, SEQ ID
+NO:5, SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO: 10, SEQ ID
+NO:11, SEQ ID NO:12, SEQ ID NO: 13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID NO:16 or
+SEQ ID NO: 17, or a combination of the foregoing. For example, the number of amino acid
+substitutions can be at least about: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 or
+20, or about: 1-20, 1-19, 2-19, 2-18, 2-17, 3-17, 3-16, 4-16, 4-15, 5-15, 5-14, 6-14, 6-13, 7-
+13, 7-12, 8-12, 8-11 or 9-11. In some embodiments, the VH comprises about 1-10 amino acid
+substitutions, relative to the amino acid sequence of SEQ ID NO:4, SEQ ID NO:5, SEQ ID
+NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10, SEQ ID NO:11, SEQ
+ID NO: 12, SEQ ID NO:13, SEQ ID NO: 14, SEQ ID NO:15, SEQ ID NO:16 or SEQ ID
+NO:17, or a combination of the foregoing. In certain embodiments, the at least 1 amino acid
+substitution replaces only a HCDR1, a HCDR2 and/or a HCDR3 residue, of SEQ ID NO:4,
+SEQ ID NO:5, SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10,
+SEQ ID NO:11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID
+NO:16 or SEQ ID NO:17, or a combination of the foregoing. In particular embodiments, the
+at least 1 amino acid substitution replaces only a non-CDR residue (e.g., within a framework
+region), of SEQ ID NO:4, SEQ ID NO:5, SEQ ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ
+ID NO:9, SEQ ID NO:10, SEQ ID NO:11, SEQ ID NO:12, SEQ ID NO: 13, SEQ ID NO:14,
+SEQ ID NO:15, SEQ ID NO:16 or SEQ ID NO:17, or a combination of the foregoing.
+140

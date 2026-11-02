@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+an antibody light chain (LC) comprising the amino acid sequence of SEQ ID
+NO:120,
+or both a) and b).
+[00622] In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain (HC) comprising the amino acid sequence of SEQ ID
+NO:106;
+b)
+an antibody light chain (LC) comprising the amino acid sequence of SEQ ID
+NO:120,
+or both a) and b).
+[00623] In some embodiments, a polypeptide specifically binds a TSLP.
+[00624] The disclosure also provides, among other things, a composition comprising one
+or more polypeptides disclosed in the section entitled "AB-2", and one or more
+pharmaceutical excipients, diluents, or carriers.
+[00625] In some embodiments, a composition further comprises one or more additional
+therapeutic agents. In some embodiments, one or more additional therapeutic agents comprise
+a corticosteroid, a beta-agonist, a muscarinic antagonist, an anti-inflammatory agent, an IL-4
+and/or IL-13 antagonist (e.g., an antibody or antigen-binding fragment thereof targeting IL-
+13, IL-4 or IL-4R), or a combination thereof.
+[00626] The disclosure also provides, among other things, a method of treating a subject in
+need thereof, comprising administering an effective amount of a composition disclosed in the
+section entitled“AB-2"
+[00627] In some embodiments, a subject has asthma, atopic dermatitis (AD), allergic
+conjunctivitis, chronic obstructive pulmonary disease (COPD), chronic spontaneous urticaria
+(CSU), rheumatoid arthritis (RA), rhinosinusitis (RS), eosinophilic esophagitis (EE), or a
+food-hypersensitivity reaction. In some embodiments, a subject has moderate asthma. In
+some embodiments, a subject has severe asthma. In some embodiments, a subject has COPD.
+In some embodiments, a subject has COPD and/or either moderate asthma or severe asthma.
+[00628] In some embodiments, a method further comprises administering to the subject an
+effective amount of a corticosteroid, a beta-agonist, a muscarinic antagonist, an anti-
+inflammatory agent, an IL-4 and/or IL-13 antagonist (e.g., an antibody or antigen-binding
+fragment thereof targeting IL-13, IL-4 or IL-4R), or a combination thereof.
+123

@@ -1,0 +1,34 @@
+W0 2024/020591
+PCT/US2023/070790
+ImmunoResearch Laboratories, Inc.) was added to wells at a 1:5000 dilution in 1x ELISA
+assay diluent. Secondary antibody was added to detect binding of the primary antibody to the
+antigen. The plate was incubated for 30 minutes at room temperature with the secondary
+detection antibody, then the plates were washed three times with ELISA wash buffer and
+developed with TMB substrate solution (Invitrogen, Waltham, MA). The HRP enzymatic
+reaction was stopped after about 1 minute with acidic stop solution (Invitrogen), and the
+absorbance at 450 nm on a Biotek plate reader.
+[00792]The EC5o values were calculated using Graphpad Prism 9.2.0 by fitting a four-
+parameter non-linear regression curve to the average absorbance values of three technical
+replicates per concentration with three independent experiments. Curve fitting was set up as
+reported in Graphpad Prism 9.2.0 software documentation. Results for human TSLP are
+displayed as EC50, EC80, EC90 (μg/mL) with 95% confidence intervals (Table 12, FIG. 10A).
+N=4 independent experiments with 3 technical replicates. Results for cyno TSLP are
+displayed as EC50, ECs0, EC90 (μg/mL) with 95% confidence intervals (Table 12, FIG. 10B).
+N=3 independent experiments with 3 technical replicates.
+[00793] Results for mouse TSLP and human IL-7 are displayed in FIG. 10C and FIG.10D,
+respectively. N=3 independent experiments with 3 technical replicates. Results are displayed
+as mean with SEM. N=3 independent experiments with 3 technical replicates. The ELISA
+results of AB-2a, AB-2b and the Reference Antibody demonstrate a lack of binding to mouse
+TSLP cytokine and human IL-7.
+Example 10. Human (TSLPR/IL-7Rα) Ba/F3 Assay
+[00794]Materials
+[00795]Antibodies: (1) AB-2a (Lot# REQ0000500); (2) AB-2b (1ot#1098-260922-02,
+production#GFA-002); (3) the Reference Antibody (lot# 1143666, SN: 100000005714, GTIN:
+00355513112017); (4) IgG1 isotype (BioLegend, Cat#403502, Lot# B372653); (5) IgG2
+isotype (BioLegend, Cat#400264, Lot#B341585).
+[00796] Antigens: (1) Human TSLP (AGN-000143, ACRO Biosystems, Newark, DE);
+(2) Human TSLP, His Tag (Cat# TSP-H52Hb, Lot# 2671b-2158F1-12T).
+[00797] Cell line: BA/F3 cell line with STAT5 Reporter (Luc) (BPS Bioscience Inc., Cat
+No: 79772 Lot No: 200504#18), transfected with hTSLPR/hIL-7Rα expression vector from
+GenScript Biotech (Piscataway, New Jersey).
+191

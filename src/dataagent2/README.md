@@ -63,6 +63,51 @@ Action 必须为输出中的每个实体分别返回 VH、VL 的 `supported / un
 业务、域复核和字面证据全部通过而仅有 action 重复归类时，调用一次小型 LLM 审计修正，
 让模型选择保留哪个已有归类。程序只按该明确选择移除重复 ID，再执行所有校验；业务记录和
 域复核内容保持相同。`action_accounting.*.json` 保存输入和模型选择，不由程序猜测语义结果。
+
+Action 修订 3 对可定位的校验失败先做一次局部修复。主机标出具体记录路径，向模型提供
+这些记录、相关只读事实、对应 Reader 提议和同一轮原始证据。补丁只能替换列出的记录，
+不能删除、重排或覆盖其他记录；仅可在相关实体/实验范围内追加保留未决信息所需的
+`annotations` / `issues`，不能借此追加测量、序列、实体或归属。响应和逐条记录哈希防止
+补丁应用到错误版本，新增说明数量也受本次错误范围限制。
+出错记录内部已经通过字面检查的测量值、单位、来源地址、条件/供者及序列字符/定位也会锁定，
+不能借修复一个字段改动这些已通过字段。
+合并后仍对完整响应执行全部原有校验，包括来源字面、初始事实、Reader 决策覆盖、
+域复核及 Answer 阶段已支持域的保护。错误无法定位、修复上下文过大、需要删除/全局修改，
+或局部补丁未通过完整校验时，保留原来的有界全量重试；最终失败仍输出 partial/failed。
+`action_agent.response.before_repair.1.json` 保存修复前返回，`action_repair.1.*.json`
+保存局部输入、补丁和完整校验结果。真实调用计入 `action_repair` token，耗时属于所在的
+Action/Answer Action 阶段；不会因为局部修复而省略失败调用用量。
+此修订改变运行签名，已有运行保持原样，新实验使用新输出目录。
+
+每次完整返回现在各允许一次有界局部修复，包括第二次完整重试后只剩少量错误的情况；
+上限是两次完整生成、每次至多一次局部修复，不无限追加请求。上下文过大时不发送局部请求。
+第二轮的文件为 `action_repair.2.*.json`。任何补丁都必须重新通过完整校验，校验失败路径保留在
+`action_agent.json` 的 `validation_paths`，不会为了成功状态放宽序列、来源或域审核规则。
+修复提示要求序列锚点唯一定位原文，并按当前完整响应的数组下标核对审核引用。
+
+## 复用已完成的 Reader 进行恢复
+
+整合失败后可在新目录中继续使用原始共享模板和完全匹配的 Reader 响应：
+
+```bash
+PYTHONPATH=src python -m dataagent2 \
+  --documents DOC \
+  --native-dir /path/to/previous/results/DOC/shared_seed \
+  --reuse-readers-from /path/to/previous/results/DOC/dataagent2 \
+  --output /path/to/new-recovery
+```
+
+使用原运行相同的模型、Reader effort、chunk 大小和 sources 格式。
+只有证据、提示词、Schema、模型和 effort 全部匹配的 Reader 请求才会复用；不匹配的分块仍发起
+新请求。导入前重新检查请求指纹和响应结构，之后仍执行 Ledger 和 Action 的完整语义校验。
+旧结果保持原样；新的 `reused_readers.jsonl` 保存原请求目录和响应哈希。
+`token_usage.json` 单独记录 `reused_reader_requests`；历史 Reader 成本不冒充本轮新增用量，
+也不以此次恢复的低用量声称完整流程 token 降幅。此命令生成独立结果，不自动更新 Studio 任务。
+
+Studio 提取失败时，`failure.json` 和批次汇总的 `failure_details` 会记录第一个未完成阶段、
+真实错误及可定位的记录路径。网页任务提示采用该原因，区分全文读取、Action 整合、问答和问答
+结果整合，同时保留 partial 导出。排查不再需要从退出码 1 猜测失败阶段。
+
 大输入默认采用显式记录引用：模型选择保留的 seed/Reader 记录，并完整写出有改动的记录；
 主机仅展开这些明确选择，再校验完整结果。`seed_collection` 可按原顺序保留整组初始记录，
 有效 seed 路径和 action 下标受本次请求 Schema 约束。原始表示另存 `action_agent.response.raw.*.json`，
@@ -237,6 +282,46 @@ python try/agent_handoff/build_followup_page.py \
 明确区分复用阶段、真实执行阶段与本轮跳过的 Action②。
 
 ## 运行
+
+Reader 来源包装可通过 `--reader-source-format grouped` 单独启用，默认仍为 `rows`。
+`source_transport.py` 将连续来源按页、类型、物理表分组：正文为 `[source_id,text]`，
+表格行为 `[row,[[column,source_id,text],...]]`。页码、类型和表号在组内共享，
+稀疏列、空文本、显式 null 位置和同位置多个 OCR / 样式来源保持原样。
+完整 `sources.json` 的位置框、文件路径与原始引用留在主机；模型继续引用原整数 ID。
+解码后整个 Reader payload 必须与旧表示逐项一致，包括全量 Dataset1、原文字节、
+来源顺序、OCR 状态、样式和 context_only_sources；只改变来源在输入中的表示。
+分块仍按旧七列格式的预算生成，第一版不改变 chunk 数量或成员。
+输出 Schema、来源检查、Action 与问答输入均保持原格式，Reader 缓存通过独立格式签名隔离，
+回放使用 manifest 中记录的格式；没有该字段的旧运行按 `rows` 处理。
+
+仅做原始来源包装对照的独立脚本：
+
+```bash
+python try/agent_handoff/benchmark_source_groups.py \
+  --baseline /path/to/saved/dataagent2 \
+  --output try/agent_handoff/runs/source-groups \
+  --plan-only
+
+# 去掉 --plan-only，才会在同一批代表性 chunk 上调用新旧格式 Reader。
+```
+
+本地往返还原检查能证明输入信息一致，不能证明 LLM 在两种表示下输出完全一致。
+该对照固定完整初始 seed、原始 chunk、模型、推理预算及输出 Schema，
+分别保存原格式与分组格式的实际请求、token、耗时、字面来源拒绝和逐项事实差异。
+其余目录召回、seed 编码或调整 chunk 数量的实验不与这个 sources-only 试验混算。
+
+49-Sructure 的 sources-only 实测：全部62块/11,924个独立来源可逆还原通过，
+样式与失败OCR状态不变。按 o200k 本地估算，来源部分342,422→243,183 tokens，
+计入格式说明后的显式输入净减少92,729 tokens，属于材料估算而非服务端精确计费。
+固定6块（c7/c26/c44/c46/c47/c51）进行真实同模型/xhigh对照：
+输入239,154→228,856，输出53,118→53,383，总量292,272→282,239（减少3.4%）；
+耗时350.209→393.171秒，本次没有提速。两组依次运行，缓存/服务负载不同。
+实体55、序列映射134、字面序列定义76的签名完全一致，均含相同初始seed。
+去掉条件字段后的测量数值/来源签名230条一致，但严格条件比较有差异：
+原格式3条无条件定性结合结果，新格式按原文的两个靶标拆成6条有条件结果。
+属性标签及实验描述也存在差异，不视作完整语义等价或全篇准确率保证。
+两个格式均未引用输入范围外的来源；本次没有运行全篇Action/Answer，也未覆盖历史结果。
+因此保留 `rows` 默认，`grouped` 作为可选项，原始请求、用量和逐项复核独立保存。
 
 从 SDA 根目录执行：
 

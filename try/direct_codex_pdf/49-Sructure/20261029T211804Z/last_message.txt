@@ -1,0 +1,3 @@
+已生成 [dataset.json](/tmp/sda-direct-pdf-49-20261029T211804Z/dataset.json) 和 [extraction_report.json](/tmp/sda-direct-pdf-49-20261029T211804Z/extraction_report.json)。
+
+已处理全部 263 页，覆盖 173 个序列编号、14 张表和 291 条结果记录。JSON 解析及引用检查通过；未确证归属、原文冲突和曲线未逐点数字化等限制已明确记录。

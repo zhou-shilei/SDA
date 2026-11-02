@@ -1,0 +1,10 @@
+{
+  "ppvl_model": "PaddleOCR-VL-1.6",
+  "ppvl_weights_sha256": "85a479d506a11e724e7285d395c551be69f41dbc16b6342d3cacfb189aed71db",
+  "rec_model": "PP-OCRv6_medium_rec",
+  "rec_weights_sha256": "1b01c79a914587933f615569e75de54f2e638ebb5d3f3b3c1b38c24ede8c7319",
+  "device": "gpu:0",
+  "batch_size": 1,
+  "ppvl_prompt": "ocr",
+  "max_new_tokens": 8192
+}

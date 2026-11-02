@@ -1,0 +1,42 @@
+W0 2024/020591
+PCT/US2023/070790
+13.
+The polypeptide of Claim 12, wherein:
+a)
+the antibody heavy chain constant domain is an IgG1, IgG2, IgG3 or IgG4
+constant domain;
+b)
+the antibody light chain constant domain is a κ constant domain or a λ constant
+domain, or
+both a) and b).
+14.
+The polypeptide of Claim 12 or 13, wherein the antibody heavy chain constant
+domain comprises one or more mutations which increase serum half-life of the
+antibody or antigen-binding fragment thereof in humans, optionally, wherein the
+antibody heavy chain constant domain comprises, relative to a wild-type human IgG
+constant domain, amino acid substitutions with tyrosine, threonine and glutamic acid
+at amino acid residues 252, 254 and 256, respectively, wherein the amino acid
+residues are numbered according to the EU index as in Kabat.
+15.
+The polypeptide of any one of Claims 12-14, wherein the antibody heavy chain
+constant domain comprises the amino acid sequence of SEQ ID NO:85.
+16.
+A fusion protein comprising the polypeptide of any of the preceding claims.
+17.
+A polynucleotide comprising a nucleotide sequence encoding the polypeptide of any
+of Claims 1-15, or the fusion protein of Claim 16.
+18.
+A vector comprising the polynucleotide of Claim 17.
+19.
+A host cell comprising the polynucleotide of Claim 17 or the vector of Claim 18.
+20.
+A composition comprising the polypeptide of any one of Claims 1-15, the fusion
+protein of Claim 16, the polynucleotide of Claim 17, the vector of Claim 18, or the
+host cell of Claim 19
+21.
+The composition of Claim 20, further comprising one or more pharmaceutical
+excipients, diluents, or carriers.
+22.
+The composition of Claim 20 or 21, further comprising one or more additional
+therapeutic agents.
+220

@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a VL that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00196] In some embodiments, a polypeptide comprises:
+a)
+a VH that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of SEQ ID NO:5; and
+b)
+a VL that has at least about 70% (e.g., at least about: 75, 80, 85, 90, 95, 98, or
+99%) sequence identity to the amino acid sequence of SEQ ID NO:21.
+[00197] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of SEQ ID NO:5;
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00198] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of SEQ ID NO:5; and
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of SEQ ID NO:21.
+[00199] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a HCDR1, a HCDR2 and/or a HCDR3 residue, of SEQ ID NO:5;
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a LCDR1, a LCDR2 and/or a LCDR3 residue, of SEQ ID NO:21, or
+both a) and b).
+[00200]In some embodiments, a polypeptide comprises:
+42

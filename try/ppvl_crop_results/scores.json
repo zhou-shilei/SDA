@@ -1,0 +1,1612 @@
+{
+  "completed_calls": 47,
+  "planned_calls": 47,
+  "inference_seconds_sum": 177.652,
+  "groups": [
+    {
+      "method": "archived_table_p196",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 5,
+      "reference_characters": 366
+    },
+    {
+      "method": "archived_figures_p229_230",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 14,
+      "reference_characters": 366
+    },
+    {
+      "method": "rerun_original_table_p196",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 5,
+      "reference_characters": 366
+    },
+    {
+      "method": "rerun_original_figures_table_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 14,
+      "reference_characters": 366
+    },
+    {
+      "method": "upright_full_figures_table_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 25,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_block_p196_ocr_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 3,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_block_p196_table_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 3,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_block_p196_ocr_min501760",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 5,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_block_p196_ocr_min1003520",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 7,
+      "reference_characters": 366
+    },
+    {
+      "method": "physical_lines_p196_ocr_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 4,
+      "reference_characters": 366
+    },
+    {
+      "method": "physical_lines_p196_ocr_min501760",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 12,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_crops_figures_ocr_prompt",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 10,
+      "reference_characters": 366
+    },
+    {
+      "method": "sequence_crops_figures_ocr_min501760",
+      "exact": 0,
+      "items": 3,
+      "complete_items": 3,
+      "edit_distance": 6,
+      "reference_characters": 366
+    }
+  ],
+  "comparisons": [
+    {
+      "method": "archived_table_p196",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "archived_figures_p229_230",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 5,
+      "CER": 0.040983606557377046,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 97,
+          "expected": "S",
+          "observed": "G"
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_table_p196",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_figures_table_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 5,
+      "CER": 0.040983606557377046,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 97,
+          "expected": "S",
+          "observed": "G"
+        }
+      ]
+    },
+    {
+      "method": "upright_full_figures_table_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCARAPQWELVVHEAFDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 13,
+      "CER": 0.10655737704918032,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 51,
+          "reference_end_exclusive_0based": 51,
+          "observed_start_1based": 51,
+          "expected": "V",
+          "observed": "I"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 54,
+          "reference_end_exclusive_0based": 54,
+          "observed_start_1based": 54,
+          "expected": "S",
+          "observed": "D"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 57,
+          "reference_end_exclusive_0based": 58,
+          "observed_start_1based": 57,
+          "expected": "YT",
+          "observed": "NK"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 97,
+          "expected": "S",
+          "observed": "A"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 99,
+          "reference_end_exclusive_0based": 99,
+          "observed_start_1based": 99,
+          "expected": "S",
+          "observed": "A"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 104,
+          "reference_end_exclusive_0based": 106,
+          "observed_start_1based": 104,
+          "expected": "DIF",
+          "observed": "LVVH"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 109,
+          "reference_end_exclusive_0based": 109,
+          "observed_start_1based": 110,
+          "expected": "M",
+          "observed": "F"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_table_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min501760",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min1003520",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_min501760",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGREFTITTRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 124,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 68,
+          "reference_end_exclusive_0based": 67,
+          "observed_start_1based": 68,
+          "expected": "",
+          "observed": "E"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 71,
+          "reference_end_exclusive_0based": 70,
+          "observed_start_1based": 72,
+          "expected": "",
+          "observed": "T"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_prompt",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 124,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 67,
+          "reference_end_exclusive_0based": 66,
+          "observed_start_1based": 68,
+          "expected": "",
+          "observed": "G"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_min501760",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        }
+      ]
+    },
+    {
+      "method": "archived_table_p196",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 55,
+          "reference_end_exclusive_0based": 54,
+          "observed_start_1based": 54,
+          "expected": "",
+          "observed": "S"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 56,
+          "reference_end_exclusive_0based": 56,
+          "observed_start_1based": 56,
+          "expected": "S",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "archived_figures_p229_230",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 4,
+      "CER": 0.03278688524590164,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_table_p196",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDSGYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 55,
+          "reference_end_exclusive_0based": 54,
+          "observed_start_1based": 54,
+          "expected": "",
+          "observed": "S"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 56,
+          "reference_end_exclusive_0based": 56,
+          "observed_start_1based": 56,
+          "expected": "S",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_figures_table_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 4,
+      "CER": 0.03278688524590164,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "upright_full_figures_table_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 6,
+      "CER": 0.04918032786885246,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 54,
+          "reference_end_exclusive_0based": 54,
+          "observed_start_1based": 54,
+          "expected": "D",
+          "observed": "S"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 59,
+          "reference_end_exclusive_0based": 58,
+          "observed_start_1based": 59,
+          "expected": "",
+          "observed": "H"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 82,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 98,
+          "expected": "A",
+          "observed": "S"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 104,
+          "reference_end_exclusive_0based": 104,
+          "observed_start_1based": 105,
+          "expected": "E",
+          "observed": "D"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_table_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min501760",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min1003520",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_min501760",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFTRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGREFTITTRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEFIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 126,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 5,
+      "CER": 0.040983606557377046,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 29,
+          "observed_start_1based": 30,
+          "expected": "",
+          "observed": "T"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 68,
+          "reference_end_exclusive_0based": 67,
+          "observed_start_1based": 69,
+          "expected": "",
+          "observed": "E"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 71,
+          "reference_end_exclusive_0based": 70,
+          "observed_start_1based": 73,
+          "expected": "",
+          "observed": "T"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 85,
+          "expected": "Q",
+          "observed": "O"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 105,
+          "reference_end_exclusive_0based": 104,
+          "observed_start_1based": 108,
+          "expected": "",
+          "observed": "F"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_prompt",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCARSPQWEEEIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 125,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 4,
+      "CER": 0.03278688524590164,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 67,
+          "reference_end_exclusive_0based": 66,
+          "observed_start_1based": 68,
+          "expected": "",
+          "observed": "G"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": "O"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 105,
+          "reference_end_exclusive_0based": 104,
+          "observed_start_1based": 107,
+          "expected": "",
+          "observed": "E"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_min501760",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEFIFEAMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 125,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 44,
+          "reference_end_exclusive_0based": 43,
+          "observed_start_1based": 45,
+          "expected": "",
+          "observed": "G"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 105,
+          "reference_end_exclusive_0based": 104,
+          "observed_start_1based": 107,
+          "expected": "",
+          "observed": "F"
+        }
+      ]
+    },
+    {
+      "method": "archived_table_p196",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "archived_figures_p229_230",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 5,
+      "CER": 0.040983606557377046,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 97,
+          "expected": "S",
+          "observed": "G"
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_table_p196",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 121,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "delete",
+          "reference_start_1based": 15,
+          "reference_end_exclusive_0based": 15,
+          "observed_start_1based": 15,
+          "expected": "G",
+          "observed": ""
+        }
+      ]
+    },
+    {
+      "method": "rerun_original_figures_table_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTRFTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCGRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 5,
+      "CER": 0.040983606557377046,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 29,
+          "reference_end_exclusive_0based": 28,
+          "observed_start_1based": 29,
+          "expected": "",
+          "observed": "R"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 30,
+          "observed_start_1based": 31,
+          "expected": "R",
+          "observed": ""
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 81,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 97,
+          "expected": "S",
+          "observed": "G"
+        }
+      ]
+    },
+    {
+      "method": "upright_full_figures_table_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDTHHYADSVKGRFTITRDNSKNTLNQLMNSLRAEDTAVYYCARSPQWEDIFESMDVWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 6,
+      "CER": 0.04918032786885246,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 56,
+          "reference_end_exclusive_0based": 56,
+          "observed_start_1based": 56,
+          "expected": "Y",
+          "observed": "S"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 59,
+          "reference_end_exclusive_0based": 58,
+          "observed_start_1based": 59,
+          "expected": "",
+          "observed": "H"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 81,
+          "reference_end_exclusive_0based": 80,
+          "observed_start_1based": 82,
+          "expected": "",
+          "observed": "Q"
+        },
+        {
+          "operation": "delete",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": ""
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 97,
+          "reference_end_exclusive_0based": 97,
+          "observed_start_1based": 98,
+          "expected": "S",
+          "observed": "A"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 111,
+          "reference_end_exclusive_0based": 111,
+          "observed_start_1based": 112,
+          "expected": "I",
+          "observed": "V"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_table_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min501760",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 123,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 83,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_block_p196_ocr_min1003520",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMOLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVROAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 3,
+          "reference_end_exclusive_0based": 3,
+          "observed_start_1based": 3,
+          "expected": "Q",
+          "observed": "O"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 39,
+          "reference_end_exclusive_0based": 39,
+          "observed_start_1based": 39,
+          "expected": "Q",
+          "observed": "O"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 122,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 1,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 82,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "physical_lines_p196_ocr_min501760",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFTRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGREFTITTRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 125,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 4,
+      "CER": 0.03278688524590164,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 30,
+          "reference_end_exclusive_0based": 29,
+          "observed_start_1based": 30,
+          "expected": "",
+          "observed": "T"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 68,
+          "reference_end_exclusive_0based": 67,
+          "observed_start_1based": 69,
+          "expected": "",
+          "observed": "E"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 71,
+          "reference_end_exclusive_0based": 70,
+          "observed_start_1based": 73,
+          "expected": "",
+          "observed": "T"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 85,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_prompt",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGGRFTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 124,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 3,
+      "CER": 0.02459016393442623,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 67,
+          "reference_end_exclusive_0based": 66,
+          "observed_start_1based": 68,
+          "expected": "",
+          "observed": "G"
+        },
+        {
+          "operation": "replace",
+          "reference_start_1based": 82,
+          "reference_end_exclusive_0based": 82,
+          "observed_start_1based": 84,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ]
+    },
+    {
+      "method": "sequence_crops_figures_ocr_min501760",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "expected_length": 122,
+      "observed_length": 124,
+      "exact": false,
+      "complete": true,
+      "edit_distance": 2,
+      "CER": 0.01639344262295082,
+      "noncanonical_characters": [],
+      "differences": [
+        {
+          "operation": "insert",
+          "reference_start_1based": 20,
+          "reference_end_exclusive_0based": 19,
+          "observed_start_1based": 20,
+          "expected": "",
+          "observed": "L"
+        },
+        {
+          "operation": "insert",
+          "reference_start_1based": 58,
+          "reference_end_exclusive_0based": 57,
+          "observed_start_1based": 59,
+          "expected": "",
+          "observed": "T"
+        }
+      ]
+    }
+  ],
+  "reference_kind": "assistant visual transcription, not independent human gold",
+  "note": "Archived rows are reused historical OCR, not new model calls. No Codex/LLM extraction calls are made."
+}

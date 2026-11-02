@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of SEQ ID
+NO:21,or
+both a) and b).
+[00250] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of SEQ ID
+NO:5; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of SEQ ID
+NO:21.
+[00251] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a HCDR1, a HCDR2 and a
+HCDR3, respectively, of a VH amino acid sequence of SEQ ID NO:5; or
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a LCDR1, a LCDR2 and a
+LCDR3, respectively, of a VL amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00252]In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a HCDR1, a HCDR2 and a
+HCDR3, respectively, of a VH amino acid sequence of SEQ ID NO:5; and
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a LCDR1, a LCDR2 and a
+LCDR3, respectively, of a VL amino acid sequence of SEQ ID NO:21.
+55

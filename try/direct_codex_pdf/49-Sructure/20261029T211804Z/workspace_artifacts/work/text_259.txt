@@ -1,0 +1,19 @@
+International Application No. PCT/us2023 /070790
+FURTHER INFORMATION CONTINUED FROM PCT/ISA/ 210
+This International Searching Authority found multiple (groups of)
+inventions in this international application, as follows:
+1. claims: 4(completely); 1-3, 5-30(partially)
+Antibody AB-2 as defined by its 6 CDRs of SEQ ID NO:5 and
+antibodies AB-2a and AB-2b, respectively, as defined by
+their HC/LC sequences of SEQ ID NO: 92/120 and 106
+respectively, and related subject-matter.
+2-14. claims: 1-3, 5-30(al1 partial1y)
+Antibodies AB-1 and AB-3-AB-14, respectively, as defined by
+their 6 CDRs of SEQ ID NO:4, 6-17, respectively, and related
+subject-matter.
+15. c1aims: 31-40
+A computer-implemented method comprising scoring a
+polypeptide comprising an amino acid sequence with a CBo
+model as well as a system comprising a processor and a
+memory with computer code instructions and and related
+subject-matter.

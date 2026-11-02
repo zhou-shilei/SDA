@@ -1,0 +1,40 @@
+WO 2024/020591
+PCT/US2023/070790
+m)
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+n)
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14).
+[00754] In some embodiments, the polypeptide does not comprise a heavy chain
+comprising SEQ ID NO:81 and a light chain comprising SEQ ID NO:82.
+[00755]In some embodiments, the polypeptide is an antibody or an antigen-binding
+fragment thereof.
+[00756]In some embodiments, a polypeptide comprises an amino acid sequence that is
+assigned a score above a predetermined threshold by a computationally binding optimized
+(CBO) model upon scoring the amino acid sequence of the polypeptide.
+[00757] In some embodiments, a polypeptide that binds human thymic stromal
+lymphopoietin (TSLP) is designed by a method comprising generating a polypeptide
+sequence with a CBO model. The polypeptide is further designed by verifying the generated
+polypeptide sequence using the CBO model by, for each amino acid position of the
+polypeptide sequence, calculating a plurality of energy scores. The energy scores can be
+based on having substituted the amino acid at a given position in the polypeptide sequence
+with each of a plurality of different amino acids. The polypeptide is further verified by adding
+each energy score calculated to an array. The polypeptide is further verified by generating a
+normalized sum of the energy scores for each position. The polypeptide is further verified by
+calculating a logarithm of each energy score calculated. The polypeptide is further verified by
+generating a score of the polypeptide sequence by summing the logarithms of each energy
+score calculated. The score represents a functional property of the polypeptide's ability to
+bind to human TSLP. In some embodiments, the polypeptide sequence is verified if the
+polypeptide scores above a particular threshold.
+[00758] In some embodiments, the polypeptide is scored at least a score of one of more of
+-7.7, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, 2.9, -2.8, -2.7, -2.6, -2.5, -2.4, -2.3, -2.2, -
+2.1, -2.0, -1.9, -1.8, -1.7, -1.6, -1.5, -1.4, -1.3, -1.2, -1.1, -1.0, 0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -
+0.3, -0.2, and -0.1 (e.g., to be verified). In some embodiments, the polypeptide is an antibody
+or an antigen-binding fragment thereof.
+[00759] In some embodiments, the polypeptide comprises a Ví and VL pair comprising an
+amino acid sequence at least about: 60, 65, 70, 75, 80, 85, 86,87, 88, 89, 90, 91, 92, 93, 94,
+95, 96, 97, 98, or 99 identical to a VH and VL pair selected from:
+a)
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+b)
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+156

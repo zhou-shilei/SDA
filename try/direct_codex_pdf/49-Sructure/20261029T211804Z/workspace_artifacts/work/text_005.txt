@@ -1,0 +1,34 @@
+WO 2024/020591
+PCT/US2023/070790
+SEQ ID NO:17 and SEQ ID NO:30 (AB-14), or
+a combination of the foregoing,
+wherein the polypeptide does not comprise a heavy chain comprising SEQ ID NO:81
+and a light chain comprising SEQ ID NO:82.
+[0014] In some embodiments, a polypeptide comprises a paratope that is substantially
+similar to a paratope of an antibody comprising a VH/VL combination selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3); or
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4), or
+a combination of the foregoing,
+wherein the polypeptide does not comprise a heavy chain comprising SEQ ID NO:81
+and a light chain comprisingSEQ ID NO:82.
+[0015]The disclosure also provides, among other things, a polypeptide (e.g., an antibody
+or an antigen binding fragment thereof) comprising:
+a Ví amino acid sequence comprising a heavy chain complementarity determining
+region 1 (HCDR1), a heavy chain complementarity determining region 2 (HCDR2) and a
+heavy chain complementarity determining region 3 (HCDR3) that are substantially similar to
+a HCDR1, a HCDR2 and a HCDR3, respectively, of the amino acid sequence of any one of
+SEQ ID NOs:4-17; and
+a VL amino acid sequence comprising a light chain complementarity determining
+region 1 (LCDR1), a light chain complementarity determining region 2 (LCDR2) and a light
+chain complementarity determining region 3 (LCDR3) that are substantially similar to a
+LCDR1, a LCDR2 and a LCDR3, respectively, of the amino acid sequence of any one of
+SEQ ID NOs:20-30,
+wherein the polypeptide does not comprise a heavy chain comprising SEQ ID NO:81
+and a light chain comprising SEQ ID NO:82.
+[0016]In some embodiments, a polypeptide comprises:
+a VH amino acid sequence comprising a HCDR1, a HCDR2 and a HCDR3 that are
+substantially similar to a HCDR1, a HCDR2 and a HCDR3, respectively, of the amino acid
+sequence of any one of SEQ ID NOs:4-7; and
+4

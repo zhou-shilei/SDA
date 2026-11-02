@@ -14,6 +14,7 @@ import re
 from time import perf_counter
 
 from .inputs import load_input, read
+from .diagnostics import failure_details
 from .pipeline import run
 from .provider import Provider, write_json
 from .structure import CDR_REGIONS, FR_REGIONS, parent_region
@@ -39,7 +40,7 @@ def collect_usage(seed_dir, reader_dir, document_id):
     return recorder.report(document_id=document_id)
 
 
-def export_result(data, final, seed_dir, output):
+def export_result(data, final, seed_dir, output, *, evaluation_enabled=False):
     from dataagent.main_pipeline import _sources_and_coverage, stable_id
     from document.document_extraction import template_from_payload, coverage_audit, provenance
     from schema_pipeline import structured_entities
@@ -182,6 +183,15 @@ def export_result(data, final, seed_dir, output):
                 citations = fragment_refs(sequence)
                 for evidence in provenance(list(dict.fromkeys(citations + refs(sequence.get("mapping_refs", [])))), sources):
                     _observe(exported[parent_region(region)][region], sequence["value"], evidence)
+        # Full chains can be defined in prose rather than a sequence table.
+        # Preserve accepted grounded definitions without inferring VH/VL boundaries.
+        for region in ("H_CHAIN", "L_CHAIN"):
+            sequence = item["sequences"].get(region, {})
+            if sequence.get("status") == "supported":
+                citations = fragment_refs(sequence)
+                for evidence in provenance(list(dict.fromkeys(citations + refs(sequence.get("mapping_refs", [])))), sources):
+                    _observe(exported[region]["sequence"], sequence["value"], evidence)
+                    _observe(exported[region]["seq_id"], sequence.get("seq_id"), evidence)
         # TemplateAgent must not fill an absent definition from a mapping quote.
         for region in ("VH", "VL", "H_CHAIN", "L_CHAIN"):
             if item["sequences"][region]["status"] != "supported":
@@ -223,17 +233,26 @@ def export_result(data, final, seed_dir, output):
                                   "message": "部分候选事实未通过来源校验；详见 dataagent2/dataset.json。"})
     refresh_missing(template)
     validate_template(template)
+    evaluation = {}
+    if evaluation_enabled:
+        from eval.template import evaluate_template
+        evaluation = evaluate_template(template, output / "eval")
     coverage = coverage_audit(payload, model_input, sources, grids)
-    status = "partial" if final["status"] != "source_supported" or template["missing"] or template["issues"] or coverage["status"] == "partial" else "complete"
+    status = "partial" if final["status"] != "source_supported" or template["missing"] or template["issues"] or coverage["status"] == "partial" or evaluation.get("status") == "partial" else "complete"
     dataset = {"document_id": data["document_id"], "schema_version": template["schema_version"],
         "status": status, "extraction_mode": "dataagent2", "extraction_engine": "dataagent2",
         "entities": structured_entities(template), "records": export_dataset(template),
+        "sequence_evaluation": evaluation,
         "experiments": template["experiments"], "relations": template["relations"],
         "relation_index": template["relation_index"],
         "summary": template["summary"], "issues": template["issues"], "coverage": coverage,
         "reader_coverage": final["reader_coverage"], "warnings": data["input_warnings"],
         "limitations": ["原文字符校验不等于归属、边界或生物学验证；未解决项目保留待复核。"],
         "provenance_file": "template.completed.json", "document_report_file": "document_report.json"}
+    evaluations = {e["entity_id"]: e.get("sequence_evaluation") for e in template["entities"]}
+    for entity in dataset["entities"]:
+        if evaluations.get(entity["entity_id"]):
+            entity["sequence_evaluation"] = copy.deepcopy(evaluations[entity["entity_id"]])
     for table in [*prepared["tables"], *prepared.get("unstructured_tables", [])]:
         identity, origin = table["source_id"], table["sda_source"]
         classification = next((c for c in state["table_classifications"] if c["table_id"] == identity), {})
@@ -359,7 +378,7 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
         "image_dir": str(image_dir), "table_ocr": str(table_ocr), "text_pages_jsonl": str(pages),
         "structured_dir": str(structured) if structured else None}})
     timings = PhaseTimings(output / "phase_timings.json")
-    error, dataset = None, {}
+    error, dataset, failure = None, {}, None
     try:
         with timings.measure("sequence_ocr_refresh"):
             table_ocr = refresh_table_sequences(table_ocr, output / "table_ocr.refreshed.jsonl", image_dir=image_dir)
@@ -392,12 +411,16 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
             report = run(data, provider, reader_dir, workers=options.get("sequence_workers"),
                 chunk_chars=options.get("chunk_chars", 24000),
                 max_questions=options.get("max_answer_questions") if extract_sequences else 0,
-                answer_workers=options.get("answer_workers", 4), question_chars=options.get("question_chars", 8000))
+                answer_workers=options.get("answer_workers", 4), question_chars=options.get("question_chars", 8000),
+                reader_source_format=options.get("reader_source_format", "rows"))
             final = read(reader_dir / "dataset.json")
             if not report["benchmark_complete"]:
-                error = "dataagent2 全文读取、ActionAgent 整合或问答请求未完成；已保存部分结果及原始请求记录"
+                failure = failure_details(report)
+                error = failure["message"] + "；已保存部分结果及原始请求记录"
+                write_json(output / "failure.json", failure)
         with timings.measure("result_export"):
-            dataset = export_result(data, final, seed_dir, output)
+            dataset = export_result(data, final, seed_dir, output,
+                evaluation_enabled=semantic_provider != "rules" and options.get("evaluation_enabled", True))
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
         if not (output / "dataset.json").is_file():
@@ -415,6 +438,7 @@ def run_studio_pipeline(image_dir, output_root, text_pages_jsonl, *, table_ocr=N
         summary = {"status": "failed" if error else dataset.get("status", "failed"),
             "extraction_mode": "dataagent2", "wall_seconds": elapsed, "token_usage": usage,
             "errors": {identity: error} if error else {},
+            "failure_details": {identity: failure} if failure else {},
             "documents": {identity: {"status": dataset.get("status", "failed"), "records": len(dataset.get("records", []))}}}
         write_json(output_root / "_batch_summary.json", summary)
     if error:

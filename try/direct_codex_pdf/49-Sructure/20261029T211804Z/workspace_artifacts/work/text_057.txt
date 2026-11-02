@@ -1,0 +1,41 @@
+WO 2024/020591
+PCT/US2023/070790
+[00253] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising up to 1, 2, or 3 conservative substitutions (e.g., up to 1, 2, or 3
+highly conservative substitutions), relative to a HCDR1, a HCDR2 and a
+HCDR3, respectively, of a VH amino acid sequence of SEQ ID NO:5; or
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+comprising up to 1, 2, or 3 conservative substitutions (e.g., up to 1, 2, or 3
+highly conservative substitutions), relative to a LCDR1, a LCDR2 and a
+LCDR3, respectively, of a VL amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00254] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising up to 1, 2, or 3 conservative substitutions (e.g., up to 1, 2, or 3
+highly conservative substitutions), relative to a HCDR1, a HCDR2 and a
+HCDR3, respectively, of a VH amino acid sequence of SEQ ID NO:5; and
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+comprising up to 1, 2, or 3 conservative substitutions (e.g., up to 1, 2, or 3
+highly conservative substitutions), relative to a LCDR1, a LCDR2 and a
+LCDR3, respectively, of a VL amino acid sequence of SEQ ID NO:21.
+[00255] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+having 100% sequence identity to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a VH amino acid sequence of SEQ ID NO:5; or
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+having 100% sequence identity to a LCDR1, a LCDR2 and a LCDR3,
+respectively, of a VL amino acid sequence of SEQ ID NO:21, or
+both a) and b).
+[00256] In some embodiments, a polypeptide comprises;
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+having 100% sequence identity to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a VH amino acid sequence of SEQ ID NO:5; and
+56

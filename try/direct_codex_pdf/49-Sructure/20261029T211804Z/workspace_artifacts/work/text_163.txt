@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+X11 is H, F or Y;
+X12 is A or S;
+X13 is F, M or L;
+X14 is I or V,
+or any combination of the foregoing
+10.
+A polypeptide that specifically binds a thymic stromal lymphopoietin (TSLP),
+comprising an immunoglobulin heavy chain variable domain (VH) comprising the
+amino acid sequence of SEQ ID NO:2, wherein:
+X1 is V;
+X2 is S;
+X3 is S;
+X4 is T, Y or A;
+X5 is Y, D or T;
+X6 is T or I;
+X7 is S or T;
+X8 is S;
+X9 is D, E or S;
+X10 is I;
+X11 is F or Y,
+X12 is S;
+X13 is M or L;
+X14 is V,
+or any combination of the foregoing
+11.
+The polypeptide of Embodiment 9 or 10, further comprising an immunoglobulin light
+chain variable domain (VL) comprising the amino acid sequence of SEQ ID NO:18,
+wherein:
+X15 is N or Y;
+X16 is L or I;
+X17 is S or R;
+X18 is K, F or Y;
+X19 is S or N;
+X20 is V or I;
+162

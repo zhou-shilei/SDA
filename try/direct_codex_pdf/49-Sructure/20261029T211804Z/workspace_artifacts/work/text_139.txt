@@ -1,0 +1,42 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a HCDR2 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:33-37 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:34-37):
+b)
+a HCDR3 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:48-52 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:49-52);
+c)
+a LCDR1 comprising at least 1 amino acid substitution relative to the amino
+acid sequence set forth in SEQ ID NOs:59-61 (e.g., at least one amino acid
+sequence set forth in SEQ ID NOs:60-61);
+d)
+a LCDR3 comprising at least 1 amino acid substitution relative to at least one
+amino acid sequence set forth in SEQ ID NOs:69-72 (e.g., at least one amino
+acid sequence set forth in SEQ ID NOs:70-72):
+or a combination of the foregoing.
+[00688] In particular embodiments, the CBO polypeptide does not comprise a VH and VL
+pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1),
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2)
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3),
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4), and
+combinations thereof.
+[00689] In some embodiments, a CBO polypeptide comprises:
+a)
+a Ví comprising an amino acid sequence that has at least 55% (e.g., at least
+60, 65, 70, 75, 80, 85, 90, 95, 98, or 99%) sequence identity to SEQ ID NO:3;
+b)
+a VL comprising an amino acid sequence that has at least 55% (e.g., at least
+60, 65, 70, 75, 80, 85, 90, 95, 98, or 99%) sequence identity to SEQ ID
+NO:19; or
+both a) and b),
+wherein the CBO polypeptide does not comprise all 6 CDRs of an antibody comprising a VH
+amino acid sequence of SEQ ID NO:3 and a VL amino acid sequence of SEQ ID NO:19.
+[00690] In some embodiments, the CBO polypeptide comprises a VH that has at least
+about 70% sequence identity to the amino acid sequence of SEQ ID NO:3. For example, the
+VH can have at least about: 71%, 72%, 73%, 74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%,
+82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%
+138

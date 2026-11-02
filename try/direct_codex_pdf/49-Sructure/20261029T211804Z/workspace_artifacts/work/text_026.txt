@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00111]“Administering" or “administration," as used herein, refers to providing a
+compound, composition, or pharmaceutically acceptable salt thereof described herein to a
+subject in need of treatment or prevention. Administering can be performed, for example,
+once, a plurality of times, and/or over one or more extended periods. Administration includes
+both direct administration (including self-administration), and indirect administration
+(including an act of prescribing a drug or directing a subject to consume an agent). For
+example, as used herein, one (e.g., a physician) who instructs a subject (e.g., a human patient)
+to self-administer an agent (e.g., a drug), or to have an agent administered by another and/or
+who provides a patient with a prescription for a drug is administering an agent to a subject
+[00112]“A therapeutically effective amount,"“an effective amount" or “an effective
+dosage" refers to an amount effective, at dosages and for periods of time necessary, to
+achieve a desired therapeutic result (e.g., treatment, healing, inhibition or amelioration of
+physiological response or condition, etc.). A full therapeutic effect does not necessarily occur
+by administration of one dose and may occur only after administration of a series of doses
+Thus, a therapeutically effective amount may be administered in one or more administrations.
+A therapeutically effective amount may vary according to factors such as the disease state,
+age, sex, and weight of a mammal (e.g., a human patient), mode of administration, and the
+ability of a therapeutic or a combination of therapeutics to elicit a desired response.
+[00113] An effective amount of an agent to be administered can be determined by a
+clinician of ordinary skill using the guidance provided herein and other methods known in the
+art. Relevant factors include the given agent, the pharmaceutical formulation, the route of
+administration, the type of disease or disorder, the identity of the subject (e.g., age, sex,
+weight) or host being treated, and the like. For example, suitable dosages can be from about
+0.001 mg/kg to about 100 mg/kg, from about 0.01 mg/kg to about 100 mg/kg, from about
+0.01 mg/kg to about 10 mg/kg, from about 0.01 mg/kg to about 1 mg/kg body weight per
+treatment. Determining the dosage for a particular agent, subject and disease is well within
+the abilities of one of skill in the art. Preferably, the dosage does not cause or produces
+minimal adverse side effects.
+[00114]Desired response or desired results include effects at the cellular level, tissue
+1evel, or clinical results. As such, “a therapeutically effective amount" or synonym thereto
+depends upon the context in which it is being applied. For example, in some embodiments it
+is an amount of the composition sufficient to achieve a treatment response as compared to the
+response obtained without administration of the composition. In other embodiments, it is an
+25

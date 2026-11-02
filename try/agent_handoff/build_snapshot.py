@@ -69,7 +69,7 @@ def render_page(bundle, flow=None, preview=None, current=None):
     return html
 
 
-def build(reader_dir, output, root=ROOT):
+def build(reader_dir, output, root=ROOT, *, full_run=False):
     reader_dir, output, root = Path(reader_dir).resolve(), Path(output).resolve(), Path(root).resolve()
     if output.exists():
         raise ValueError(f"快照目录已存在，请换一个新目录，避免覆盖：{output}")
@@ -119,6 +119,14 @@ def build(reader_dir, output, root=ROOT):
             "action_dataset": (reader_dir / "action_agent.dataset.json", "ActionAgent 完整业务输出"),
             "action_status": (reader_dir / "action_agent.json", "ActionAgent 校验状态"),
             "action_decisions": (reader_dir / "action_agent.response.json", "ActionAgent 完整返回及逐条处理记录"),
+            "domain_review": (reader_dir / "domain_review.json", "Action① 逐实体域复核及候选证据"),
+            "question_plan": (reader_dir / "question_plan.json", "Action 域复核形成的缺口计划与排除项"),
+            "dataset2_business": (reader_dir / "dataset2.business.json", "所有 Answer 共用的固定 Dataset2"),
+            "answer_actions": (reader_dir / "answer_actions.json", "Answer 提出的全部有效候选建议"),
+            "answer_action_status": (reader_dir / "answer_action.json", "Action② 执行或跳过状态"),
+            "answer_action_input": (reader_dir / "answer_action/action_agent.input.json", "Action② 完整 Dataset2 与 Answer 建议输入"),
+            "answer_action_dataset": (reader_dir / "answer_action/action_agent.dataset.json", "Action② 完整业务输出"),
+            "dataset3_business": (reader_dir / "dataset3.business.json", "问答综合后的完整 Dataset3"),
             "final_dataset": (reader_dir / "dataset.json", "最终完整原生数据集"),
             "quality": (reader_dir / "quality_audit.json", "最终来源与关联校验"),
             "sda_export": (reader_dir.parent / "dataset.json", "最终完整 SDA 导出"),
@@ -150,8 +158,11 @@ def build(reader_dir, output, root=ROOT):
             "load": ("src/dataagent2/inputs.py", "load_input"),
             "index": ("src/dataagent2/relation_index.py", "chunk_index"),
             "reader": ("src/dataagent2/pipeline.py", "reader_payload"),
-            "question": ("src/dataagent2/pipeline.py", "question_tasks"),
-            "answer": ("src/dataagent2/pipeline.py", "question_payload"),
+            "question": ("src/dataagent2/followup.py", "question_plan"),
+            "answer": ("src/dataagent2/followup.py", "answer_payload"),
+            "answer_validate": ("src/dataagent2/followup.py", "validate_answer"),
+            "answer_action_payload": ("src/dataagent2/followup.py", "build_answer_action_payload"),
+            "followup": ("src/dataagent2/followup.py", "run_followup"),
             "provider": ("src/dataagent2/provider.py", "Provider.generate"),
             "merge": ("src/dataagent2/ledger.py", "Ledger.apply"),
             "run": ("src/dataagent2/pipeline.py", "run"),
@@ -183,10 +194,10 @@ def build(reader_dir, output, root=ROOT):
         for request in requests:
             envelope = json.loads(request.read_bytes())
             stage = envelope.get("stage")
-            if stage not in ("reader", "action", "answer"):
+            if stage not in ("reader", "action", "answer", "answer_action"):
                 continue
             payload = envelope.get("payload", {})
-            logical_id = payload.get("chunk") if stage == "reader" else "action" if stage == "action" else payload.get("question", {}).get("id")
+            logical_id = payload.get("chunk") if stage == "reader" else stage if stage in ("action", "answer_action") else payload.get("question", {}).get("id")
             key = request.parent.name
             target = f"records/{key}"
             saved = freeze(request, f"{target}/request.json")
@@ -207,12 +218,14 @@ def build(reader_dir, output, root=ROOT):
             call["current"] = stage == "reader" or (stage == "answer" and answer_reports.get(logical_id, {}).get("meta", {}).get("key") == key)
             if stage == "answer" and not call["current"]:
                 call["report"] = {"status": "previous_request", "note": "同题的历史请求；本轮接纳状态以精确请求哈希为准。"}
-            if stage == "action":
-                status = bundle["artifacts"].get("action_status", {}).get("value", {})
+            if stage in ("action", "answer_action"):
+                status = bundle["artifacts"].get("action_status" if stage == "action" else "answer_action_status", {}).get("value", {})
                 call["current"] = status.get("provider", {}).get("key") == key
-                call.update(upstream="action_input", upstream_pointer="",
+                call.update(upstream="action_input" if stage == "action" else "answer_action_input", upstream_pointer="",
                             report=status if call["current"] else {"status": "previous_request"},
                             source_keys=["action_payload", "action_validate", "provider", "run"])
+                if stage == "answer_action":
+                    call["source_keys"] = ["answer_action_payload", "followup", "action_validate", "provider"]
             # Keep raw attempt outputs distinct from accepted/shape-validated ones.
             call["attempts"] = []
             for n, attempt in enumerate(sorted(request.parent.glob("*/answer.json"))):
@@ -246,7 +259,7 @@ def build(reader_dir, output, root=ROOT):
                 "source_keys": ["template", "shared_provider"]})
         if not bundle["calls"]:
             raise ValueError("未找到 Reader 或 Answer 请求")
-        bundle["calls"].sort(key=lambda c: ({"vision": -2, "template": -1, "reader": 0, "action": 1, "answer": 2}[c["stage"]], c["order"], c["key"]))
+        bundle["calls"].sort(key=lambda c: ({"vision": -2, "template": -1, "reader": 0, "action": 1, "answer": 2, "answer_action": 3}[c["stage"]], c["order"], c["key"]))
         bundle["notes"] = [
             "这是一次离线文件快照，不监听后台、不调用模型；未保存或快照之后的请求不在此页。",
             "所有 Reader 使用同一初始种子并行读取；调用列表按文档顺序排列，不代表启动或完成时间。",
@@ -257,6 +270,11 @@ def build(reader_dir, output, root=ROOT):
             "请求文件在启动模型前保存；只有请求而没有返回时，不能据此断言模型已实际收到或完成调用。",
             "源码是生成快照时的当前工作区版本，附文件哈希；不保证与历史运行时源码完全相同。",
         ]
+        if manifest.get("followup_revision"):
+            bundle["notes"][4] = "所有 Answer 读取同一份固定 Dataset2，以 dataset2_hash 标识；回答仅在副本校验，全部有效建议由 Action② 一次综合。没有有效建议时保留 Dataset2，跳过模型调用。"
+        if full_run:
+            bundle["actual_full_run"] = True
+            bundle["run_context"] = bundle["artifacts"].get("run_context", {}).get("value", {})
         write_json(temp / "snapshot.json", bundle)
         # A lightweight index for VS Code, with references rather than duplicated payloads.
         index = {k: v for k, v in bundle.items() if k not in ("artifacts", "calls", "sources")}
@@ -295,9 +313,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", required=True, type=Path, help="包含 requests/seed/manifest 的 dataagent2 目录")
     parser.add_argument("--out", required=True, type=Path, help="新建的独立快照目录，不覆盖旧快照")
+    parser.add_argument("--full-run", action="store_true", help="该目录来自原始 PDF 的完整运行，显示完整运行说明")
     args = parser.parse_args()
     try:
-        result = build(args.run, args.out)
+        result = build(args.run, args.out, full_run=args.full_run)
     except (OSError, ValueError) as exc:
         parser.exit(1, f"快照生成失败：{exc}\n")
     print(json.dumps(result, ensure_ascii=False, indent=2))

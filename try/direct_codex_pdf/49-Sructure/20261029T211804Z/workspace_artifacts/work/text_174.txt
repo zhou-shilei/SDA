@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+85.
+A computer-implemented method comprising:
+scoring a polypeptide sequence with a computationally binding optimized
+(CBO) model, the CBO model:
+for each amino acid position of the polypeptide sequence, calculating a
+plurality of energy scores, the energy scores based on having substituted the
+amino acid at a given position in the polypeptide sequence with each of a
+plurality of different amino acids,
+adding each energy score calculated to an array,
+generating a normalized sum of the energy scores for each position,
+calculating a logarithm of each energy score calculated, and
+generating a score of the polypeptide sequence by summing the logarithms of
+each energy score calculated, the score representing a functional property of the
+polypeptide.
+86.
+A system comprising
+a processor; and
+a memory with computer code instructions stored thereon, the processor and
+the memory, with the computer code instructions, being configured to cause the
+system to:
+score a polypeptide sequence with a CBO model, the CBO model:
+for each amino acid position of the polypeptide sequence, calculating a
+plurality of energy scores, the energy scores based on having substituted the
+amino acid at a given position in the polypeptide sequence with each of a
+plurality of different amino acids,
+adding each energy score calculated to an array,
+generating a normalized sum of the energy scores for each position,
+calculating a logarithm of each energy score calculated, and
+generating a score of the polypeptide sequence by summing the
+logarithms of each energy score calculated, the score representing a functional
+property of the polypeptide.
+87.
+A computer-implemented method comprising:
+173

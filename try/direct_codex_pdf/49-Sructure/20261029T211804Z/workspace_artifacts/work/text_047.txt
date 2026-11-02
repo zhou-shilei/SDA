@@ -1,0 +1,42 @@
+WO 2024/020591
+PCT/US2023/070790
+both a) and b).
+[00222] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that are substantially similar (e.g., having at least about 90% sequence
+identity) in amino acid sequence to a HCDR1, a HCDR2 and a HCDR3,
+respectively, of a Ví amino acid sequence of any one or more of SEQ ID
+NOs:4-17; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2 and a LCDR3 that
+are substantially similar (e.g., having at least about 90% sequence identity) in
+amino acid sequence to a LCDR1, a LCDR2 and a LCDR3, respectively, of a
+VL amino acid sequence of any one or more of SEQ ID NOs:20-30.
+[00223] See Tables 2-3 and FIGs. 2A-3B for SEQ ID NOs:4-17 and 20-30, and non-
+limiting examples of corresponding HCDR1, HCDR2, HCDR3, LCDR1, LCDR2, and
+LCDR3 sequences.
+[00224]In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of any one
+or more of SEQ ID NOs:4-17; or
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of any one
+or more of SEQ ID NOs:20-30, or
+both a) and b).
+[00225]In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of any one
+or more of SEQ ID NOs:4-17; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of any one
+or more of SEQ ID NOs:20-30.
+46

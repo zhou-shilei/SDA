@@ -1,0 +1,43 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of any one
+or more of SEQ ID NOs:4-7; or
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of any one
+or more of SEQ ID NOs:20-22, or
+both a) and b).
+[00238] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence comprising a HCDR1, a HCDR2, and a HCDR3
+that substantially preserve one or more functional properties of a HCDR1, a
+HCDR2 and a HCDR3, respectively, of a VH amino acid sequence of any one
+or more of SEQ ID NOs:4-7; and
+b)
+a VL amino acid sequence comprising a LCDR1, a LCDR2, and a LCDR3 that
+substantially preserve one or more functional properties of a LCDR1, a
+LCDR2 and a LCDR3, respectively, of a VL amino acid sequence of any one
+or more of SEQ ID NOs:20-22
+[00239] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a HCDR1, a HCDR2 and a
+HCDR3, respectively, of a Ví amino acid sequence of any one or more of
+SEQ ID NOs:4-7; or
+b)
+a VL amino acid sequence that comprises a LCDR1, a LCDR2, and a LCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+highly conservative substitutions), relative to a LCDR1, a LCDR2 and a
+LCDR3, respectively, of a VL amino acid sequence of any one or more of SEQ
+ID NOs:20-22, or
+both a) and b).
+[00240] In some embodiments, a polypeptide comprises:
+a)
+a VH amino acid sequence that comprises a HCDR1, a HCDR2, and a HCDR3
+comprising only one or more conservative substitutions (e.g., only one or more
+51

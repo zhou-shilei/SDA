@@ -1,0 +1,14 @@
+{
+  "model": "PP-OCRv6_medium_rec",
+  "model_dir": "/project_c20250601/252705034/platform-migration/saved-root/.paddlex/official_models/PP-OCRv6_medium_rec",
+  "weights_sha256": "1b01c79a914587933f615569e75de54f2e638ebb5d3f3b3c1b38c24ede8c7319",
+  "config_sha256": "991b700facf5b50a7de193468207d5f4255b538dde0d312ae3b7c7a9b6873129",
+  "device": "gpu:0",
+  "batch_size": 1,
+  "packages": {
+    "paddleocr": "3.7.0",
+    "paddlex": "3.7.2",
+    "paddlepaddle-gpu": "3.3.1"
+  },
+  "ppvl_reference_sha256": "ff31703898a5cdd894df94c94409eccbd0be0fca9fe8de654045d8c3ddc95f4d"
+}

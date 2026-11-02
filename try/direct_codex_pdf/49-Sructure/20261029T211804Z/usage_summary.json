@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 1459.75,
+  "terminal_turns": 1,
+  "event_counts": {
+    "thread.started": 1,
+    "turn.started": 1,
+    "item.completed": 112,
+    "item.started": 101,
+    "turn.completed": 1
+  },
+  "usage": {
+    "input_tokens": 13317737,
+    "output_tokens": 65917,
+    "cached_input_tokens": 13120640,
+    "reasoning_output_tokens": 27021,
+    "total_tokens": 13383654
+  },
+  "baseline_tokens": 174165,
+  "total_baseline_multiple": 76.84468176728964
+}

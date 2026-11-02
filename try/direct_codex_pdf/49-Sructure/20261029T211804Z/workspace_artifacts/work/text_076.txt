@@ -1,0 +1,42 @@
+WO2024/020591
+PCT/US2023/070790
+X19 is S, X20 is V, X₂1 is W, X₂2 is D, X₂3 is M, X₂4 is S, X25 is S, X26 is S, or
+X₂7 is L, or a combination thereof;
+h)
+X1 is I, X₂ is W, X3 is D, X4 is S, X5 is Y, X6 is T, X7 is A, X8 is S, X9 is D,
+X10 is I, X11 is F, X12 is A, X13 is F, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is V, X₂1 is W, X22 is D, X23 is S, X24 is S, X25 is S, X26 is S,
+or X₂7 is L, or a combination thereof;
+i)
+X1 is I, X₂ is W, X₃ is D, X4 is S, X5 is Y, X6 is T, X7 is A, Xs is S, X9 is S,
+X10 is I, X11 is F, X12 is A, X13 is F, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is S, X20 is V, X₂1 is W, X22 is D, X23 is S, X₂4 is S, X25 is S, X26 is S,
+or X₂7 is L, or a combination thereof;
+j)
+X1 is I, X₂ is W, X3 is S, X4 is T, X5 is T, X6 is T, X7 is S, X8 is S, X9 is D, X10
+is I, X11 is F, X12 is S, X13 is M, X14 is I, X15 is N, X16 is I, X17 is S, X18 is K,
+X19 is N, X20 is V, X₂1 is W, X22 is D, X23 is S, X24 is S, X25 is D, X26 is F, or
+X27 is L, or a combination thereof;
+k)
+X1 is I, X₂ is S, X3 is S, X4 is S, X5 is Y, X6 is I, X7 is T, X8 is S, X9 is E, X10
+is V, X11 is Y, X12 is A, X13 is L, X14 is I, X15 is N, X16 is I, X17 is S, X18 is F,
+X19 is S, X20 is V, X₂1 is W, X22 is S, X23 is S, X24 is T, X25 is S, X26 is R, or
+X27 is H, or a combination thereof;
+1)
+X1 is V, X2 is W, X3 is D, X4 is S, X5 is N, X6 is T, X7 is A, X8 is A, X9 is S,
+X10 is V, X11 is H, X12 is A, X13 is F, X14 is I, X15 is N, X16 is I, X17 is R, X18 is
+F, X19 is S, X20 is V, X₂1 is W, X22 is V, X23 is S, X24 is T, X25 is S, X26 is D,
+or X27 is K, or a combination thereof;
+m)
+X1 is I, X₂ is S, X₃ is D, X4 is S, X5 is T, X6 is K, X7 is A, Xs is A, X9 is S, X10
+is V, X11 is Y, X12 is A, X13 is F, X14 is I, X15 is N, X16 is L, X17 is S, X18 is F,
+X19 is S, X20 is V, X₂1 is W, X₂2 is D, X23 is S, X24 is S, X25 is E, X26 is D, or
+X₂7 is L, or a combination thereof; or
+n)
+X1 is I, X₂ is W, X3 is D, X4 is S, X5 is T, X6 is K, X7 is A, X8 is A, X9 is L,
+X10 is V, X11 is H, X12 is A, X13 is F, X14 is I, X15 is N, X16 is I, X17 is S, X18 is
+K, X19 is N, X20 is V, X₂1 is W, X22 is D, X23 is E, X24 is S, X25 is S, X26 is D,
+or X27 is E, or a combination thereof.
+[00344] In some embodiments:
+X1 is I or V;
+75

@@ -9,7 +9,6 @@ from pathlib import Path
 import re
 import sqlite3
 import sys
-import threading
 from datetime import datetime, timezone
 from urllib.parse import quote, urlsplit
 
@@ -17,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from document.table_continuation import parse_grid
 from units.cache_policy import cache_enabled
 from studio.processing_metrics import processing_metrics, processing_runtime
+from studio.workspace_lock import WorkspaceLock
+from studio.comparison_groups import assign_comparison_candidates, apply_comparison_reviews
 
 
 def now():
@@ -184,7 +185,7 @@ class Workspace:
         self.root = Path(root).resolve()
         self.state = self.root / ".studio"
         self.state.mkdir(exist_ok=True)
-        self.lock = threading.RLock()
+        self.lock = WorkspaceLock(self.state / "workspace.lock")
         self.cache = {}
         self.pdf_cache = {}
         with self.connection() as db:
@@ -414,19 +415,34 @@ class Workspace:
                           "canonical_antibody_id": entity.get("name"),
                           "vh": slot_value(entity.get("VH", {}).get("sequence")),
                           "vl": slot_value(entity.get("VL", {}).get("sequence")),
+                          "h_chain": slot_value(entity.get("H_CHAIN", {}).get("sequence")),
+                          "l_chain": slot_value(entity.get("L_CHAIN", {}).get("sequence")),
+                          "h_chain_seq_id": slot_value(entity.get("H_CHAIN", {}).get("seq_id")),
+                          "l_chain_seq_id": slot_value(entity.get("L_CHAIN", {}).get("seq_id")),
+                          "full_chain_sequences": [{"region": region,
+                              "sequence": slot_value(entity.get(region, {}).get("sequence")),
+                              "seq_id": slot_value(entity.get(region, {}).get("seq_id")),
+                              "evidence": list(flatten_provenance(entity.get(region, {}).get("sequence", {}).get("provenance", [])))}
+                              for region in ("H_CHAIN", "L_CHAIN")
+                              if slot_value(entity.get(region, {}).get("sequence"))],
                           "ic50": value, "ic50_unit": unit, "assay_endpoint": metric,
                           "experiment_group": experiment.get("NAME") if "PROTOCOL_IDS" in experiment else metric or "",
                           "experiment_name": experiment.get("NAME") or observation.get("label"),
                           "assay_condition": slot_value(observation.get("conditions")),
                           "antigen_target": slot_value(observation.get("target")),
-                          "assay_method": observation.get("method") or slot_value(observation.get("experiment_type")),
+                          "assay_method": experiment.get("METHOD") or observation.get("method"),
+                          "antigen_species": experiment.get("SPECIES"),
+                          "antigen_construct": experiment.get("ANTIGEN_CONSTRUCT"),
+                          "batch_id": experiment.get("BATCH_ID"),
+                          "comparison_group_id": observation.get("comparison_group_id") or experiment.get("COMPARISON_GROUP_ID"),
+                          "comparison_status": observation.get("comparison_status") or experiment.get("COMPARISON_STATUS"),
                           "experiment_id": observation.get("exp_id"),
                           "assay_protocol_id": ", ".join(experiment.get("PROTOCOL_IDS", [])),
                           "donor_id": source.get("donor"), "replicate_id": source.get("replicate"),
                           "entity_annotations": copy.deepcopy(entity.get("annotations", [])),
                           "assay_keywords": keywords,
                           "species": [k["key"] for k in keywords if k["category"] in ("species", "antigen_species")],
-                          "assay_system": next((k["key"] for k in keywords if k["category"] == "system"), None),
+                          "assay_system": experiment.get("SYSTEM") or next((k["key"] for k in keywords if k["category"] == "system"), None),
                           "entity_aliases": entity.get("aliases", []), "construct_type": entity.get("construct_type"),
                           "evidence": [], "sda_sources": [],
                           "sda_fields": {**{k: observation.get(k, {}) for k in
@@ -482,7 +498,7 @@ class Workspace:
                 record["sda_sources"].extend(sequence_graph_sources(entity, tables))
                 record["link_status"] = "linked" if record["vh"] and record["vl"] else "unmatched"
                 evaluation = entity.get("sequence_evaluation", {})
-                for tool in ("agent", "anarci", "esm2"):
+                for tool in ("agent", "anarci", "esm2", "ophiuchus"):
                     review = evaluation.get(tool + "_review")
                     if review:
                         record[tool + "_review"] = copy.deepcopy(review)
@@ -511,8 +527,11 @@ class Workspace:
                     for q in qa.get("questions", []) if native_id and any(
                         t["entity_id"] == native_id for t in q.get("targets", []))]
                 # Presence of extracted values does not certify any independent review.
-                record["record_verification"] = {"status": "manual_review", "messages": ["SDA 提取结果，尚未人工复核"]}
+                record["record_verification_status"] = "manual_review"
+                record["record_verification"] = {"status": "manual_review", "scope": "not_run",
+                    "messages": ["记录来源核验尚未运行；此项用于检查实体、序列、指标、数值、单位及其来源的对应关系，与人工审核分开记录。"]}
                 records.append(record)
+        assign_comparison_candidates(records)
         pages, profile = self.pdf_metadata(pdf, base)
         return {"records": records, "contexts": contexts, "candidates": candidates,
                 "classifications": classifications, "ocr": ocr, "template": template,
@@ -630,6 +649,10 @@ class Workspace:
                             "patent_text": self.patent_text(identity), "artifacts": artifacts})
             patents[-1]["processing_metrics"] = processing_metrics(
                 self.root, identity, result_dir, job, bundle["run"], bundle["runtime"])
+        from studio.task_queue import TaskQueue
+        queue = TaskQueue(self).snapshot()
+        for patent in patents:
+            patent.update(queue["positions"].get(patent["document_id"], {}))
         return patents
 
     def patent_text(self, identity):
@@ -702,8 +725,16 @@ class Workspace:
             rows = db.execute("SELECT dataset_id, document_id, payload FROM publications" +
                               (" WHERE dataset_id=?" if dataset_id else "") + " ORDER BY rowid",
                               (dataset_id,) if dataset_id else ()).fetchall()
-        return [{**json.loads(payload), "_dataset_id": folder, "_patent_id": document}
-                for folder, document, payload in rows]
+        result = [{**json.loads(payload), "_dataset_id": folder, "_patent_id": document}
+                  for folder, document, payload in rows]
+        # Add derived candidates to older snapshots using only their saved data.
+        # Partition by publication, so partial snapshots never borrow live rows.
+        publications = {}
+        for record in result:
+            publications.setdefault((record["_dataset_id"], record["_patent_id"]), []).append(record)
+        for records in publications.values():
+            assign_comparison_candidates(records)
+        return result
 
     def publish(self, identity, record_ids, dataset_id):
         with self.lock:
@@ -717,6 +748,11 @@ class Workspace:
             with self.connection() as db:
                 if not db.execute("SELECT 1 FROM folders WHERE dataset_id=?", (dataset_id,)).fetchone():
                     raise ValueError("目标文件夹不存在")
+                has_tasks = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='review_tasks'").fetchone()
+                draft = db.execute("SELECT draft_json FROM review_tasks WHERE document_id=?", (identity,)).fetchone() if has_tasks else None
+                saved = json.loads(draft[0]) if draft else {}
+                reviewed = apply_comparison_reviews(list(records.values()), saved.get("reviews", {}), saved.get("corrections", {}))
+                records = {r["record_id"]: r for r in reviewed}
                 previous = db.execute("SELECT COUNT(*) FROM publications WHERE dataset_id=? AND document_id=?", (dataset_id, identity)).fetchone()[0]
                 db.execute("DELETE FROM publications WHERE dataset_id=? AND document_id=?", (dataset_id, identity))
                 db.executemany("INSERT INTO publications VALUES (?, ?, ?, ?)",

@@ -1,0 +1,61 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:37;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:52;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:61;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:72, or
+any combination of the foregoing.
+[00275] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:38;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:53;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:59;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:73, or
+any combination of the foregoing.
+[00276] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:39;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:53;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:60;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:74, or
+any combination of the foregoing.
+[00277] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:40;
+c)
+a HCDR3 comprising the amino acid sequence of SEQ ID NO:49;
+d)
+a LCDR1 comprising the amino acid sequence of SEQ ID NO:62;
+e)
+a LCDR2 comprising the amino acid sequence of SEQ ID NO:67;
+f)
+a LCDR3 comprising the amino acid sequence of SEQ ID NO:75, or
+any combination of the foregoing.
+[00278] In some embodiments, a polypeptide comprises:
+a)
+a HCDR1 comprising the amino acid sequence of SEQ ID NO:31;
+b)
+a HCDR2 comprising the amino acid sequence of SEQ ID NO:41;
+60

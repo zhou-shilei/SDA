@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+embodiments, the at least one amino acid substitution is a conservative substitution. In some
+embodiments, the at least one amino acid substitution is a highly conservative substitution.
+[00400] In some embodiments, a polypeptide comprises an antibody light chain constant
+domain sequence that has 100% sequence identity to the amino acid sequence of SEQ ID
+NO:89 or SEQ ID NO:90
+[00401] In some embodiments, a polypeptide comprises an antibody light chain constant
+domain sequence that has at least about 60% sequence identity to the amino acid sequence of
+SEQ ID NO:90. For example, a polypeptide can comprise an antibody light chain constant
+domain sequence that has at least about: 61%, 62%, 63%, 64%, 65%, 66%, 67%, 68%, 69%,
+70%, 71%, 72%, 73%, 74%, 75%, 76%, 77%, 78%, 79%, 80%, 81%, 82%, 83%, 84%, 85%,
+86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99% sequence
+identity to the amino acid sequence of SEQ ID NO:90. In some embodiments, a polypeptide
+comprises an antibody light chain constant domain sequence that has at least about 70% or at
+1east about 80% sequence identity to SEQ ID NO:90.
+[00402] In some embodiments, a polypeptide comprises an antibody light chain constant
+domain sequence that comprises at least one amino acid substitution relative to the amino
+acid sequence of SEQ ID NO:90. For example, the number of amino acid substitutions can be
+at least about: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 or 20, or about: 1-20,
+1-19, 2-19, 2-18, 2-17, 3-17, 3-16, 4-16, 4-15, 5-15, 5-14, 6-14, 6-13, 7-13, 7-12, 8-12, 8-11
+or 9-11. In some embodiments, a polypeptide comprises an antibody light chain constant
+domain sequence that comprises about 1-10 amino acid substitutions, relative to the amino
+acid sequence of SEQ ID NO:90. In some embodiments, the at least one amino acid
+substitution is a conservative substitution. In some embodiments, the at least one amino acid
+substitution is a highly conservative substitution.
+[00403] In some embodiments, a polypeptide comprises an antibody light chain constant
+domain sequence that has 100% sequence identity to the amino acid sequence of SEQ ID
+NO:90.
+[00404]In some embodiments, a polypeptide comprises:
+a)
+an antibody heavy chain constant domain sequence; and
+b)
+an antibody light chain constant domain sequence.
+85

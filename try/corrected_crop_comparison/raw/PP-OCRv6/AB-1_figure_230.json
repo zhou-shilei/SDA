@@ -1,0 +1,36 @@
+{
+  "signature": "db386325d594c5e2d761ff9de91c643c5cdce509b32e7d5493b0a04af79b8bc0",
+  "case": {
+    "id": "AB-1_figure_230",
+    "kind": "figure_sequence",
+    "item": "AB-1",
+    "page": 230,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-1_figure_230.png",
+    "crop_box_upright": [
+      359,
+      192,
+      2811,
+      268
+    ],
+    "row_selection": "ink_projection_plus_reviewed_row_order",
+    "image_sha256": "5825d943e81354a122218921a9ff08f5216a77a541e5d6e723ba320be22b9b39",
+    "correction": "unchanged figure crop",
+    "size": [
+      2452,
+      76
+    ]
+  },
+  "model": "PP-OCRv6",
+  "raw": {
+    "res": {
+      "input_path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-1_figure_230.png",
+      "page_index": null,
+      "rec_text": "FTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "rec_score": 0.9998815655708313
+    }
+  },
+  "text": "FTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+  "value": "FTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+  "seconds": 0.0283
+}

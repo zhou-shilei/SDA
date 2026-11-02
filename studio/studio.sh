@@ -61,10 +61,19 @@ case "${1:-start}" in
     ;;
   restart)
     if running; then
-      "$studio_python" - "$state_dir/jobs.json" <<'PY'
+      "$studio_python" - "$state_dir/jobs.json" "$studio_port" <<'PY'
 import json
 from pathlib import Path
 import sys
+from urllib.request import urlopen
+
+# Queue-enabled HTTP servers do not own or stop the detached parser.
+try:
+    with urlopen(f"http://127.0.0.1:{sys.argv[2]}/api/health", timeout=2) as response:
+        if json.load(response).get("persistent_queue") is True:
+            sys.exit(0)
+except Exception:
+    pass
 
 path = Path(sys.argv[1])
 jobs = json.loads(path.read_text()) if path.exists() else {}

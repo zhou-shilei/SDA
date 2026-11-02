@@ -1,0 +1,6 @@
+W0 2024/020591
+PCT/US2023/070790
+parser.add_argument("v1", type=str, help="a vl sequence to check if it is claimed")
+args = parser.parse_args()
+print(claim_sequence(args.vh,args.vl))
+214

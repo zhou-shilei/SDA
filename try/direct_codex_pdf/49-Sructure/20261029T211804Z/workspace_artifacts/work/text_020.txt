@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[0086] For example, for AB-2, the HCDR1, HCDR2, HCDR3, LCDR1, LCDR2 and
+LCDR3 amino acid sequences: (1) comprise SEQ ID NO:31, SEQ ID NO:35, SEQ ID
+NO:50, SEQ ID NO:60, SEQ ID NO:67, and SEQ ID NO:71, respectively, as determined by
+IMGT numbering; (2) comprise SEQ ID NO:130, SEQ ID NO:131, SEQ ID NO:132, SEQ
+ID NO:133, SEQ ID NO:134, and SEQ ID NO:71, respectively, as determined by Kabat
+numbering; and (3) comprise SEQ ID NO: 135, SEQ ID NO: 136, SEQ ID NO: 132, SEQ ID
+NO:133, SEQ ID NO:134, and SEQ ID NO:71, respectively, as determined by Chothia
+numbering
+[0087] As used herein, the term “paratope" refers to a set of amino acid residues in an
+antibody or an antigen-binding fragment thereof that contribute to a binding interaction with
+an epitope of a target protein. The binding interaction can be a hydrogen bond, a salt bridge, a
+van der Waal interaction, an ionic bond or a combination thereof. A binding interaction may
+be direct, or indirect, e.g., via a coordinated intermediate molecule, such as an ion or water.
+The residues of a paratope, in some embodiments, comprise only residues that are part of a
+defined CDR. In other embodiments, the residues of a paratope further comprise one or more
+residues that are not part of a defined CDR
+[0088]As used herein, the term “antibody mimetic" refers to polypeptides capable of
+mimicking an antibody's ability to bind an antigen, but structurally differ from native
+antibody structures. Examples of antibody mimetics include, but not limited to, Adnectins,
+Affibodies, Affilins, Affimers, Affitins, Alphabodies, Anticalins, Avimers, DARPins,
+Fynomers, Kunitz domain peptides, monobodies, nanobodies, nanoCLAMPs, and
+Versabodies
+[0089] As used herein the term “KD," also referred to as “binding constant,"“equilibrium
+dissociation constant" or “affinity constant," is a measure of the extent of a reversible
+association between two molecular species (e.g., antibody and target protein) and includes
+both the actual binding affinity as well as the apparent binding affinity. Binding affinity can
+be determined using methods known in the art including, for example, by measurement of
+surface plasmon resonance, e.g., using a Biolayer interferometry (Octet, ForteBio) or a
+surface plasmon resonance (Biacore) system and assav. A reference that compares various
+surface technologies for measuring binding affinity and kinetics is Yang, D., Singh, A., Wu,
+H., & Kroe-Barrett, R., Comparison of biosensor platforms in the evaluation of high affinity
+antibody-antigen binding kinetics, Analytical Biochemistry 508: 78-96 (2016), the contents
+of which are incorporated by reference herein in their entirety
+19

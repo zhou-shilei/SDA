@@ -91,7 +91,7 @@ def request_coverage(directory):
             call = json.loads(line)
         except ValueError:
             continue  # A live JSONL tail can be incomplete.
-        if not isinstance(call, dict) or call.get("stage") not in {"reader", "action", "answer", "answer_action"}:
+        if not isinstance(call, dict) or call.get("stage") not in {"reader", "action", "answer", "answer_action", "action_repair"}:
             continue
         identity = call.get("attempt_id")
         if not isinstance(identity, str) or identity in seen or number(call.get("seconds")) is None:
@@ -105,7 +105,10 @@ def request_coverage(directory):
             except (ValueError, IndexError):
                 start = None
         if start is not None:
-            groups.setdefault(call["stage"], []).append((start, start + call["seconds"]))
+            stage = call.get("parent_stage", "action") if call["stage"] == "action_repair" else call["stage"]
+            if stage not in {"reader", "action", "answer", "answer_action"}:
+                continue
+            groups.setdefault(stage, []).append((start, start + call["seconds"]))
     result = []
     for stage, spans in groups.items():
         total, end = 0.0, 0.0

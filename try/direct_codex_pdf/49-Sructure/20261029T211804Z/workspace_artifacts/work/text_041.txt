@@ -1,0 +1,44 @@
+WO 2024/020591
+PCT/US2023/070790
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of any one or more of SEO ID NOs:4-7;
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of any one or more of SEQ ID NOs:20-22
+or
+both a) and b).
+[00187] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of any one or more of SEQ ID NOs:4-7;
+and
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of any one or more of SEQ ID NOs:20-22.
+[00188] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a HCDR1, a HCDR2 and/or a HCDR3 residue, of any one or more of SEQ
+ID NOs:4-7;
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a LCDR1, a LCDR2 and/or a LCDR3 residue, of any one or more of SEQ
+ID NOs:20-22, or
+both a) and b).
+[00189] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+of a HCDR1, a HCDR2 and/or a HCDR3 residue, of any one or more of SEQ
+ID NOs:4-7; and
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+40

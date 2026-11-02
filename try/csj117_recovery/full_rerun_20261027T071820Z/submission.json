@@ -1,0 +1,97 @@
+{
+  "http_status": 202,
+  "payload": {
+    "document_id": "WO2026086808",
+    "extraction_engine": "dataagent2"
+  },
+  "response": {
+    "patent": {
+      "filename": "2-WO2026086808(dataagent2)A1-Anti-TSLP antibody and use thereof.pdf",
+      "status": "queued",
+      "created_at": "2026-10-26T16:52:04.432585+00:00",
+      "updated_at": "2026-10-27T07:18:22.639694+00:00",
+      "stage": "queued",
+      "progress": 0,
+      "error": null,
+      "input_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/937c79e37ee4407a9dac23cf3f4c4b28/data/WO2026086808",
+      "text_context_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/937c79e37ee4407a9dac23cf3f4c4b28/data/WO2026086808",
+      "result_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/937c79e37ee4407a9dac23cf3f4c4b28/results/WO2026086808",
+      "operation": "pipeline",
+      "previous_result_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/91bcacd0e83a4adb9bddd4e1abd1bd43/document/results/WO2026086808",
+      "previous_input_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/91bcacd0e83a4adb9bddd4e1abd1bd43/document/structured/layout",
+      "run_id": "937c79e37ee4407a9dac23cf3f4c4b28",
+      "worker_pid": null,
+      "finished_at": null,
+      "started_at": "2026-10-27T07:18:22.639510+00:00",
+      "log": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/937c79e37ee4407a9dac23cf3f4c4b28/pipeline.log",
+      "structured_dir": "/project_c20250601/252705034/SDA/.studio/patents/WO2026086808/runs/91bcacd0e83a4adb9bddd4e1abd1bd43/document/structured",
+      "ocr_branches": {
+        "text": "completed",
+        "table": "completed"
+      },
+      "stage_current": null,
+      "stage_total": null,
+      "semantic_status": null,
+      "preprocessing_status": "partial",
+      "extraction_engine": "dataagent2",
+      "document_id": "WO2026086808",
+      "record_count": 0,
+      "page_count": 63,
+      "pdf_form": {
+        "kind": "text"
+      },
+      "builtin": false,
+      "protected_source": false,
+      "pipeline_available": true,
+      "comparison_available": false,
+      "retry_available": false,
+      "analyze_available": true,
+      "log_available": true,
+      "log_url": "api/patents/WO2026086808/log",
+      "review_required": true,
+      "quality_warning_count": 0,
+      "reparse_available": false,
+      "collection_review_available": false,
+      "dataset_published": false,
+      "published_record_count": 0,
+      "patent_text": {
+        "status": "not_found",
+        "checked_at": "2026-10-27T07:18:23.287497+00:00",
+        "source": "local"
+      },
+      "artifacts": {
+        "records": "api/patents/WO2026086808/records.json",
+        "contexts": "api/patents/WO2026086808/contexts.json",
+        "candidates": "api/patents/WO2026086808/candidates.json",
+        "classifications": "api/patents/WO2026086808/classifications.json",
+        "ocr": "api/patents/WO2026086808/ocr.json",
+        "template": "api/patents/WO2026086808/template.json",
+        "runtime": "api/patents/WO2026086808/runtime.json",
+        "pages": "api/patents/WO2026086808/pages.json",
+        "review": "api/patents/WO2026086808/review.json"
+      },
+      "processing_metrics": {
+        "time": {
+          "seconds": null,
+          "running": false,
+          "started_at": null,
+          "scope": "full_run",
+          "stages": [],
+          "operations": []
+        },
+        "tokens": {
+          "available": false,
+          "totals": {
+            "total_tokens": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "cached_input_tokens": null,
+            "requests": null,
+            "unknown_requests": 0
+          },
+          "stages": []
+        }
+      }
+    }
+  }
+}

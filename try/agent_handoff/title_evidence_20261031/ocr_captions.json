@@ -1,0 +1,184 @@
+[
+  {
+    "table_number": 1,
+    "page": 196,
+    "ocr_text": "Table 1. Ví Amino Acid Sequences",
+    "source_ref": "p0196-l0003",
+    "bbox_pdf": [
+      217.52884407853327,
+      72.73384446364182,
+      376.8776109889596,
+      84.37125957782452
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-01-title.png"
+  },
+  {
+    "table_number": 2,
+    "page": 197,
+    "ocr_text": "Table 2. VL Amino Acid Sequences",
+    "source_ref": "p0197-l0003",
+    "bbox_pdf": [
+      217.8520667294672,
+      90.18996713491586,
+      376.8776109889596,
+      101.82738224909855
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-02-title.png"
+  },
+  {
+    "table_number": 3,
+    "page": 197,
+    "ocr_text": "Table 3. CDR Amino Acid Sequences as Determined by ImMunoGeneTics (IMGT) Numbering",
+    "source_ref": "p0197-l0061",
+    "bbox_pdf": [
+      85.00755719562297,
+      493.94361929086534,
+      509.3988978718699,
+      506.5508189978966
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-03-title.png"
+  },
+  {
+    "table_number": 4,
+    "page": 198,
+    "ocr_text": "Table 4. Heavy Chain Amino Acid Sequences",
+    "source_ref": "p0198-l0118",
+    "bbox_pdf": [
+      194.25681321129048,
+      666.5652768179086,
+      400.1496418562024,
+      679.4957380558893
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-04-title.png"
+  },
+  {
+    "table_number": 5,
+    "page": 203,
+    "ocr_text": "Table 5. Light Chain Amino Acid Sequences",
+    "source_ref": "p0203-l0061",
+    "bbox_pdf": [
+      197.48903972062976,
+      631.6530314753605,
+      396.9174153468631,
+      642.6439235276442
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-05-title.png"
+  },
+  {
+    "table_number": 6,
+    "page": 205,
+    "ocr_text": "Table 6. Self-association Properties",
+    "source_ref": "p0205-l0003",
+    "bbox_pdf": [
+      217.8520667294672,
+      72.08732140174278,
+      376.23116568709173,
+      85.01778263972355
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-06-title.png"
+  },
+  {
+    "table_number": 7,
+    "page": 205,
+    "ocr_text": "Table 7. TSLP Binding ELISA",
+    "source_ref": "p0205-l0052",
+    "bbox_pdf": [
+      227.54874625748502,
+      346.8596227088341,
+      365.888040857206,
+      360.4366070087139
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-07-title.png"
+  },
+  {
+    "table_number": 8,
+    "page": 206,
+    "ocr_text": "Table 8. TSLP Blocking ELISA",
+    "source_ref": "p0206-l0003",
+    "bbox_pdf": [
+      225.60941035188148,
+      72.41058293269231,
+      368.1505994137435,
+      84.37125957782452
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-08-title.png"
+  },
+  {
+    "table_number": 9,
+    "page": 206,
+    "ocr_text": "Table 9. KinExA Binding Affinities",
+    "source_ref": "p0206-l0052",
+    "bbox_pdf": [
+      217.20562142759934,
+      347.82940730168264,
+      377.52405629082745,
+      359.7900839468149
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-09-title.png"
+  },
+  {
+    "table_number": 10,
+    "page": 207,
+    "ocr_text": "Table 10. Inhibition of TSLP binding",
+    "source_ref": "p0207-l0003",
+    "bbox_pdf": [
+      213.65017226732616,
+      71.44079833984374,
+      380.1098374982989,
+      84.69452110877403
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-10-title.png"
+  },
+  {
+    "table_number": 11,
+    "page": 207,
+    "ocr_text": "Table 11. Inhibition of TSLP-Mediated STAT5 Signaling",
+    "source_ref": "p0207-l0036",
+    "bbox_pdf": [
+      169.04544643844415,
+      347.1828842397836,
+      424.7145633271809,
+      360.11334547776437
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-11-title.png"
+  },
+  {
+    "table_number": 12,
+    "page": 208,
+    "ocr_text": "Table 12. TSLP Binding ELISA",
+    "source_ref": "p0208-l0003",
+    "bbox_pdf": [
+      225.28618770094755,
+      72.41058293269231,
+      368.47382206467745,
+      84.37125957782452
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-12-title.png"
+  },
+  {
+    "table_number": 13,
+    "page": 208,
+    "ocr_text": "Table 13. TSLPR/IL-7Rα BAF/3 Assay",
+    "source_ref": "p0208-l0052",
+    "bbox_pdf": [
+      206.86249659771366,
+      291.58190091646634,
+      384.31173196043994,
+      304.8356236853966
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-13-title.png"
+  },
+  {
+    "table_number": 14,
+    "page": 209,
+    "ocr_text": "Table 14: Example Sequences and Potts Model Scores",
+    "source_ref": "p0209-l0003",
+    "bbox_pdf": [
+      165.42310832879696,
+      72.38990685096154,
+      429.38927923627176,
+      85.6398451585036
+    ],
+    "image": "/project_c20250601/252705034/SDA/try/agent_handoff/title_evidence_20261031/table-14-title.png"
+  }
+]

@@ -1,0 +1,25 @@
+WO 2024/020591
+PCT/US2023/070790
+assert c1[0] <= c2[0], 'first element of sequence should come before the second!'
+try:
+score +=j[(c1[0],c2[0],c1[1],c2[1])]
+except KeyError:
+pass
+return score
+def score sequence(h:dict, j:dict, sequence:str, tokens='ACDEFGHIKLMNPQRSTVWY-') -
+> float:
+logits = []
+native_logit = []
+for position in range(len(sequence)):
+scores = []
+for residue in tokens:
+#Construct new native sequence
+p_seq = sequence[:position] + residue + sequence[position+1:]
+score = sequence_energy(h,j,p_seq)
+#Add Score to Array
+es = np.exp(-score)
+scores.append(es)
+if residue == sequence[position]:
+native_logit.append(es)
+logits.append(sum(scores))
+212

@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+vehicles may be liquids, such as water and oils, including those of petroleum, animal,
+vegetable or synthetic origin, such as peanut oil, soybean oil, mineral oil, sesame oil, and the
+like. For example, 0.4% saline and 0.3% glycine can be used. These solutions are sterile and
+generally free of particulate matter. They may be sterilized by conventional, well-known
+sterilization techniques (e.g., filtration). The compositions may contain pharmaceutically
+acceptable auxiliary substances as required to approximate physiological conditions such as
+pH adjusting and buffering agents, stabilizing, thickening, lubricating, and coloring agents,
+etc. The concentration of the agent in such pharmaceutical formulation may vary widely, i.e.,
+from less than about 0.5%, to at least about 1%, or to as much as 15% or 20%, 25%, 30%,
+35%, 40%, 45% or 50% by weight. The concentration will be selected primarily based on
+required dose, fluid volumes, viscosities, etc., according to the mode of administration.
+Suitable vehicles and formulations, inclusive of other human proteins, e.g., human serum
+albumin, are described, for example, in Remington: The Science and Practice of Pharmacy,
+21st Edition, Troy, D.B. ed., Lipincott Williams and Wilkins, Philadelphia, PA 2006, Part 5,
+Pharmaceutical Manufacturing: 691-1092 (e.g., pages 958-89).
+[00102]Non-limiting examples of pharmaceutically acceptable carriers are solvents,
+dispersion media, coatings, antibacterial and antifungal agents, isotonic and absorption
+delaying agents, and the like that are physiologically compatible, such as salts, buffers,
+antioxidants, saccharides, aqueous or non-aqueous carriers, preservatives, wetting agents,
+surfactants or emulsifying agents, or combinations thereof.
+[00103] Non-limiting examples of buffers are acetic acid, citric acid, formic acid, succinic
+acid, phosphoric acid, carbonic acid, malic acid, aspartic acid, histidine, boric acid, Tris
+buffers, HEPPSO, and HEPES
+[00104] Non-limiting examples of antioxidants are ascorbic acid, methionine, cysteine
+hydrochloride, sodium bisulfate, sodium metabisulfite, sodium sulfite, lecithin, citric acid,
+ethylenediamine tetraacetic acid (EDTA), sorbitol, and tartaric acid.
+[00105]Non-limiting examples of amino acids are histidine, isoleucine, methionine,
+glycine, arginine, lysine, L-leucine, tri-leucine, alanine, glutamic acid, L-threonine, and 2-
+phenylamine.
+[00106]Non-limiting examples of surfactants are polysorbates (e.g., polysorbate-20 or
+polysorbate-80); polyoxamers (e.g., poloxamer 188); Triton; sodium octyl glycoside; laury1-,
+myristyl-, linoleyl-, or stearyl-sulfobetaine; lauryl-, myristyl-, linoleyl- or stearyl-sarcosine;
+linoleyl-, myristyl-, or cetyl-betaine; lauroamidopropyl-, cocamidopropyl-,
+23

@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+incubated with cynoTSLP-biotin cytokine for 30 minutes at 37°C, followed by addition to the
+ELISA plate. The ELISA plate was incubated for 1 hour at 37°C, followed by washing of the
+plate. To detect blocking of cynoTSLP cytokines from binding to the receptors, a detection
+HRP-Streptavidin was added to the plate and incubated for 30 minutes at 37°C, followed by
+washing of the plate. The ELISA was developed with TMB substrate, and the HRP enzymatic
+reaction was stopped with sulfuric acid solution. Percent inhibition of signal and ICso values
+were determined (Table 8)
+Example 6. Kinetic Exclusion Assay (KinExA)
+[00779]The solution equilibrium binding experiments were performed using KinExA
+3200 instrument equipped with an autosampler (Sapidyne Instruments, Boise, ID, USA). All
+analyses were performed at 25°C, and all samples were prepared in 1x phosphate-buffered
+saline (PBS) filtered buffer supplemented with 1 mg/mL bovine serum albumin (BSA) and
+0.02% sodium azide. Human TSLP and cyno TSLP were covalently immobilized onto
+azlactone beads. To a 50 mg aliquot of azlactone beads, 20 μg of human TSLP or 20 μg of
+cyno TSLP diluted in 1 mL of coating solution (50 mM sodium carbonate, 0.5 M sodium
+citrate, pH 9.0) was added to the azlactone beads and rocked for 2 hours. The beads were
+washed with blocking buffer (1 M Tris supplemented with 10 mg/mL BSA, pH 8.0) and
+rocked for 1 hour.
+[00780]The sample injection volumes and flow rates were varied depending upon the
+antibody tested. Fixed concentrations of antibody (referred to as the constant binding partner
+or CBP) were incubated with two-fold serial dilutions of human TSLP or cyno TSLP
+(referred to as the titrant) to generate two equilibrium titration curves. The samples
+containing human TSLP or cyno TSLP were equilibrated for at least 36 hours under constant
+rocking before measuring the unbound antibody on KinExA 3200. The antibody bound to
+human TSLP or cyno TSLP coated azlactone beads was detected using Alexa Fluor647
+AffiniPure goat anti-human IgG (H+L) secondary antibody. The concentration, volume and
+flow rate of the secondary antibody were varied to achieve a signal at less than 1.0 V.
+[00781] For each antibody-TSLP interaction, multiple curves from independent
+experiments were analyzed using the N-curve analysis tool to obtain KD values and CBP
+activities with 95% confidence intervals from Kd-controlled and concentration-controlled
+curves, respectively. A 1:1 binding equilibrium model was used with the titrant selected as
+the reference concentration. The drift correction option was used where appropriate.
+188

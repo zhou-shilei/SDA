@@ -1,0 +1,28 @@
+WO2024/020591
+BaF3 STAT-5 Reporter Assay
+100
+--▲--AB-1
+80
+..….AB-9
+Perc hion
+-O-…AB-6
+60
+15/27
+A-1
+40
+AB-4
+AB-14
+20
+Reference
+0
+2
+Isotype Control
+2
+0.1
+10
+100
+1000
+-20
+mAb (nM)
+PCT/US2023/070790
+FIG.8B

@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+[00506]Non-limiting examples of TSLP-mediated activities include TSLPR-binding,
+TSLP-induced signal transducer and activator of transcription 5 (STAT5) signaling, TSLP-
+induced STAT3 signaling, TSLP-induced nuclear factor kappa-light-chain-enhancer of
+activated B cells (NFκB) signaling, TSLP-induced phosphoinositide-3-kinase (PI3K)
+signaling, TSLP-induced mitogen-activated protein kinase (MAPK) signaling, activation of
+one or more genes encoding interleukin-4 (IL-4), IL-5, IL-9, IL-13 and mitogen-activated
+protein kinase kinase 2 (MEK2), and dendritic cell activation. In some embodiments, a
+TSLP-mediated activity comprises one or more innate immune mechanisms of action and/or
+one or more adaptive immune mechanisms of action.
+[00507] TSLP-mediated activities can be determined, for example, by measuringSTAT5
+reporter activity, dendritic cell activation, proliferation of cells expressing TSLPR and
+CCL17 production (see, e.g., Verstraete et al., Structure and antagonism of the receptor
+complex mediated by human TSLP in allergy and asthma, Nat Commun. 8:14937 (2017), the
+contents of which are incorporated herein by reference).
+[00508] In some embodiments, a polypeptide neutralizes an activity mediated by a TSLP
+protein (e.g., a full-length TSLP protein such as SEQ ID NO:1).
+[00509] In some embodiments, a polypeptide neutralizes a TSLP-mediated activity with an
+IC50 of about 500 pM or less, e.g., about: 450 pM, 400 pM, 350 pM, 300 pM, 250 pM, 200
+pM, 150 pM, 100 pM, 50 pM, 20 pM, 10 pM, 5 pM, 2 pM, 1 pM, 0.5 pM, 0.2 pM or 0.1 pM,
+or 1ess; or about: 0.1-500 pM, 0.1-450 pM, 0.2-450 pM, 0.2-400 pM, 0.5-400 pM, 0.5-350
+pM, 1-350 pM, 1-300 pM, 2-300 pM, 2-250 pM, 5-250 pM, 5-200 pM, 10-200 pM, 10-150
+pM, 20-150 pM, 20-100 pM or 50-100 pM.
+[00510] In some embodiments, a polypeptide reduces a TSLP-mediated activity by at least
+about 10%, e.g., by at least about: 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%,
+65%, 70%, 75%, 80%, 85%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98% or 99%. In
+some embodiments, a polypeptide reduces a TSLP-mediated activity by at least about 30%.
+[00511] In some embodiments, a polypeptide reduces a T2 inflammatory response
+mediated by one or more innate immune mechanisms of action of TSLP.
+[00512]Non-limiting examples of T2 inflammatory responses include activation of group
+2 innate lymphoid cells (ILC2s); activation, migration and/or local differentiation of
+eosinophil progenitor cells (EoPs) (e.g., via upregulation of ICAM-1 and/or CD18, and/or via
+suppression of L-selectin surface expression); increase of eosinophil viability (e.g., via
+production of IL-6, eosinophil-derived neurotoxin, and chemokines (including C-X-C Motif
+104

@@ -1,0 +1,41 @@
+WO 2024/020591
+PCT/US2023/070790
+[00165] In some embodiments, a polypeptide comprises:
+a)
+a VH that has at least about 55% (e.g., at least about: 60, 65, 70, 75, 80, 85, 90,
+95, 98, or 99%) sequence identity to the amino acid sequence of SEQ ID
+NO:3;
+b)
+a VL that has at least about 55% (e.g., at least about: 60, 65, 70, 75, 80, 85, 90,
+95, 98, or 99%) sequence identity to the amino acid sequence of SEQ ID
+NO:19, or
+both a) and b),
+wherein the polypeptide does not comprise all 6 CDRs of an antibody comprising a VH amino
+acid sequence of SEQ ID NO:3 and a VL amino acid sequence of SEQ ID NO:19.
+[00166] In some embodiments, a polypeptide comprises:
+a)
+a VH that has at least about 55% (e.g., at least about: 60, 65, 70, 75, 80, 85, 90,
+95, 98, or 99%) sequence identity to the amino acid sequence of SEQ ID
+NO:3; and
+b)
+a VL that has at least about 55% (e.g., at least about: 60, 65, 70, 75, 80, 85, 90,
+95, 98, or 99%) sequence identity to the amino acid sequence of SEQ ID
+NO:19,
+wherein the polypeptide does not comprise all 6 CDRs of an antibody comprising a VH amino
+acid sequence of SEQ ID NO:3 and a VL amino acid sequence of SEQ ID NO:19.
+[00167] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative substitution) relative to
+the amino acid sequence of SEQ ID NO:3;
+b)
+a VL that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative substitution) relative to
+the amino acid sequence of SEQ ID NO:19, or
+both a) and b).
+[00168] In some embodiments, a polypeptide comprises:
+a)
+a Ví that comprises at least one amino acid substitution (e.g., at least one
+conservative substitution such as highly conservative amino acid substitution)
+relative to the amino acid sequence of SEQ ID NO:3; and
+35

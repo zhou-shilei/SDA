@@ -1,0 +1,106 @@
+[
+  {
+    "method": "archived_table_p196",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 5,
+    "reference_characters": 366
+  },
+  {
+    "method": "archived_figures_p229_230",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 14,
+    "reference_characters": 366
+  },
+  {
+    "method": "rerun_original_table_p196",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 5,
+    "reference_characters": 366
+  },
+  {
+    "method": "rerun_original_figures_table_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 14,
+    "reference_characters": 366
+  },
+  {
+    "method": "upright_full_figures_table_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 25,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_block_p196_ocr_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 3,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_block_p196_table_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 3,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_block_p196_ocr_min501760",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 5,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_block_p196_ocr_min1003520",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 7,
+    "reference_characters": 366
+  },
+  {
+    "method": "physical_lines_p196_ocr_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 4,
+    "reference_characters": 366
+  },
+  {
+    "method": "physical_lines_p196_ocr_min501760",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 12,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_crops_figures_ocr_prompt",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 10,
+    "reference_characters": 366
+  },
+  {
+    "method": "sequence_crops_figures_ocr_min501760",
+    "exact": 0,
+    "items": 3,
+    "complete_items": 3,
+    "edit_distance": 6,
+    "reference_characters": 366
+  }
+]

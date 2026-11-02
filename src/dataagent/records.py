@@ -742,7 +742,7 @@ def assess_sequence_candidate(before: list[dict], after: list[dict], old_report:
     new = {r["record_id"]: r for r in after}
     reason = None
     permitted = {"vh", "vl", "sequence_table_id", "link_status", "construct_validation_status",
-                 "agent_review", "anarci_review", "esm2_review", "agent_review_status", "anarci_review_status", "esm2_review_status",
+                 "agent_review", "anarci_review", "esm2_review", "ophiuchus_review", "agent_review_status", "anarci_review_status", "esm2_review_status", "ophiuchus_review_status",
                  "record_verification", "record_verification_status", "sequence_coverage_status", "evidence"}
     sequence_types = {"sequence_index", "sequence_support", "construct_validation"}
     for record_id in old.keys() & new.keys():

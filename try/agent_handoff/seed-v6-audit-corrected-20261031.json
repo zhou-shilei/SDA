@@ -1,0 +1,93 @@
+{
+  "document_id": "49-Sructure",
+  "scope": "Real v6 TemplateAgent before Reader; history is a comparison, not ground truth",
+  "historical_seed_counts": {
+    "entities": 44,
+    "links": 0,
+    "experiments": 14,
+    "observations": 181,
+    "annotations": 62
+  },
+  "current_seed_counts": {
+    "entities": 45,
+    "links": 18,
+    "experiments": 16,
+    "observations": 197,
+    "annotations": 68
+  },
+  "historical_parsed_measurements": 197,
+  "current_parsed_measurements": 197,
+  "current_seed_observations": 197,
+  "parsed_measurements_missing_from_seed": [],
+  "historical_measurement_cells_not_parsed_now": [],
+  "measurements_by_table": {
+    "p0205-r0001": 30,
+    "p0206-r0002": 30,
+    "p0206-r0001": 72,
+    "p0207-r0002": 15,
+    "p0207-r0001": 50
+  },
+  "measurements_by_metric": {
+    "EC50": 30,
+    "IC50": 95,
+    "KD": 24,
+    "kon": 24,
+    "koff": 24
+  },
+  "seed_observations_by_table": {
+    "p0205-r0001": 30,
+    "p0206-r0002": 30,
+    "p0206-r0001": 72,
+    "p0207-r0002": 15,
+    "p0207-r0001": 50
+  },
+  "template_status": "needs_review",
+  "table_decisions": {
+    "needs_review": 3,
+    "context_only": 14,
+    "extract": 7,
+    "exclude": 4
+  },
+  "pending_regions": [],
+  "warnings_by_code": {
+    "document_plan_rejected_sequence_link": 71,
+    "sequence_text_disagreement": 2,
+    "sequence_definition_disagreement": 2,
+    "missing_continuation_header": 1,
+    "unnamed_sequence_continuations": 1,
+    "missing_variant_specific_mappings": 1,
+    "receptor_species_conflict": 2,
+    "rate_description_conflict": 2,
+    "method_vocabulary_gap": 1,
+    "title_method_conflict": 2,
+    "conflicting_table_number_context": 2,
+    "rebuild_table_structure": 2,
+    "document_plan_rejected_finding": 2,
+    "heuristic_header_is_data": 3,
+    "missing_reported_values": 1,
+    "endpoint_vocabulary_gap": 1,
+    "sequence_context_bounded": 1
+  },
+  "model_tasks": [
+    "document-template-v6"
+  ],
+  "literal_errors": [],
+  "assembled_summary": {
+    "entities": 45,
+    "seed_entities": 45,
+    "variable_chains": 0,
+    "complete_pairs": 0,
+    "seed_variable_chains": 0,
+    "seed_complete_pairs": 0,
+    "full_chain_slots": 0,
+    "unique_sequence_values": 0,
+    "unique_variable_sequence_values": 0,
+    "observations": 197,
+    "experiments": 14,
+    "merged_text_observation_sources": 0,
+    "missing_experiment_observations": 0,
+    "sequence_definitions": 0,
+    "conflicts": 0,
+    "rejected_facts": 0
+  }
+}

@@ -1,0 +1,48 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a LCDR 1 comprising the amino acid sequence of SEQ ID NO: 133, a LCDR2
+comprising the amino acid sequence of SEQ ID NO:134, and a LCDR3
+comprising the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-binding fragment thereof.
+[00606] The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 consisting of the amino acid sequence of SEQ ID NO:130, a
+HCDR2 consisting of the amino acid sequence of SEQ ID NO:131, and a
+HCDR3 consisting of the amino acid sequence of SEQ ID NO:132; and
+b)
+a LCDR 1 consisting of the amino acid sequence of SEQ ID NO:133, a
+LCDR2 consisting of the amino acid sequence of SEQ ID NO:134, and a
+LCDR3 consisting of the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-binding fragment thereof.
+[00607]
+AB-2 CDR amino acid sequences as determined by Chothia numbering are:
+[00608]
+HCDR1: GFTFRTY (SEQ ID NO:135)
+[00609]
+HCDR2: WYDGSY (SEQ ID NO:136)
+[00610]
+HCDR3: SPQWEEIFEAMDI (SEQ ID NO:132)
+[00611]
+LCDR1: GGNNIGSKSVH (SEQ ID NO:133)
+[00612]
+LCDR2: DDSDRPS (SEQ ID NO:134)
+[00613]
+LCDR3: QIWDSSSSLVV (SEQ ID NO:71)
+[00614]
+The disclosure also provides, among other things, a polypeptide comprising:
+a)
+a HCDR 1 comprising the amino acid sequence of SEQ ID NO:135, a HCDR2
+comprising the amino acid sequence of SEQ ID NO:136, and a HCDR3
+comprising the amino acid sequence of SEQ ID NO:132; and
+b)
+a LCDR 1 comprising the amino acid sequence of SEQ ID NO: 133, a LCDR2
+comprising the amino acid sequence of SEQ ID NO:134, and a LCDR3
+comprising the amino acid sequence of SEQ ID NO:71,
+wherein the polypeptide is an antibody or an antigen-bindingfragment thereof.
+[00615] The disclosure also provides, among other things, a polypeptide comprising
+a)
+a HCDR 1 consisting of the amino acid sequence of SEQ ID NO:135, a
+HCDR2 consisting of the amino acid sequence of SEQ ID NO: 136, and a
+HCDR3 consisting of the amino acid sequence of SEQ ID NO: 132; and
+121

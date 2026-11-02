@@ -5,7 +5,7 @@
   const F = JSON.parse(document.getElementById('flow-data').textContent), $ = id => document.getElementById(id);
   const current = JSON.parse(document.getElementById('current-contract-data').textContent);
   const C = HandoffCore, sources = {...data.sources, ...F.sources};
-  const counts = Object.fromEntries(['vision','template','reader','action','answer'].map(stage=>[stage,data.calls.filter(c=>c.stage===stage).length]));
+  const counts = Object.fromEntries(['vision','template','reader','action','answer','answer_action'].map(stage=>[stage,data.calls.filter(c=>c.stage===stage).length]));
   const selectedRequests=new Map();
   const callsFor=stage=>stage.callStage?data.calls.filter(c=>c.stage===stage.callStage):[];
   const actualCall=stage=>callsFor(stage).find(c=>c.key===selectedRequests.get(stage.callStage))||callsFor(stage).find(c=>c.current)||callsFor(stage)[0];
@@ -83,40 +83,40 @@
       input:[['document / chunk','string','文档与块身份'],['initial_dataset','object','全部已有实体、关联、实验、测量（含值和单位）、标签及可用的初始序列定义'],['sources','array<tuple>','本块正文和表格的实际 OCR 原文'],['context_only_sources / existing_observation_sources','integer[]','辅助上下文 / 已有测量的来源'],['tag_categories / tag_vocabulary','array / object','允许的标签维度和示例词表'],['source_text_styles / source_image_styles / source_sequence_ocr','object?','有对应证据时附带：文字样式、原图域边界、序列 OCR 状态']],
       output:[['mentions / new_items','array','来源提及与新增实体'],['links / sequences','array','编号映射与原文序列锚点'],['experiments / observations','array','实验和测量事实'],['annotations / relations / issues','array','标签、实体关系和问题']],
       rules:['所有 chunk 使用相同完整业务 seed，不按名称、SEQ ID 或引用交集筛选；有初始序列定义时完整保留。','新增事实只能引用本次 sources 中的证据，seed 中远处的引用只作背景。','输出是增量事实；通过格式校验后还要做来源检查与合并。'],inputs:[R('payload','第一个 Reader 的真实 payload')],outputs:[R('response','第一个 Reader 的真实返回')],sources:['reader','reader_initial_dataset','chunks','provider','merge'],callStage:'reader'},
-    {id:'consolidation',title:'ActionAgent',subtitle:'综合全部建议 → 完整 Dataset',kind:'llm',x:1160,y:300,w:180,
+    {id:'consolidation',title:'Action① · 全局综合',subtitle:'完整 Dataset2 + 域复核',kind:'llm',x:1160,y:300,w:180,
       purpose:'所有 Reader 成功完成后，将同一份初始 Dataset、各块修改建议和带地址的原文证据交给 ActionAgent。模型跨块处理互补信息与冲突，返回完整业务数据集；程序随后校验来源、序列原文和每条建议的处理记录。',
       upstream:'初始 Dataset1 + 全部 Reader 建议 + 相关 OCR 证据',downstream:'程序校验 → 首轮 Dataset2',owner:'build_action_payload() → Provider.generate("action") → validate_action_result()',
-      input:[['initial_dataset','object','完整业务底稿'],['reader_actions','array','所有 Reader 建议，保留稳定 ID、块编号和来源范围问题'],['reader_coverage','object','总块数和完成块数'],['sources / source_*','array / object?','建议和种子引用的原文及关联上下文、可用样式和 OCR 状态']],
-      output:[['dataset','object','完整业务数据集，包含实体和各类事实'],['action_decisions','array','每条建议归入 accept / merge / reject / conflict，并指向输出记录'],['seed_changes','array','明确记录被替换或拒绝的初始事实'],['conflicts','array','保留冲突、证据与对应建议 ID']],
+      input:[['initial_dataset','object','完整业务底稿'],['reader_actions','array','所有 Reader 建议，保留稳定 ID、块编号和来源范围问题'],['reader_coverage','object','总块数和完成块数'],['domain_review_input','object','完整链与可变域、恒定区的精确比较候选；语义归属由模型确认'],['sources / source_*','array / object?','建议和种子引用的原文及关联上下文、可用样式和 OCR 状态']],
+      output:[['dataset','object','完整业务数据集，包含实体和各类事实'],['domain_reviews','array','逐实体 VH/VL 的 supported / unresolved / not_applicable、证据及具体缺口'],['action_decisions','array','每条建议归入 accept / merge / reject / conflict，并指向输出记录'],['seed_changes','array','明确记录被替换或拒绝的初始事实'],['conflicts','array','保留冲突、证据与对应建议 ID']],
       rules:['Reader 结果是候选建议；ActionAgent 返回完整数据集。','每条建议必须恰好处理一次；初始实体与有来源的事实不得无记录地丢失。','程序负责格式、来源、字符与完整性校验；失败后最多反馈重试一次。','Reader 未全部成功或 ActionAgent 校验失败时，结果保留 partial，后续文字问答不执行。','本页历史快照没有 ActionAgent 调用；下方展示当前契约，不伪造实测结果。'],
       inputs:[],outputs:[],sources:['action_payload','action_run','action_validate','run']},
     {id:'ledger',title:'首轮 Dataset2',subtitle:'完整结果 · 经程序校验',kind:'data',x:1160,y:510,w:180,
       purpose:'ActionAgent 返回的完整业务 Dataset 通过程序校验后，形成正式首轮结果。Reader 运行时按顺序累积的 Ledger 仅供临时审阅，不能代替 ActionAgent 的跨块综合。',
-      upstream:'ActionAgent 完整返回 + 程序校验',downstream:'缺口检查 / QuestionAgent',owner:'validate_action_result() → Ledger.assemble()',
+      upstream:'Action① 完整返回 + 程序校验',downstream:'域复核缺口排队 → 并行 Answer / Action②',owner:'validate_action_result() → Ledger.assemble()',
       input:[['dataset / action_decisions','object / array','完整结果和逐条建议处理记录'],['initial_dataset / sources','object / array','校验底稿和可引用原文']],
       output:[['dataset.first_pass.json','object','当前代码中经 ActionAgent 综合的首轮结果'],['facts.first_pass.json','object','首轮事实账本'],['action_agent.*.json','files','请求、返回、校验与综合状态']],
       rules:['无 Reader 建议时可直接保留初始 Dataset，状态为 not_needed。','下方首轮 JSON 是历史产物，采集时尚未执行当前 ActionAgent。'],inputs:[],outputs:[B('first_pass'),S('facts')],sources:['action_validate','run','assemble_ledger']},
-    {id:'question',title:'QuestionAgent',subtitle:'当前实现：Python 生成队列',kind:'python',x:970,y:510,w:145,
-      purpose:'检查首轮数据集缺失的 VH/VL 映射、定义或边界，按共享 SEQ ID 合并成问题。当前实现不调用轻量模型。',
-      upstream:'首轮 Dataset 的 missing 信息',downstream:'定向检索 + AnswerAgent',owner:'question_tasks()',
-      input:[['dataset.entities[].missing','array','待补全区域'],['sequences.*.seq_ids / source_chain_seq_ids','integer[]','域自身编号或完整链候选编号']],
-      output:[['id / kind','string','问题身份与类型'],['targets[]','array<{item,chain}>','受影响实体和区域'],['seq_ids / seq_id_scope','array / string','候选编号与编号范围'],['recovery_action','string?','图片 OCR 失败走重新识别，而非文字问答']],
-      rules:['旧架构图的 Lightweight model 是设计示意；当前这一步是确定性 Python。','questions.initial.json 保留首轮队列；不等于每项都已执行或解决。'],inputs:[B('first_pass')],outputs:[B('questions')],sources:['question'],callStage:'answer'},
-    {id:'answer',title:'AnswerAgent',subtitle:'定向检索 · 按证据回答',kind:'llm',x:780,y:510,w:145,
-      purpose:'程序先检索本题相关名称、编号和来源，在预算内组织证据；模型只回答指定问题，不重读或重写整个数据集。',
-      upstream:'问题 + OCR 证据 + 当前已知关系',downstream:'校验并应用补丁',owner:'question_payload() → Provider.generate("answer")',
-      input:[['document / question','string / object','文档身份与本次要解决的问题'],['items / known_links','array','实体目录和预算内已有关系'],['known_variable_definitions','array','相关可变区已有定义'],['sources','array<tuple>','本题实际检索到的证据'],['identity_rule','string','相似名称不能作为身份合并的依据'],['omitted_matching_sources','integer','预算未容纳的匹配来源数'],['source_image_styles / source_sequence_ocr','object?','有相关证据时附带的原图样式与序列 OCR 状态']],
-      output:[['links / sequences','array','有证据的映射或定义增量'],['issues','array','证据不足、边界或身份仍不明确'],['其他事实数组','array','与 Reader 使用相同响应契约；无新增时为空']],
-      rules:['历史流程未保存每题之前的完整 Ledger；中间状态不能用首轮数据集冒充。','相似名称只用于检索，不自动合并身份。'],inputs:[A('payload','第一个补全请求的实际 payload')],outputs:[A('response','第一个补全请求的实际返回')],sources:['answer','provider'],callStage:'answer'},
-    {id:'action',title:'问答补丁校验',subtitle:'Validate & apply',kind:'python',x:590,y:510,w:145,
-      purpose:'先在 Ledger 副本上校验回答；若会覆盖已支持但冲突的序列则挂起，否则接纳新增事实，再单独判断缺口是否补全。',
-      upstream:'Answer 返回 + 当前 Ledger',downstream:'更新 Ledger / 保留未解决问题',owner:'run() 中的 candidate.apply() 与冲突检查',
-      input:[['response','Reader schema','Answer 返回的候选补丁'],['allowed','integer[]','本次问题允许引用的证据'],['当前 Ledger','runtime object','历史快照未逐题记录此对象']],
-      output:[['answers[].status','string','applied / conflicting_patch / failed 等'],['resolved','boolean','本题目标槽位是否真正补全'],['added_chains','integer','本次新增可变区数量']],
-      rules:['applied 不等于 resolved。无证据、OCR 失败和预算不足保留待处理状态。'],inputs:[A('response')],outputs:[B('answers')],sources:['merge','run'],callStage:'answer'},
+    {id:'question',title:'缺口排队',subtitle:'Action 域复核 → Python 分组',kind:'python',x:970,y:510,w:145,
+      purpose:'Action① 已给出逐实体的证据缺口。程序只对 unresolved 复核项分组排队，共享编号或同实体无编号缺口可归为一题；不调用额外的 Question 模型。',
+      upstream:'固定 Dataset2 + Action① 的 domain_reviews',downstream:'定向检索 → 并行 Answer',owner:'question_plan()',
+      input:[['dataset.entities','array','首轮实体和各域现状'],['domain_reviews','array','全部实体 VH/VL 的复核结论和具体 missing_evidence']],
+      output:[['questions / review_context','array','按缺口分组的问题及原始复核依据'],['excluded_reviews','array','supported / not_applicable 项'],['recovery_action','string?','OCR 失败留给图片重新识别，不进入文字 Answer']],
+      rules:['缺口语义来自 Action①；Python 仅负责检查覆盖和分组，不调用轻量模型。','question_plan.json 保留全部排队依据和排除项；questions.initial.json 是本轮队列。','问题预算未覆盖的项继续保存为 deferred_budget。'],inputs:[B('first_pass'),B('domain_review')],outputs:[B('question_plan'),B('questions')],sources:['question','followup']},
+    {id:'answer',title:'Answer · 并行补证',subtitle:'默认 4 路 · 共享固定 Dataset2',kind:'llm',x:780,y:510,w:145,
+      purpose:'所有 Answer 独立读取同一份固定 Dataset2 的定向上下文及本题原文，用专用小型 Prompt 和 Schema 回答一项具体缺口。回答在副本校验，只产生建议，不修改共享数据。',
+      upstream:'具体缺口 + 固定 Dataset2 上下文 + 必要原文',downstream:'副本校验 → 全部有效建议交给 Action②',owner:'answer_payload() → Provider.generate("answer") → validate_answer()',
+      input:[['question / dataset2_hash','object / string','问题、域复核依据与固定底稿哈希'],['items / known_links / known_definitions / known_relations','arrays','实体目录及本题已知事实'],['candidate_comparisons','object','完整链拆分的字面比较候选，不作为归属结论'],['sources / retrieval','array / object','原文及必要证据大小、可选证据遗漏和软预算状态']],
+      output:[['question_id / status / answer','strings','对应问题、resolved / partial / unresolved / conflict 和简短回答'],['refs / missing_evidence','arrays','答案证据及具体仍缺的依据'],['actions','array','add_link / add_sequence_definition / add_relation / record_conflict']],
+      rules:['默认 4 路并行，每题只提出少量必要新增建议；不重新抽取测量或完整数据集。','必要证据和完整序列不截断，可以超过 8,000 字符软预算；可选来源按预算追加。','validate_answer() 在副本检查引用与字面证据；正式 Dataset2 在全部 Answer 完成前保持相同。','resolved 是回答的主张，最终是否补全以 Action② 综合后的实体状态为准。'],inputs:[B('dataset2_business'),A('payload','实际定向输入')],outputs:[A('response','实际回答及候选建议'),B('answers')],sources:['answer','answer_validate','followup','provider'],callStage:'answer'},
+    {id:'action',title:'Action② · 问答综合',subtitle:'有新建议才调用 · 完整 Dataset3',kind:'llm',x:590,y:510,w:145,
+      purpose:'全部 Answer 完成并通过副本校验后，将完整 Dataset2、有效建议及对应原文一次交给 LLM 综合，返回完整 Dataset3。有冲突的建议保留审计，受支持的域不得静默覆盖。没有有效新增建议时跳过模型调用并保留 Dataset2。',
+      upstream:'完整 Dataset2 + 全部有效 Answer 建议 + 原文',downstream:'完整 Dataset3 / 综合失败时保留 Dataset2',owner:'build_answer_action_payload() → run_action_payload(stage="answer_action")',
+      input:[['initial_dataset','object','完整业务 Dataset2'],['reader_actions / answer_results','arrays','Answer 建议及回答和缺口；保留稳定建议 ID'],['protected_domains','array','已支持域的值，禁止静默覆盖或降级'],['sources / domain_review_input','array / object','原文与本次域复核候选']],
+      output:[['dataset / domain_reviews','object / array','完整 Dataset3 与更新后的域复核'],['action_decisions / seed_changes / conflicts','arrays','逐条处理、底稿修改与冲突审计'],['answer_action.json','file','validated / not_needed / failed 状态']],
+      rules:['Answer 之间没有逐题更新循环；全部有效建议汇总后最多进入一轮综合，校验反馈另行记录。','无有效建议时状态为 not_needed，不发送模型请求；Dataset3 保留 Dataset2。','综合失败时保留 Dataset2 和错误；最终缺口、冲突与历史拒绝记录继续保存。'],inputs:[B('dataset2_business'),B('answer_actions'),B('answer_action_input')],outputs:[B('answer_action_status'),B('answer_action_dataset'),B('dataset3_business')],sources:['answer_action_payload','followup','action_validate']},
     {id:'final',title:'最终 Dataset3',subtitle:'数据、冲突与剩余缺口',kind:'data',x:400,y:510,w:145,
       purpose:'Reader 和有限问答完成后，保存原生数据集、剩余问题与质量核对。没有生成最终文件时，页面明确显示未记录。',
-      upstream:'补丁处理后的 Ledger',downstream:'SDA 导出适配器',owner:'Ledger.assemble() / audit_dataset()',
+      upstream:'Action② 完整结果，或跳过 / 失败时保留的 Dataset2',downstream:'SDA 导出适配器',owner:'Ledger.assemble() / audit_dataset()',
       input:[['当前 Ledger','runtime object','已接纳的事实和冲突']],
       output:[['entities / sequences / observations','array','实体、序列和测量'],['conflicts / issues / rejected_facts','array','审阅所需的不确定性'],['reader_coverage / status','object / string','读取范围与结果状态'],['quality_audit.json / questions.json','files','质量核对与最终剩余问题']],
       rules:['未生成最终文件时不能用首轮或 partial 数据替代。'],inputs:[B('answers')],outputs:[S('final')],sources:['assemble_ledger','audit','run']},
@@ -146,7 +146,11 @@
   }
   stageMap.get('seed').outputs=[B(data.artifacts.reader_initial?'reader_initial':'seed'),B('seed')];
   stageMap.get('ledger').inputs=[B('action_dataset'),B('action_status')];
-  stageMap.get('question').outputs=[B('questions'),B('remaining_questions')];
+  stageMap.get('ledger').outputs=[B('first_pass'),B('dataset2_business'),B('domain_review')];
+  if(counts.answer_action)stageMap.get('action').callStage='answer_action';
+  const integration=data.artifacts.answer_action_status?.value;
+  if(integration?.status==='not_needed')stageMap.get('action').subtitle='本轮跳过 · 无有效新增建议';
+  if(integration)stageMap.get('action').rules.push(`本轮实际状态：${integration.status}${integration.status==='not_needed'?'，没有有效新增建议，未调用 Action② 模型。':integration.status==='failed'?'，保留 Dataset2 与失败记录。':'，以保存的校验状态为准。'}`);
   if(data.artifacts.final_dataset)stageMap.get('final').outputs=[B('final_dataset'),B('quality')];
   if(data.artifacts.sda_export)stageMap.get('export').outputs=[B('sda_export')];
   if(actionCall){
@@ -173,8 +177,9 @@
     upstream:'Template 结果 + 主机保存的原始 OCR 证据',downstream:'相同完整 Dataset1 → Reader / Action；来源索引 → 分块与回查',
     purpose:'load_input() 在主机内把 Template 初稿转换成完整业务底稿，同时建立独立来源索引。全文用于来源初始化，不回传给 TemplateAgent。两种输出分别传给后续步骤。'});
   Object.assign(stageMap.get('table_input'),{upstream:'坐标对齐后的表格 + 匹配表题 + 可用的原图复核值'});
-  Object.assign(stageMap.get('question'),{title:'缺口检查',subtitle:'Python 生成问题队列',downstream:'程序检索本题证据 → AnswerAgent'});
-  Object.assign(stageMap.get('answer'),{upstream:'程序选出的本题证据 + 当前已知关系',purpose:'接收已由 question_payload() 组织好的问题和证据，提出候选补丁。文字检索和坐标回查由程序执行；本节点是 LLM 回答。'});
+  stageMap.get('reader').input.push(['source_encoding','string?','可选 grouped_sources_v1 按页 / 表 / 行可逆组织来源；默认仍使用七列来源行']);
+  stageMap.get('reader').rules.push('grouped 只改变来源的传输表示，保留全部原文、来源 ID、物理行列及顺序；catalogue 等输入筛选仍是独立实验。');
+  stageMap.get('reader').sources.push('reader_request','source_encode','source_decode');
   Object.assign(stageMap.get('final'),{subtitle:'可为 partial · 缺口保留',downstream:'SDA 导出 / 待复核审计 / 引用回查'});
   const extraStages=[
     {id:'source_index',title:'来源索引',subtitle:'原文 / 页码 / 框 / 来源 ID',kind:'data',
@@ -185,12 +190,12 @@
       rules:['来源索引和业务 Dataset 独立保存；全文不作为 Template 的输入。','Agent 引用整数 ID，程序从来源字典找回位置。','bbox 主要为工作页 PDF 点坐标；原始 PDF 变换保留在上游文件。'],
       inputs:[S('semantic'),B('template')],outputs:[B('source_index')],sources:['load','reader_initial_dataset']},
     {id:'retrieval',title:'本题证据检索',subtitle:'Python · 有输入预算',kind:'python',callStage:'answer',inspectCalls:true,
-      purpose:'程序按本题实体、编号、已有关系及定义检索原文，在预算内组织证据；完整链边界问题优先带入对应恒定区定义。输出才是 AnswerAgent 实收的上下文。',
-      upstream:'缺口问题 + 当前 Dataset + 来源索引',downstream:'AnswerAgent 的本题 payload',owner:'question_payload()',
+      purpose:'从同一份固定 Dataset2 取出本题已有关系、定义和精确比较候选。先完整保留必要引用及其表头 / 邻近来源，再按软预算加入其他匹配证据。',
+      upstream:'具体缺口 + 固定 Dataset2 + 来源索引',downstream:'AnswerAgent 的本题 payload',owner:'answer_payload()',
       input:[['question / ledger','objects','目标、已知关系和定义'],['sources','object','主机保存的原文与来源字典']],
-      output:[['sources / known_links','arrays','预算内原文及已知关系'],['known_variable_definitions / known_constant_definitions','arrays','本题提供的定义'],['omitted_matching_sources','integer','没有放入当前请求的匹配来源数']],
+      output:[['sources / known_links / known_definitions','arrays','原文和定向业务上下文'],['candidate_comparisons','object','本题引用的比较候选及定义'],['retrieval','object','soft_source_chars / required_source_chars / omitted_optional_bundles / required_budget_exceeded']],
       rules:['这里是确定性程序检索，没有 LLM Prompt。','Reader 使用全量初始 seed；本题补全使用定向检索，两者输入策略不同。'],
-      inputs:[B('questions'),B('source_index')],outputs:[A('payload','本题实际送给 Answer 的输入')],sources:['answer','run']},
+      inputs:[B('questions'),B('dataset2_business'),B('source_index')],outputs:[A('payload','本题实际送给 Answer 的输入')],sources:['answer','followup']},
     {id:'provenance',title:'原位追溯',subtitle:'refs → 原文与位置',kind:'python',
       purpose:'用 Dataset 中的来源 ID 和字符片段回查原文、页码及可用位置框。截图框通过 crop_to_pdf 映射到工作 PDF；上游保存工作页到原 PDF 的变换。字符起止位置不等于逐字符像素框。',
       upstream:'最终 Dataset 的 refs / fragments + 完整来源索引',downstream:'原文证据、对应页面及裁图位置',owner:'sources.json / fragment_refs() / ground_sequence()',
@@ -200,7 +205,7 @@
       inputs:[B('final_dataset'),B('source_index')],outputs:[B('source_index'),B('final_dataset','/entities/0/sequences/VH/fragments','一条实际 VH 的原文片段')],sources:['load','sequence_fragments','coordinate_transform']},
     {id:'review',title:'待复核与审计',subtitle:'缺口 / 冲突 / 未采纳理由',kind:'data',
       purpose:'本轮执行结束后，未解决问题、冲突标记和拒绝理由继续保存。它们没有因为读取流程完成而变成已确认业务事实，也不表示后台仍有自动处理在运行。',
-      upstream:'最终 Dataset + questions.json + 事实候选',downstream:'后续针对性复核与修订',owner:'question_tasks() / Ledger.assemble() / export_result()',
+      upstream:'最终 Dataset + questions.json + 事实候选',downstream:'后续针对性复核与修订',owner:'question_plan() / Ledger.assemble() / export_result()',
       input:[['questions / conflicts / issues','arrays','缺口、冲突及问题标记']],
       output:[['questions.json','array','最终未解决问题'],['conflicts / issues / rejected_facts','arrays','证据与理由；不同清单可能重叠']],
       rules:['partial 表示仍有业务待复核项；读取和整合流程可以已经完整结束。','冲突标记需要复核，不能直接当作专利矛盾或模型错误数量。','未采纳建议保留审计；被挂起的测量候选不冒充正式测量。'],
@@ -223,7 +228,7 @@
     let item, value;
     if (ref.scope === 'bundle') item = data.artifacts[ref.key];
     if (ref.scope === 'flow') item = F.samples[ref.key];
-    if (['reader','answer','action','template','vision'].includes(ref.scope)) {
+    if (['reader','answer','action','answer_action','template','vision'].includes(ref.scope)) {
       const c = actualCall({callStage:ref.scope});
       if (c) {
         item = ref.side === 'response' ? c.response : c.request;
@@ -282,11 +287,12 @@
     $('stage-data-note').textContent=pair?.prepared?'当前 v5 待发送输入：由已有 OCR 按当前程序打包，使用 headers 和单行 rows；未调用模型，没有新版分类输出。下方提示词与 Schema 属于当前版本。历史请求与结果可在上方单独切换。':pair?`${window.HandoffPreview.scopeNote(pair.table, pair.request?.value)} 本例按 table_id 和 input_hash 配对，保留${pair.actual?'本次':'历史'}实际输入和结果。程序整理后的结果与模型原始返回分别展示。`:stage.id==='template'?'当前 v6 已将 LabelAgent 并入 TemplateAgent。下方输入、输出、Schema 和调用提示词保持采集时的历史版本；新版实现与提示词见 Python 源码页。刷新网页不重跑模型。':'输入输出定义按当前代码更新；本栏 JSON、Schema 与提示词保留采集时的真实版本。Reader / Answer 沿用冻结请求；OCR 等上游结构采样每个数组最多保留首项。';
     const request=pair?.request?.value||(stage.kind==='llm'?call?.request.value:null);
     const contractRequest=stage.schema?F.samples[stage.schema]:null;
-    const schema=request?.schema||(stage.id==='consolidation'?current.action_schema:null)||(pair?.prepared?null:contractRequest?.schema);
+    const currentSchema=stage.id==='answer'?current.answer_schema:['consolidation','action'].includes(stage.id)?current.action_schema:null;
+    const schema=request?.schema||currentSchema||(pair?.prepared?null:contractRequest?.schema);
     $('stage-schema-box').hidden=!schema;
     $('stage-schema-box').querySelector('summary').textContent=pair?.prepared?'当前 v5 输出 JSON Schema（未调用模型）':'实际调用使用的输出 JSON Schema（完整）';
     if(schema)tree($('stage-schema-tree'),schema);
-    const instructions=request?.instructions||(stage.id==='consolidation'?current.prompts?.consolidation?.text:null)||(pair?.prepared?null:contractRequest?.instructions);
+    const instructions=request?.instructions||current.prompts?.[stage.id]?.text||(pair?.prepared?null:contractRequest?.instructions);
     $('stage-prompt-box').querySelector('summary').textContent=pair?.prepared?'当前 v5 提示词 instructions（未调用模型）':'实际调用保存的提示词 instructions（完整）';
     if(stage.id==='consolidation'&&!actionCall){
       $('stage-data-note').textContent='当前 ActionAgent 契约与提示词；历史快照未保存该阶段请求或结果。此处没有调用模型。';
@@ -294,8 +300,13 @@
       $('stage-prompt-box').querySelector('summary').textContent='当前 ActionAgent 提示词（未调用）';
     }
     if(stage.id==='consolidation'&&actionCall)$('stage-data-note').textContent='本轮真实 ActionAgent 输入、原始返回与展开后的完整业务结果分别展示。显式记录引用只改变传输表示；完整结果已经过来源和逐条 action 校验。';
+    if(!request&&currentSchema){
+      $('stage-schema-box').querySelector('summary').textContent='当前输出 Schema · 本快照未记录调用';
+      $('stage-prompt-box').querySelector('summary').textContent='当前提示词 · 本快照未记录调用';
+    }
     if(data.actual_full_run&&stage.id!=='consolidation')$('stage-data-note').textContent='本轮完整 PDF 重跑的冻结文件。模型输入和返回完整保留；大型上游文档的结构样例另有标注，并可打开完整原文件。';
     if(call&&stage.kind==='llm'&&!call.current)$('stage-data-note').textContent='当前选择的是历史请求 / 未最终接纳的尝试，仅展示它自己的输入、返回和 Prompt；不使用最终结果替代。';
+    if(stage.id==='action'&&!call)$('stage-data-note').textContent=integration?`本轮 Action② 状态：${integration.status}。${integration.status==='not_needed'?'没有有效新增建议，没有发送模型请求；Dataset3 保留 Dataset2。':'执行情况以保存的状态及产物为准。'}下方提示词与 Schema 为当前定义。`:'本快照没有 Action② 请求与状态；下方提示词与 Schema 是当前定义，不代表历史执行。';
     $('stage-prompt-box').hidden=!instructions;$('stage-prompt').textContent=instructions||'';
     HandoffDetails.prompt($('stage-prompt-content'),stage,call);
   }
@@ -326,7 +337,7 @@
     $('stage-contract-tables').replaceChildren(contract('INPUT · 输入如何定义',stage.input),contract('OUTPUT · 输出如何定义',stage.output));
     $('stage-rules').replaceChildren(...stage.rules.map(r=>el('li',r)));
     $('stage-call-action').hidden=!stage.callStage;
-    $('stage-call-action').textContent=stage.callStage?`查看 ${counts[stage.callStage]} 个${{reader:'Reader',action:'ActionAgent',answer:'补全'}[stage.callStage]}实际请求 →`:'';
+    $('stage-call-action').textContent=stage.callStage?`查看 ${counts[stage.callStage]} 个${{reader:'Reader',action:'Action①',answer:'补全',answer_action:'Action②',template:'Template',vision:'原图复核'}[stage.callStage]}实际请求 →`:'';
     renderStageData(stage);
     if(hasPreview&&stage.id==='classification')window.HandoffPreview.render($('stage-preview-content'),()=>renderStageData(stage));
     renderCode(stage);document.querySelectorAll('.flow-node').forEach(b=>b.classList.toggle('selected',b.dataset.stage===stage.id));
@@ -347,7 +358,8 @@
     const defs=svg('defs',{}),palette={slate:'#9aa7ad',teal:'#327c69',orange:'#b38856',evidence:'#6c98ba'};
     for(const [kind,color] of Object.entries(palette)){const marker=svg('marker',{id:`arrow-${kind}`,viewBox:'0 0 10 10',refX:8.5,refY:5,markerWidth:5,markerHeight:5,orient:'auto-start-reverse'});marker.append(svg('path',{d:'M 1 1 L 9 5 L 1 9 z',fill:color}));defs.append(marker);}wires.append(defs);
     const primary=new Set(['pdf:preprocess','preprocess:detection','preprocess:page_ocr','detection:table_ocr','table_ocr:evidence','page_ocr:evidence','evidence:table_input','sequence_review:table_input','table_input:template','template:seed','seed:source_index','source_index:chunking','seed:reader','chunking:reader','reader:reader','reader:consolidation','seed:consolidation','consolidation:ledger','ledger:question','question:retrieval','retrieval:answer','answer:action','action:question','action:final','final:export','final:review']);
-    const mainLabels={'table_input:template':'表格＋表题','template:seed':'初始底稿','source_index:chunking':'原文来源 · 按顺序分块','seed:reader':'同一份完整 Dataset1','reader:consolidation':`${data.artifacts.action_status?.value.action_count??'全部'} 条建议`,'consolidation:ledger':'完整 Dataset2','action:question':'更新数据，处理下一题'};
+    primary.delete('action:question');primary.add('ledger:action');primary.add('ledger:answer');
+    const mainLabels={'table_input:template':'表格＋表题','template:seed':'初始底稿','source_index:chunking':'原文来源 · 按顺序分块','seed:reader':'同一份完整 Dataset1','reader:consolidation':`${data.artifacts.action_status?.value.action_count??'全部'} 条建议`,'consolidation:ledger':'完整 Dataset2','ledger:action':'固定 Dataset2 · Answer 只读 / Action② 综合'};
     const groups=[],cards=[];
     function fitLabel(group,text){const box=text.getBBox(),rect=group.querySelector('rect');for(const [k,v] of Object.entries({x:box.x-7,y:box.y-4,width:box.width+14,height:box.height+8,rx:5}))rect.setAttribute(k,v);}
     for(const [index,edge] of graphEdges.entries()){
@@ -361,7 +373,7 @@
     function trace(id){canvas.classList.toggle('is-tracing',Boolean(id));const neighbors=new Set([id]);if(id)for(const edge of graphEdges){if(edge.from===id)neighbors.add(edge.to);if(edge.to===id)neighbors.add(edge.from);}for(const {group,edge} of groups)group.classList.toggle('in-trace',Boolean(id)&&(edge.from===id||edge.to===id));for(const {button:card,stage} of cards)card.classList.toggle('in-trace',Boolean(id)&&neighbors.has(stage.id));}
     const typeLabels={file:'FILE',python:'PYTHON',ocr:'OCR',llm:'LLM',data:'DATA'};
     for(const stage of stages){
-      const b=button('',()=>navigate('stage/'+stage.id),`flow-node kind-${stage.kind}`);const unrecorded=['final','export'].includes(stage.id)&&!F.samples[stage.id];b.classList.toggle('unrecorded',unrecorded);b.dataset.stage=stage.id;
+      const b=button('',()=>navigate('stage/'+stage.id),`flow-node kind-${stage.kind}`);const unrecorded=['final','export'].includes(stage.id)&&!F.samples[stage.id]&&!data.artifacts[stage.id==='final'?'final_dataset':'sda_export'];b.classList.toggle('unrecorded',unrecorded);b.dataset.stage=stage.id;
       Object.assign(b.style,{left:`${100*stage.x/graph.width}%`,top:`${100*stage.y/graph.height}%`,width:`${100*stage.w/graph.width}%`,height:`${100*stage.h/graph.height}%`});b.setAttribute('aria-haspopup','dialog');b.setAttribute('aria-controls','stage-dialog');b.setAttribute('aria-label',`${stage.title}：查看流向与实际内容`);
       const head=el('div',undefined,'node-topline'),kind=el('span',typeLabels[stage.kind],'flow-kind'),open=svg('svg',{viewBox:'0 0 16 16',class:'node-open',width:14,height:14,'aria-hidden':'true'});open.append(svg('path',{d:'M4 12L12 4M5 4h7v7',fill:'none',stroke:'currentColor','stroke-width':1.25,'stroke-linecap':'round','stroke-linejoin':'round'}));head.append(kind,open);
       b.append(head,el('strong',stage.title),el('span',stage.subtitle+(unrecorded?' · 未记录':''),'flow-node-subtitle'));canvas.append(b);cards.push({button:b,stage});b.addEventListener('pointerenter',()=>trace(stage.id));b.addEventListener('pointerleave',()=>{if(document.activeElement!==b)trace(null);});b.addEventListener('focus',()=>trace(stage.id));b.addEventListener('blur',()=>trace(null));
@@ -402,12 +414,13 @@
   $('stage-request-select').addEventListener('change',event=>{selectedRequests.set(selectedStage.callStage,event.target.value);const tab=document.querySelector('[data-stage-tab][aria-selected="true"]').dataset.stageTab;showStage(selectedStage);stageTab(tab);});
   document.querySelectorAll('[data-stage-tab]').forEach(b=>b.addEventListener('click',()=>stageTab(b.dataset.stageTab)));
   $('flow-reader-count').textContent=`本轮 ${counts.reader} 个块 · 相同完整底稿独立并行`;
-  const qcount=data.artifacts.questions?.value.length;$('flow-question-count').textContent=`本轮 ${qcount??'—'} 个问题 · ${data.calls.filter(c=>c.stage==='answer'&&c.current).length} 个使用请求（含历史共 ${counts.answer} 个）`;
+  const qcount=data.artifacts.questions?.value.length;$('flow-question-count').textContent=`本轮 ${qcount??'—'} 个问题 · ${data.calls.filter(c=>c.stage==='answer'&&c.current).length} 个 Answer · Action② ${integration?.status??'未记录'}`;
   if(F.reference_image){$('reference-figure').src=F.reference_image;$('reference-box').hidden=false;}
   if(data.actual_full_run){
     const run=data.run_context||{},settings=data.artifacts.run_settings?.value||{};
-    $('run-version-message').textContent=`本轮从原始 PDF 重跑：${F.pages?.length||263} 页、${F.tables?.length||29} 张表、${counts.reader} 个 Reader。Template 只接收表格和表题；所有 Reader 使用相同完整业务 seed。ActionAgent 整合已完成，最终结果保留待复核项。`;
-    $('contract-updated-at').textContent=`${settings.model||'模型未记录'} · Reader ${settings.effort||'未记录'} / Action ${settings.action_effort||settings.effort||'未记录'} · 本页更新只读取保存文件，没有重跑模型。`;
+    $('run-version-message').textContent=`本轮从原始 PDF 重跑：${F.pages?.length??'未记录'} 页、${F.tables?.length??'未记录'} 张表、${counts.reader} 个 Reader。Template → 完整 Dataset1 → 并行 Reader → Action① / 域复核 → 固定 Dataset2 → 并行 Answer → Action② → Dataset3。Action① ${data.artifacts.action_status?.value.status??'未记录'}；Action② ${integration?.status??'未记录'}，最终结果保留待复核项。`;
+    const readerRequest=actualCall({callStage:'reader'})?.request.value;
+    $('contract-updated-at').textContent=`${settings.model||readerRequest?.model||'模型未记录'} · Reader ${settings.effort||readerRequest?.effort||'未记录'} / Action① ${settings.action_effort||actionCall?.request.value.effort||'未记录'} · 本页更新只读取保存文件，没有重跑模型。`;
     const guide=document.querySelector('.reader-dataset-example');if(guide)guide.textContent='本轮 C1、C2、Cn 卡片均连接真实请求；完整底稿、Prompt、原始返回与校验结果可直接查看。Reader 独立并行，由 ActionAgent 跨块组织结果。';
     if(data.document_id==='49-Sructure')for(const [label,path] of [['查看本轮效果对照','../49-Sructure/rerun-comparison.html'],['打开更新前的历史网页','../49-Sructure/index.history-before-flow-20261101.html']]){const a=el('a',label);a.href=path;$('snapshot-links').append(a);}
   }else if(data.run_context){

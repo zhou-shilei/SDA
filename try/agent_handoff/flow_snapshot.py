@@ -30,7 +30,14 @@ def capture_current_contract(root):
         'reader': ('src/dataagent2/pipeline.py', 'reader_payload'),
         'reader_initial_dataset': ('src/dataagent2/pipeline.py', 'initial_dataset'),
         'chunks': ('src/dataagent2/inputs.py', 'make_chunks'),
-        'answer': ('src/dataagent2/pipeline.py', 'question_payload'),
+        'question': ('src/dataagent2/followup.py', 'question_plan'),
+        'answer': ('src/dataagent2/followup.py', 'answer_payload'),
+        'answer_validate': ('src/dataagent2/followup.py', 'validate_answer'),
+        'answer_action_payload': ('src/dataagent2/followup.py', 'build_answer_action_payload'),
+        'followup': ('src/dataagent2/followup.py', 'run_followup'),
+        'reader_request': ('src/dataagent2/pipeline.py', 'reader_request'),
+        'source_encode': ('src/dataagent2/source_transport.py', 'encode_payload'),
+        'source_decode': ('src/dataagent2/source_transport.py', 'decode_payload'),
         'action_payload': ('src/dataagent2/action_agent.py', 'build_action_payload'),
         'action_validate': ('src/dataagent2/action_agent.py', 'validate_action_result'),
         'action_run': ('src/dataagent2/action_agent.py', 'run_action_agent'),
@@ -39,7 +46,7 @@ def capture_current_contract(root):
         'sequence_fragments': ('src/dataagent2/ledger.py', 'ground_sequence'),
         'run': ('src/dataagent2/pipeline.py', 'run'),
     }
-    result = {'version': 6, 'captured_at': now(), 'sources': {
+    result = {'version': 8, 'captured_at': now(), 'sources': {
         key: source_ref(root, path, name) for key, (path, name) in locations.items()}, 'prompts': {}}
     for key, filename in [('template', 'document_template.txt')]:
         path = root / 'src/dataagent/prompt' / filename
@@ -67,6 +74,12 @@ def capture_current_contract(root):
     result['prompts']['consolidation'] = {'path': str(path.relative_to(root)),
         'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'text': ACTION_INSTRUCTIONS}
     result['action_schema'] = SCHEMA_ACTION
+    from dataagent2.followup import ANSWER_INSTRUCTIONS, ANSWER_ACTION_INSTRUCTIONS, ANSWER_SCHEMA
+    path = root / 'src/dataagent2/followup.py'
+    for key, instructions in [('answer', ANSWER_INSTRUCTIONS), ('action', ANSWER_ACTION_INSTRUCTIONS)]:
+        result['prompts'][key] = {'path': str(path.relative_to(root)),
+            'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'text': instructions}
+    result['answer_schema'] = ANSWER_SCHEMA
     return result
 
 

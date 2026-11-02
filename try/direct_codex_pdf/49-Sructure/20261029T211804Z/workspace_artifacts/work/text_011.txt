@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+composition (e.g., pharmaceutical composition) comprising one or more polypeptides
+disclosed herein
+[0040]The disclosure also provides, among other things, a method of modulating (e.g.,
+reducing) a TSLP-mediated signaling in a cell (e.g., a cell in a subject), comprising
+contacting the cell with a polypeptide disclosed herein and/or a composition (e.g.,
+pharmaceutical composition) comprising one or more polypeptides disclosed herein.
+[0041] In some embodiments, a subject has asthma, atopic dermatitis (AD), allergic
+conjunctivitis, chronic obstructive pulmonary disease (COPD), chronic spontaneous urticaria
+(CSU), rheumatoid arthritis (RA), rhinosinusitis (RS), eosinophilic esophagitis (EE), or a
+food-hypersensitivity reaction. In some embodiments, a subject has moderate asthma. In
+some embodiments, a subject has severe asthma. In some embodiments, a subject has COPD.
+In some embodiments, a subject has COPD and/or either moderate asthma or severe asthma.
+[0042] The disclosure also provides, among other things, a method of reducing binding of
+TSLP to a TSLP receptor (TSLPR) on a cell in a subject, comprising contacting the cell with
+an effective amount of a composition (e.g., pharmaceutical composition) comprising one or
+more polypeptides disclosed herein.
+[0043]The disclosure also provides, among other things, a method of making a
+polypeptide disclosed herein, comprising culturing a host cell comprising a nucleotide
+sequence encoding the polypeptide under conditions where the polypeptide is expressed in
+the host cell
+[0044]The disclosure also provides, among other things, a computer-implemented
+method that comprises scoring a polypeptide comprising an amino acid sequence with a
+computationally binding optimized (CBO) model. The CBO model, for each amino acid
+position of the amino acid sequence of the polypeptide, calculates multiple energy scores, the
+multiple energy scores based on having substituted the amino acid at a given position in the
+amino acid sequence with each of a plurality of different amino acids. The CBO model
+further adds each energy score calculated to an array. The CBO model further generates a
+normalized sum of the energy scores for each position. The CBO model further calculates a
+logarithm of each energy score calculated. The CBO model further generates a score of the
+polypeptide by summing the logarithms of each energy score calculated, the score
+representing a functional property of the polypeptide.
+[0045] The disclosure also provides, among other things, a system that includes a
+processor and a memory with computer code instructions stored thereon. The processor and
+10

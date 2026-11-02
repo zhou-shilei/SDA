@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+TSLP) or a variant thereof. In some embodiments, a polypeptide disclosed herein binds TSLP
+at an AB-loop region and C-terminal region of helix D.
+[0011] In some embodiments, a polypeptide modulates (e.g., reduces, such as inhibits)
+binding between TSLP and TSLPR (e.g., alone or in a heterodimeric complex with
+interleukin 7 receptor alpha (IL-7Rα)). In some embodiments, a polypeptide modulates (e.g.,
+reduces, such as inhibits) TSLP-mediated signaling in vitro and/or in vivo.
+[0012]The disclosure provides, among other things, a polypeptide (e.g., an antibody or
+an antigen binding fragment thereof) that specifically binds a TSLP, wherein the polypeptide
+has one or more properties selected from:
+a binding affinity for a TSLP characterized by a KD of 10 pM or less (e.g., as
+measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix D of a
+TSLP;
+a neutralizing activity against a TSLP (e.g., a full-length human TSLP); or
+an inhibitory activity against TSLP-mediated signaling,
+or a combination of the foregoing.
+[0013]The disclosure also provides, among other things, a polypeptide (e.g., an antibody
+or an antigen binding fragment thereof) that comprises a paratope that is substantially similar
+to the paratope of an antibody comprising an immunoglobulin heavy chain variable domain
+(Ví)/an immunoglobulin light chain variable domain (VL) combination selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+SEQ ID NO:10 and SEQ ID NO:25 (AB-7);
+SEQ ID NO:11 and SEQ ID NO:20 (AB-8);
+SEQ ID NO:12 and SEQ ID NO:20 (AB-9);
+SEQ ID NO:13 and SEQ ID NO:26 (AB-10);
+SEQ ID NO:14 and SEQ ID NO:27 (AB-11);
+SEQ ID NO:15 and SEQ ID NO:28 (AB-12);
+SEQ ID NO:16 and SEQ ID NO:29 (AB-13); or
+3

@@ -1,0 +1,14 @@
+WO2024/020591
+Human TSLP Binding ELISA
+AB-2a
+Abste ae Abnm
+AB-2b
+Reference
+19/27
+IgG1 Isotype
+IgG2 Isotype
+0.000010.0001 0.001 0.01 0.1
+10
+mAb concentration (μg/ml)
+PCT/US2023/070790
+FIG. 10A

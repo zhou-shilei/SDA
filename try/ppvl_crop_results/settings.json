@@ -1,0 +1,17 @@
+{
+  "pipeline": "PaddleOCR-VL-1.6",
+  "model_dir": "/project_c20250601/252705034/platform-migration/saved-root/.paddlex/official_models/PaddleOCR-VL-1.6",
+  "device": "gpu:0",
+  "batch_size": 1,
+  "max_new_tokens": 8192,
+  "use_layout_detection": false,
+  "use_doc_orientation_classify": false,
+  "use_doc_unwarping": false,
+  "model_config_sha256": "ce7f4565f8b1db78532ad5d1b9ebe55c2139d49bd4cb04778b580a08a598f171",
+  "model_weights_sha256": "85a479d506a11e724e7285d395c551be69f41dbc16b6342d3cacfb189aed71db",
+  "packages": {
+    "paddleocr": "3.7.0",
+    "paddlex": "3.7.2",
+    "paddlepaddle-gpu": "3.3.1"
+  }
+}

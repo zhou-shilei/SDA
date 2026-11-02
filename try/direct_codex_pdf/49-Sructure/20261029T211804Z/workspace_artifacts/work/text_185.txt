@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+expression host systems (such as the Chinese hamster ovary - CHO S cell line) were
+employed for protein expression using cationic lipid-based transient transfection
+methodologies with fed-batch production procedures. The expressed, soluble full-length IgG
+molecules were purified using an affinity capture-based purification method using Protein A-
+affinity resin (such as the MabSelect SuReTM resin, Cytiva, Marlborough, MA) and aqueous
+buffers. Elution was performed under acidic conditions with low pH (such as pH 3.5) and
+then neutralized to pH 7.5 using 2M Tris base. The purified antibodies were further stabilized
+in aqueous buffers (such as Histidine-based buffers containingNaCl) for long-term
+storage/freezing.
+Example 2. Polyspecific Reactivity of Candidate TSLP Binders
+[00765]Non-specific interaction, or poly-specific reactivity (PSR), measures the potential
+for an antibody to bind non-specifically to things other than its desired target, in this case,
+TSLP. PSR was measured with using a low-stringency ELISA-based method (Tiller et al., J
+Immunol Methods. 329:112-24 (2008)). Briefly, a 384-well assay plate was coated with 10
+μg/mL salmon sperm DNA (Rockland Immunochemicals, Inc., Gilbertsville, PA) and
+incubated overnight at 4°C. All antigens were diluted in Tris-buffered saline (TBS). The
+assay plate was washed 3 times with 100 μL TBS-Tween-20 (TBS-T) on an automated plate
+washer and blocked with 100 μL of TBS-T with 5% bovine serum albumin (BSA) for one
+hour at 37ºC. The assay plate was washed 3 times as before. The purified full-length IgG
+molecules described in Example 1 were normalized to 100 nM in TBS-T and distributed in
+duplicate. The plate was incubated for 1 hour at 37ºC and again washed 3 times as before.
+DELFIA®(dissociation-enhanced lanthanide fluorescence immunoassay) Eu-N1 anti-human
+IgG secondary (PerkinElmer Inc., Waltham, MA) was diluted to 100 ng/mL in TBS-T plus
+5% BSA, and 25 μL was distributed into each well. The plate was incubated for 1 hour at
+37°C then washed 3 time as before. 25 μL of DELFIA®Enhancement Solution (PerkinElmer
+Inc.) was added to each well and incubated in the dark for 15 minutes. Time Resolved
+Fluorescence (TRF) was measured for each well. Polyspecific binding to DNA was
+quantified by dividing the raw signal over signal from buffer-only wells. Representative data
+are shown in Table 6.
+Example 3. Self-Association of Candidate TSLP Binders
+[00766]Self-interaction properties of the antibody candidates were measured by Affinity
+Capture Self-Interaction Nanoparticle Spectroscopy (AC-SINS) (Liu et. al., mAbs. 6:483-92
+184

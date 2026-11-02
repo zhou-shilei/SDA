@@ -1,0 +1,37 @@
+WO 2024/020591
+PCT/US2023/070790
+116.
+The polypeptide of any of Embodiments 111-115, wherein the predetermined
+threshold is the logarithmic probability that the sequence inputted to the script would
+occur given the weights of the Potts model.
+117. The polypeptide of any of Embodiments 111-116, wherein a CBO script assigning the
+score to the polypeptide includes receiving a trained first- and second- order energy
+score table of outputted weights of a model trained by a plurality of known amino
+acid sequences and corresponding properties of the known amino acid sequences.
+118.
+The polypeptide of any of Embodiments 111-117, wherein the polypeptide comprises
+an immunoglobulin heavy chain variable domain (Ví) and an immunoglobulin light
+chain variable domain (VL).
+119.
+The polypeptide of any of Embodiments 111-118, wherein the polypeptide has one or
+more properties selected from:
+a binding affinity for a thymic stromal lymphopoietin (TSLP) polypeptide
+characterized by a KD of 10 pM or less; (optionally, as measured by KinExA);
+a binding specificity for the AB-loop region and the C-terminal region of helix
+D of the TSLP polypeptide;
+a neutralizing activity against the TSLP polypeptide (optionally, a full-length
+human TSLP); or
+an inhibitory activity against TSLP-mediated signaling,
+or a combination of the foregoing.
+120. The polypeptide of any of Embodiments 111-119, wherein the CBO model outputs a
+score that is equal to or above a score from the CBO model of one or more of a
+reference polypeptide that comprises a VH and VL pair selected from:
+SEQ ID NO:4 and SEQ ID NO:20 (AB-1);
+SEQ ID NO:5 and SEQ ID NO:21 (AB-2);
+SEQ ID NO:6 and SEQ ID NO:20 (AB-3);
+SEQ ID NO:7 and SEQ ID NO:22 (AB-4);
+SEQ ID NO:8 and SEQ ID NO:23 (AB-5);
+SEQ ID NO:9 and SEQ ID NO:24 (AB-6);
+SEQ ID NO: 10 and SEQ ID NO:25 (AB-7);
+179
+RECTIFIED SHEET (RULE 91)

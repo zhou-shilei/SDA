@@ -189,6 +189,7 @@ class CodexProvider:
         model: str = DEFAULT_MODEL,
         effort: str = DEFAULT_EFFORT,
         timeout: int = 600,
+        template_timeout: int | None = None,
         audit_path: Path | None = None,
         executable: str = "codex",
         profile: str | None = None,
@@ -198,6 +199,7 @@ class CodexProvider:
         self.model = model
         self.effort = effort
         self.timeout = timeout
+        self.template_timeout = max(timeout, 1800) if template_timeout is None else template_timeout
         self.audit_path = audit_path
         self.executable = executable
         self.profile = profile
@@ -273,11 +275,12 @@ class CodexProvider:
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         contract = request["contract"]
         call_started = time.monotonic()
+        timeout_seconds = self.template_timeout if request["task"].startswith("document-template-") else self.timeout
         def log(event: str, **details: Any) -> None:
             log_llm_event(event, task=request["task"], input_hash=key,
                           total_elapsed_seconds=round(time.monotonic() - call_started, 3), **details)
 
-        log("request_start", model=self.model, reasoning_effort=self.effort, timeout_seconds=self.timeout,
+        log("request_start", model=self.model, reasoning_effort=self.effort, timeout_seconds=timeout_seconds,
             payload_chars=len(json.dumps(request["payload"], ensure_ascii=False)),
             instruction_chars=len(request["instructions"]),
             schema_chars=len(json.dumps(schema, ensure_ascii=False)), image_count=len(images),
@@ -354,6 +357,7 @@ class CodexProvider:
                 "--sandbox", "read-only", "--ephemeral", "--json",
                 "--disable", "shell_tool", "--disable", "multi_agent",
                 "--disable", "skill_search", "-c", 'web_search="disabled"',
+                "--disable", "plugins", "--disable", "remote_plugin", "--disable", "apps",
                 "--skip-git-repo-check", "--cd", str(attempt_dir),
                 "--output-schema", str(root / "schema.json"),
                 "--output-last-message", str(output_path),
@@ -385,14 +389,14 @@ class CodexProvider:
                                             attempt=attempt + 1, started=started):
                         stdout, stderr = process.communicate(
                             prompt + feedback,
-                            timeout=self.timeout,
+                            timeout=timeout_seconds,
                         )
                 except subprocess.TimeoutExpired:
                     os.killpg(process.pid, signal.SIGKILL)
                     stdout, stderr = process.communicate()
                     (attempt_dir / "events.jsonl").write_text(_redact(stdout or ""), encoding="utf-8")
                     (attempt_dir / "stderr.log").write_text(_redact(stderr or ""), encoding="utf-8")
-                    raise CodexProviderError(f"Codex exceeded {self.timeout}s timeout", error_kind="timeout")
+                    raise CodexProviderError(f"Codex exceeded {timeout_seconds}s timeout", error_kind="timeout")
                 (attempt_dir / "events.jsonl").write_text(_redact(stdout), encoding="utf-8")
                 (attempt_dir / "stderr.log").write_text(_redact(stderr), encoding="utf-8")
                 events = []

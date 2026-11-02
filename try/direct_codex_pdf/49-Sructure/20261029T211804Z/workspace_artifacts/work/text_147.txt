@@ -1,0 +1,36 @@
+WO 2024/020591
+PCT/US2023/070790
+or any combination of the foregoing
+[00708] In some embodiments:
+X15 is N or Y;
+X16 is L or I;
+X17 is S or R;
+X18 is K, F or Y;
+X19 is S or N;
+X2o is V or I;
+X₂1 is W or Y;
+X22 is D, V or S;
+X23 is S, M or E;
+X24 is S, A or T;
+X25 is S, D or E;
+X26 is D, S, R or F;
+X27 is H, L, K or E,
+or any combination of the foregoing
+[00709] In some embodiments:
+X15 is Y;
+X16 is I;
+X17 is R;
+X18 is F or Y;
+X19 is N;
+X2o is I;
+X₂1 is Y;
+X₂2 is V or S;
+X23 is M or E;
+X24 is A or T;
+X₂5 is D or E;
+X26 is S, R or F;
+X27 is L, K or E,
+or any combination of the foregoing.
+[00710] In particular embodiments, the CBO polypeptide does not comprise a Ví and VL
+pair selected from:
+146

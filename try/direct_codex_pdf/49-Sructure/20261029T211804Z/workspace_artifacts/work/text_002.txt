@@ -1,0 +1,34 @@
+WO 2024/020591
+PCT/US2023/070790
+ANTIGEN BINDING MOLECULES TARGETING THYMIC STROMAL
+LYMPHOPOIETIN (TSLP)
+RELATED APPLICATION(S)
+[0001]This application claims the benefit of U.S. Provisional Application No.
+63/369,152, filed on July 22, 2022; U.S. Provisional Application No. 63/369,158, filed on
+July 22, 2022; U.S. Provisional Application No. 63/369,165, filed on July 22, 2022; U.S.
+Provisional Application No. 63/369,175, filed on July 22, 2022; U.S. Provisional Application
+No. 63/369,202, filed on July 22, 2022; U.S. Provisional Application No. 63/369,203, filed
+on July 22, 2022; U.S. Provisional Application No. 63/369,204, filed on July 22, 2022; and
+U.S. Provisional Application No. 63/369,206, filed on July 22, 2022.
+[0002]This application claims the priority to and is a continuation-in-part of U.S.
+Application No. 18/356,891, filed on July 21, 2023.
+[0003]The entire teachings of the above applications are incorporated herein by
+reference. Without limiting the foregoing, this application incorporates by reference the
+Sequence Listing and code of respective Appendices A and B for the forgoing applications.
+For example the files claim.txt and fit_model.txt of U.S. Application No. 18/356,891.
+INCORPORATION BY REFERENCE OF MATERIAL IN XML
+[0004]This application incorporates by reference the Sequence Listing contained in the
+following eXtensible Markup Language (XML) file being submitted concurrently herewith:
+a)
+File name: 57081061005_Sequence_Listing.xml; created July 22, 2023,
+212,394 Bytes in size.
+INCORPORATION BY REFERENCE OF MATERIAL IN AN ASCII FILE
+[0005]This application incorporates by reference the Computer Program Listing
+contained in the following ASCII file being submitted concurrently herewith:
+a)
+File name: claim.py; uploaded July 22, 2023 and available at
+https://zenodo.org/record/8174726/files/claim.py?download=1 or at
+https://doi.org/10.5281/zenodo.8174726 and selecting "claim.py", 4,774
+Bytes in size. The entire teachings of the above file are incorporated herein by
+reference in their entirety.
+1

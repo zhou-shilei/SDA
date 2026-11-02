@@ -1,0 +1,39 @@
+WO 2024/020591
+PCT/US2023/070790
+23.
+The composition of Claim 22, wherein the one or more additional therapeutic agents
+comprise a corticosteroid, a beta-agonist, a muscarinic antagonist, or a combination
+thereof.
+24.
+A method of treating a subject in need thereof, comprising administering an effective
+amount of the composition of any one of Claims 20-23 to the subject, optionally,
+wherein the subject is a human
+25.
+The method of Claim 24, further comprising administering a therapeutically effective
+amount of an additional therapeutic or prophylactic agent to the subject.
+26.
+The method of claim 25, wherein the additional therapeutic or prophylactic agent
+comprises a corticosteroid, a beta-agonist, a muscarinic antagonist, or a combination
+thereof.
+27.
+A method of reducing binding of thymic stromal lymphopoietin (TSLP) to a TSLP
+receptor (TSLPR) on a cell in a subject, comprising contacting the cell with an
+effective amount of the composition of any one of Claims 19-21, optionally, wherein
+the subject is a human.
+28.
+The method of any one of Claims 24-27, wherein the subject is a pediatric patient,
+optionally, the subject is 12 years of age or older.
+29.
+The method of any one of Claims 24-28, wherein the subject has asthma, atopic
+dermatitis (AD), allergic conjunctivitis, chronic obstructive pulmonary disease
+(COPD), chronic spontaneous urticaria (CSU), rheumatoid arthritis (RA),
+rhinosinusitis (RS), eosinophilic esophagitis (EE), or a food-hypersensitivity reaction,
+optionally, wherein the subject has COPD and/or either moderate asthma or severe
+asthma.
+30.
+A method of making the polypeptide of any one of Claims 1-15, comprising culturing
+a host cell comprising a nucleotide sequence encoding the polypeptide under
+conditions where the polypeptide is expressed in the host cell.
+31.
+A computer-implemented method comprising
+221

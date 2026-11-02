@@ -1,0 +1,69 @@
+{
+  "signature": "412bc19599d58593cd1d5a0f97d522bab32ae708936e1a910ea94c646ce4ecc8",
+  "case": {
+    "id": "AB-1_figure_230",
+    "kind": "figure_sequence",
+    "item": "AB-1",
+    "page": 230,
+    "prompt": "ocr",
+    "path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-1_figure_230.png",
+    "crop_box_upright": [
+      359,
+      192,
+      2811,
+      268
+    ],
+    "row_selection": "ink_projection_plus_reviewed_row_order",
+    "image_sha256": "5825d943e81354a122218921a9ff08f5216a77a541e5d6e723ba320be22b9b39",
+    "correction": "unchanged figure crop",
+    "size": [
+      2452,
+      76
+    ]
+  },
+  "model": "PPVL",
+  "raw": {
+    "input_path": "/project_c20250601/252705034/SDA/try/corrected_crop_comparison/images/AB-1_figure_230.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2452,
+    "height": 76,
+    "model_settings": {
+      "use_doc_preprocessor": false,
+      "use_layout_detection": false,
+      "use_chart_recognition": false,
+      "use_seal_recognition": false,
+      "use_ocr_for_image_block": false,
+      "format_block_content": false,
+      "merge_layout_blocks": true,
+      "markdown_ignore_labels": [
+        "number",
+        "footnote",
+        "header",
+        "header_image",
+        "footer",
+        "footer_image",
+        "aside_text"
+      ],
+      "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+      {
+        "block_label": "ocr",
+        "block_content": "FTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+        "block_bbox": [
+          0,
+          0,
+          2452,
+          76
+        ],
+        "block_id": 0,
+        "block_order": 1,
+        "group_id": 0
+      }
+    ]
+  },
+  "text": "FTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+  "value": "FTITRDNSKNTLNLOMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+  "seconds": 0.9823
+}

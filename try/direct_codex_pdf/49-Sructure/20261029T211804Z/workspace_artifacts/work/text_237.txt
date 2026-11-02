@@ -1,0 +1,27 @@
+WO2024/020591
+hTSLPR-IL7Ra/hTSLP Blocking ELISA
+120
+AB-7
+100
+AB-1
+--▲--AB-9
+Pericion
+80
+10/27
+.......AB-6
+60
+-0.AB-10
+A
+40
+AB-1
+20
+Reference
+0
+0.01
+0.1
+10
+100
+PCT/US2023/070790
+-20
+mAb (nM)
+FIG.6A

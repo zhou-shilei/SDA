@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+phosphate groups, modified or substituted sugar or phosphate groups, a polymer of synthetic
+subunits such as phosphoramidates, or a combination thereof
+[0080] As used herein, the term “sequence identity" refers to the extent to which two
+nucleotide sequences have the same residues at the same positions when the sequences are
+aligned to achieve a maximal level of identity, expressed as a percentage. For sequence
+alignment and comparison, typically one sequence is designated as a reference sequence, to
+which test sequences are compared. Sequence identity between reference and test sequences
+is expressed as a percentage of positions across the entire length of the reference sequence
+where the reference and test sequences share the same nucleotide or amino acid upon
+alignment of the reference and test sequences to achieve a maximal level of identity. As an
+example, two sequences are considered to have 70% sequence identity when, upon alignment
+to achieve a maximal level of identity, the test sequence has the same nucleotide residue at
+70% of the same positions over the entire length of the reference sequence.
+[0081] Alignment of sequences for comparison to achieve maximal levels of identity can
+be readily performed by a person of ordinary skill in the art using an appropriate alignment
+method or algorithm. In some instances, alignment can include introduced gaps to provide for
+the maximal level of identity. Examples include the local homology algorithm of Smith &
+Waterman, Adv. Appl. Math. 2:482 (1981), the homology alignment algorithm of Needleman
+& Wunsch, J. Mol. Biol. 48:443 (1970), the search for similarity method of Pearson &
+Lipman, Proc. Nat'l. Acad. Sci. USA 85:2444 (1988), computerized implementations of these
+algorithms (GAP, BESTFIT, FASTA, and TFASTA in the Wisconsin Genetics Software
+Package, Genetics Computer Group, 575 Science Dr., Madison, Wis.), and visual inspection
+(see generally Ausubel et al., Current Protocols in Molecular Biology)
+[0082]When using a sequence comparison algorithm, test and reference sequences are
+input into a computer, subsequent coordinates are designated, if necessary, and sequence
+algorithm program parameters are designated. The sequence comparison algorithm then
+calculates the percent sequence identity for the test sequence(s) relative to the reference
+sequence, based on the designated program parameters. A commonly used tool for
+determining percent sequence identity is Protein Basic Local Alignment Search Tool
+(BLASTP) available through National Center for Biotechnology Information, National
+Library of Medicine, of the United States National Institutes of Health. (Altschul et al.,
+1990).
+17

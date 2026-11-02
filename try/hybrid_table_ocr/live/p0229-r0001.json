@@ -1,0 +1,4570 @@
+{
+  "version": 1,
+  "document_id": "WO2024020591A9",
+  "table_id": "p0229-r0001",
+  "page": 229,
+  "bbox": [
+    119.04,
+    143.04,
+    423.36,
+    739.68
+  ],
+  "coordinate_space": "pdf_points",
+  "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/WO2024020591A9_table-0022-page-0229.png",
+  "image_sha256": "4bf269b9e24f89213eeb88413040d6c3382d14e5994dd4a9f52bc600701332ae",
+  "backend": "vl",
+  "backend_version": "3.7.0",
+  "device": "gpu:0",
+  "text": "<table><tr><td>Reference</td><td>$ HCDR1 $</td><td>$ HCDR2 $</td></tr><tr><td rowspan=\"2\"></td><td>*</td><td>*** *** *</td></tr><tr><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR</td><td></td></tr><tr><td>AB-1</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-2</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-3</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR</td><td></td></tr><tr><td>AB-4</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR</td><td></td></tr><tr><td>AB-5</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR</td><td></td></tr><tr><td>AB-6</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR</td><td></td></tr><tr><td>AB-7</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR</td><td></td></tr><tr><td>AB-8</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-9</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-10</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR</td><td></td></tr><tr><td>AB-11</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR</td><td></td></tr><tr><td>AB-12</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR</td><td></td></tr><tr><td>AB-13</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR</td><td></td></tr><tr><td>AB-14</td><td>QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR</td><td></td></tr></table>",
+  "text_sha256": "82c34f294a646b4ba9587a950806b5dd73f7ba7da4d0a03d00a59ba2bf0119ca",
+  "cells": [
+    {
+      "text": "Reference",
+      "ref": "p0229-r0001:R0C0",
+      "row": 0,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "$ HCDR1 $",
+      "ref": "p0229-r0001:R0C1",
+      "row": 0,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "$ HCDR2 $",
+      "ref": "p0229-r0001:R0C2",
+      "row": 0,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R1C0",
+      "row": 1,
+      "column": 0,
+      "rowspan": 2,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "*",
+      "ref": "p0229-r0001:R1C1",
+      "row": 1,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "*** *** *",
+      "ref": "p0229-r0001:R1C2",
+      "row": 1,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR",
+      "ref": "p0229-r0001:R2C1",
+      "row": 2,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R2C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR",
+        "status": "failed",
+        "lines": [],
+        "error": "No sequence text lines inside the addressed cell"
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R2C2",
+      "row": 2,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-1",
+      "ref": "p0229-r0001:R3C0",
+      "row": 3,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        286.3515926584446,
+        3018.19094806399,
+        349.24087386580766,
+        3273.4043398329254
+      ],
+      "bbox_crop": [
+        286.3515926584446,
+        3018.19094806399,
+        349.24087386580766,
+        3273.4043398329254
+      ],
+      "bbox_pdf": [
+        164.56374049472083,
+        680.2072793109601,
+        175.87951832834602,
+        726.136634357159
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0025"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-1",
+          "bbox_pdf": [
+            164.56374049472083,
+            680.2072793109601,
+            175.87951832834602,
+            726.136634357159
+          ],
+          "bbox_crop": [
+            286.3515926584446,
+            3018.19094806399,
+            349.24087386580766,
+            3273.4043398329254
+          ],
+          "source_ref": "ocr:p0229-l0025"
+        }
+      ],
+      "confidence": 0.8841640949249268,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+      "ref": "p0229-r0001:R3C1",
+      "row": 3,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        291,
+        60,
+        356,
+        3029
+      ],
+      "bbox_crop": [
+        291,
+        60,
+        356,
+        3029
+      ],
+      "bbox_pdf": [
+        165.40013651877135,
+        147.83787108219988,
+        177.0956996587031,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R3C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R3C1-line1.png",
+            "image_sha256": "57d6af23f74bde64f24d126a08fc66f8c6b06bb563f0d98531cc8189aefdb13c",
+            "bbox_upright": [
+              353,
+              291,
+              3322,
+              356
+            ],
+            "bbox_crop": [
+              291,
+              60,
+              356,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+            "confidence": 0.9999418258666992
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "bbox_crop": [
+          291,
+          60,
+          356,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R3C2",
+      "row": 3,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-2",
+      "ref": "p0229-r0001:R4C0",
+      "row": 4,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+      "ref": "p0229-r0001:R4C1",
+      "row": 4,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        396,
+        60,
+        462,
+        3029
+      ],
+      "bbox_crop": [
+        396,
+        60,
+        462,
+        3029
+      ],
+      "bbox_pdf": [
+        184.29296928327648,
+        147.83787108219988,
+        196.16846416382253,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R4C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R4C1-line1.png",
+            "image_sha256": "94537b346ce48d095ddfdb562102bcb4c1822bf2ad956129e78782d69607ecaf",
+            "bbox_upright": [
+              353,
+              396,
+              3322,
+              462
+            ],
+            "bbox_crop": [
+              396,
+              60,
+              462,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+            "confidence": 0.9999526143074036
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          396,
+          60,
+          462,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R4C2",
+      "row": 4,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-3",
+      "ref": "p0229-r0001:R5C0",
+      "row": 5,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+      "ref": "p0229-r0001:R5C1",
+      "row": 5,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        499,
+        60,
+        565,
+        3029
+      ],
+      "bbox_crop": [
+        499,
+        60,
+        565,
+        3029
+      ],
+      "bbox_pdf": [
+        202.8259385665529,
+        147.83787108219988,
+        214.701433447099,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R5C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R5C1-line1.png",
+            "image_sha256": "350d9888bf910f13fde873358969b2ac4210906e326759abdfcdf49b3dc32f74",
+            "bbox_upright": [
+              353,
+              499,
+              3322,
+              565
+            ],
+            "bbox_crop": [
+              499,
+              60,
+              565,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+            "confidence": 0.9999440908432007
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "bbox_crop": [
+          499,
+          60,
+          565,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R5C2",
+      "row": 5,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-4",
+      "ref": "p0229-r0001:R6C0",
+      "row": 6,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        595.4074888774862,
+        3023.5827802844606,
+        665.4841165085481,
+        3276.9988946465724
+      ],
+      "bbox_crop": [
+        595.4074888774862,
+        3023.5827802844606,
+        665.4841165085481,
+        3276.9988946465724
+      ],
+      "bbox_pdf": [
+        220.1727058485361,
+        681.1776177978516,
+        232.78171543457563,
+        726.7835266817533
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0026"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-4",
+          "bbox_pdf": [
+            220.1727058485361,
+            681.1776177978516,
+            232.78171543457563,
+            726.7835266817533
+          ],
+          "bbox_crop": [
+            595.4074888774862,
+            3023.5827802844606,
+            665.4841165085481,
+            3276.9988946465724
+          ],
+          "source_ref": "ocr:p0229-l0026"
+        }
+      ],
+      "confidence": 0.8514149188995361,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+      "ref": "p0229-r0001:R6C1",
+      "row": 6,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        601,
+        60,
+        669,
+        3029
+      ],
+      "bbox_crop": [
+        601,
+        60,
+        669,
+        3029
+      ],
+      "bbox_pdf": [
+        221.17897610921503,
+        147.83787108219988,
+        233.4143344709898,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R6C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R6C1-line1.png",
+            "image_sha256": "906313a71b40e16555b3634d243c9f7b538232a55a17a8eeacfff5f8e1dcb31d",
+            "bbox_upright": [
+              353,
+              601,
+              3322,
+              669
+            ],
+            "bbox_crop": [
+              601,
+              60,
+              669,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+            "confidence": 0.9999313354492188
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "bbox_crop": [
+          601,
+          60,
+          669,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R6C2",
+      "row": 6,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-5",
+      "ref": "p0229-r0001:R7C0",
+      "row": 7,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        697.827175415192,
+        3021.785502877637,
+        767.9038030462539,
+        3276.9988946465724
+      ],
+      "bbox_crop": [
+        697.827175415192,
+        3021.785502877637,
+        767.9038030462539,
+        3276.9988946465724
+      ],
+      "bbox_pdf": [
+        238.60125832044002,
+        680.8541716355544,
+        251.21026790647954,
+        726.7835266817533
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0027"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-5",
+          "bbox_pdf": [
+            238.60125832044002,
+            680.8541716355544,
+            251.21026790647954,
+            726.7835266817533
+          ],
+          "bbox_crop": [
+            697.827175415192,
+            3021.785502877637,
+            767.9038030462539,
+            3276.9988946465724
+          ],
+          "source_ref": "ocr:p0229-l0027"
+        }
+      ],
+      "confidence": 0.9332038760185242,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+      "ref": "p0229-r0001:R7C1",
+      "row": 7,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        705,
+        60,
+        771,
+        3029
+      ],
+      "bbox_crop": [
+        705,
+        60,
+        771,
+        3029
+      ],
+      "bbox_pdf": [
+        239.89187713310582,
+        147.83787108219988,
+        251.76737201365188,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R7C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R7C1-line1.png",
+            "image_sha256": "73cefca17825fd13a34b5d69abc3038e4d0aa2340f98bc8e3daf332d47e34e81",
+            "bbox_upright": [
+              353,
+              705,
+              3322,
+              771
+            ],
+            "bbox_crop": [
+              705,
+              60,
+              771,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+            "confidence": 0.9999526143074036
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "bbox_crop": [
+          705,
+          60,
+          771,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R7C2",
+      "row": 7,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-6",
+      "ref": "p0229-r0001:R8C0",
+      "row": 8,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        802.0436985588226,
+        3018.19094806399,
+        872.120326189884,
+        3275.201617239749
+      ],
+      "bbox_crop": [
+        802.0436985588226,
+        3018.19094806399,
+        872.120326189884,
+        3275.201617239749
+      ],
+      "bbox_pdf": [
+        257.35311873044753,
+        680.2072793109601,
+        269.962128316487,
+        726.4600805194561
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0028"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-6",
+          "bbox_pdf": [
+            257.35311873044753,
+            680.2072793109601,
+            269.962128316487,
+            726.4600805194561
+          ],
+          "bbox_crop": [
+            802.0436985588226,
+            3018.19094806399,
+            872.120326189884,
+            3275.201617239749
+          ],
+          "source_ref": "ocr:p0229-l0028"
+        }
+      ],
+      "confidence": 0.8807693123817444,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+      "ref": "p0229-r0001:R8C1",
+      "row": 8,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        808,
+        60,
+        875,
+        3029
+      ],
+      "bbox_crop": [
+        808,
+        60,
+        875,
+        3029
+      ],
+      "bbox_pdf": [
+        258.42484641638225,
+        147.83787108219988,
+        270.4802730375427,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R8C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R8C1-line1.png",
+            "image_sha256": "6567fbcb95a9e9eb8cef22975702234ebfb9b09da2a521e7ee2faea47c4134ba",
+            "bbox_upright": [
+              353,
+              808,
+              3322,
+              875
+            ],
+            "bbox_crop": [
+              808,
+              60,
+              875,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+            "confidence": 0.9999552369117737
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "bbox_crop": [
+          808,
+          60,
+          875,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R8C2",
+      "row": 8,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-7",
+      "ref": "p0229-r0001:R9C0",
+      "row": 9,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+      "ref": "p0229-r0001:R9C1",
+      "row": 9,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        912,
+        60,
+        978,
+        3029
+      ],
+      "bbox_crop": [
+        912,
+        60,
+        978,
+        3029
+      ],
+      "bbox_pdf": [
+        277.1377474402731,
+        147.83787108219988,
+        289.01324232081913,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R9C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R9C1-line1.png",
+            "image_sha256": "7cca8f639b3cdb2e9a5f39db5214c7bb91802cec198416520a331e9729eedeab",
+            "bbox_upright": [
+              353,
+              912,
+              3322,
+              978
+            ],
+            "bbox_crop": [
+              912,
+              60,
+              978,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+            "confidence": 0.9999438524246216
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "bbox_crop": [
+          912,
+          60,
+          978,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R9C2",
+      "row": 9,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-8",
+      "ref": "p0229-r0001:R10C0",
+      "row": 10,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+      "ref": "p0229-r0001:R10C1",
+      "row": 10,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1015,
+        60,
+        1081,
+        3029
+      ],
+      "bbox_crop": [
+        1015,
+        60,
+        1081,
+        3029
+      ],
+      "bbox_pdf": [
+        295.6707167235495,
+        147.83787108219988,
+        307.54621160409556,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R10C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R10C1-line1.png",
+            "image_sha256": "97aadf874e3507bd089eb2451b0793340e94eb4bfe93efc7f843cc60270b87e0",
+            "bbox_upright": [
+              353,
+              1015,
+              3322,
+              1081
+            ],
+            "bbox_crop": [
+              1015,
+              60,
+              1081,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+            "confidence": 0.9999445676803589
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          1015,
+          60,
+          1081,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R10C2",
+      "row": 10,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-9",
+      "ref": "p0229-r0001:R11C0",
+      "row": 11,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1111.0995947778642,
+        3023.5827802844606,
+        1181.1762224089262,
+        3276.9988946465724
+      ],
+      "bbox_crop": [
+        1111.0995947778642,
+        3023.5827802844606,
+        1181.1762224089262,
+        3276.9988946465724
+      ],
+      "bbox_pdf": [
+        312.9620840842628,
+        681.1776177978516,
+        325.57109367030233,
+        726.7835266817533
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0029"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-9",
+          "bbox_pdf": [
+            312.9620840842628,
+            681.1776177978516,
+            325.57109367030233,
+            726.7835266817533
+          ],
+          "bbox_crop": [
+            1111.0995947778642,
+            3023.5827802844606,
+            1181.1762224089262,
+            3276.9988946465724
+          ],
+          "source_ref": "ocr:p0229-l0029"
+        }
+      ],
+      "confidence": 0.7475163340568542,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+      "ref": "p0229-r0001:R11C1",
+      "row": 11,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1119,
+        60,
+        1185,
+        3029
+      ],
+      "bbox_crop": [
+        1119,
+        60,
+        1185,
+        3029
+      ],
+      "bbox_pdf": [
+        314.38361774744027,
+        147.83787108219988,
+        326.2591126279864,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R11C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R11C1-line1.png",
+            "image_sha256": "d4decb2b0732962f33ea6f2f2d3ec10f9c6f12ea59dde6f26fc7fb5297bc4273",
+            "bbox_upright": [
+              353,
+              1119,
+              3322,
+              1185
+            ],
+            "bbox_crop": [
+              1119,
+              60,
+              1185,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+            "confidence": 0.9999404549598694
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          1119,
+          60,
+          1185,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R11C2",
+      "row": 11,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-10",
+      "ref": "p0229-r0001:R12C0",
+      "row": 12,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+      "ref": "p0229-r0001:R12C1",
+      "row": 12,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1221,
+        60,
+        1287,
+        3029
+      ],
+      "bbox_crop": [
+        1221,
+        60,
+        1287,
+        3029
+      ],
+      "bbox_pdf": [
+        332.7366552901024,
+        147.83787108219988,
+        344.6121501706485,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R12C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R12C1-line1.png",
+            "image_sha256": "8df4f476a8008214c99bacd866f40b73c5c9cfd375db29e86b6d8d9f76d9d50c",
+            "bbox_upright": [
+              353,
+              1221,
+              3322,
+              1287
+            ],
+            "bbox_crop": [
+              1221,
+              60,
+              1287,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+            "confidence": 0.9999334812164307
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "bbox_crop": [
+          1221,
+          60,
+          1287,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R12C2",
+      "row": 12,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-11",
+      "ref": "p0229-r0001:R13C0",
+      "row": 13,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1317.7358044592002,
+        3009.204561029873,
+        1387.812432090262,
+        3289.5798364943366
+      ],
+      "bbox_crop": [
+        1317.7358044592002,
+        3009.204561029873,
+        1387.812432090262,
+        3289.5798364943366
+      ],
+      "bbox_pdf": [
+        350.1424969661742,
+        678.5900484994742,
+        362.7515065522137,
+        729.0476498178335
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0030"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-11",
+          "bbox_pdf": [
+            350.1424969661742,
+            678.5900484994742,
+            362.7515065522137,
+            729.0476498178335
+          ],
+          "bbox_crop": [
+            1317.7358044592002,
+            3009.204561029873,
+            1387.812432090262,
+            3289.5798364943366
+          ],
+          "source_ref": "ocr:p0229-l0030"
+        }
+      ],
+      "confidence": 0.7806832194328308,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+      "ref": "p0229-r0001:R13C1",
+      "row": 13,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1324,
+        60,
+        1391,
+        3029
+      ],
+      "bbox_crop": [
+        1324,
+        60,
+        1391,
+        3029
+      ],
+      "bbox_pdf": [
+        351.26962457337885,
+        147.83787108219988,
+        363.32505119453924,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R13C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R13C1-line1.png",
+            "image_sha256": "ba95f3a046e40d8f1774bc75721ae9d276f4afef3961cfc0efca9910f4276b35",
+            "bbox_upright": [
+              353,
+              1324,
+              3322,
+              1391
+            ],
+            "bbox_crop": [
+              1324,
+              60,
+              1391,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+            "confidence": 0.9999436140060425
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "bbox_crop": [
+          1324,
+          60,
+          1391,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R13C2",
+      "row": 13,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-12",
+      "ref": "p0229-r0001:R14C0",
+      "row": 14,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1425.54600081468,
+        3016.393670657167,
+        1483.0447722042688,
+        3284.1880042738667
+      ],
+      "bbox_crop": [
+        1425.54600081468,
+        3016.393670657167,
+        1483.0447722042688,
+        3284.1880042738667
+      ],
+      "bbox_pdf": [
+        369.5409732523888,
+        679.8838331486629,
+        379.8868272717033,
+        728.077311330942
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0032"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-12",
+          "bbox_pdf": [
+            369.5409732523888,
+            679.8838331486629,
+            379.8868272717033,
+            728.077311330942
+          ],
+          "bbox_crop": [
+            1425.54600081468,
+            3016.393670657167,
+            1483.0447722042688,
+            3284.1880042738667
+          ],
+          "source_ref": "ocr:p0229-l0032"
+        }
+      ],
+      "confidence": 0.905569851398468,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+      "ref": "p0229-r0001:R14C1",
+      "row": 14,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1428,
+        60,
+        1494,
+        3029
+      ],
+      "bbox_crop": [
+        1428,
+        60,
+        1494,
+        3029
+      ],
+      "bbox_pdf": [
+        369.98252559726967,
+        147.83787108219988,
+        381.8580204778157,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R14C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R14C1-line1.png",
+            "image_sha256": "75b6829af49e3719e447acc73080458e218e15fb287eb6b6be2ef0628da7ec2a",
+            "bbox_upright": [
+              353,
+              1428,
+              3322,
+              1494
+            ],
+            "bbox_crop": [
+              1428,
+              60,
+              1494,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+            "confidence": 0.9999488592147827
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "bbox_crop": [
+          1428,
+          60,
+          1494,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R14C2",
+      "row": 14,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-13",
+      "ref": "p0229-r0001:R15C0",
+      "row": 15,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1526.1688507464607,
+        3016.393670657167,
+        1589.058131953824,
+        3287.782559087513
+      ],
+      "bbox_crop": [
+        1526.1688507464607,
+        3016.393670657167,
+        1589.058131953824,
+        3287.782559087513
+      ],
+      "bbox_pdf": [
+        387.64621778618914,
+        679.8838331486629,
+        398.96199561981433,
+        728.7242036555364
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "location_method": "literal_wrapped_ocr",
+      "geometry_source_refs": [
+        "ocr:p0229-l0033"
+      ],
+      "geometry_alignment": {
+        "text_verified": true,
+        "similarity": 1.0
+      },
+      "ocr_lines": [
+        {
+          "text": "AB-13",
+          "bbox_pdf": [
+            387.64621778618914,
+            679.8838331486629,
+            398.96199561981433,
+            728.7242036555364
+          ],
+          "bbox_crop": [
+            1526.1688507464607,
+            3016.393670657167,
+            1589.058131953824,
+            3287.782559087513
+          ],
+          "source_ref": "ocr:p0229-l0033"
+        }
+      ],
+      "confidence": 0.8649498224258423,
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+      "ref": "p0229-r0001:R15C1",
+      "row": 15,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1531,
+        60,
+        1598,
+        3029
+      ],
+      "bbox_crop": [
+        1531,
+        60,
+        1598,
+        3029
+      ],
+      "bbox_pdf": [
+        388.5154948805461,
+        147.83787108219988,
+        400.5709215017065,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R15C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R15C1-line1.png",
+            "image_sha256": "51c3f5e4105ad87efc663bd7ee2f1fb2c92892616d0176be1902f0df6b5a4984",
+            "bbox_upright": [
+              353,
+              1531,
+              3322,
+              1598
+            ],
+            "bbox_crop": [
+              1531,
+              60,
+              1598,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+            "confidence": 0.999945342540741
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "bbox_crop": [
+          1531,
+          60,
+          1598,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R15C2",
+      "row": 15,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "AB-14",
+      "ref": "p0229-r0001:R16C0",
+      "row": 16,
+      "column": 0,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    },
+    {
+      "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+      "ref": "p0229-r0001:R16C1",
+      "row": 16,
+      "column": 1,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [
+        1635,
+        60,
+        1701,
+        3029
+      ],
+      "bbox_crop": [
+        1635,
+        60,
+        1701,
+        3029
+      ],
+      "bbox_pdf": [
+        407.22839590443687,
+        147.83787108219988,
+        419.103890784983,
+        682.1525251330573
+      ],
+      "precision": "ocr_lines",
+      "location_status": "located",
+      "coordinate_space": "crop_pixels",
+      "location_method": "ppocrv6_sequence_lines",
+      "sequence_ocr": {
+        "ref": "p0229-r0001:R16C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R16C1-line1.png",
+            "image_sha256": "3644d7fbd85638b8ef7922af48287613420825657be3917d9a4c09dbd5b02263",
+            "bbox_upright": [
+              353,
+              1635,
+              3322,
+              1701
+            ],
+            "bbox_crop": [
+              1635,
+              60,
+              1701,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+            "confidence": 0.9998913407325745
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "bbox_crop": [
+          1635,
+          60,
+          1701,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR"
+    },
+    {
+      "text": "",
+      "ref": "p0229-r0001:R16C2",
+      "row": 16,
+      "column": 2,
+      "rowspan": 1,
+      "colspan": 1,
+      "bbox": [],
+      "bbox_crop": [],
+      "bbox_pdf": [],
+      "precision": "unlocated",
+      "location_status": "unlocated",
+      "coordinate_space": "crop_pixels"
+    }
+  ],
+  "grid": [
+    [
+      {
+        "text": "Reference",
+        "ref": "p0229-r0001:R0C0",
+        "row": 0,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "$ HCDR1 $",
+        "ref": "p0229-r0001:R0C1",
+        "row": 0,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "$ HCDR2 $",
+        "ref": "p0229-r0001:R0C2",
+        "row": 0,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "",
+        "ref": "p0229-r0001:R1C0",
+        "row": 1,
+        "column": 0,
+        "rowspan": 2,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "*",
+        "ref": "p0229-r0001:R1C1",
+        "row": 1,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "*** *** *",
+        "ref": "p0229-r0001:R1C2",
+        "row": 1,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "",
+        "ref": "p0229-r0001:R1C0",
+        "row": 1,
+        "column": 0,
+        "rowspan": 2,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR",
+        "ref": "p0229-r0001:R2C1",
+        "row": 2,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R2C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR",
+          "status": "failed",
+          "lines": [],
+          "error": "No sequence text lines inside the addressed cell"
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R2C2",
+        "row": 2,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-1",
+        "ref": "p0229-r0001:R3C0",
+        "row": 3,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          286.3515926584446,
+          3018.19094806399,
+          349.24087386580766,
+          3273.4043398329254
+        ],
+        "bbox_crop": [
+          286.3515926584446,
+          3018.19094806399,
+          349.24087386580766,
+          3273.4043398329254
+        ],
+        "bbox_pdf": [
+          164.56374049472083,
+          680.2072793109601,
+          175.87951832834602,
+          726.136634357159
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0025"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-1",
+            "bbox_pdf": [
+              164.56374049472083,
+              680.2072793109601,
+              175.87951832834602,
+              726.136634357159
+            ],
+            "bbox_crop": [
+              286.3515926584446,
+              3018.19094806399,
+              349.24087386580766,
+              3273.4043398329254
+            ],
+            "source_ref": "ocr:p0229-l0025"
+          }
+        ],
+        "confidence": 0.8841640949249268,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "ref": "p0229-r0001:R3C1",
+        "row": 3,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          291,
+          60,
+          356,
+          3029
+        ],
+        "bbox_crop": [
+          291,
+          60,
+          356,
+          3029
+        ],
+        "bbox_pdf": [
+          165.40013651877135,
+          147.83787108219988,
+          177.0956996587031,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R3C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R3C1-line1.png",
+              "image_sha256": "57d6af23f74bde64f24d126a08fc66f8c6b06bb563f0d98531cc8189aefdb13c",
+              "bbox_upright": [
+                353,
+                291,
+                3322,
+                356
+              ],
+              "bbox_crop": [
+                291,
+                60,
+                356,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+              "confidence": 0.9999418258666992
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+          "bbox_crop": [
+            291,
+            60,
+            356,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R3C2",
+        "row": 3,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-2",
+        "ref": "p0229-r0001:R4C0",
+        "row": 4,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "ref": "p0229-r0001:R4C1",
+        "row": 4,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          396,
+          60,
+          462,
+          3029
+        ],
+        "bbox_crop": [
+          396,
+          60,
+          462,
+          3029
+        ],
+        "bbox_pdf": [
+          184.29296928327648,
+          147.83787108219988,
+          196.16846416382253,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R4C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R4C1-line1.png",
+              "image_sha256": "94537b346ce48d095ddfdb562102bcb4c1822bf2ad956129e78782d69607ecaf",
+              "bbox_upright": [
+                353,
+                396,
+                3322,
+                462
+              ],
+              "bbox_crop": [
+                396,
+                60,
+                462,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+              "confidence": 0.9999526143074036
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+          "bbox_crop": [
+            396,
+            60,
+            462,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R4C2",
+        "row": 4,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-3",
+        "ref": "p0229-r0001:R5C0",
+        "row": 5,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "ref": "p0229-r0001:R5C1",
+        "row": 5,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          499,
+          60,
+          565,
+          3029
+        ],
+        "bbox_crop": [
+          499,
+          60,
+          565,
+          3029
+        ],
+        "bbox_pdf": [
+          202.8259385665529,
+          147.83787108219988,
+          214.701433447099,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R5C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R5C1-line1.png",
+              "image_sha256": "350d9888bf910f13fde873358969b2ac4210906e326759abdfcdf49b3dc32f74",
+              "bbox_upright": [
+                353,
+                499,
+                3322,
+                565
+              ],
+              "bbox_crop": [
+                499,
+                60,
+                565,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+              "confidence": 0.9999440908432007
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+          "bbox_crop": [
+            499,
+            60,
+            565,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R5C2",
+        "row": 5,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-4",
+        "ref": "p0229-r0001:R6C0",
+        "row": 6,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          595.4074888774862,
+          3023.5827802844606,
+          665.4841165085481,
+          3276.9988946465724
+        ],
+        "bbox_crop": [
+          595.4074888774862,
+          3023.5827802844606,
+          665.4841165085481,
+          3276.9988946465724
+        ],
+        "bbox_pdf": [
+          220.1727058485361,
+          681.1776177978516,
+          232.78171543457563,
+          726.7835266817533
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0026"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-4",
+            "bbox_pdf": [
+              220.1727058485361,
+              681.1776177978516,
+              232.78171543457563,
+              726.7835266817533
+            ],
+            "bbox_crop": [
+              595.4074888774862,
+              3023.5827802844606,
+              665.4841165085481,
+              3276.9988946465724
+            ],
+            "source_ref": "ocr:p0229-l0026"
+          }
+        ],
+        "confidence": 0.8514149188995361,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "ref": "p0229-r0001:R6C1",
+        "row": 6,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          601,
+          60,
+          669,
+          3029
+        ],
+        "bbox_crop": [
+          601,
+          60,
+          669,
+          3029
+        ],
+        "bbox_pdf": [
+          221.17897610921503,
+          147.83787108219988,
+          233.4143344709898,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R6C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R6C1-line1.png",
+              "image_sha256": "906313a71b40e16555b3634d243c9f7b538232a55a17a8eeacfff5f8e1dcb31d",
+              "bbox_upright": [
+                353,
+                601,
+                3322,
+                669
+              ],
+              "bbox_crop": [
+                601,
+                60,
+                669,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+              "confidence": 0.9999313354492188
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+          "bbox_crop": [
+            601,
+            60,
+            669,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R6C2",
+        "row": 6,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-5",
+        "ref": "p0229-r0001:R7C0",
+        "row": 7,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          697.827175415192,
+          3021.785502877637,
+          767.9038030462539,
+          3276.9988946465724
+        ],
+        "bbox_crop": [
+          697.827175415192,
+          3021.785502877637,
+          767.9038030462539,
+          3276.9988946465724
+        ],
+        "bbox_pdf": [
+          238.60125832044002,
+          680.8541716355544,
+          251.21026790647954,
+          726.7835266817533
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0027"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-5",
+            "bbox_pdf": [
+              238.60125832044002,
+              680.8541716355544,
+              251.21026790647954,
+              726.7835266817533
+            ],
+            "bbox_crop": [
+              697.827175415192,
+              3021.785502877637,
+              767.9038030462539,
+              3276.9988946465724
+            ],
+            "source_ref": "ocr:p0229-l0027"
+          }
+        ],
+        "confidence": 0.9332038760185242,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "ref": "p0229-r0001:R7C1",
+        "row": 7,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          705,
+          60,
+          771,
+          3029
+        ],
+        "bbox_crop": [
+          705,
+          60,
+          771,
+          3029
+        ],
+        "bbox_pdf": [
+          239.89187713310582,
+          147.83787108219988,
+          251.76737201365188,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R7C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R7C1-line1.png",
+              "image_sha256": "73cefca17825fd13a34b5d69abc3038e4d0aa2340f98bc8e3daf332d47e34e81",
+              "bbox_upright": [
+                353,
+                705,
+                3322,
+                771
+              ],
+              "bbox_crop": [
+                705,
+                60,
+                771,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+              "confidence": 0.9999526143074036
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+          "bbox_crop": [
+            705,
+            60,
+            771,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R7C2",
+        "row": 7,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-6",
+        "ref": "p0229-r0001:R8C0",
+        "row": 8,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          802.0436985588226,
+          3018.19094806399,
+          872.120326189884,
+          3275.201617239749
+        ],
+        "bbox_crop": [
+          802.0436985588226,
+          3018.19094806399,
+          872.120326189884,
+          3275.201617239749
+        ],
+        "bbox_pdf": [
+          257.35311873044753,
+          680.2072793109601,
+          269.962128316487,
+          726.4600805194561
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0028"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-6",
+            "bbox_pdf": [
+              257.35311873044753,
+              680.2072793109601,
+              269.962128316487,
+              726.4600805194561
+            ],
+            "bbox_crop": [
+              802.0436985588226,
+              3018.19094806399,
+              872.120326189884,
+              3275.201617239749
+            ],
+            "source_ref": "ocr:p0229-l0028"
+          }
+        ],
+        "confidence": 0.8807693123817444,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "ref": "p0229-r0001:R8C1",
+        "row": 8,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          808,
+          60,
+          875,
+          3029
+        ],
+        "bbox_crop": [
+          808,
+          60,
+          875,
+          3029
+        ],
+        "bbox_pdf": [
+          258.42484641638225,
+          147.83787108219988,
+          270.4802730375427,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R8C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R8C1-line1.png",
+              "image_sha256": "6567fbcb95a9e9eb8cef22975702234ebfb9b09da2a521e7ee2faea47c4134ba",
+              "bbox_upright": [
+                353,
+                808,
+                3322,
+                875
+              ],
+              "bbox_crop": [
+                808,
+                60,
+                875,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+              "confidence": 0.9999552369117737
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+          "bbox_crop": [
+            808,
+            60,
+            875,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R8C2",
+        "row": 8,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-7",
+        "ref": "p0229-r0001:R9C0",
+        "row": 9,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "ref": "p0229-r0001:R9C1",
+        "row": 9,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          912,
+          60,
+          978,
+          3029
+        ],
+        "bbox_crop": [
+          912,
+          60,
+          978,
+          3029
+        ],
+        "bbox_pdf": [
+          277.1377474402731,
+          147.83787108219988,
+          289.01324232081913,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R9C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R9C1-line1.png",
+              "image_sha256": "7cca8f639b3cdb2e9a5f39db5214c7bb91802cec198416520a331e9729eedeab",
+              "bbox_upright": [
+                353,
+                912,
+                3322,
+                978
+              ],
+              "bbox_crop": [
+                912,
+                60,
+                978,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+              "confidence": 0.9999438524246216
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+          "bbox_crop": [
+            912,
+            60,
+            978,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R9C2",
+        "row": 9,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-8",
+        "ref": "p0229-r0001:R10C0",
+        "row": 10,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "ref": "p0229-r0001:R10C1",
+        "row": 10,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1015,
+          60,
+          1081,
+          3029
+        ],
+        "bbox_crop": [
+          1015,
+          60,
+          1081,
+          3029
+        ],
+        "bbox_pdf": [
+          295.6707167235495,
+          147.83787108219988,
+          307.54621160409556,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R10C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R10C1-line1.png",
+              "image_sha256": "97aadf874e3507bd089eb2451b0793340e94eb4bfe93efc7f843cc60270b87e0",
+              "bbox_upright": [
+                353,
+                1015,
+                3322,
+                1081
+              ],
+              "bbox_crop": [
+                1015,
+                60,
+                1081,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+              "confidence": 0.9999445676803589
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+          "bbox_crop": [
+            1015,
+            60,
+            1081,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R10C2",
+        "row": 10,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-9",
+        "ref": "p0229-r0001:R11C0",
+        "row": 11,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1111.0995947778642,
+          3023.5827802844606,
+          1181.1762224089262,
+          3276.9988946465724
+        ],
+        "bbox_crop": [
+          1111.0995947778642,
+          3023.5827802844606,
+          1181.1762224089262,
+          3276.9988946465724
+        ],
+        "bbox_pdf": [
+          312.9620840842628,
+          681.1776177978516,
+          325.57109367030233,
+          726.7835266817533
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0029"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-9",
+            "bbox_pdf": [
+              312.9620840842628,
+              681.1776177978516,
+              325.57109367030233,
+              726.7835266817533
+            ],
+            "bbox_crop": [
+              1111.0995947778642,
+              3023.5827802844606,
+              1181.1762224089262,
+              3276.9988946465724
+            ],
+            "source_ref": "ocr:p0229-l0029"
+          }
+        ],
+        "confidence": 0.7475163340568542,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "ref": "p0229-r0001:R11C1",
+        "row": 11,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1119,
+          60,
+          1185,
+          3029
+        ],
+        "bbox_crop": [
+          1119,
+          60,
+          1185,
+          3029
+        ],
+        "bbox_pdf": [
+          314.38361774744027,
+          147.83787108219988,
+          326.2591126279864,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R11C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R11C1-line1.png",
+              "image_sha256": "d4decb2b0732962f33ea6f2f2d3ec10f9c6f12ea59dde6f26fc7fb5297bc4273",
+              "bbox_upright": [
+                353,
+                1119,
+                3322,
+                1185
+              ],
+              "bbox_crop": [
+                1119,
+                60,
+                1185,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+              "confidence": 0.9999404549598694
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+          "bbox_crop": [
+            1119,
+            60,
+            1185,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R11C2",
+        "row": 11,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-10",
+        "ref": "p0229-r0001:R12C0",
+        "row": 12,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "ref": "p0229-r0001:R12C1",
+        "row": 12,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1221,
+          60,
+          1287,
+          3029
+        ],
+        "bbox_crop": [
+          1221,
+          60,
+          1287,
+          3029
+        ],
+        "bbox_pdf": [
+          332.7366552901024,
+          147.83787108219988,
+          344.6121501706485,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R12C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R12C1-line1.png",
+              "image_sha256": "8df4f476a8008214c99bacd866f40b73c5c9cfd375db29e86b6d8d9f76d9d50c",
+              "bbox_upright": [
+                353,
+                1221,
+                3322,
+                1287
+              ],
+              "bbox_crop": [
+                1221,
+                60,
+                1287,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+              "confidence": 0.9999334812164307
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+          "bbox_crop": [
+            1221,
+            60,
+            1287,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R12C2",
+        "row": 12,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-11",
+        "ref": "p0229-r0001:R13C0",
+        "row": 13,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1317.7358044592002,
+          3009.204561029873,
+          1387.812432090262,
+          3289.5798364943366
+        ],
+        "bbox_crop": [
+          1317.7358044592002,
+          3009.204561029873,
+          1387.812432090262,
+          3289.5798364943366
+        ],
+        "bbox_pdf": [
+          350.1424969661742,
+          678.5900484994742,
+          362.7515065522137,
+          729.0476498178335
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0030"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-11",
+            "bbox_pdf": [
+              350.1424969661742,
+              678.5900484994742,
+              362.7515065522137,
+              729.0476498178335
+            ],
+            "bbox_crop": [
+              1317.7358044592002,
+              3009.204561029873,
+              1387.812432090262,
+              3289.5798364943366
+            ],
+            "source_ref": "ocr:p0229-l0030"
+          }
+        ],
+        "confidence": 0.7806832194328308,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "ref": "p0229-r0001:R13C1",
+        "row": 13,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1324,
+          60,
+          1391,
+          3029
+        ],
+        "bbox_crop": [
+          1324,
+          60,
+          1391,
+          3029
+        ],
+        "bbox_pdf": [
+          351.26962457337885,
+          147.83787108219988,
+          363.32505119453924,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R13C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R13C1-line1.png",
+              "image_sha256": "ba95f3a046e40d8f1774bc75721ae9d276f4afef3961cfc0efca9910f4276b35",
+              "bbox_upright": [
+                353,
+                1324,
+                3322,
+                1391
+              ],
+              "bbox_crop": [
+                1324,
+                60,
+                1391,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+              "confidence": 0.9999436140060425
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+          "bbox_crop": [
+            1324,
+            60,
+            1391,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R13C2",
+        "row": 13,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-12",
+        "ref": "p0229-r0001:R14C0",
+        "row": 14,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1425.54600081468,
+          3016.393670657167,
+          1483.0447722042688,
+          3284.1880042738667
+        ],
+        "bbox_crop": [
+          1425.54600081468,
+          3016.393670657167,
+          1483.0447722042688,
+          3284.1880042738667
+        ],
+        "bbox_pdf": [
+          369.5409732523888,
+          679.8838331486629,
+          379.8868272717033,
+          728.077311330942
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0032"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-12",
+            "bbox_pdf": [
+              369.5409732523888,
+              679.8838331486629,
+              379.8868272717033,
+              728.077311330942
+            ],
+            "bbox_crop": [
+              1425.54600081468,
+              3016.393670657167,
+              1483.0447722042688,
+              3284.1880042738667
+            ],
+            "source_ref": "ocr:p0229-l0032"
+          }
+        ],
+        "confidence": 0.905569851398468,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "ref": "p0229-r0001:R14C1",
+        "row": 14,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1428,
+          60,
+          1494,
+          3029
+        ],
+        "bbox_crop": [
+          1428,
+          60,
+          1494,
+          3029
+        ],
+        "bbox_pdf": [
+          369.98252559726967,
+          147.83787108219988,
+          381.8580204778157,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R14C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R14C1-line1.png",
+              "image_sha256": "75b6829af49e3719e447acc73080458e218e15fb287eb6b6be2ef0628da7ec2a",
+              "bbox_upright": [
+                353,
+                1428,
+                3322,
+                1494
+              ],
+              "bbox_crop": [
+                1428,
+                60,
+                1494,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+              "confidence": 0.9999488592147827
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+          "bbox_crop": [
+            1428,
+            60,
+            1494,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R14C2",
+        "row": 14,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-13",
+        "ref": "p0229-r0001:R15C0",
+        "row": 15,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1526.1688507464607,
+          3016.393670657167,
+          1589.058131953824,
+          3287.782559087513
+        ],
+        "bbox_crop": [
+          1526.1688507464607,
+          3016.393670657167,
+          1589.058131953824,
+          3287.782559087513
+        ],
+        "bbox_pdf": [
+          387.64621778618914,
+          679.8838331486629,
+          398.96199561981433,
+          728.7242036555364
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "location_method": "literal_wrapped_ocr",
+        "geometry_source_refs": [
+          "ocr:p0229-l0033"
+        ],
+        "geometry_alignment": {
+          "text_verified": true,
+          "similarity": 1.0
+        },
+        "ocr_lines": [
+          {
+            "text": "AB-13",
+            "bbox_pdf": [
+              387.64621778618914,
+              679.8838331486629,
+              398.96199561981433,
+              728.7242036555364
+            ],
+            "bbox_crop": [
+              1526.1688507464607,
+              3016.393670657167,
+              1589.058131953824,
+              3287.782559087513
+            ],
+            "source_ref": "ocr:p0229-l0033"
+          }
+        ],
+        "confidence": 0.8649498224258423,
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "ref": "p0229-r0001:R15C1",
+        "row": 15,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1531,
+          60,
+          1598,
+          3029
+        ],
+        "bbox_crop": [
+          1531,
+          60,
+          1598,
+          3029
+        ],
+        "bbox_pdf": [
+          388.5154948805461,
+          147.83787108219988,
+          400.5709215017065,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R15C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R15C1-line1.png",
+              "image_sha256": "51c3f5e4105ad87efc663bd7ee2f1fb2c92892616d0176be1902f0df6b5a4984",
+              "bbox_upright": [
+                353,
+                1531,
+                3322,
+                1598
+              ],
+              "bbox_crop": [
+                1531,
+                60,
+                1598,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+              "confidence": 0.999945342540741
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+          "bbox_crop": [
+            1531,
+            60,
+            1598,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R15C2",
+        "row": 15,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    [
+      {
+        "text": "AB-14",
+        "ref": "p0229-r0001:R16C0",
+        "row": 16,
+        "column": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "ref": "p0229-r0001:R16C1",
+        "row": 16,
+        "column": 1,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [
+          1635,
+          60,
+          1701,
+          3029
+        ],
+        "bbox_crop": [
+          1635,
+          60,
+          1701,
+          3029
+        ],
+        "bbox_pdf": [
+          407.22839590443687,
+          147.83787108219988,
+          419.103890784983,
+          682.1525251330573
+        ],
+        "precision": "ocr_lines",
+        "location_status": "located",
+        "coordinate_space": "crop_pixels",
+        "location_method": "ppocrv6_sequence_lines",
+        "sequence_ocr": {
+          "ref": "p0229-r0001:R16C1",
+          "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR",
+          "status": "success",
+          "lines": [
+            {
+              "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R16C1-line1.png",
+              "image_sha256": "3644d7fbd85638b8ef7922af48287613420825657be3917d9a4c09dbd5b02263",
+              "bbox_upright": [
+                353,
+                1635,
+                3322,
+                1701
+              ],
+              "bbox_crop": [
+                1635,
+                60,
+                1701,
+                3029
+              ],
+              "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+              "confidence": 0.9998913407325745
+            }
+          ],
+          "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+          "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+          "bbox_crop": [
+            1635,
+            60,
+            1701,
+            3029
+          ],
+          "page_comparison": {
+            "status": "uncompared"
+          }
+        },
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR"
+      },
+      {
+        "text": "",
+        "ref": "p0229-r0001:R16C2",
+        "row": 16,
+        "column": 2,
+        "rowspan": 1,
+        "colspan": 1,
+        "bbox": [],
+        "bbox_crop": [],
+        "bbox_pdf": [],
+        "precision": "unlocated",
+        "location_status": "unlocated",
+        "coordinate_space": "crop_pixels"
+      }
+    ]
+  ],
+  "blocks": [
+    {
+      "block_label": "table",
+      "block_content": "<table><tr><td>Reference</td><td>$ HCDR1 $</td><td>$ HCDR2 $</td></tr><tr><td rowspan=\"2\"></td><td>*</td><td>*** *** *</td></tr><tr><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR</td><td></td></tr><tr><td>AB-1</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-2</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-3</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR</td><td></td></tr><tr><td>AB-4</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR</td><td></td></tr><tr><td>AB-5</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR</td><td></td></tr><tr><td>AB-6</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR</td><td></td></tr><tr><td>AB-7</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR</td><td></td></tr><tr><td>AB-8</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-9</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-10</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR</td><td></td></tr><tr><td>AB-11</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR</td><td></td></tr><tr><td>AB-12</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR</td><td></td></tr><tr><td>AB-13</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR</td><td></td></tr><tr><td>AB-14</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR</td><td></td></tr></table>",
+      "block_bbox": [
+        0,
+        0,
+        1758,
+        3382
+      ],
+      "block_id": 0,
+      "block_order": null,
+      "group_id": 0
+    }
+  ],
+  "lines": [],
+  "bbox_padded": [
+    113.04,
+    137.04,
+    429.36,
+    745.68
+  ],
+  "width_px": 1758,
+  "height_px": 3382,
+  "cell_locations": {
+    "located": 22,
+    "total": 50,
+    "scope": "Observed OCR text/cell rectangles; unknown positions remain empty."
+  },
+  "sequence_ocr": {
+    "version": "ppvl16-ppocrv6-sequence-v1",
+    "policy": "table_sequence_recognition_authoritative_page_text_advisory",
+    "model": "PP-OCRv6_medium_rec",
+    "candidate_count": 15,
+    "cells": [
+      {
+        "ref": "p0229-r0001:R2C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR",
+        "status": "failed",
+        "lines": [],
+        "error": "No sequence text lines inside the addressed cell"
+      },
+      {
+        "ref": "p0229-r0001:R3C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R3C1-line1.png",
+            "image_sha256": "57d6af23f74bde64f24d126a08fc66f8c6b06bb563f0d98531cc8189aefdb13c",
+            "bbox_upright": [
+              353,
+              291,
+              3322,
+              356
+            ],
+            "bbox_crop": [
+              291,
+              60,
+              356,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+            "confidence": 0.9999418258666992
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "bbox_crop": [
+          291,
+          60,
+          356,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R4C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R4C1-line1.png",
+            "image_sha256": "94537b346ce48d095ddfdb562102bcb4c1822bf2ad956129e78782d69607ecaf",
+            "bbox_upright": [
+              353,
+              396,
+              3322,
+              462
+            ],
+            "bbox_crop": [
+              396,
+              60,
+              462,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+            "confidence": 0.9999526143074036
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          396,
+          60,
+          462,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R5C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R5C1-line1.png",
+            "image_sha256": "350d9888bf910f13fde873358969b2ac4210906e326759abdfcdf49b3dc32f74",
+            "bbox_upright": [
+              353,
+              499,
+              3322,
+              565
+            ],
+            "bbox_crop": [
+              499,
+              60,
+              565,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+            "confidence": 0.9999440908432007
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "bbox_crop": [
+          499,
+          60,
+          565,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R6C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R6C1-line1.png",
+            "image_sha256": "906313a71b40e16555b3634d243c9f7b538232a55a17a8eeacfff5f8e1dcb31d",
+            "bbox_upright": [
+              353,
+              601,
+              3322,
+              669
+            ],
+            "bbox_crop": [
+              601,
+              60,
+              669,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+            "confidence": 0.9999313354492188
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "bbox_crop": [
+          601,
+          60,
+          669,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R7C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R7C1-line1.png",
+            "image_sha256": "73cefca17825fd13a34b5d69abc3038e4d0aa2340f98bc8e3daf332d47e34e81",
+            "bbox_upright": [
+              353,
+              705,
+              3322,
+              771
+            ],
+            "bbox_crop": [
+              705,
+              60,
+              771,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+            "confidence": 0.9999526143074036
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "bbox_crop": [
+          705,
+          60,
+          771,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R8C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R8C1-line1.png",
+            "image_sha256": "6567fbcb95a9e9eb8cef22975702234ebfb9b09da2a521e7ee2faea47c4134ba",
+            "bbox_upright": [
+              353,
+              808,
+              3322,
+              875
+            ],
+            "bbox_crop": [
+              808,
+              60,
+              875,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+            "confidence": 0.9999552369117737
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "bbox_crop": [
+          808,
+          60,
+          875,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R9C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R9C1-line1.png",
+            "image_sha256": "7cca8f639b3cdb2e9a5f39db5214c7bb91802cec198416520a331e9729eedeab",
+            "bbox_upright": [
+              353,
+              912,
+              3322,
+              978
+            ],
+            "bbox_crop": [
+              912,
+              60,
+              978,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+            "confidence": 0.9999438524246216
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "bbox_crop": [
+          912,
+          60,
+          978,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R10C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R10C1-line1.png",
+            "image_sha256": "97aadf874e3507bd089eb2451b0793340e94eb4bfe93efc7f843cc60270b87e0",
+            "bbox_upright": [
+              353,
+              1015,
+              3322,
+              1081
+            ],
+            "bbox_crop": [
+              1015,
+              60,
+              1081,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+            "confidence": 0.9999445676803589
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          1015,
+          60,
+          1081,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R11C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R11C1-line1.png",
+            "image_sha256": "d4decb2b0732962f33ea6f2f2d3ec10f9c6f12ea59dde6f26fc7fb5297bc4273",
+            "bbox_upright": [
+              353,
+              1119,
+              3322,
+              1185
+            ],
+            "bbox_crop": [
+              1119,
+              60,
+              1185,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+            "confidence": 0.9999404549598694
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox_crop": [
+          1119,
+          60,
+          1185,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R12C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R12C1-line1.png",
+            "image_sha256": "8df4f476a8008214c99bacd866f40b73c5c9cfd375db29e86b6d8d9f76d9d50c",
+            "bbox_upright": [
+              353,
+              1221,
+              3322,
+              1287
+            ],
+            "bbox_crop": [
+              1221,
+              60,
+              1287,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+            "confidence": 0.9999334812164307
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "bbox_crop": [
+          1221,
+          60,
+          1287,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R13C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R13C1-line1.png",
+            "image_sha256": "ba95f3a046e40d8f1774bc75721ae9d276f4afef3961cfc0efca9910f4276b35",
+            "bbox_upright": [
+              353,
+              1324,
+              3322,
+              1391
+            ],
+            "bbox_crop": [
+              1324,
+              60,
+              1391,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+            "confidence": 0.9999436140060425
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "bbox_crop": [
+          1324,
+          60,
+          1391,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R14C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R14C1-line1.png",
+            "image_sha256": "75b6829af49e3719e447acc73080458e218e15fb287eb6b6be2ef0628da7ec2a",
+            "bbox_upright": [
+              353,
+              1428,
+              3322,
+              1494
+            ],
+            "bbox_crop": [
+              1428,
+              60,
+              1494,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+            "confidence": 0.9999488592147827
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "bbox_crop": [
+          1428,
+          60,
+          1494,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R15C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R15C1-line1.png",
+            "image_sha256": "51c3f5e4105ad87efc663bd7ee2f1fb2c92892616d0176be1902f0df6b5a4984",
+            "bbox_upright": [
+              353,
+              1531,
+              3322,
+              1598
+            ],
+            "bbox_crop": [
+              1531,
+              60,
+              1598,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+            "confidence": 0.999945342540741
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "bbox_crop": [
+          1531,
+          60,
+          1598,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      },
+      {
+        "ref": "p0229-r0001:R16C1",
+        "vl_text": "QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR",
+        "status": "success",
+        "lines": [
+          {
+            "image_path": "/project_c20250601/252705034/SDA/try/hybrid_table_ocr/live/inputs/sequence_ocr/WO2024020591A9_table-0022-page-0229-4bf269b9e24f/R16C1-line1.png",
+            "image_sha256": "3644d7fbd85638b8ef7922af48287613420825657be3917d9a4c09dbd5b02263",
+            "bbox_upright": [
+              353,
+              1635,
+              3322,
+              1701
+            ],
+            "bbox_crop": [
+              1635,
+              60,
+              1701,
+              3029
+            ],
+            "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+            "confidence": 0.9998913407325745
+          }
+        ],
+        "sequence": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "bbox_crop": [
+          1635,
+          60,
+          1701,
+          3029
+        ],
+        "page_comparison": {
+          "status": "uncompared"
+        }
+      }
+    ],
+    "image_sha256": "4bf269b9e24f89213eeb88413040d6c3382d14e5994dd4a9f52bc600701332ae",
+    "rotation_counterclockwise": 270,
+    "upright_to_crop": [
+      0,
+      -1,
+      1,
+      0,
+      0,
+      3382
+    ],
+    "orientation_confidence": 0.9128900170326233,
+    "local_text_lines": [
+      {
+        "text": "HCDR1",
+        "bbox": [
+          1527.0,
+          0.0,
+          1749.0,
+          38.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "HCDR2",
+        "bbox": [
+          2632.0,
+          1.0,
+          2849.0,
+          36.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "*",
+        "bbox": [
+          399.0,
+          112.0,
+          441.0,
+          156.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "* **",
+        "bbox": [
+          1466.0,
+          113.0,
+          1594.0,
+          154.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "***",
+        "bbox": [
+          1642.0,
+          111.0,
+          1772.0,
+          155.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "*",
+        "bbox": [
+          2661.0,
+          112.0,
+          2702.0,
+          156.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "ReferenCe QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSNKHYADSVKGR",
+        "bbox": [
+          38.0,
+          157.0,
+          3332.0,
+          259.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-1",
+        "bbox": [
+          105.0,
+          280.0,
+          256.0,
+          351.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGR",
+        "bbox": [
+          346.0,
+          274.0,
+          3326.0,
+          346.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-2",
+        "bbox": [
+          103.0,
+          385.0,
+          259.0,
+          460.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGR",
+        "bbox": [
+          346.0,
+          379.0,
+          3326.0,
+          452.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-3",
+        "bbox": [
+          103.0,
+          489.0,
+          257.0,
+          561.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGTYTHYADSVKGR",
+        "bbox": [
+          346.0,
+          482.0,
+          3326.0,
+          555.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-4",
+        "bbox": [
+          105.0,
+          593.0,
+          260.0,
+          665.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGSDTHYADSVKGR",
+        "bbox": [
+          345.0,
+          583.0,
+          3327.0,
+          659.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-5",
+        "bbox": [
+          102.0,
+          694.0,
+          260.0,
+          769.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGR",
+        "bbox": [
+          345.0,
+          686.0,
+          3326.0,
+          764.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-6",
+        "bbox": [
+          103.0,
+          801.0,
+          260.0,
+          871.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSDIHYADSVKGR",
+        "bbox": [
+          346.0,
+          792.0,
+          3326.0,
+          864.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-7",
+        "bbox": [
+          103.0,
+          904.0,
+          260.0,
+          974.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGAYIHYADSVKGR",
+        "bbox": [
+          346.0,
+          895.0,
+          3326.0,
+          970.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-8",
+        "bbox": [
+          103.0,
+          1005.0,
+          259.0,
+          1076.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox": [
+          345.0,
+          997.0,
+          3327.0,
+          1073.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-9",
+        "bbox": [
+          105.0,
+          1109.0,
+          259.0,
+          1181.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSYTHYADSVKGR",
+        "bbox": [
+          346.0,
+          1102.0,
+          3326.0,
+          1175.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-10",
+        "bbox": [
+          88.0,
+          1212.0,
+          274.0,
+          1282.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYSGTTTHYADSVKGR",
+        "bbox": [
+          345.0,
+          1205.0,
+          3326.0,
+          1278.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-11",
+        "bbox": [
+          89.0,
+          1317.0,
+          274.0,
+          1387.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYSGSYIHYADSVKGR",
+        "bbox": [
+          344.0,
+          1305.0,
+          3326.0,
+          1382.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-12",
+        "bbox": [
+          87.0,
+          1418.0,
+          275.0,
+          1491.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSNTHYADSVKGR",
+        "bbox": [
+          344.0,
+          1409.0,
+          3327.0,
+          1487.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-13",
+        "bbox": [
+          88.0,
+          1523.0,
+          275.0,
+          1592.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVISYDGSTKHYADSVKGR",
+        "bbox": [
+          344.0,
+          1514.0,
+          3327.0,
+          1589.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "AB-14",
+        "bbox": [
+          87.0,
+          1626.0,
+          277.0,
+          1695.0
+        ],
+        "coordinate_space": "crop_pixels"
+      },
+      {
+        "text": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVIWYDGSTKHYADSVKGR",
+        "bbox": [
+          344.0,
+          1618.0,
+          3326.0,
+          1692.0
+        ],
+        "coordinate_space": "crop_pixels"
+      }
+    ],
+    "successful_cells": 14,
+    "failed_cells": 1,
+    "seconds": 2.829,
+    "status": "partial"
+  },
+  "vl_text": "<table><tr><td>Reference</td><td>$ HCDR1 $</td><td>$ HCDR2 $</td></tr><tr><td rowspan=\"2\"></td><td>*</td><td>*** *** *</td></tr><tr><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSNKHYADSVKGR</td><td></td></tr><tr><td>AB-1</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYSGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-2</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-3</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGTYTHYADSVKGR</td><td></td></tr><tr><td>AB-4</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGSDTHYADSVKGR</td><td></td></tr><tr><td>AB-5</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGYDTHYADSVKGR</td><td></td></tr><tr><td>AB-6</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSDIHYADSVKGR</td><td></td></tr><tr><td>AB-7</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGAYIHYADSVKGR</td><td></td></tr><tr><td>AB-8</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-9</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSYTHYADSVKGR</td><td></td></tr><tr><td>AB-10</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYSGTTTHYADSVKGR</td><td></td></tr><tr><td>AB-11</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYSGSYIHYADSVKGR</td><td></td></tr><tr><td>AB-12</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nVWYDGSNTHYADSVKGR</td><td></td></tr><tr><td>AB-13</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nISYDGSTKHYADSVKGR</td><td></td></tr><tr><td>AB-14</td><td>QMQLVESGGGVVQPGRSLRLSCAAS\\nGFTRFTYGMHWVRQAPGKGLEWVAV\\nIWYDGSTKHYADSVKGR</td><td></td></tr></table>",
+  "batch_runtime": {
+    "backend": "vl",
+    "device": "gpu:0",
+    "configured_submission_batch_size": 1,
+    "effective_model_batch_size": 1,
+    "worker_pid": 2783897,
+    "submission_size": 3,
+    "initialization_seconds": 5.286872994154692,
+    "inference_wall_seconds": 91.75568053498864
+  }
+}

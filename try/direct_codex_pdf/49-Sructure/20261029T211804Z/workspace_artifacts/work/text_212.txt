@@ -1,0 +1,29 @@
+WO 2024/020591
+PCT/US2023/070790
+i1, i2, r1, r2, v = items
+#Transform
+i1 = int(i1[1:])
+i2 = int(i2[1:])
+r1 = tripleToSingle[r1]
+r2 = tripleToSingle[r2]
+v=float(v)
+#Create New Entry in the hash table
+j[(i1,i2,r1,r2)] = v
+return h,j
+def trim_sequence(sequence, positions, native):
+if len(sequence)!= len(native):
+return None
+else:
+return ".join([sequence[p] for p in positions])
+def sequence_energy(h:dict, j:dict, sequence:str, tokens='ACDEFGHIKLMNPQRSTVWY-′)
+-> float:
+score = 0
+#Score First Order Contributions
+for i,s in enumerate(sequence):
+try:
+score += h[(i,s)]
+except KeyError:
+pass
+#Score Second Order Contributions
+for c1, c2 in itertools.combinations(enumerate(sequence),2):
+211

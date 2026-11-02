@@ -1,0 +1,35 @@
+WO 2024/020591
+PCT/US2023/070790
+[0056] FIGs. 6A-6B show binding profiles of non-limiting examples of anti-TSLP
+antibodies to hTSLP, generated using a blocking ELISA.
+[0057] FIGs. 7A-7B show binding profiles of non-limiting examples of anti-TSLP
+antibodies to cynoTSLP, generated using a blocking ELISA.
+[0058] FIGs. 8A-8C show that non-limiting examples of anti-TSLP antibodies
+neutralizing binding of hTSLP to TSLP receptor (TSLPR). Ba/F3-STAT5-Luc cells, STAT5
+reporter cells that express hTSLPR and hIL-7Rα, were used to assess binding between
+hTSLP and TSLPR based on hTSLP-induced STAT5 activity. FIG. 8A shows TSLP-
+mediated STAT5 signaling as a function of hTSLP concentration. FIGs. 8B-8C show effects
+of the anti-TSLP antibodies on TSLP-mediated STAT5 signaling.
+[0059] FIGs. 9A-9B are graphs showing that example anti-TSLP antibodies block TSLP
+binding to human mveloid dendritic cells (mDCs) from peripheral blood. The curves show
+effects of the anti-TSLP antibodies on TSLP-induced CCL17 expression by mDCs from one
+representative donor.
+[0060] FIGs. 10A-10D are graphs showing binding profiles of AB-2a, AB-2b, the
+Reference Antibody, IgG1 isotype control, and IgG2 isotype control, generated using a direct
+ELISA. FIG. 10A shows binding profiles to hTSLP. FIG. 10B shows binding profiles to
+cynoTSLP. FIG. 10C shows binding profiles to mouse TSLP. FIG. 10D shows binding
+profiles to human IL-7.
+[0061] FIGs. 11A-11B are graphs showing Ba/F3 assay results for AB-2a, AB-2b, the
+Reference Antibody, IgG1 isotype control, and IgG2 isotype control. FIG. 11A shows human
+TSLPR/IL-7Rα Ba/F3 assay results. FIG. 11B shows cyno TSLPR/IL-7Rα Ba/F3 assay
+results.
+[0062]
+FIG. 12A is a diagram illustrating zero-order (1002), first-order (1004), and
+second-order (1006) models.
+[0063] FIG. 12B is a flow diagram illustrating an example of the process used by
+embodiments of this disclosure to determine claimed sequences.
+[0064] FIG. 13 illustrates a computer network or similar digital processing environment
+in which embodiments of the present invention may be implemented.
+[0065] FIG. 14 is a diagram of an example internal structure of a computer (e.g., client
+processor/device or server computers) in the computer system of FIG. 13.
+13

@@ -1,0 +1,56 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:24.
+28.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:10; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:25.
+29.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:11; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:20.
+30.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:12; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:20.
+31.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:13; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:26.
+32.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:14; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:27.
+33.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:15; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:28.
+34.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:16; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:29.
+35.
+The polypeptide of any one of Embodiments 1-21, wherein:
+a)
+the VH comprises the amino acid sequence of SEQ ID NO:17; and
+b)
+the VL comprises the amino acid sequence of SEQ ID NO:30.
+36.
+The polypeptide of any one of Embodiments 1-35, wherein the Ví and VL are
+humanized, contain human framework regions, or a combination thereof.
+166

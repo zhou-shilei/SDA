@@ -1,0 +1,42 @@
+WO 2024/020591
+PCT/US2023/070790
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:126 (AB-
+11b).
+[00479] In some embodiments, a polypeptide comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:116; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:127 (AB-
+12b).
+[00480]In some embodiments, a polypeptide comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:117; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO: 128 (AB-
+13b).
+[00481]In some embodiments, a polypeptide comprises:
+a)
+a heavy chain comprising the amino acid sequence of SEQ ID NO:118; and
+b)
+a light chain comprising the amino acid sequence of SEQ ID NO:129 (AB-
+14b).
+[00482] In some embodiments, a polypeptide is a single-domain antibody or an antigen-
+binding fragment thereof. As used herein, the term “single-domain antibody (sdAb)" or
+“nanobody" refers to an immunoglobulin molecule consisting of a single monomeric variable
+antibody domain and capable of specific binding to a target. A single-domain antibody can be
+of any species, such as a murine antibody, a human antibody or a humanized single-domain
+antibody.
+[00483] In some embodiments, a VH domain and a VL domain may be linked together via a
+linker (e.g., a synthetic linker) to form various types of single-chain antibody designs in
+which the VH/VL domains pair intramolecularly, or intermolecularly in those cases when the
+Ví and VL domains are expressed by separate chains, to form a monovalent antigen binding
+site.
+[00484] In some embodiments, a polypeptide is a heavy-chain antibody comprising two or
+more heavy chains, but lacking light chain, or an antigen-binding fragment thereof. Non-
+limiting examples of heavy chain antibodies include camelid Vhh (also referred to as VHH or
+VíH) antibodies. Camelid antibodies are antibodies from the Camelidae family of mammals
+that include llamas, camels, and alpacas.
+[00485] In some embodiments, a polypeptide is an antibody mimetic. The term “antibody
+mimetic" refers to polypeptides capable of mimicking an antibody's ability to bind an
+100

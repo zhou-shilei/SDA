@@ -1,0 +1,688 @@
+{
+  "groups": [
+    {
+      "variant": "original",
+      "exact": 0,
+      "count": 3
+    },
+    {
+      "variant": "trim_right_only",
+      "exact": 3,
+      "count": 3
+    },
+    {
+      "variant": "white_bottom_padding_only",
+      "exact": 0,
+      "count": 3
+    },
+    {
+      "variant": "restore_bottom_only",
+      "exact": 3,
+      "count": 3
+    },
+    {
+      "variant": "restore_bottom_trim_right",
+      "exact": 3,
+      "count": 3
+    },
+    {
+      "variant": "restore_bottom_trim_right_pad8",
+      "exact": 3,
+      "count": 3
+    }
+  ],
+  "results": [
+    {
+      "signature": "cbb212aee1f44b2c85ab9c1dc3cb91fba32076cd85c3abd4d8a5b2507ed5f5b5",
+      "case": {
+        "id": "AB-1_original",
+        "item": "AB-1",
+        "variant": "original",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_original.png",
+        "image_sha256": "8c4f88cb925bd15c0b325d8f4df76d2fbeaeddadf3bb52165be1c68ecbae05d3",
+        "size": [
+          1815,
+          40
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9843448996543884,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_original.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9843448996543884
+        }
+      },
+      "seconds": 0.3322
+    },
+    {
+      "signature": "e1df7f04f0f8d6209730701a385f04ddee6cc30bc36f938586f224a70a0306b8",
+      "case": {
+        "id": "AB-1_trim_right_only",
+        "item": "AB-1",
+        "variant": "trim_right_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_trim_right_only.png",
+        "image_sha256": "82cafa7940e033d3ef209106f47b38efc08b39c5b27426dc9adb43c65a6f00d2",
+        "size": [
+          481,
+          40
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9992130994796753,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_trim_right_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9992130994796753
+        }
+      },
+      "seconds": 0.0768
+    },
+    {
+      "signature": "1dfa786c0e18272fb691c160db593105803f459573a6ffdfcd10477475da47c4",
+      "case": {
+        "id": "AB-1_white_bottom_padding_only",
+        "item": "AB-1",
+        "variant": "white_bottom_padding_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_white_bottom_padding_only.png",
+        "image_sha256": "4953ac4e382ea7d4998a744074d01439cf2c4a2a307301142a16ed682f2503f5",
+        "size": [
+          1815,
+          48
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9986686110496521,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_white_bottom_padding_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9986686110496521
+        }
+      },
+      "seconds": 0.0233
+    },
+    {
+      "signature": "58323a868d6a1cb01b7924c79e441c24afc19ebd5f489d74e380dbebd27e92c6",
+      "case": {
+        "id": "AB-1_restore_bottom_only",
+        "item": "AB-1",
+        "variant": "restore_bottom_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_only.png",
+        "image_sha256": "68fe707e5bc2a3f092f5f88fd9ebc2701e5d0f21273d60dad76a7d525d32e463",
+        "size": [
+          1815,
+          48
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9952034950256348,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9952034950256348
+        }
+      },
+      "seconds": 0.0121
+    },
+    {
+      "signature": "4b2de2749a7643cc6b3114d599388fcf68e633604a752f83164b5a3ea5031c49",
+      "case": {
+        "id": "AB-1_restore_bottom_trim_right",
+        "item": "AB-1",
+        "variant": "restore_bottom_trim_right",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right.png",
+        "image_sha256": "def4632b0ff7ebd0bcf554d5499d220ab91806f2b13d70dfa7390f60a2f81b5c",
+        "size": [
+          481,
+          48
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9997418522834778,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9997418522834778
+        }
+      },
+      "seconds": 0.0417
+    },
+    {
+      "signature": "2e4f883b6d949b9b2881a0c15de9dcc10102c5777ade78bf19870ababba581f2",
+      "case": {
+        "id": "AB-1_restore_bottom_trim_right_pad8",
+        "item": "AB-1",
+        "variant": "restore_bottom_trim_right_pad8",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right_pad8.png",
+        "image_sha256": "20cf27740c49233be6ba9e415cd3b9cec85848c8a851d3541268ed3840c45dee",
+        "size": [
+          497,
+          64
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9997608065605164,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right_pad8.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9997608065605164
+        }
+      },
+      "seconds": 0.013
+    },
+    {
+      "signature": "72ee4482d60a99809cecb6a9e1ec10d0b582991a359fd8894c37607cb8c37e54",
+      "case": {
+        "id": "AB-2_original",
+        "item": "AB-2",
+        "variant": "original",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_original.png",
+        "image_sha256": "03eda5372dc0adb17b9f8ef36dc7356085dc674c4e91e6f85b8c1b7d83fae000",
+        "size": [
+          1817,
+          41
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9790964126586914,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_original.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9790964126586914
+        }
+      },
+      "seconds": 0.0215
+    },
+    {
+      "signature": "109424d6bfcb6ed033461b4997096c11fb535b97437ef379032d9cd06fe87999",
+      "case": {
+        "id": "AB-2_trim_right_only",
+        "item": "AB-2",
+        "variant": "trim_right_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_trim_right_only.png",
+        "image_sha256": "c2d57d39d86da6e89191bbd66cf2269ca162f57747a61bc4c30d978df4e761a9",
+        "size": [
+          483,
+          41
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9993762969970703,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_trim_right_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9993762969970703
+        }
+      },
+      "seconds": 0.0161
+    },
+    {
+      "signature": "db83a7a14b6eb68977a5f6614da14c9349b96dd5674924dbfc51a86991bf1394",
+      "case": {
+        "id": "AB-2_white_bottom_padding_only",
+        "item": "AB-2",
+        "variant": "white_bottom_padding_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_white_bottom_padding_only.png",
+        "image_sha256": "336c724b20a68da6fa5a91131590b5c5803e4610b052aa3c63629a0b8a2be3d0",
+        "size": [
+          1817,
+          49
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9956321716308594,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_white_bottom_padding_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9956321716308594
+        }
+      },
+      "seconds": 0.0219
+    },
+    {
+      "signature": "9a04f74da821e474a017284ebe18b871dcde1d13894f07cf817ded82a671412c",
+      "case": {
+        "id": "AB-2_restore_bottom_only",
+        "item": "AB-2",
+        "variant": "restore_bottom_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_only.png",
+        "image_sha256": "ecefa938a8d208e122c278b8069462b4c50151f99784f4eb49d8bc363fce0000",
+        "size": [
+          1817,
+          49
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9950704574584961,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9950704574584961
+        }
+      },
+      "seconds": 0.0121
+    },
+    {
+      "signature": "a96de5a6d572691ca4374a20445e4c8dc9ab848aec58aa11851ee4f789969e2d",
+      "case": {
+        "id": "AB-2_restore_bottom_trim_right",
+        "item": "AB-2",
+        "variant": "restore_bottom_trim_right",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right.png",
+        "image_sha256": "b716cadd7ad0a97bf28cd3cf9f52f081fba38e8db68782a1e21f9e0b6d030d60",
+        "size": [
+          483,
+          49
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9997519254684448,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9997519254684448
+        }
+      },
+      "seconds": 0.0133
+    },
+    {
+      "signature": "ab0b5b7108b8bf8fee5c37d9263a2a04470c5190910fffc590e740588a0dad1f",
+      "case": {
+        "id": "AB-2_restore_bottom_trim_right_pad8",
+        "item": "AB-2",
+        "variant": "restore_bottom_trim_right_pad8",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right_pad8.png",
+        "image_sha256": "703566a2c8986cc51a8ba2276dc5d4591b064437d7e9398fa6b003684b960e16",
+        "size": [
+          499,
+          65
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9997813105583191,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right_pad8.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9997813105583191
+        }
+      },
+      "seconds": 0.0125
+    },
+    {
+      "signature": "9147be5307ee9c37e9164e0934c0cfe6a510daa091f3365c97126b23ac5a2f75",
+      "case": {
+        "id": "AB-5_original",
+        "item": "AB-5",
+        "variant": "original",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_original.png",
+        "image_sha256": "1c91d7dc4790480fd9c6996f0f3710f6134b7dbd9a39ebd6bbbaa083935c1a9c",
+        "size": [
+          1817,
+          40
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9822406768798828,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_original.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9822406768798828
+        }
+      },
+      "seconds": 0.0169
+    },
+    {
+      "signature": "8077752948e16669999a8ffcac583d3d1613a1a4ce5f0707a7beefa28a5e69a8",
+      "case": {
+        "id": "AB-5_trim_right_only",
+        "item": "AB-5",
+        "variant": "trim_right_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_trim_right_only.png",
+        "image_sha256": "ba18c0005d171dcf8fcb3e75dab3df2792825f0563de1b055dc149b2aaf25de9",
+        "size": [
+          483,
+          40
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9991284012794495,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_trim_right_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9991284012794495
+        }
+      },
+      "seconds": 0.011
+    },
+    {
+      "signature": "23cf9049d6f37f5f2a41bd9b8e9d3dcc8a0fd08094051471c5111710bc063b29",
+      "case": {
+        "id": "AB-5_white_bottom_padding_only",
+        "item": "AB-5",
+        "variant": "white_bottom_padding_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_white_bottom_padding_only.png",
+        "image_sha256": "5483b66494167341ff11c4d584933b3966056cf93daed29ba8b8e2ebe8513e5f",
+        "size": [
+          1817,
+          48
+        ]
+      },
+      "text": "MDIWGOGTMVTVSS",
+      "value": "MDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "confidence": 0.9994682669639587,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_white_bottom_padding_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGOGTMVTVSS",
+          "rec_score": 0.9994682669639587
+        }
+      },
+      "seconds": 0.0219
+    },
+    {
+      "signature": "87605e50bd3669d563e257614a02775b62391a4ea3b86eb72ea75bc0b2c72247",
+      "case": {
+        "id": "AB-5_restore_bottom_only",
+        "item": "AB-5",
+        "variant": "restore_bottom_only",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_only.png",
+        "image_sha256": "183d013de12fbd376248b3527d45bff6eeee7f8a98f58d917d84f303e22f8af2",
+        "size": [
+          1817,
+          48
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9965171217918396,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_only.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9965171217918396
+        }
+      },
+      "seconds": 0.0119
+    },
+    {
+      "signature": "61883a9e01dd66ca2d6cf307670d8411d1c342d4a5b55d591ec7e754535788a3",
+      "case": {
+        "id": "AB-5_restore_bottom_trim_right",
+        "item": "AB-5",
+        "variant": "restore_bottom_trim_right",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right.png",
+        "image_sha256": "1396ac2fd557e7f69fff4915abe6e07c1aa7af568c46219a8c560f9bb26592e4",
+        "size": [
+          483,
+          48
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.999674379825592,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.999674379825592
+        }
+      },
+      "seconds": 0.008
+    },
+    {
+      "signature": "1f610285d22926e2aaae29bdab3b81f24eaf3592ed2743bc08c8f97199c076fd",
+      "case": {
+        "id": "AB-5_restore_bottom_trim_right_pad8",
+        "item": "AB-5",
+        "variant": "restore_bottom_trim_right_pad8",
+        "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right_pad8.png",
+        "image_sha256": "dbd4b36c934fa1f459c21731296d92b85a8eaad5525b6463ea5d09150e71b452",
+        "size": [
+          499,
+          64
+        ]
+      },
+      "text": "MDIWGQGTMVTVSS",
+      "value": "MDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "confidence": 0.9998099207878113,
+      "raw": {
+        "res": {
+          "input_path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right_pad8.png",
+          "page_index": null,
+          "rec_text": "MDIWGQGTMVTVSS",
+          "rec_score": 0.9998099207878113
+        }
+      },
+      "seconds": 0.0128
+    }
+  ],
+  "reassembled_full_sequences": [
+    {
+      "item": "AB-1",
+      "variant": "original",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-1",
+      "variant": "trim_right_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-1",
+      "variant": "white_bottom_padding_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-1",
+      "variant": "restore_bottom_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-1",
+      "variant": "restore_bottom_trim_right",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-1",
+      "variant": "restore_bottom_trim_right_pad8",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "original",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "trim_right_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "white_bottom_padding_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "restore_bottom_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "restore_bottom_trim_right",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-2",
+      "variant": "restore_bottom_trim_right_pad8",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "original",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "trim_right_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "white_bottom_padding_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "restore_bottom_only",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "restore_bottom_trim_right",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    },
+    {
+      "item": "AB-5",
+      "variant": "restore_bottom_trim_right_pad8",
+      "value": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "note": "First two lines reuse unchanged PP-OCRv6 predictions; tail is the new model output, not a manual correction."
+    }
+  ],
+  "wall_seconds": 2.645,
+  "inference_seconds": 0.679
+}

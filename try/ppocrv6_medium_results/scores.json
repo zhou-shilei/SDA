@@ -1,0 +1,155 @@
+{
+  "model": "PP-OCRv6_medium_rec",
+  "reference_kind": "assistant_visual_transcription_from_original_raster",
+  "independent_human_gold": false,
+  "reference_sha256": "ff31703898a5cdd894df94c94409eccbd0be0fca9fe8de654045d8c3ddc95f4d",
+  "images": 15,
+  "inference_seconds_sum": 0.994,
+  "groups": [
+    {
+      "method": "physical_lines_p196",
+      "items": 3,
+      "exact": 0,
+      "edit_distance": 3,
+      "reference_characters": 366,
+      "CER": 0.00819672131147541
+    },
+    {
+      "method": "sequence_crops_figures",
+      "items": 3,
+      "exact": 3,
+      "edit_distance": 0,
+      "reference_characters": 366,
+      "CER": 0.0
+    }
+  ],
+  "comparisons": [
+    {
+      "method": "physical_lines_p196",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "reference_characters": 122,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_position_1based": 114,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ],
+      "source_cases": [
+        "AB-1_line_1",
+        "AB-1_line_2",
+        "AB-1_line_3"
+      ]
+    },
+    {
+      "method": "sequence_crops_figures",
+      "item": "AB-1",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYSGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "reference_characters": 122,
+      "CER": 0.0,
+      "noncanonical_characters": [],
+      "differences": [],
+      "source_cases": [
+        "AB-1_figure_229",
+        "AB-1_figure_230"
+      ]
+    },
+    {
+      "method": "physical_lines_p196",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "reference_characters": 122,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_position_1based": 114,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ],
+      "source_cases": [
+        "AB-2_line_1",
+        "AB-2_line_2",
+        "AB-2_line_3"
+      ]
+    },
+    {
+      "method": "sequence_crops_figures",
+      "item": "AB-2",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGSYTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCARSPQWEEIFEAMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "reference_characters": 122,
+      "CER": 0.0,
+      "noncanonical_characters": [],
+      "differences": [],
+      "source_cases": [
+        "AB-2_figure_229",
+        "AB-2_figure_230"
+      ]
+    },
+    {
+      "method": "physical_lines_p196",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGOGTMVTVSS",
+      "exact": false,
+      "edit_distance": 1,
+      "reference_characters": 122,
+      "CER": 0.00819672131147541,
+      "noncanonical_characters": [
+        "O"
+      ],
+      "differences": [
+        {
+          "operation": "replace",
+          "reference_position_1based": 114,
+          "expected": "Q",
+          "observed": "O"
+        }
+      ],
+      "source_cases": [
+        "AB-5_line_1",
+        "AB-5_line_2",
+        "AB-5_line_3"
+      ]
+    },
+    {
+      "method": "sequence_crops_figures",
+      "item": "AB-5",
+      "expected": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "observed": "QMQLVESGGGVVQPGRSLRLSCAASGFTFRTYGMHWVRQAPGKGLEWVAVVWYDGYDTHYADSVKGRFTITRDNSKNTLNLQMNSLRAEDTAVYYCSRSPQWEDIFESMDIWGQGTMVTVSS",
+      "exact": true,
+      "edit_distance": 0,
+      "reference_characters": 122,
+      "CER": 0.0,
+      "noncanonical_characters": [],
+      "differences": [],
+      "source_cases": [
+        "AB-5_figure_229",
+        "AB-5_figure_230"
+      ]
+    }
+  ],
+  "note": "Same crop files and reference as PPVL. Whitespace only is removed; no residue correction, motif inference or historical repair values."
+}

@@ -1,0 +1,26 @@
+WO 2024/020591
+PCT/US2023/070790
+#Convert Score into Log P...
+score = [np.log(n/s) for n,s in zip(native_logit,logits)]
+score = sum(score)
+return score
+def claim sequence(vh:str, vl:str) -> bool:
+"take in a vh and vl sequence and return a boolean
+value either claiming or not claiming a sequence""
+h,j = read_etab(ETAB_FILE)
+#Module for Sequence Alignment:
+tvh = trim sequence(vh, VH POSITIONS, VH NATIVE)
+if tvh is None: return False
+tvl = trim sequence(vl,VL POSITIONS, VL NATIVE)
+if tvl is None: return False
+sequence = tvh+tvl
+#Score Aligned Sequence & Claim
+score = score_sequence(h,j,sequence)
+if score > THRESHOLD:
+return True
+else:
+return False
+if_name__== "_main___":
+parser = argparse.ArgumentParser()
+parser.add_argument("vh", type=str, help="a vh sequence to check if it is claimed")
+213

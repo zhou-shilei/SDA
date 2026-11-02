@@ -1,0 +1,35 @@
+W0 2024/020591
+PCT/US2023/070790
+baseline corrected and transformed to percent inhibition using the STAT5-luciferase signal of
+unstimulated cells. The ICso values were obtained by a non-linear curve fit (Table 10). The
+tested anti-TSLP antibodies can block TSLP from binding the TSLPR on cells.
+Example 8. Inhibition of STAT5-Luciferase Signal
+[00788] Myeloid Dendritic Cell (mDC) TSLP Stimulation Assay
+[00789] Peripheral Blood Mononuclear Cells (PBMCs) were isolated from fresh whole
+blood by Ficoll-Paque density centrifugation from 5 independent donors and cryopreserved in
+medium containing 90% fetal bovine serum and 10% DMSO. PBMCs were thawed into PBS
+containing 5 mM EDTA and 2% FBS, counted and myeloid dendritic cells (mDCs) were
+isolated using StemCell Technologies EasySep Human Myeloid DC Enrichment Kit. In a 96-
+well maxi-sorp (Thermo Fisher Scientific) plate serial dilutions of anti-TSLP antibodies in 25
+μl of Assay Media (RPMI-1640 + 10% FBS) are pre-incubated with 25 μl of 1 ng/ml hTSLP
+cytokine (BioLegend) at 37°C for 30 minutes. After incubation 1E5 mDCs were plated and
+incubated with the antibodies and TSLP cytokine for forty-eight hours at 37°C. Media were
+collected, and the concentrations of CCL17 (TARC) were measured on an MSD instrument.
+[00790] FIGs. 9B-9C show effects of the anti-TSLP antibodies on TSLP-induced CCL17
+expression by mDCs from one representative donor. The results demonstrate that the anti-
+TSLP antibodies block binding of hTSLP to TSLPR and in turn, inhibit CCL17 secretion by
+mDCs. The IC50 values were obtained by a non-linear curve fit (Table 11). The tested anti-
+TSLP antibodies can block TSLP from binding the human mDCs from peripheral blood.
+Example 9. Human TSLP Binding Enzyme-Linked Immunosorbent Assay (ELISA)
+[00791] The binding affinity of anti-TSLP monoclonal antibodies (mAbs) to human TSLP,
+cyno TSLP, mouse TSLP, and human IL-7 was assessed using an indirect ELISA assay. A 96
+well half area plate was coated with 2 μg/mL of recombinant protein (human TSLP, cyno
+TSLP, mouse TSLP, human IL-7) overnight at 4°C. The next day, the plates were washed
+three times with ELISA wash buffer and blocked with ELISA assay diluent B (BioLegend)
+for one hour at room temperature (RT). Plates were then washed three times with ELISA
+wash buffer, afterwards anti-TSLP antibodies (AB-2a, AB-2b, the Reference Antibody, IgG1
+and IgG2 isotype controls) were added at the indicated concentrations and incubated at RT
+for one hour. Antibody binding was assessed using an 8-point titration curve in triplicates
+(1:3 serial dilution starting at 10 μg/mL). The plate was washed three times with ELISA wash
+buffer, and HRP-conjugated anti-human IgG-HRP secondary antibody (Jackson
+190

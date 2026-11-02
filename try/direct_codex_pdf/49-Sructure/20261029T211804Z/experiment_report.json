@@ -1,0 +1,82 @@
+{
+  "基数token": 174165,
+  "基数说明": "先前定义的全文OCR一次输入+紧凑初始dataset一次输入，本地o200k_base估计；不是完整提取成本。",
+  "试验输入": "唯一文献输入是263页原始扫描PDF，没有提供既有OCR或seed/dataset。Codex自主使用本机OCR和页面读图、脚本及多轮工具交互。",
+  "模型": "gpt-6.1-sol",
+  "推理强度": "xhigh",
+  "Codex版本": "0.160.0",
+  "运行秒数": 1459.75,
+  "完整会话返回的用量": {
+    "input_tokens": 13317737,
+    "output_tokens": 65917,
+    "cached_input_tokens": 13120640,
+    "reasoning_output_tokens": 27021,
+    "total_tokens": 13383654
+  },
+  "输入中缓存占比": 0.9852004135537441,
+  "非缓存输入token": 197097,
+  "对照表": [
+    {
+      "方式": "Codex 原始PDF自主提取",
+      "输入token_含缓存": 13317737,
+      "其中缓存输入token": 13120640,
+      "非缓存输入token": 197097,
+      "输出token_含推理": 65917,
+      "其中推理输出token": 27021,
+      "合计token": 13383654,
+      "合计基数倍数": 76.84468176728964,
+      "用量未知请求数": 0
+    },
+    {
+      "方式": "现有完整流程",
+      "输入token_含缓存": 3946527,
+      "其中缓存输入token": 721920,
+      "非缓存输入token": 3224607,
+      "输出token_含推理": 513562,
+      "其中推理输出token": 337350,
+      "合计token": 4460089,
+      "合计基数倍数": 25.608411563747023,
+      "用量未知请求数": 3
+    }
+  ],
+  "直接Codex总token除以现有流程已知总token": 3.000759401886375,
+  "结构与覆盖检查": {
+    "本地OCR页数": 263,
+    "有效OCR文件数": 263,
+    "报告状态": "completed_with_limitations",
+    "输出记录数": {
+      "entities": 70,
+      "sequences": 173,
+      "sequence_links": 354,
+      "experiments": 20,
+      "measurements": 291,
+      "relations": 259,
+      "issues": 16,
+      "tables": 14,
+      "epitope_definitions": 1,
+      "figures": 28,
+      "sequence_constraints": 3,
+      "claimed_properties": 3
+    },
+    "重复ID": {},
+    "无效实体实验引用": [],
+    "无效证据页码": []
+  },
+  "限制": [
+    "Raw graphical points/error bars in Figures 4–11 lack individually printed numbers. Exact tabulated fit results and textual qualitative results are included; raw A450, luciferase AU, TARC pg/mL and inhibition point coordinates were not digitized into exact values.",
+    "The referenced external XML listing, Appendix A/B files and numerical Potts weights are not embedded in the supplied PDF. They were not fetched; model scores were taken from the printed table rather than recomputed.",
+    "Except AB-2a, a-suffixed light-chain assignments rely on the shared unsuffixed family names and heavy-constant-region suffix definition; those links are marked provisional in sequence_links and issues. Tables 6–11 do not resolve a/b suffixes and remain linked only to unsuffixed entities.",
+    "An extra Figure 10D legend label resembling PRO-171101-004 is uncertain; no alias or sequence identity is inferred for it.",
+    "Original numerical, receptor-species, assay-title, table/figure-cross-reference and replicate-count inconsistencies are retained and detailed in the 16 issues. Blank cells and N/A are not treated as zero.",
+    "All pages underwent full-page OCR, with scientific sequence/result tables visually verified. General legal prose and the program listing were not proofread word by word; the local OCR intermediates are not a guaranteed character-perfect edition of the patent."
+  ],
+  "比较限制": "记录计数和结构检查不代表事实准确性，两套输出schema和归属判定存在差异，尚未进行逐项同等质量验收；总token含缓存，不能把token倍数当作费用倍数。本地OCR计算量未计入模型token。现有流程有3次未知用量，数字为已知下限。",
+  "审计": {
+    "source_pdf_sha256": "cd553828376ec75b4e585b5358e5107c9c7f3d79d19f5de89171d5ce3e6f7723",
+    "dataset_sha256": "0a3e2ad4032b3fc408a1d000c06e967840646f2aa612d7878bdcca17c9eb2401",
+    "recorded_completed_shell_commands": 101,
+    "recorded_commands_containing_project_path": [],
+    "archived_intermediate_files": 576,
+    "audit_directory": "/project_c20250601/252705034/SDA/try/direct_codex_pdf/49-Sructure/20261029T211804Z"
+  }
+}

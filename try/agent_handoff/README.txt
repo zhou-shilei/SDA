@@ -1,13 +1,22 @@
 Agent 数据交接调试实验
 
-首页从整体流程开始，沿用 docs/figures/dataagent2_pipeline_v6.png 的三层架构：
+首页从整体流程开始，当前为四层架构（旧 v6 设计图保留作对照）：
 A. 初始化：PDF → 预处理 → 表格检测/OCR → 输入打包 → TemplateAgent（筛选、定位与文档计划） → 固定种子
-B. 全文提取：正文/表格证据 → 分块 → 并行 Reader → 程序合并
-C. 定向补全：缺口问题 → 检索与 Answer → 校验应用 → 最终数据集 → SDA 导出
-17 个节点均可点击。节点详情先解释职责、执行者、输入字段与输出字段，
+B. 全文提取：正文/表格证据 → 分块 → 并行 Reader → Action① → 完整 Dataset2 与逐实体域复核
+C. 定向补全：Action 域复核 unresolved → Python 分组排队 → 定向检索 → 并行 Answer（默认 4 路）
+D. 二次综合：完整固定 Dataset2 + 全部有效 Answer 建议 → Action② → 完整 Dataset3 → SDA 导出
+23 个节点均可点击。节点详情先解释职责、执行者、输入字段与输出字段，
 再提供本轮 JSON 示例、实际提示词、输出 Schema 和 Python 源码。
 调用明细保留原来的三栏查看和字段比较，可从 Reader / Answer 等节点进入。
 旧架构图也内嵌在首页下方，供展开对照。
+
+2026-11-02 新版入口：snapshots/49-Sructure-flow-20261102/index.html。
+来自 e5d3445e 本轮完整 PDF 运行：62 个 Reader、23 个 Answer；Answer 无有效新增建议，
+Action② 为 not_needed，未发送模型请求。该节点展示真实状态、保留的 Dataset3 和明确标注
+未调用的当前 Prompt / Schema。全部 Answer 读取同一份固定 Dataset2，不存在逐题更新循环。
+必要原文整组保留，8,000 字符是可选证据的软预算。缺口和冲突继续保留。
+来源 grouped_sources_v1 仅为可逆传输选项，默认仍为七列来源行；catalogue 属于独立实验。
+此次仅读取已落盘文件生成独立快照，不执行 OCR 或模型，不覆盖旧运行。
 
 只验证统一 TemplateAgent 第一次生成 Dataset1（实际调用模型，不启动 Reader/Answer）：
 
@@ -34,15 +43,15 @@ C. 定向补全：缺口问题 → 检索与 Answer → 校验应用 → 最终�
 16 条实验定义对应 14 个实验 ID；已解析测量在种子转换中无遗漏，实验绑定缺失为 0。
 具体序列尚未生成，模板仍 needs_review。revalidation.json 保存原请求/回复哈希及本次代码哈希。
 
-当前流程已同步 v6：LabelAgent 的表格筛选和结构定位并入 TemplateAgent，一次模型调用返回
+当前 Template 提示词为 v8；此前 v6 已将 LabelAgent 的表格筛选和结构定位并入 TemplateAgent，一次模型调用返回
 表格路由、区域、实体、编号映射和实验绑定。输入使用完整 headers/rows 与原始字符串引用。
 明确无关表跳过，背景序列表和不确定表保留；预算外表显式标为待复核。
 Reader 不再读取模板明确排除的表。历史 JSON、调用记录和 Schema 保持冻结，不能当作 v6 运行结果。
-“Python 源码”页展示当前实现和 v6 提示词。旧 Label 输入准备工具仅供历史对照。
+“Python 源码”页展示当前实现和提示词。旧 Label 输入准备工具仅供历史对照。
 
 仅刷新页面与当前定义（不运行模型、不重新采集历史调用）：
 
-    python try/agent_handoff/refresh_page.py try/agent_handoff/snapshots/49-Sructure
+    python try/agent_handoff/refresh_page.py try/agent_handoff/snapshots/49-Sructure-flow-20261102
 
 此命令只更新 index.html 和 current_contract.json；snapshot.json、flow_snapshot.json、
 preview_snapshot.json 与 records/ 保持冻结。真实新版请求及结果需运行抽取后另建快照。
@@ -57,7 +66,7 @@ preview_snapshot.json 与 records/ 保持冻结。真实新版请求及结果需
 
 准备当前输入需使用已安装 SDA 依赖的 Python 环境；单纯刷新页面仍只依赖标准库。
 
-真实快速试跑（按当前 v6 流程调用模型，必须指定新的输出目录）：
+真实快速试跑（按当前流程调用模型，必须指定新的输出目录）：
 
     /project_c20250601/252705034/envs/sda/bin/python try/agent_handoff/run_quick.py \
       --snapshot try/agent_handoff/snapshots/49-Sructure \
@@ -149,12 +158,15 @@ flow_snapshot.json，并独立标注时间、源文件哈希、哈希范围和�
 表格分类渲染预览单独使用 preview_snapshot.json 的完整配对记录，不做首项采样。
 Reader / Answer 的实际请求及响应继续使用原完整快照。
 最后的数据集或导出文件尚未生成时，节点仍展示定义，数据处明确标为未记录。
-当前 QuestionAgent 是 question_tasks() 的确定性 Python，不是旧图标注的轻量模型。
+当前 question_plan() 只对 Action① 的 domain_reviews 缺口排队，不调用额外的 Question 模型。
+新快照保存 domain_review / question_plan、固定 Dataset2、Answer 建议、Action② 状态及 Dataset3；
+若真实存在 answer_action 请求，也完整采集其 Prompt、Schema、原始返回与通过校验的业务结果。
+完整 PDF 运行生成快照时添加 --full-run，复用 OCR 的试跑不要使用该标记。
 不宣称记录所有 OCR/分类模型调用。没有给生产流程增加通用运行时 hook。
 如果以后需要每次运行自动采集，可以在任务结束后调用同一个构建命令。
 尚未写入的请求不在本次快照中，生成之后源任务继续运行不会改变本页。
-源流程没有记录逐题调用前完整 Ledger，本实验不会重建或伪造它；
-Answer 的首轮数据集明确只是参考，本题实收内容以 request.payload 为准。
+旧流程没有记录逐题调用前完整 Ledger，旧快照不会重建或伪造它；
+新流程保存所有 Answer 共用的 dataset2.business.json，本题实收内容仍以 request.payload 为准。
 Template 原始响应可能被程序恢复后才使用，页面区分这两个版本。
 所有 Reader 使用相同种子并行运行，c1 的返回不会直接交给 c2。
 源码来自采集时工作区，无法证明与历史执行时版本完全相同。

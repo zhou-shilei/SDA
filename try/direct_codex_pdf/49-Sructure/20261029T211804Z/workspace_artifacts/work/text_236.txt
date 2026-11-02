@@ -1,0 +1,27 @@
+WO 2024/020591
+cyno TSLP Binding ELISA
+3.5
+3.0-
+ AB-12
+AB-5
+2.5
+--▲--AB-3
+2.0
+……AB-8
+A450
+9/27
+-0-·AB-13
+1.5
+AB-11
+1.0
+AB-2
+Reference
+0.5
+0.0
+0.01
+0.1
+10
+100
+PCT/US2023/070790
+mAb (nMI)
+FIG.5B

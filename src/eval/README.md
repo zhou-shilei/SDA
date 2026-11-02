@@ -1,6 +1,6 @@
 # 序列评估
 
-`src/eval` 独立运行 ANARCI/HMMER 和本地 ESM-2。输入是最终 VH/VL，不修改序列、SEQ 归属、
+`src/eval` 独立运行 ANARCI/HMMER、本地 ESM-2 和 Ophiuchus-Ab。输入是最终 VH/VL，不修改序列、SEQ 归属、
 表格 OCR、实验指标或测量值。主流程在 QuestionAgent/AnswerAgent 和有限修复结束后执行一次，
 随后刷新记录一致性与复核状态。规则模式跳过模型评估。
 
@@ -47,6 +47,25 @@ PYTHONPATH=src python -m eval \
 每条链必须同时提供 pass/fail，且 fail < pass；两者之间待复核。位点风险优先于平均分通过。
 ESM-2 评分衡量序列在模型下的合理性，不证明抗原结合活性或抽取忠实度。
 
+## Ophiuchus-Ab（OP）
+
+正式 worker 为 `src/eval/ophiuchus.py`，与 `PPL/` 实验入口独立。默认自动发现同级
+`AirGen-Dev` 的原始 checkpoint 和 MINT 模型源码，使用 `envs/AbFlow`，严格加载全部参数。
+只运行单链、FP32、逐位单掩码评分，输出各位点对数概率、整链 PLL/伪困惑度及最低分位置；
+不声称做了 VH/VL 配对验证。相同序列在单次 worker 内只评分一次。
+
+OP 的阈值与 ESM-2 独立：默认不设阈值，显示“OP 已评分”，不能据此显示通过。
+可用 `DATASETAGENT_OPHIUCHUS_SITE_MAX_PPL`（或 `_VH_SITE_MAX_PPL`、`_VL_SITE_MAX_PPL`）
+配置位点阈值，或用 `DATASETAGENT_OPHIUCHUS_VH_PASS_PLL` / `_VH_FAIL_PLL`
+及对应 VL 参数配置平均分阈值。未直接采用小规模 PPL 实验的校准阈值。
+`DATASETAGENT_OPHIUCHUS_PYTHON`、`_SOURCE`、`_MODEL` 可覆盖 Python、AirGen 源码根目录和
+checkpoint 文件；`DATASETAGENT_OPHIUCHUS_ENABLED=0` 关闭。设备、batch size 和超时沿用
+评估配置。完整结果保存在 `ophiuchus_results.json`，含 checkpoint 与模型源码哈希。
+
+两版 Studio 抽取流程均在最终序列确定后运行三项评估。dataagent2 通过最终 SDA 模板接入，
+不调用 dataagent1 的抽取或修复；`rules` 和 `evaluation_enabled=False` 跳过模型。
+旧运行不会自动补跑，网页重新提取后才会产生新评估。
+
 ## 本地环境
 
 主程序保持轻量；两个 worker 可用独立 Python 环境。优先使用显式环境变量，随后发现同级
@@ -73,6 +92,7 @@ ESM-2 评分衡量序列在模型下的合理性，不证明抗原结合活性�
 - `sequence_evaluation.json`：逐构建体、逐链结果、输入哈希、计数、运行时间与环境。
 - `anarci_results.json`：去重后的完整编号及区域。
 - `esm2_results.json`：去重后的评分及低分位置。
+- `ophiuchus_results.json`：去重后的 OP 单链评分、位点分数及模型来源。
 - `sequence_evaluation.csv`：每条构建体链的状态、哈希和主要数值。
 - `*_input.json` / `*_stderr.log`：worker 输入快照及运行日志。
 

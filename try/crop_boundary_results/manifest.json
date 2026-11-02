@@ -1,0 +1,272 @@
+{
+  "source": "/project_c20250601/252705034/SDA/report/images/WO2024020591A9_table-0001-page-0196.png",
+  "source_sha256": "6a9464540515573e262e53a62eef486cccd62d221adc1c29f2d7271b6d69cd80",
+  "diagnostics": [
+    {
+      "item": "AB-1",
+      "original_box": [
+        699,
+        710,
+        2514,
+        750
+      ],
+      "original_size": [
+        1815,
+        40
+      ],
+      "ink_bbox_in_original": [
+        11,
+        4,
+        473,
+        40
+      ],
+      "black_pixels_below_old_boundary": 44,
+      "restored_pixels_rows": 8
+    },
+    {
+      "item": "AB-2",
+      "original_box": [
+        697,
+        912,
+        2514,
+        953
+      ],
+      "original_size": [
+        1817,
+        41
+      ],
+      "ink_bbox_in_original": [
+        13,
+        4,
+        475,
+        41
+      ],
+      "black_pixels_below_old_boundary": 32,
+      "restored_pixels_rows": 8
+    },
+    {
+      "item": "AB-5",
+      "original_box": [
+        697,
+        1522,
+        2514,
+        1562
+      ],
+      "original_size": [
+        1817,
+        40
+      ],
+      "ink_bbox_in_original": [
+        13,
+        4,
+        475,
+        40
+      ],
+      "black_pixels_below_old_boundary": 45,
+      "restored_pixels_rows": 8
+    }
+  ],
+  "expected": "MDIWGQGTMVTVSS",
+  "reference_kind": "assistant visual transcription, not independent human gold",
+  "cases": [
+    {
+      "id": "AB-1_original",
+      "item": "AB-1",
+      "variant": "original",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_original.png",
+      "image_sha256": "8c4f88cb925bd15c0b325d8f4df76d2fbeaeddadf3bb52165be1c68ecbae05d3",
+      "size": [
+        1815,
+        40
+      ]
+    },
+    {
+      "id": "AB-1_trim_right_only",
+      "item": "AB-1",
+      "variant": "trim_right_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_trim_right_only.png",
+      "image_sha256": "82cafa7940e033d3ef209106f47b38efc08b39c5b27426dc9adb43c65a6f00d2",
+      "size": [
+        481,
+        40
+      ]
+    },
+    {
+      "id": "AB-1_white_bottom_padding_only",
+      "item": "AB-1",
+      "variant": "white_bottom_padding_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_white_bottom_padding_only.png",
+      "image_sha256": "4953ac4e382ea7d4998a744074d01439cf2c4a2a307301142a16ed682f2503f5",
+      "size": [
+        1815,
+        48
+      ]
+    },
+    {
+      "id": "AB-1_restore_bottom_only",
+      "item": "AB-1",
+      "variant": "restore_bottom_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_only.png",
+      "image_sha256": "68fe707e5bc2a3f092f5f88fd9ebc2701e5d0f21273d60dad76a7d525d32e463",
+      "size": [
+        1815,
+        48
+      ]
+    },
+    {
+      "id": "AB-1_restore_bottom_trim_right",
+      "item": "AB-1",
+      "variant": "restore_bottom_trim_right",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right.png",
+      "image_sha256": "def4632b0ff7ebd0bcf554d5499d220ab91806f2b13d70dfa7390f60a2f81b5c",
+      "size": [
+        481,
+        48
+      ]
+    },
+    {
+      "id": "AB-1_restore_bottom_trim_right_pad8",
+      "item": "AB-1",
+      "variant": "restore_bottom_trim_right_pad8",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-1_restore_bottom_trim_right_pad8.png",
+      "image_sha256": "20cf27740c49233be6ba9e415cd3b9cec85848c8a851d3541268ed3840c45dee",
+      "size": [
+        497,
+        64
+      ]
+    },
+    {
+      "id": "AB-2_original",
+      "item": "AB-2",
+      "variant": "original",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_original.png",
+      "image_sha256": "03eda5372dc0adb17b9f8ef36dc7356085dc674c4e91e6f85b8c1b7d83fae000",
+      "size": [
+        1817,
+        41
+      ]
+    },
+    {
+      "id": "AB-2_trim_right_only",
+      "item": "AB-2",
+      "variant": "trim_right_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_trim_right_only.png",
+      "image_sha256": "c2d57d39d86da6e89191bbd66cf2269ca162f57747a61bc4c30d978df4e761a9",
+      "size": [
+        483,
+        41
+      ]
+    },
+    {
+      "id": "AB-2_white_bottom_padding_only",
+      "item": "AB-2",
+      "variant": "white_bottom_padding_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_white_bottom_padding_only.png",
+      "image_sha256": "336c724b20a68da6fa5a91131590b5c5803e4610b052aa3c63629a0b8a2be3d0",
+      "size": [
+        1817,
+        49
+      ]
+    },
+    {
+      "id": "AB-2_restore_bottom_only",
+      "item": "AB-2",
+      "variant": "restore_bottom_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_only.png",
+      "image_sha256": "ecefa938a8d208e122c278b8069462b4c50151f99784f4eb49d8bc363fce0000",
+      "size": [
+        1817,
+        49
+      ]
+    },
+    {
+      "id": "AB-2_restore_bottom_trim_right",
+      "item": "AB-2",
+      "variant": "restore_bottom_trim_right",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right.png",
+      "image_sha256": "b716cadd7ad0a97bf28cd3cf9f52f081fba38e8db68782a1e21f9e0b6d030d60",
+      "size": [
+        483,
+        49
+      ]
+    },
+    {
+      "id": "AB-2_restore_bottom_trim_right_pad8",
+      "item": "AB-2",
+      "variant": "restore_bottom_trim_right_pad8",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-2_restore_bottom_trim_right_pad8.png",
+      "image_sha256": "703566a2c8986cc51a8ba2276dc5d4591b064437d7e9398fa6b003684b960e16",
+      "size": [
+        499,
+        65
+      ]
+    },
+    {
+      "id": "AB-5_original",
+      "item": "AB-5",
+      "variant": "original",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_original.png",
+      "image_sha256": "1c91d7dc4790480fd9c6996f0f3710f6134b7dbd9a39ebd6bbbaa083935c1a9c",
+      "size": [
+        1817,
+        40
+      ]
+    },
+    {
+      "id": "AB-5_trim_right_only",
+      "item": "AB-5",
+      "variant": "trim_right_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_trim_right_only.png",
+      "image_sha256": "ba18c0005d171dcf8fcb3e75dab3df2792825f0563de1b055dc149b2aaf25de9",
+      "size": [
+        483,
+        40
+      ]
+    },
+    {
+      "id": "AB-5_white_bottom_padding_only",
+      "item": "AB-5",
+      "variant": "white_bottom_padding_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_white_bottom_padding_only.png",
+      "image_sha256": "5483b66494167341ff11c4d584933b3966056cf93daed29ba8b8e2ebe8513e5f",
+      "size": [
+        1817,
+        48
+      ]
+    },
+    {
+      "id": "AB-5_restore_bottom_only",
+      "item": "AB-5",
+      "variant": "restore_bottom_only",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_only.png",
+      "image_sha256": "183d013de12fbd376248b3527d45bff6eeee7f8a98f58d917d84f303e22f8af2",
+      "size": [
+        1817,
+        48
+      ]
+    },
+    {
+      "id": "AB-5_restore_bottom_trim_right",
+      "item": "AB-5",
+      "variant": "restore_bottom_trim_right",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right.png",
+      "image_sha256": "1396ac2fd557e7f69fff4915abe6e07c1aa7af568c46219a8c560f9bb26592e4",
+      "size": [
+        483,
+        48
+      ]
+    },
+    {
+      "id": "AB-5_restore_bottom_trim_right_pad8",
+      "item": "AB-5",
+      "variant": "restore_bottom_trim_right_pad8",
+      "path": "/project_c20250601/252705034/SDA/try/crop_boundary_results/images/AB-5_restore_bottom_trim_right_pad8.png",
+      "image_sha256": "dbd4b36c934fa1f459c21731296d92b85a8eaad5525b6463ea5d09150e71b452",
+      "size": [
+        499,
+        64
+      ]
+    }
+  ],
+  "note": "Restored pixels come directly from original raster; white padding is a separate control. No glyph repair or O-to-Q substitution."
+}

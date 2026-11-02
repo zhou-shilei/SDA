@@ -1,0 +1,36 @@
+W0 2024/020591
+PCT/US2023/070790
+X21 is W or Y;
+X22 is D, V or S;
+X23 is S, M or E;
+X24 is S, A or T;
+X25 is S, D or E;
+X26 is D, S, R or F;
+X27 is H, L, K or E,
+or any combination of the foregoing
+12.
+The polypeptide of Embodiment 11, wherein:
+X15 is Y;
+X16 is I;
+X17 is R;
+X18 is F or Y;
+X19 is N;
+X₂0 is I;
+X₂1 is Y;
+X22 is V or S;
+X23 is M or E;
+X24 is A or T;
+X₂5 is D or E;
+X26 is S, R or F;
+X27 is L, K or E,
+or any combination of the foregoing
+13.
+The polypeptide of any one of Embodiments 1-4 and 6-12, wherein the VH comprises
+a heavy chain complementarity determining region 1 (HCDR1), a heavy chain
+complementarity determining region 2 (HCDR2) and a heavy chain complementarity
+determining region 3 (HCDR3) that are identical in amino acid sequence to the
+HCDR1, HCDR2 and HCDR3, respectively, of SEQ ID NO:4, SEQ ID NO:5, SEQ
+ID NO:6, SEQ ID NO:7, SEQ ID NO:8, SEQ ID NO:9, SEQ ID NO:10, SEQ ID
+NO:11, SEQ ID NO:12, SEQ ID NO:13, SEQ ID NO:14, SEQ ID NO:15, SEQ ID
+NO:16 or SEQ ID NO:17.
+163
