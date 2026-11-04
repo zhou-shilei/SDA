@@ -7,7 +7,7 @@ const details = {
     description: ["从 38 条记录开始，查看抗体序列、结合数据与功能实验，沿证据定位到专利原页。", "Start with 38 records. Explore antibody sequences, binding data and functional assays, with evidence linked to the original patent."],
     category: ["推荐入门", "START HERE"], tags: ["DLL4", "IC50", "KD"]},
   WO2026086808A1: {page: 27, title: ["抗 TSLP 抗体", "Anti-TSLP antibodies"],
-    description: ["联查 VH/VL 序列、实验标签与结合数据。", "Connect VH/VL sequences, assay labels and binding data."],
+    description: ["", ""],
     category: ["序列与实验", "SEQUENCES & ASSAYS"], tags: ["TSLP", "EC50", "KD"]},
   WO2025108394A1: {page: 10, title: ["跨实验数据联查", "Evidence across assays"],
     description: ["在 15 组实验间筛选记录，对照原文核对数值与序列来源。", "Explore 15 assays and verify measurement and sequence sources."],
@@ -30,9 +30,6 @@ function render() {
     "从抗体序列到实验数值，每一条记录都能回到原文。",
     "Follow antibody sequences and measurements back to their original evidence.");
   document.querySelector("#experience-upload-link span").textContent = text("上传你的 PDF", "Upload your PDF");
-  document.getElementById("experience-footer-note").textContent = text(
-    "案例保留原始缺失和待复核状态。进入审阅后，可对照原文逐项核对。",
-    "Original missing and pending states are preserved. Review each field against its source.");
   document.getElementById("experience-workspace-link").innerHTML = `${text("查看数据集", "View datasets")} <span aria-hidden="true">↗</span>`;
   document.getElementById("experience-library-meta").innerHTML = cases.length ? `
     <span>${documentIcon}<strong>${number(cases.length)}</strong> ${text("份真实专利", "real patents")}</span>
@@ -77,7 +74,7 @@ function render() {
     <div class="case-list">${cases.slice(1).map(item => `
       <article class="experience-card case-row">
         <div class="case-thumbnail"><img src="${escape(imageUrl(item))}" alt="${escape(item.document_id)}" loading="lazy" decoding="async" /></div>
-        <div class="case-row-content"><div class="case-row-kicker"><span>${escape(localized(info(item).category))}</span><span class="case-patent-id">${escape(item.document_id)}</span></div><h3>${escape(localized(info(item).title))}</h3><p>${escape(localized(info(item).description))}</p></div>
+        <div class="case-row-content"><div class="case-row-kicker"><span>${escape(localized(info(item).category))}</span><span class="case-patent-id">${escape(item.document_id)}</span></div><h3>${escape(localized(info(item).title))}</h3>${localized(info(item).description) ? `<p>${escape(localized(info(item).description))}</p>` : ""}</div>
         ${stats(item)}
         <a class="case-open-secondary" href="${reviewUrl(item)}" aria-label="${escape(text("打开案例：", "Open case: ") + localized(info(item).title))}"><span>${text("打开案例", "Open case")}</span>${arrow}</a>
       </article>`).join("")}</div>`;
