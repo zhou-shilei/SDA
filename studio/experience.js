@@ -10,10 +10,10 @@ const details = {
     description: ["", ""],
     category: ["序列与实验", "SEQUENCES & ASSAYS"], tags: ["TSLP", "EC50", "KD"]},
   WO2025108394A1: {page: 10, title: ["跨实验数据联查", "Evidence across assays"],
-    description: ["在 15 组实验间筛选记录，对照原文核对数值与序列来源。", "Explore 15 assays and verify measurement and sequence sources."],
+    description: ["", ""],
     category: ["多实验", "MULTIPLE ASSAYS"], tags: ["IC50", "EC50", "KD"]},
   WO2024020591A9: {page: 205, title: ["长篇专利证据审阅", "Review a long patent"],
-    description: ["从 263 页原文中定位多表证据，查看关联记录和待复核字段。", "Navigate 263 pages of source evidence, linked records and fields awaiting review."],
+    description: ["", ""],
     category: ["长篇专利", "LONG DOCUMENT"], tags: ["TSLP", "EC50", "KD"]},
 };
 let cases = [];
@@ -26,9 +26,6 @@ function render() {
   const number = value => Number(value || 0).toLocaleString(english ? "en" : "zh-CN");
   document.getElementById("experience-eyebrow").textContent = text("案例库", "EXAMPLES");
   document.getElementById("experience-title").textContent = text("探索真实专利数据", "Real patents. Traceable data.");
-  document.getElementById("experience-subtitle").textContent = text(
-    "从抗体序列到实验数值，每一条记录都能回到原文。",
-    "Follow antibody sequences and measurements back to their original evidence.");
   document.querySelector("#experience-upload-link span").textContent = text("上传你的 PDF", "Upload your PDF");
   document.getElementById("experience-workspace-link").innerHTML = `${text("查看数据集", "View datasets")} <span aria-hidden="true">↗</span>`;
   document.getElementById("experience-library-meta").innerHTML = cases.length ? `

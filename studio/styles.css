@@ -1996,7 +1996,6 @@ body.experience-active { background: #f7f8fa; }
 .experience-eyebrow-divider { padding: 0 2px; color: #bec5cf; }
 .experience-live-dot, .case-evidence-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #659482; flex-shrink: 0; }
 .experience-heading h2 { margin: 13px 0 10px; color: #242e3b; font-size: 31px; font-weight: 650; letter-spacing: -.05em; line-height: 1.35; }
-.experience-heading > p { margin: 0; color: #697586; font-size: 13px; line-height: 1.7; }
 .case-upload-action { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 11px 15px; border: 1px solid #dfe3eb; border-radius: 7px; background: #fff; color: #4a5363; font-size: 12px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: border-color .15s, background .15s; }
 .case-upload-action:hover { border-color: #a5a0ed; background: #fcfcff; }
 .case-upload-action svg { width: 16px; height: 16px; }
@@ -2071,7 +2070,6 @@ body.experience-active { background: #f7f8fa; }
   .experience-page { padding: 25px 2px; }
   .experience-intro { align-items: flex-start; gap: 12px; }
   .experience-heading h2 { font-size: 24px; }
-  .experience-heading > p { max-width: 225px; font-size: 11px; }
   .case-upload-action { padding: 8px; font-size: 0; }
   .case-upload-action svg { width: 18px; height: 18px; }
   .experience-library-meta { gap: 13px; font-size: 10px; margin: 19px 0; }
