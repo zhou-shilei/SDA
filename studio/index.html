@@ -89,14 +89,19 @@
       </header>
 
       <section id="cases-page" class="app-page experience-page" aria-labelledby="experience-title">
-        <div class="experience-intro">
-          <span class="experience-eyebrow">DEVELOPER PREVIEW · 0.1</span>
-          <h2 id="experience-title">从一个真实案例开始</h2>
-          <p id="experience-subtitle">查看抗体序列与实验数据，沿证据回到专利原页，再尝试审阅和导出。</p>
-          <div class="experience-steps" id="experience-steps"><span>01 · 选择案例</span><span>02 · 核对原文证据</span><span>03 · 审阅与导出</span></div>
+        <div class="experience-content">
+          <div class="experience-intro">
+            <div class="experience-heading">
+              <div class="experience-eyebrow"><span class="experience-live-dot"></span><span id="experience-eyebrow">案例库</span><span class="experience-eyebrow-divider">/</span><span>CASE LIBRARY</span></div>
+              <h2 id="experience-title">探索真实专利数据</h2>
+              <p id="experience-subtitle">从抗体序列到实验数值，每一条记录都能回到原文。</p>
+            </div>
+            <a id="experience-upload-link" class="case-upload-action" href="?view=intake"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg><span>上传你的 PDF</span></a>
+          </div>
+          <div id="experience-library-meta" class="experience-library-meta"></div>
+          <div id="experience-cards" class="experience-cards" aria-live="polite"></div>
+          <div class="experience-footer"><span class="experience-footer-mark" aria-hidden="true">↳</span><p id="experience-footer-note">案例保留原始缺失和待复核状态。进入审阅后，可对照原文逐项核对。</p><a id="experience-workspace-link" href="?view=dataset">查看数据集 <span aria-hidden="true">↗</span></a></div>
         </div>
-        <div id="experience-cards" class="experience-cards" aria-live="polite"></div>
-        <div class="experience-upload"><div><h3 id="experience-upload-title">也可以试试你自己的 PDF</h3><p id="experience-upload-description">上传专利，进入解析队列，再用同一套界面核对结果。</p></div><a id="experience-upload-link" class="button button-primary" href="?view=intake">上传专利 PDF →</a></div>
       </section>
       <section id="dataset-page" class="app-page dataset-page" aria-labelledby="dataset-page-title">
         <article class="page-card full-dataset-panel">
@@ -698,6 +703,6 @@
       </section>
     </dialog>
     <script type="module" src="./app.js?v=20261104-developer-preview"></script>
-    <script type="module" src="./experience.js?v=20261104-developer-preview"></script>
+    <script type="module" src="./experience.js?v=20261104-case-library"></script>
   </body>
 </html>
