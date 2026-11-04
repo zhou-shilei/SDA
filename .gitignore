@@ -4,6 +4,8 @@
 /data/
 /results/
 /outputs/
+/output/
+/.release-source.json
 /runs/
 /baseline/
 /validation_results/

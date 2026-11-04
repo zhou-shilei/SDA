@@ -13,6 +13,7 @@ import traceback
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from studio.sda_data import Workspace, now
+from studio.experience import ExperienceWorkspace
 from studio.task_queue import TaskQueue
 from studio.pipeline_executor import PipelineExecutor
 
@@ -51,7 +52,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
-    workspace = Workspace(args.root)
+    workspace = ExperienceWorkspace(args.root)
     with (workspace.state / "queue-worker.lock").open("a+") as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

@@ -58,6 +58,7 @@ def create_comparison(server, identity, engine):
             shutil.rmtree(parent, ignore_errors=True)
             raise
         workspace.update_job(comparison_id, filename=source_job.get("filename") or f"{identity}.pdf",
+            _codex_auth_id=source_job.get("_codex_auth_id"),
             status="queued", stage="queued", progress=0, operation="compare", extraction_engine=engine,
             comparison_source_id=identity, comparison_source_run_id=source_job.get("run_id"),
             evidence_document_id=evidence_id, source_pdf_sha256=hashlib.sha256(source_pdf.read_bytes()).hexdigest(),

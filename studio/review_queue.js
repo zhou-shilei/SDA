@@ -10,6 +10,7 @@ export class ReviewQueue {
     this.active = null;
     this.tail = Promise.resolve();
     this.filter = "all";
+    this.columnFilters = {submitted_by: null, status: null, owner: null};
     this.search = "";
     this.error = "";
     this.busy = false;
@@ -21,6 +22,11 @@ export class ReviewQueue {
     });
     element.addEventListener("change", event => {
       if (event.target.id === "queue-filter") { this.filter = event.target.value; this.render(); }
+      const key = event.target.dataset.queueFilter;
+      if (Object.hasOwn(this.columnFilters, key)) {
+        this.columnFilters[key] = JSON.parse(event.target.value);
+        this.renderRows();
+      }
     });
     element.addEventListener("input", event => {
       if (event.target.id === "queue-search") { this.search = event.target.value; this.renderRows(); }
@@ -196,6 +202,22 @@ export class ReviewQueue {
     if (this.dirty) throw Error(this.l("草稿未保存，请先重试保存。", "Save the draft before continuing."));
   }
 
+  statusLabels() {
+    const l = (zh, en) => this.l(zh, en);
+    return {ready:l("待领取","Ready"), in_progress:l("标注中","Annotating"), pending_review:l("待复核","Awaiting review"), reviewing:l("复核中","Reviewing"), completed:l("已完成","Completed"), queued:l("等待处理","Queued for processing"), processing:l("正在处理","Processing"), failed:l("处理失败","Processing failed")};
+  }
+
+  renderColumnFilter(key, label) {
+    const selected = this.columnFilters[key];
+    const labels = this.statusLabels();
+    const values = key === "status" ? Object.keys(labels)
+      : [...new Set(this.tasks.map(task => task[key] || "").concat(selected === null ? [] : [selected]))]
+        .sort((a, b) => a.localeCompare(b, this.options.locale() === "en" ? "en" : "zh-CN"));
+    const options = [[null, this.l("全部", "All")], ...values.map(value => [value,
+      key === "status" ? labels[value] : value || (key === "owner" ? this.l("未领取", "Unassigned") : this.l("未记录", "Not recorded"))])];
+    return `<label>${label} <select id="queue-${key}-filter" data-queue-filter="${key}" aria-label="${escape(label)}">${options.map(([value, text]) => `<option value="${escape(JSON.stringify(value))}" ${selected === value ? "selected" : ""}>${escape(text)}</option>`).join("")}</select></label>`;
+  }
+
   render() {
     this.renderStatus();
     const processingElement = this.options.processingElement || this.element;
@@ -210,6 +232,9 @@ export class ReviewQueue {
       <button class="button button-primary" data-queue-action="next" ${this.busy ? "disabled" : ""}>${l("领取下一个", "Claim next")}</button></div>
       <div class="queue-stats">${[["ready",l("待领取","Ready")],["in_progress",l("标注中","Annotating")],["pending_review",l("待复核 / 复核中","Review")],["completed",l("已完成","Completed")]].map(([key,label])=>`<div><strong>${counts[key]}</strong><span>${label}</span></div>`).join("")}</div>
       <div class="queue-tools"><label>${l("查看", "Show")} <select id="queue-filter">${[["all",l("全部任务","All tasks")],["mine",l("我的任务","My tasks")],["ready",l("待领取","Ready")],["pending_review",l("待复核","Awaiting review")],["failed",l("处理失败","Processing failed")],["completed",l("已完成","Completed")]].map(([key,label])=>`<option value="${key}" ${this.filter===key?"selected":""}>${label}</option>`).join("")}</select></label>
+      ${this.renderColumnFilter("submitted_by", l("提交人", "Submitted by"))}
+      ${this.renderColumnFilter("status", l("状态", "Status"))}
+      ${this.renderColumnFilter("owner", l("当前标注人", "Assigned to"))}
       <input id="queue-search" type="search" aria-label="${l("搜索文件", "Search documents")}" placeholder="${l("搜索专利号、文件名或标注人", "Search ID, filename or reviewer")}" value="${escape(this.search)}">
       <span role="status">${this.dirty ? l("正在保存草稿…", "Saving draft…") : l("队列每 5 秒更新", "Updates every 5 seconds")}</span></div>
       <p class="queue-error" role="alert" ${this.error || this.connectionError ? "" : "hidden"}>${escape(this.error || this.connectionError)} ${this.dirty && this.active ? `<button class="button" data-queue-action="retry-save">${l("重试保存", "Retry save")}</button>` : ""}</p>
@@ -221,8 +246,12 @@ export class ReviewQueue {
 
   renderRows() {
     const l = (zh, en) => this.l(zh, en);
-    const labels = {ready:l("待领取","Ready"), in_progress:l("标注中","Annotating"), pending_review:l("待复核","Awaiting review"), reviewing:l("复核中","Reviewing"), completed:l("已完成","Completed"), queued:l("等待处理","Queued for processing"), processing:l("正在处理","Processing"), failed:l("处理失败","Processing failed")};
+    const labels = this.statusLabels();
     const rows = this.tasks.map((task,index)=>({task,index})).filter(({task:t}) => {
+      for (const [key, value] of Object.entries(this.columnFilters)) {
+        const actual = key === "status" ? (t.pipeline_status === "completed" ? t.status : t.pipeline_status) : t[key] || "";
+        if (value !== null && value !== actual) return false;
+      }
       if (this.search && !`${t.document_id} ${t.filename} ${t.owner} ${t.submitted_by}`.toLowerCase().includes(this.search.toLowerCase())) return false;
       if (this.filter === "mine") return t.owner === this.options.reviewer() && Boolean(t.owner);
       if (this.filter === "failed") return t.pipeline_status === "failed";

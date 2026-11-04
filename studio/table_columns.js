@@ -12,8 +12,9 @@ export function setupTableColumns() {
       if (Array.isArray(stored) && stored.length === columns.length) {
         widths = stored.map((width, index) => {
           if (!Number.isFinite(width)) return defaults[index];
-          const previousDefault = Number(columns[index].dataset.previousDefaultWidth);
-          const requested = previousDefault && width === previousDefault ? defaults[index] : width;
+          const previousDefaults = String(columns[index].dataset.previousDefaultWidth || "")
+            .split(",").map(Number).filter(value => value > 0);
+          const requested = previousDefaults.includes(width) ? defaults[index] : width;
           return Math.max(minimums[index], Math.min(4000, requested));
         });
       }

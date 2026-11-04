@@ -13,6 +13,7 @@ from time import perf_counter
 from studio.sda_data import now, read_json
 from studio.document_input import prepare_document_input
 from studio.ocr_settings import table_worker_settings
+from studio.codex_auth import CodexAuthStore
 
 
 class PipelineExecutor:
@@ -181,7 +182,8 @@ class PipelineExecutor:
                 log.write(f"\nSDA pipeline failed: {exc}\n")
 
     def command(self, identity, command, log):
-        env = os.environ.copy()
+        env = CodexAuthStore(self.workspace.state).environment(
+            self.workspace.jobs().get(identity, {}).get("_codex_auth_id"), os.environ)
         env["PYTHONUNBUFFERED"] = "1"
         with self.process_lock:
             if self.closing.is_set():

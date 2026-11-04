@@ -83,6 +83,33 @@ class ActionAgentTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             check_shape(wire, schema)
 
+    def test_action_position_ranges_expand_exactly_and_preserve_all_validation(self):
+        data, _, _, payload, canonical, wire = self.referenced_example()
+        positions = {a["id"]: i for i, a in enumerate(payload["reader_actions"])}
+        for decision in wire["action_decisions"]:
+            indices = [positions[a] for a in decision["action_ids"]]
+            decision["action_ids"] = [{"start": i, "stop": i + 1} for i in indices]
+        original = copy.deepcopy(wire)
+        check_shape(wire, record_reference_schema(payload))
+        expanded = expand_record_refs(wire, payload, data)
+        self.assertEqual(expanded, canonical)
+        self.assertEqual(wire, original)
+        validate_action_result(data, payload, expanded)
+
+    def test_invalid_ranges_cannot_hide_unknown_or_duplicate_actions(self):
+        data, _, _, payload, _, wire = self.referenced_example()
+        for value in ({"start": -1, "stop": 1}, {"start": 1, "stop": 1},
+                      {"start": 0, "stop": len(payload["reader_actions"]) + 1},
+                      {"start": False, "stop": 1}, {"start": 0, "stop": 1, "extra": True}):
+            candidate = copy.deepcopy(wire)
+            candidate["action_decisions"][0]["action_ids"] = [value]
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                expand_record_refs(candidate, payload, data)
+        wire["action_decisions"][0]["action_ids"] = [{"start": 0, "stop": 1}, 0]
+        expanded = expand_record_refs(wire, payload, data)
+        with self.assertRaisesRegex(ValueError, "exactly once"):
+            validate_action_result(data, payload, expanded)
+
     def test_seed_change_collection_targets_expand_like_decision_collection_targets(self):
         data, chunks, completed, _ = self.example()
         data["sources"][4] = {**data["sources"][1], "id": 4, "source_ref": "s4", "text": "0.5 nM donor1"}

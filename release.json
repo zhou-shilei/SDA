@@ -1,0 +1,9 @@
+{
+  "version": "0.1.0-preview.1",
+  "branch": "release/developer-preview",
+  "source_branch": "feat/reader-relation-index",
+  "source_commit": "53bed7d1fee0b77e5530123c09fc4192ab6c1180",
+  "default_port": 4183,
+  "case_count": 4,
+  "record_count": 570
+}

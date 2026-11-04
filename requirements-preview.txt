@@ -1,0 +1,5 @@
+# Browse prepared cases, render PDFs, review and export. Parsing uses environment.yml.
+lxml
+pymupdf
+numpy
+Pillow

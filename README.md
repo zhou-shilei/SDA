@@ -1,5 +1,7 @@
 # SDA
 
+> 当前分支为开发商体验版 `release/developer-preview`。带有 4 个真实案例、570 条记录和独立的 4183 端口入口。启动与体验步骤见 [RELEASE.md](RELEASE.md)。
+
 从专利 PDF 提取抗体序列和实验测量数据，保存原始证据，并通过本地网页审阅。
 
 主流程：PDF → 版面检测与表格裁图 → 全文及表格 OCR → dataagent 表格分类、
@@ -46,7 +48,7 @@ python src/document/run_document_pdf.py /path/to/source.pdf \
 bash studio/studio.sh start
 ```
 
-访问 `http://127.0.0.1:4182/studio/`，远程环境可转发 4182 端口。
+访问 `http://127.0.0.1:4183/studio/`，远程环境可转发 4183 端口。
 部署与审阅说明见 [Studio 文档](studio/README.md)。
 
 ## 代码结构
