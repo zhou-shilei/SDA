@@ -8,25 +8,73 @@
       content="SeqDataAgent"
     />
     <title>SeqDataAgent</title>
-    <link rel="stylesheet" href="./styles.css?v=20261102-onboarding" />
+    <link rel="stylesheet" href="./styles.css?v=20261105-cases-page" />
   </head>
   <body>
+    <!-- Shared artwork from the approved icon study; decorative instances keep visible text labels. -->
+    <svg class="sda-icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <defs>
+      <symbol id="sda-icon-sequence" viewBox="0 0 48 48"><g fill="none" stroke="#6557d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="#eeebfc" stroke="none" d="M9 9c8-7 25-6 30 5s0 26-13 27S2 30 6 20Z"/>
+ <path d="M16 8c0 13 16 19 16 32M32 8c0 13-16 19-16 32"/>
+ <path d="M17 13h14M20 20h8M20 28h8M17 35h14" stroke="#319c91"/>
+ <circle cx="16" cy="8" r="2" fill="#6557d8" stroke="none"/><circle cx="32" cy="40" r="2" fill="#319c91" stroke="none"/></g></symbol>
+      <symbol id="sda-icon-dataset" viewBox="0 0 48 48"><g fill="none" stroke="#6557d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16v-4a3 3 0 0 1 3-3h10l5 5h13a3 3 0 0 1 3 3v4" fill="#e2dcfa"/>
+ <path d="M8 17h31a3 3 0 0 1 3 3l-3 17a3 3 0 0 1-3 2H11a3 3 0 0 1-3-2L5 21a3 3 0 0 1 3-4Z" fill="#f3efff"/>
+ <path d="M23 24v9M19 28.5h8" stroke="#9687e7"/>
+ <circle cx="36" cy="34" r="7" fill="#dff3ed" stroke="#359581"/>
+ <path d="m33 34 2 2 4-4" stroke="#359581"/></g></symbol>
+      <symbol id="sda-icon-intake" viewBox="0 0 48 48"><g fill="none" stroke="#338f83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7h15l9 9v21a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V10a3 3 0 0 1 3-3Z" fill="#edf8f4"/>
+ <path d="M27 7v7a2 2 0 0 0 2 2h7" fill="#c8e9df"/>
+ <path d="M15 22h9M15 27h5" stroke="#7cb5a8"/>
+ <rect x="25" y="27" width="18" height="17" rx="6" fill="#fff"/>
+ <path d="M34 39V31m-4 4 4-4 4 4"/></g></symbol>
+      <symbol id="sda-icon-review" viewBox="0 0 48 48"><g fill="none" stroke="#6557d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 8h19a3 3 0 0 1 3 3v25a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3Z" fill="#f3efff"/>
+ <path d="M14 15h12M14 21h7M14 27h5" stroke="#a497df"/>
+ <circle cx="31" cy="29" r="9" fill="#e5f5f0" stroke="#338f83"/>
+ <path d="m37.5 35.5 5 5" stroke="#338f83" stroke-width="3"/>
+ <path d="m27 29 2.5 2.5 5-5" stroke="#338f83"/></g></symbol>
+      <symbol id="sda-icon-queue" viewBox="0 0 48 48"><g fill="none" stroke="#ba7b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="28" height="8" rx="3" fill="#fbedda"/>
+ <rect x="8" y="21" width="28" height="8" rx="3" fill="#fff7ec"/>
+ <path d="M11 35h10M14 12h.01M14 25h.01"/>
+ <circle cx="34" cy="35" r="9" fill="#f2edff" stroke="#7964c9"/>
+ <path d="M34 30v5l3 2" stroke="#7964c9"/></g></symbol>
+      <symbol id="sda-icon-relations" viewBox="0 0 48 48"><g fill="none" stroke="#338f83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m23 23-9-10m11 10 10-8M23 27l-8 10m12-10 9 9" stroke="#82b9ac"/>
+ <circle cx="24" cy="25" r="8" fill="#e7f6ef"/>
+ <circle cx="11" cy="10" r="5" fill="#f1ecff" stroke="#7964c9"/>
+ <circle cx="38" cy="12" r="5" fill="#f1ecff" stroke="#7964c9"/>
+ <circle cx="12" cy="39" r="5" fill="#f8ebd9" stroke="#ba7b30"/>
+ <circle cx="38" cy="38" r="5" fill="#e7f6ef"/>
+ <circle cx="24" cy="25" r="2.3" fill="#338f83" stroke="none"/></g></symbol>
+      <symbol id="sda-icon-export" viewBox="0 0 48 48"><g fill="none" stroke="var(--sda-export-stroke, #6557d8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 28v-6a3 3 0 0 1 3-3h20a3 3 0 0 1 3 3v6" stroke="var(--sda-export-muted, #b3a6e8)"/>
+ <path d="M7 28h11l3 5h6l3-5h11v10a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3Z" fill="var(--sda-export-fill, #f0ebfc)"/>
+ <path d="M24 6v19m-6-6 6 6 6-6" stroke="var(--sda-export-accent, #338f83)"/>
+ <path d="M19 37h10" stroke="var(--sda-export-muted, #b3a6e8)"/></g></symbol>
+      <symbol id="sda-icon-guide" viewBox="0 0 48 48"><g fill="none" stroke="#c77d51" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="25" r="17" fill="#fff4eb"/>
+ <path d="m31 17-4 12-12 4 4-12Z" fill="#f7d7c4"/>
+ <path d="m31 17-12 4 8 8Z" fill="#e8e1fb" stroke="#7964c9"/>
+ <circle cx="24" cy="25" r="2" fill="#fff"/>
+ <path d="M24 8v3M41 25h-3M24 42v-3M7 25h3" stroke="#dba88b"/>
+ <path d="M39 4v6M36 7h6" stroke="#7964c9"/></g></symbol>
+      </defs>
+    </svg>
     <div id="app" class="app-shell" aria-busy="true">
       <header class="topbar">
         <div class="brand-block">
           <div class="brand-line">
+            <span class="sda-brand-mark" aria-hidden="true"><svg class="sda-icon" focusable="false"><use href="#sda-icon-sequence" /></svg></span>
             <h1 data-i18n="app.title">SeqDataAgent</h1>
           </div>
         </div>
         <nav class="primary-nav" aria-label="主功能" data-i18n-aria-label="nav.aria">
-          <button type="button" class="active" data-app-page="dataset" data-i18n="nav.dataset">数据集</button>
-          <button type="button" data-app-page="intake" data-i18n="nav.intake">数据录入</button>
-          <button type="button" data-app-page="review" data-i18n="nav.review">数据审阅</button>
-          <button type="button" data-app-page="queue" data-i18n="nav.queue">任务队列</button>
+          <button type="button" class="active" data-app-page="cases"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-review" /></svg><span data-i18n="nav.cases">案例</span></button>
+          <button type="button" data-app-page="dataset"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-dataset" /></svg><span data-i18n="nav.dataset">数据集</span></button>
+          <button type="button" data-app-page="intake"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-intake" /></svg><span data-i18n="nav.intake">数据录入</span></button>
+          <button type="button" data-app-page="review"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-review" /></svg><span data-i18n="nav.review">数据审阅</span></button>
+          <button type="button" data-app-page="queue"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-queue" /></svg><span data-i18n="nav.queue">任务队列</span></button>
         </nav>
         <div class="topbar-actions">
           <button id="onboarding-start" class="button onboarding-launcher" type="button" aria-haspopup="dialog">
-            <span aria-hidden="true">?</span><span id="onboarding-start-label">新手引导</span>
+            <svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-guide" /></svg><span id="onboarding-start-label">新手引导</span>
           </button>
           <a id="run-overview-link" class="button" href="./run.html">运行概览</a>
           <button id="reviewer-identity-button" class="button reviewer-identity-button" type="button"
@@ -40,7 +88,28 @@
         </div>
       </header>
 
-      <section id="dataset-page" class="app-page dataset-page" aria-labelledby="dataset-page-title">
+      <section id="cases-page" class="app-page cases-page" aria-labelledby="case-examples-title">
+        <article class="page-card full-dataset-panel">
+          <div class="page-card-header">
+            <div class="page-card-title">
+              <h2 id="case-examples-title" data-i18n="cases.title">案例</h2>
+              <span id="case-examples-count" class="count-pill" aria-live="polite">0 个案例</span>
+            </div>
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="case-examples-search" type="search" placeholder="搜索专利号或文件名" aria-label="搜索案例" data-i18n-placeholder="cases.search" data-i18n-aria-label="cases.searchAria" />
+            </label>
+          </div>
+          <div class="dataset-folders-panel">
+            <p id="case-examples-description" class="dataset-folders-hint" data-i18n="cases.description">浏览本地已完成任务的提取结果，查看抗体序列、实验数值和原文证据。</p>
+            <div id="case-example-list" class="case-example-list">
+              <p data-i18n="app.loading">正在加载专利数据…</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="dataset-page" class="app-page dataset-page" aria-labelledby="dataset-page-title" hidden>
         <article class="page-card full-dataset-panel">
           <div class="page-card-header">
             <div class="page-card-title">
@@ -49,14 +118,17 @@
               <span id="dataset-total-count" class="count-pill" aria-live="polite">0 个文件夹</span>
             </div>
             <div class="dataset-tools">
-              <button id="dataset-create-button" class="button button-secondary" type="button" data-i18n="datasetPage.create">＋ 新建文件夹</button>
+              <label class="dataset-select-all"><input id="dataset-select-all" type="checkbox" /><span data-i18n="datasetPage.selectAll">全选当前列表</span></label>
+              <span id="dataset-selection-count" class="page-card-description" aria-live="polite">已选择 0 个文件夹</span>
+              <button id="dataset-delete-selected" class="button button-danger" type="button" disabled>删除所选</button>
+              <button id="dataset-create-button" class="button button-secondary" type="button"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-dataset" /></svg><span data-i18n="datasetPage.create">＋ 新建文件夹</span></button>
               <div id="dataset-record-tools" class="dataset-tools" hidden>
               <label class="search-box">
                 <span aria-hidden="true">⌕</span>
                 <input id="dataset-search" type="search" placeholder="搜索专利、名称、序列或数值" data-i18n-placeholder="datasetPage.search" />
               </label>
               <button id="dataset-export-button" class="button button-primary table-export-button" type="button">
-                <span aria-hidden="true">⇩</span>
+                <svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-export" /></svg>
                 <span data-i18n="action.exportDataset">导出数据集</span>
               </button>
               </div>
@@ -68,21 +140,23 @@
           </div>
           <div id="dataset-records-panel" class="grid-wrap full-grid-wrap" tabindex="0" aria-label="当前靶点数据集" data-i18n-aria-label="datasetPage.tableAria" hidden>
             <div id="dataset-empty-state" class="dataset-empty-state" hidden>
-              <svg class="dataset-folder-icon" viewBox="0 0 48 40" aria-hidden="true"><path d="M3 10a4 4 0 0 1 4-4h11l5 5h18a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M3 17h42"/></svg>
+              <svg class="sda-icon dataset-folder-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-dataset" /></svg>
               <p data-i18n="datasetPage.emptyFolder">此文件夹暂无记录。请在数据审阅中选择此靶点，再推送所选记录。</p>
             </div>
             <table id="dataset-overview-table" class="dataset-grid overview-grid" data-resizable-table="dataset">
               <colgroup>
+                <col style="width: 48px" />
                 <col style="width: 170px" /><col style="width: 220px" />
-                <col style="width: 280px" /><col style="width: 280px" />
+                <col style="width: 340px" data-previous-default-width="280" /><col style="width: 340px" data-previous-default-width="280" />
                 <col style="width: 95px" /><col style="width: 116px" />
-                <col style="width: 300px" data-min-width="180" data-previous-default-width="250" />
-                <col style="width: 480px" data-min-width="240" data-previous-default-width="320" />
+                <col style="width: 180px" data-min-width="100" data-previous-default-width="250,300" />
+                <col style="width: 240px" data-min-width="140" data-previous-default-width="320,480" />
                 <col style="width: 180px" /><col style="width: 150px" />
                 <col style="width: 88px" />
               </colgroup>
               <thead>
                 <tr>
+                  <th data-i18n="datasetPage.selectionColumn">选择</th>
                   <th data-i18n="field.patent">专利</th>
                   <th data-i18n="field.antibody_id">原文名称</th>
                   <th data-i18n="field.vh">VH</th>
@@ -167,7 +241,7 @@
                   <span data-i18n="intake.deleteSelected">删除所选</span>
                 </button>
                 <button id="patent-export-button" class="button button-primary table-export-button" type="button">
-                  <span aria-hidden="true">⇩</span>
+                  <svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-export" /></svg>
                   <span data-i18n="action.exportPatents">导出专利列表</span>
                 </button>
               </div>
@@ -208,7 +282,7 @@
           <form id="patent-import-form" class="patent-import-form">
             <input id="patent-name-input" type="hidden" />
             <button id="pdf-drop-zone" class="pdf-drop-zone" type="button">
-              <span class="upload-icon" aria-hidden="true">＋</span>
+              <svg class="sda-icon upload-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-intake" /></svg>
               <span class="import-button-copy">
                 <strong data-i18n="intake.addTitle">选择专利 PDF</strong>
                 <small id="selected-pdf-name" data-i18n="intake.choosePdf">点击选择或拖入 PDF</small>
@@ -227,7 +301,7 @@
       <section id="queue-page" class="app-page queue-page" aria-label="团队任务队列" data-i18n-aria-label="nav.queue" hidden>
         <article class="page-card queue-import-card">
           <div class="page-card-header"><div>
-            <h2 data-i18n="queue.importTitle">PDF 解析任务</h2>
+            <h2 class="sda-icon-heading"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-queue" /></svg><span data-i18n="queue.importTitle">PDF 解析任务</span></h2>
             <p class="page-card-description" data-i18n="queue.importHint">选择或拖入 PDF 后，点击“开始解析”加入共享队列，按顺序处理。</p>
           </div></div>
           <div id="queue-import-host"></div>
@@ -290,7 +364,7 @@
                 <span class="sr-only" data-i18n="dataset.maximize">最大化数据表</span>
               </button>
               <button id="review-export-button" class="button button-primary table-export-button" type="button">
-                <span aria-hidden="true">⇩</span>
+                <svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-export" /></svg>
                 <span data-i18n="action.exportPatent">导出当前专利</span>
               </button>
             </div>
@@ -300,11 +374,11 @@
             <table class="dataset-grid" data-resizable-table="review">
               <colgroup>
                 <col style="width: 42px" /><col style="width: 48px" />
-                <col style="width: 210px" /><col style="width: 245px" />
-                <col style="width: 245px" /><col style="width: 95px" />
+                <col style="width: 210px" /><col style="width: 340px" data-previous-default-width="245" />
+                <col style="width: 340px" data-previous-default-width="245" /><col style="width: 95px" />
                 <col style="width: 116px" />
-                <col style="width: 300px" data-min-width="180" data-previous-default-width="250" />
-                <col style="width: 480px" data-min-width="240" data-previous-default-width="320" /><col style="width: 180px" />
+                <col style="width: 180px" data-min-width="100" data-previous-default-width="250,300" />
+                <col style="width: 240px" data-min-width="140" data-previous-default-width="320,480" /><col style="width: 180px" />
                 <col style="width: 150px" /><col style="width: 88px" />
               </colgroup>
               <thead>
@@ -405,11 +479,6 @@
                   <span id="page-indicator">1 / 1</span>
                   <button id="page-next" class="icon-button" type="button" title="下一页" data-i18n-title="viewer.next">›</button>
                 </div>
-                <div class="segmented-control canvas-tools" aria-label="画布工具" data-i18n-aria-label="viewer.canvasAria">
-                  <button id="canvas-select" type="button" class="active" title="选择标注框" data-i18n="tool.select" data-i18n-title="viewer.selectTitle">选择</button>
-                  <button id="canvas-rectangle" type="button" title="绘制人工复核框" data-i18n="tool.rectangle" data-i18n-title="viewer.rectangleTitle">框选</button>
-                </div>
-                <button id="clear-manual-boxes" class="icon-button" type="button" title="清除本页人工框" data-i18n-title="viewer.clearTitle">⌫</button>
                 <button id="zoom-out" class="icon-button" type="button" title="缩小" data-i18n-title="viewer.zoomOut">−</button>
                 <span id="zoom-level" class="zoom-level">100%</span>
                 <button id="zoom-in" class="icon-button" type="button" title="放大" data-i18n-title="viewer.zoomIn">＋</button>
@@ -423,11 +492,10 @@
                   <label title="当前单元格" data-i18n-title="legend.cell"><input type="checkbox" data-highlight="cell" aria-label="当前单元格" data-i18n-aria-label="legend.cell" checked /><i class="legend-cell" aria-hidden="true"></i></label>
                   <label title="表格" data-i18n-title="legend.table"><input type="checkbox" data-highlight="table" aria-label="表格" data-i18n-aria-label="legend.table" checked /><i class="legend-table" aria-hidden="true"></i></label>
                   <label title="上下文" data-i18n-title="legend.context"><input type="checkbox" data-highlight="context" aria-label="上下文" data-i18n-aria-label="legend.context" checked /><i class="legend-context" aria-hidden="true"></i></label>
-                  <label title="人工框选" data-i18n-title="legend.manual"><input type="checkbox" data-highlight="manual" aria-label="人工框选" data-i18n-aria-label="legend.manual" checked /><i class="legend-manual" aria-hidden="true"></i></label>
                 </div>
                 <div id="viewer-stage" class="viewer-stage">
                   <div id="empty-viewer" class="empty-state">
-                    <div class="empty-icon">⌁</div>
+                    <div class="empty-icon" aria-hidden="true"><svg class="sda-icon" focusable="false"><use href="#sda-icon-review" /></svg></div>
                     <h3 data-i18n="empty.title">选择上方任意字段</h3>
                     <p data-i18n="empty.description">这里将显示对应的页面和证据框。</p>
                   </div>
@@ -441,7 +509,7 @@
               <div id="map-splitter" class="splitter splitter-vertical annotation-map-splitter" role="separator" aria-orientation="vertical" aria-label="调整数据关联图宽度" data-i18n-aria-label="map.resize"><span></span></div>
               <aside class="review-map-panel" aria-label="数据关联图" data-i18n-aria-label="map.title">
                 <button id="toggle-review-map" class="review-map-toggle" type="button" aria-expanded="true" aria-controls="review-map-body" title="收起数据关联图">
-                  <span class="review-map-title" data-i18n="map.title">数据关联图</span>
+                  <span class="review-map-heading"><svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-relations" /></svg><span class="review-map-title" data-i18n="map.title">数据关联图</span></span>
                   <span class="review-map-toggle-icon" aria-hidden="true">›</span>
                 </button>
                 <div id="review-map-body" class="review-map-body">
@@ -498,12 +566,12 @@
 
       <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-      <dialog id="reviewer-dialog" class="edit-dialog reviewer-dialog">
+      <dialog id="reviewer-dialog" class="edit-dialog reviewer-dialog" aria-labelledby="reviewer-dialog-title">
         <form id="reviewer-form" method="dialog">
           <div class="dialog-header">
             <div>
               <div class="eyebrow" data-i18n="reviewer.dialogEyebrow">操作者身份</div>
-              <h2 data-i18n="reviewer.dialogTitle">请输入您的真实姓名</h2>
+              <h2 id="reviewer-dialog-title" data-i18n="reviewer.dialogTitle">请输入您的真实姓名</h2>
             </div>
           </div>
           <p id="reviewer-dialog-description" class="reviewer-dialog-description" data-i18n="reviewer.dialogDescription">人工修正、接受和标记问题都会记录此姓名。</p>
@@ -514,6 +582,20 @@
               aria-describedby="reviewer-dialog-description reviewer-name-error" />
           </label>
           <p id="reviewer-name-error" class="correction-reason-error" role="alert" data-i18n="reviewer.nameRequired" hidden>请输入至少两个文字的真实姓名</p>
+          <div class="reviewer-auth-field">
+            <label for="reviewer-auth-file" class="reviewer-auth-label" data-i18n="reviewer.authLabel">Codex 登录文件（可选）</label>
+            <input id="reviewer-auth-file" class="sr-only" type="file" accept=".json,application/json" tabindex="-1" />
+            <button id="reviewer-auth-dropzone" class="reviewer-auth-dropzone" type="button" aria-describedby="reviewer-auth-hint reviewer-auth-status reviewer-auth-error">
+              <svg class="sda-icon" aria-hidden="true" focusable="false"><use href="#sda-icon-intake" /></svg>
+              <span><strong data-i18n="reviewer.authChoose">将 auth.json 文件放到这里</strong><small data-i18n="reviewer.authChooseHint">点击选择、拖入，或聚焦后粘贴文件 / JSON 内容</small></span>
+            </button>
+            <div class="reviewer-auth-status-row">
+              <p id="reviewer-auth-status" role="status" aria-live="polite"></p>
+              <button id="reviewer-auth-clear" class="reviewer-auth-clear" type="button" data-i18n="reviewer.authClear" hidden>移除</button>
+            </div>
+            <p id="reviewer-auth-hint" class="reviewer-auth-hint" data-i18n="reviewer.authHint">用于本次登录后提交的解析任务；不添加则使用服务器默认账号。文件单独保存，账号可用性在解析时验证。</p>
+            <p id="reviewer-auth-error" class="correction-reason-error" role="alert" hidden></p>
+          </div>
           <div class="dialog-actions">
             <button id="cancel-reviewer-name" class="button button-secondary" type="button" data-i18n="action.cancel" hidden>取消</button>
             <button id="save-reviewer-name" class="button button-primary" type="submit" data-i18n="reviewer.confirm">确认身份</button>
@@ -626,6 +708,6 @@
         <p class="onboarding-keyboard"></p>
       </section>
     </dialog>
-    <script type="module" src="./app.js?v=20261102-onboarding-sequence"></script>
+    <script type="module" src="./app.js?v=20261105-cases-page"></script>
   </body>
 </html>

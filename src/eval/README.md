@@ -54,7 +54,8 @@ ESM-2 评分衡量序列在模型下的合理性，不证明抗原结合活性�
 只运行单链、FP32、逐位单掩码评分，输出各位点对数概率、整链 PLL/伪困惑度及最低分位置；
 不声称做了 VH/VL 配对验证。相同序列在单次 worker 内只评分一次。
 
-OP 的阈值与 ESM-2 独立：默认不设阈值，显示“OP 已评分”，不能据此显示通过。
+Ophiuchus_Ab 的阈值与 ESM-2 独立：默认不设阈值，标签直接显示“Ophiuchus_Ab”，
+使用黄色表示待复核，不能仅凭已计算分数显示通过；失败或明确风险显示红色。
 可用 `DATASETAGENT_OPHIUCHUS_SITE_MAX_PPL`（或 `_VH_SITE_MAX_PPL`、`_VL_SITE_MAX_PPL`）
 配置位点阈值，或用 `DATASETAGENT_OPHIUCHUS_VH_PASS_PLL` / `_VH_FAIL_PLL`
 及对应 VL 参数配置平均分阈值。未直接采用小规模 PPL 实验的校准阈值。

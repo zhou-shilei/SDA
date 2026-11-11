@@ -104,6 +104,41 @@ PYTHONPATH=src python -m dataagent2 \
 `token_usage.json` 单独记录 `reused_reader_requests`；历史 Reader 成本不冒充本轮新增用量，
 也不以此次恢复的低用量声称完整流程 token 降幅。此命令生成独立结果，不自动更新 Studio 任务。
 
+如果需要保证恢复期间不会因为缓存不匹配而重新调用任何 Reader，可使用严格恢复入口：
+
+```bash
+# 先核对 PDF、分块、请求指纹和全部已校验响应；不调用模型。
+PYTHONPATH=src python -m dataagent2.recover /path/to/failed/dataagent2 \
+  --output /path/to/new-cache-check --dry-run
+
+# 实际恢复使用另一个新目录，复用全部 Reader，只重新整合和执行后续缺项问答。
+PYTHONPATH=src python -m dataagent2.recover /path/to/failed/dataagent2 \
+  --output /path/to/new-recovery --action-effort high --action-timeout 900
+```
+
+入口只接受整合阶段已失败的运行；任何分块、PDF 或缓存不匹配都会在模型请求前停止，
+运行期间发现 Reader 缓存变化也不会转为重新读取。恢复沿用原模型和 Reader 配置，
+把上次具体校验错误带入新整合请求；默认将整合推理强度提升为 high。
+恢复的单次整合调用默认上限 900 秒，服务失败或超时后不在网络层自动重复同一请求；
+正常返回但未通过语义校验时，仍保留原来的两次完整生成及有界局部修复上限。
+恢复默认使用 HTTP/SSE（`--transport http`），绕过 WebSocket 空闲超时反复重连的问题；
+需要沿用 CLI 自动传输选择时可传 `--transport auto`。设置只作用于此子进程，
+沿用原 OpenAI 身份及默认服务地址，不写全局 Codex 配置。调用记录保留传输方式。
+若 Action 已通过完整校验、后续问答因网络失败，可在同一输出目录加 `--resume` 继续。
+续跑前归档已有 JSON、重新核验 Action 的输入/响应哈希及完整数据集校验，
+再恢复这个确切请求的已校验缓存；已有成功问答也按请求指纹复用。
+只允许已结束且状态为 failed 的恢复继续，证据和 Action effort 必须一致；
+它不会把历史语义失败响应或仅满足 JSON 结构的返回当成成功缓存。
+`recovery.json` 记录原始产物哈希、复用请求、失败反馈和本轮实际用量。
+旧产物不覆盖，序列原文、来源、初始事实、完整动作处理和域审核校验继续全部执行。
+结果仍需通过完整流程才算恢复成功；该命令不自动修改 Studio 任务或发布数据集。
+
+整合的显式记录引用支持在 `action_decisions.action_ids` 和 `conflicts.action_ids` 中使用
+`{"start":0,"stop":100}` 表示连续的第 0–99 个 Reader 动作，`stop` 不包含在范围内。
+仅当每个动作都适用该决定时才可合并书写；来源 ID 和单个记录引用仍维持原表示。
+主机展开全部动作后继续逐项校验：范围越界、空范围、重叠、遗漏或缺乏来源支持仍然失败。
+该变化只减少长文档中重复枚举动作编号的输出，不改变事实、动作顺序和审核规则。
+
 Studio 提取失败时，`failure.json` 和批次汇总的 `failure_details` 会记录第一个未完成阶段、
 真实错误及可定位的记录路径。网页任务提示采用该原因，区分全文读取、Action 整合、问答和问答
 结果整合，同时保留 partial 导出。排查不再需要从退出码 1 猜测失败阶段。

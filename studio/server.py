@@ -22,10 +22,11 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from studio.sda_data import Workspace, now, read_json, review_payload
+from studio.sda_data import Workspace, now, read_json
 from studio.pipeline_executor import PipelineExecutor
 from studio.task_queue import TaskQueue, ensure_worker
 from studio.review_queue import ReviewQueue, QueueConflict
+from studio.codex_auth import CodexAuthStore, MAX_AUTH_BYTES
 from units.cache_policy import cache_enabled
 
 MAX_UPLOAD = 300 * 1024 * 1024
@@ -33,6 +34,7 @@ IDENTITY = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{2,79}\Z")
 STATIC = {"index.html", "styles.css", "app.js", "collection_review.js", "job_eta.js",
           "patent_identity.js", "table_columns.js", "intake_metrics.js", "database_columns.js", "review_queue.js", "processing_queue.js", "run.html"}
 EXTRACTION_ENGINES = {"dataagent1": "dataagent", "dataagent2": "dataagent2"}
+KEEP_CODEX_AUTH = object()
 
 
 def extraction_engine(value):
@@ -54,6 +56,7 @@ class StudioServer(PipelineExecutor, ThreadingHTTPServer):
                                   ocr_parallel=ocr_parallel)
         self.queue = TaskQueue(workspace)
         self.review_queue = ReviewQueue(workspace.root)
+        self.codex_auth = CodexAuthStore(workspace.state)
         self.render_lock = threading.Lock()
         ThreadingHTTPServer.__init__(self, address, StudioHandler)
 
@@ -65,12 +68,14 @@ class StudioServer(PipelineExecutor, ThreadingHTTPServer):
             "python", "ocr_device", "ocr_backend", "text_backend", "text_workers",
             "table_workers", "ocr_parallel")}
 
-    def enqueue(self, identity, *, operation="pipeline", engine=None):
+    def enqueue(self, identity, *, operation="pipeline", engine=None, codex_auth_id=KEEP_CODEX_AUTH):
         workspace = self.workspace
         with workspace.lock:
             if self.closing.is_set():
                 raise ValueError("服务正在停止，请稍后重试")
             job = workspace.jobs().get(identity)
+            auth_id = self.codex_auth.reference((job or {}).get("_codex_auth_id")
+                if codex_auth_id is KEEP_CODEX_AUTH else codex_auth_id)
             engine = extraction_engine(engine if engine is not None else (job or {}).get("extraction_engine", "dataagent1"))
             location = workspace.locations().get(identity)
             if location is None:
@@ -107,6 +112,7 @@ class StudioServer(PipelineExecutor, ThreadingHTTPServer):
                                  runner_pid=None, runner_pid_token=None, worker_pid_token=None,
                                  stage_current=None, stage_total=None,
                                  execution_config=self.execution_config(),
+                                 _codex_auth_id=auth_id,
                                  queued_at=now(), started_at=None, log=str(run / "pipeline.log"))
             self.submit_task(identity)
         return next(p for p in workspace.patents() if p["document_id"] == identity)
@@ -172,6 +178,14 @@ class StudioHandler(BaseHTTPRequestHandler):
         url = urlsplit(self.path)
         path = unquote(url.path)
         query = parse_qs(url.query)
+        # Recover a local URL pasted into the preview as a relative path.
+        nested = urlsplit(path.lstrip("/"))
+        if nested.scheme in {"http", "https"} and nested.hostname in {"127.0.0.1", "localhost", "::1"}:
+            self.send_response(302)
+            self.send_header("Location", "/studio/")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         if path == "/favicon.ico":
             return self.send_bytes(b"", "image/x-icon", status=204)
         if path in {"/", "/studio"}:
@@ -199,7 +213,9 @@ class StudioHandler(BaseHTTPRequestHandler):
         if path == "/api/dataset/folders":
             return self.json({"folders": self.workspace.folders()})
         if path == "/api/dataset/records":
-            return self.json({"records": self.workspace.published(query.get("dataset_id", [None])[0]),
+            records = self.workspace.published(query.get("dataset_id", [None])[0],
+                                               table=query.get("view") == ["table"])
+            return self.json({"records": records,
                               "folders": self.workspace.folders()})
         if path == "/api/reviews/human":
             return self.json({"reviews": self.workspace.reviews()})
@@ -213,9 +229,9 @@ class StudioHandler(BaseHTTPRequestHandler):
         page = re.fullmatch(r"pages/(\d{4})\.png", artifact)
         if page:
             return self.render_page(self.workspace.page_bundle(identity), int(page[1]))
-        bundle = self.workspace.bundle(identity)
         if artifact == "review.json":
-            return self.json(review_payload(bundle))
+            return self.json(self.workspace.review(identity))
+        bundle = self.workspace.bundle(identity)
         structured_names = {"structured.json": "json", "structured.md": "markdown",
                             "structured.txt": "text", "structured-summary.json": "summary"}
         if artifact in structured_names:
@@ -282,6 +298,8 @@ class StudioHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", "0"))
         if length <= 0 or length > (MAX_UPLOAD + 65536 if path == "/api/patents/import" else 2 * 1024 * 1024):
             return self.json({"error": "请求大小无效"}, 413)
+        if path == "/api/codex/auth" and length > MAX_AUTH_BYTES + 1024:
+            return self.json({"error": "auth.json 文件不能超过 64 KB"}, 413)
         content_type = self.headers.get("Content-Type", "")
         body = self.rfile.read(length)
         if path == "/api/patents/import":
@@ -291,6 +309,10 @@ class StudioHandler(BaseHTTPRequestHandler):
         payload = json.loads(body)
         if not isinstance(payload, dict):
             raise ValueError("请求必须是 JSON 对象")
+        if path == "/api/codex/auth":
+            from studio.review_queue import reviewer_name
+            reviewer_name(payload.get("reviewer_name"))
+            return self.json({"configured": True, "credential_id": self.server.codex_auth.save(payload.get("auth"))}, 201)
         if path == "/api/reviews/queue":
             with self.workspace.lock:
                 task = self.server.review_queue.act(self.workspace.patents(), payload)
@@ -298,6 +320,9 @@ class StudioHandler(BaseHTTPRequestHandler):
         if path == "/api/dataset/folders":
             folder = self.workspace.create_folder(payload.get("name"))
             return self.json({"folder": folder, "folders": self.workspace.folders()}, 201)
+        if path == "/api/dataset/delete":
+            return self.json(self.workspace.delete_dataset_items(
+                dataset_ids=payload.get("dataset_ids"), dataset_id=payload.get("dataset_id"), records=payload.get("records")))
         if path == "/api/reviews/human":
             with self.workspace.lock:
                 self.server.review_queue.authorize(payload.get("document_id"), payload, require_claim=True)
@@ -309,13 +334,15 @@ class StudioHandler(BaseHTTPRequestHandler):
         if path == "/api/patents/retry":
             with self.workspace.lock:
                 self.server.review_queue.authorize(payload.get("document_id"), payload)
-                return self.json({"patent": self.server.enqueue(payload.get("document_id"), engine=payload.get("extraction_engine"))}, 202)
+                return self.json({"patent": self.server.enqueue(payload.get("document_id"), engine=payload.get("extraction_engine"),
+                    codex_auth_id=payload.get("codex_auth_id", KEEP_CODEX_AUTH))}, 202)
         if path == "/api/patents/compare":
             return self.json({"patent": self.server.compare(payload.get("document_id"), engine=payload.get("extraction_engine"))}, 202)
         if path == "/api/patents/analyze":
             with self.workspace.lock:
                 self.server.review_queue.authorize(payload.get("document_id"), payload)
-                return self.json({"patent": self.server.enqueue(payload.get("document_id"), operation="analyze", engine=payload.get("extraction_engine"))}, 202)
+                return self.json({"patent": self.server.enqueue(payload.get("document_id"), operation="analyze", engine=payload.get("extraction_engine"),
+                    codex_auth_id=payload.get("codex_auth_id", KEEP_CODEX_AUTH))}, 202)
         if path == "/api/patents/check-text":
             identity = payload.get("document_id")
             self.workspace.bundle(identity)
@@ -349,6 +376,8 @@ class StudioHandler(BaseHTTPRequestHandler):
         submitter_part = parts.get("submitted_by")
         submitted_by = (submitter_part.get_payload(decode=True).decode(
             submitter_part.get_content_charset() or "utf-8").strip()[:40] if submitter_part else "")
+        auth_part = parts.get("codex_auth_id")
+        auth_id = self.server.codex_auth.reference(auth_part.get_content().strip() if auth_part else None)
         with self.workspace.lock:
             if identity in self.workspace.locations():
                 raise ValueError("专利已存在")
@@ -357,6 +386,7 @@ class StudioHandler(BaseHTTPRequestHandler):
             (parent / "source.pdf").write_bytes(data)
             self.workspace.update_job(identity, filename=Path(pdf_part.get_filename() or f"{identity}.pdf").name,
                                       submitted_by=submitted_by,
+                                      _codex_auth_id=auth_id,
                                       status="uploaded", created_at=now())
             patent = self.server.enqueue(identity, engine=engine)
         return self.json({"patent": patent}, 202)

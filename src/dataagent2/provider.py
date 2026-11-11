@@ -99,8 +99,14 @@ def event_error(stdout):
 class Provider:
     def __init__(self, output, *, model="gpt-6.1-sol", effort="xhigh", timeout=600,
                  action_timeout=None, action_record_refs=None, action_effort=None, request_interval=0,
-                 answer_effort="medium", reuse_readers_from=None):
+                 answer_effort="medium", reuse_readers_from=None, request_attempts=2, transport="auto"):
+        if type(request_attempts) is not int or request_attempts < 1:
+            raise ValueError("Request attempts must be a positive integer")
+        if transport not in {"auto", "http"}:
+            raise ValueError("Unknown model transport")
         self.output = Path(output)
+        self.request_attempts = request_attempts
+        self.transport = transport
         self.model, self.effort, self.timeout = model, effort, timeout
         # Complete-dataset output is much larger than one Reader's proposals.
         self.action_timeout = max(timeout, 1800) if action_timeout is None else action_timeout
@@ -212,7 +218,7 @@ class Provider:
         prompt = instructions + "\nINPUT_JSON:\n" + compact(payload)
         # One retry, not an unbounded whole-document correction loop.
         errors = []
-        for attempt in range(2):
+        for attempt in range(self.request_attempts):
             self.admit()
             attempt_id = f"{key}-{time.time_ns()}"
             run = folder / attempt_id
@@ -225,6 +231,15 @@ class Provider:
                 "--disable", "plugins", "--disable", "remote_plugin", "--disable", "apps",
                 "--cd", str(run.resolve()), "--output-schema", str((folder / "schema.json").resolve()),
                 "--output-last-message", str(answer.resolve()), "--ignore-user-config", "-"]
+            if self.transport == "http":
+                # Built-in provider IDs are reserved in current Codex. This
+                # invocation-only provider keeps OpenAI authentication and
+                # endpoint defaults, changing only the websocket capability.
+                command[-1:-1] = ["-c", 'model_provider="sda_http"',
+                    "-c", 'model_providers.sda_http.name="SDA HTTP"',
+                    "-c", 'model_providers.sda_http.requires_openai_auth=true',
+                    "-c", 'model_providers.sda_http.wire_api="responses"',
+                    "-c", 'model_providers.sda_http.supports_websockets=false']
             started_at_unix = time.time()
             started = time.monotonic()
             stdout, stderr, error = "", "", None
@@ -250,6 +265,7 @@ class Provider:
                 (run / "events.jsonl").write_text(redact(stdout), encoding="utf-8")
                 (run / "stderr.log").write_text(redact(stderr), encoding="utf-8")
                 call = {"attempt_id": attempt_id, "stage": stage, "key": key,
+                        "transport": self.transport,
                         "effort": effort,
                         "attempt": attempt + 1, "status": "failed" if error else "ok",
                         "usage": event_usage(stdout), "started_at_unix": started_at_unix,
@@ -265,10 +281,10 @@ class Provider:
             if any(x in error.lower() for x in ("quota", "usage limit", "unauthorized", "not authenticated")):
                 SERVICE_STOP.set()
                 break
-            if attempt == 0 and any(x in error.lower() for x in ("429", "too many requests", "rate limit")):
+            if attempt + 1 < self.request_attempts and any(x in error.lower() for x in ("429", "too many requests", "rate limit")):
                 print(f"{stage}: service rate limited; retrying once after 45 seconds", flush=True)
                 time.sleep(45)
-            elif attempt == 1 and any(x in error.lower() for x in ("429", "too many requests", "rate limit")):
+            elif attempt + 1 == self.request_attempts and any(x in error.lower() for x in ("429", "too many requests", "rate limit")):
                 SERVICE_STOP.set()
         raise RuntimeError("; ".join(errors))
 

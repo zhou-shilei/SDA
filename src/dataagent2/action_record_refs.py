@@ -20,8 +20,11 @@ for _kind, _spec in SCHEMA_ACTION_RECORD_REFS["properties"]["dataset"]["properti
     if _kind != "entities":
         _choices.append(obj({"action_id": {"type": ["string", "integer"]}}))
     _spec["items"] = {"anyOf": _choices}
-SCHEMA_ACTION_RECORD_REFS["properties"]["action_decisions"]["items"]["properties"]["action_ids"]["items"] = {"type": ["string", "integer"]}
-SCHEMA_ACTION_RECORD_REFS["properties"]["conflicts"]["items"]["properties"]["action_ids"]["items"] = {"type": ["string", "integer"]}
+for _kind in ("action_decisions", "conflicts"):
+    SCHEMA_ACTION_RECORD_REFS["properties"][_kind]["items"]["properties"]["action_ids"]["items"] = {
+        "anyOf": [{"type": ["string", "integer"]},
+                  obj({"start": {"type": "integer", "minimum": 0},
+                       "stop": {"type": "integer", "minimum": 1}})]}
 
 
 OUTPUT_ENCODING = """For unchanged records, use the exact record-reference forms allowed by the
@@ -48,6 +51,13 @@ accounting. This avoids enumerating or inventing seed paths. Only valid seed pat
 are allowed by the schema. Collection targets /dataset/links (or /dataset/links/*)
 select every actual record in that output collection; the host expands them into
 record pointers. All targets address the expanded output arrays.
+In action_decisions.action_ids and conflicts.action_ids, a contiguous run of action
+positions may instead use {"start":0,"stop":100}, meaning positions 0 through 99.
+stop is exclusive. This is only an exact positional abbreviation, never a semantic
+default: use a range only when every included action has the stated disposition.
+Mixed ranges, individual positions and original IDs are allowed. No overlap,
+omission or out-of-bounds position is allowed; the host expands every occurrence
+and still validates complete, exactly-once accounting and all retained evidence.
 """
 
 
@@ -62,6 +72,19 @@ def expand_record_refs(response, payload, data):
         if not isinstance(value, str) or value not in actions:
             raise ValueError("Unknown Reader action reference")
         return value
+
+    def identities(values):
+        expanded = []
+        for value in values:
+            if isinstance(value, dict):
+                if (set(value) != {"start", "stop"} or type(value["start"]) is not int
+                        or type(value["stop"]) is not int
+                        or not 0 <= value["start"] < value["stop"] <= len(payload["reader_actions"])):
+                    raise ValueError("Action range must be nonempty and inside the supplied Reader actions")
+                expanded.extend(identity(i) for i in range(value["start"], value["stop"]))
+            else:
+                expanded.append(identity(value))
+        return expanded
     for kind, records in result["dataset"].items():
         if kind == "document_id":
             continue
@@ -93,7 +116,7 @@ def expand_record_refs(response, payload, data):
                 expanded.append(record)
         result["dataset"][kind] = expanded
     for decision in result["action_decisions"]:
-        decision["action_ids"] = [identity(value) for value in decision["action_ids"]]
+        decision["action_ids"] = identities(decision["action_ids"])
     for decision in [*result["action_decisions"], *result["seed_changes"]]:
         targets = []
         for path in decision["targets"]:
@@ -108,7 +131,7 @@ def expand_record_refs(response, payload, data):
                 targets.append(path)
         decision["targets"] = list(dict.fromkeys(targets))
     for conflict in result["conflicts"]:
-        conflict["action_ids"] = [identity(value) for value in conflict["action_ids"]]
+        conflict["action_ids"] = identities(conflict["action_ids"])
     return result
 
 
@@ -136,5 +159,8 @@ def record_reference_schema(payload):
             choices.append(choice)
         spec["items"]["anyOf"] = choices
     for kind in ("action_decisions", "conflicts"):
-        schema["properties"][kind]["items"]["properties"]["action_ids"]["items"].update(bounds)
+        choices = schema["properties"][kind]["items"]["properties"]["action_ids"]["items"]["anyOf"]
+        choices[0].update(bounds)
+        choices[1]["properties"]["start"].update(bounds)
+        choices[1]["properties"]["stop"]["maximum"] = count
     return schema

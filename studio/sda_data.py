@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import sqlite3
 import sys
+import threading
 from datetime import datetime, timezone
 from urllib.parse import quote, urlsplit
 
@@ -161,6 +162,16 @@ def attach_table_text_comparison(record, ocr, *, cell_index=None):
     return result
 
 
+def table_record(record):
+    """Send table values and evidence links; full field trees load with review."""
+    result = {key: value for key, value in record.items() if key not in {"sda_fields", "sda_sources"}}
+    for key in ("entity_annotations", "assay_keywords"):
+        if isinstance(result.get(key), list):
+            result[key] = [{name: value for name, value in tag.items() if name != "evidence"}
+                           if isinstance(tag, dict) else tag for tag in result[key]]
+    return result
+
+
 def review_payload(bundle):
     """Send fields used by the review UI; complete artifacts remain separately addressable."""
     citation_fields = {"ref", "source_ref", "source_id", "line_id", "table_id", "page", "pdf_page",
@@ -187,8 +198,12 @@ class Workspace:
         self.state.mkdir(exist_ok=True)
         self.lock = WorkspaceLock(self.state / "workspace.lock")
         self.cache = {}
+        self.review_cache = {}
         self.pdf_cache = {}
+        self.registry_cache = {}
+        self.registry_lock = threading.Lock()
         with self.connection() as db:
+            new_dataset = not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='folders'").fetchone()
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS folders (
                     dataset_id TEXT PRIMARY KEY, name TEXT NOT NULL COLLATE NOCASE UNIQUE,
@@ -202,7 +217,8 @@ class Workspace:
                     reviewer_name TEXT NOT NULL, payload TEXT NOT NULL,
                     PRIMARY KEY(document_id, record_id, reviewer_name));
             """)
-            db.execute("INSERT OR IGNORE INTO folders VALUES (?, ?, ?)", ("SDA", "SDA", now()))
+            if new_dataset:
+                db.execute("INSERT OR IGNORE INTO folders VALUES (?, ?, ?)", ("SDA", "SDA", now()))
 
     def connection(self):
         return sqlite3.connect(self.state / "dataset.sqlite", timeout=20)
@@ -278,13 +294,12 @@ class Workspace:
         return {key: path for key, name in names.items() if (path := self.local_path(directory / name))}
 
     def bundle(self, document_id):
+        """Version browser artifacts independently of the model inference cache policy."""
         with self.lock:
             location = self.locations().get(document_id)
             if location is None:
                 raise KeyError("专利不存在")
             result_dir, input_dir = location
-            if not cache_enabled():
-                return self._build(document_id, result_dir, input_dir)
             paths = list(result_dir.glob("*.json")) + list(input_dir.glob("*.json"))
             paths += list(input_dir.parent.glob("source.pdf")) + list(input_dir.glob("*.pdf"))
             paths += list((self.state / "patents" / document_id).glob("source.pdf"))
@@ -292,11 +307,22 @@ class Workspace:
             paths += [path for path in (result_dir / "dataagent2/phase_timings.json",
                       result_dir / "dataagent2/calls.jsonl", result_dir / "shared_seed/pipeline_performance.json")
                       if path.is_file()]
+            paths += [self.state / "jobs.json"] if (self.state / "jobs.json").is_file() else []
             signature = (str(result_dir), str(input_dir),
                          tuple(sorted((str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in paths)))
             if self.cache.get(document_id, (None,))[0] != signature:
                 self.cache[document_id] = (signature, self._build(document_id, result_dir, input_dir))
             return self.cache[document_id][1]
+
+    def review(self, document_id):
+        """Reuse a file-versioned browser projection, separately from inference caching."""
+        with self.lock:
+            bundle = self.bundle(document_id)
+            cached = self.review_cache.get(document_id)
+            if cached is None or cached[0] is not bundle:
+                cached = (bundle, review_payload(bundle))
+                self.review_cache[document_id] = cached
+            return cached[1]
 
     def page_bundle(self, document_id):
         location = self.locations().get(document_id)
@@ -337,8 +363,8 @@ class Workspace:
         base = f"api/patents/{quote(identity, safe='')}/"
         tables, candidates, contexts, classifications, ocr, crops = {}, [], [], [], [], {}
         for path in sorted(result_dir.glob("*.json")):
-            if path.name in {"dataset.json", "template.completed.json", "document_sources.json",
-                             "document_extraction.json"}:
+            if path.name in {"dataset.json", "template.json", "template.completed.json",
+                             "document_sources.json", "document_extraction.json", "data_construction.json"}:
                 continue
             table = read_json(path, {})
             if not isinstance(table, dict) or not table.get("table_id") or "table_text" not in table:
@@ -567,6 +593,34 @@ class Workspace:
             self.pdf_cache[key] = result
         return self.pdf_cache[key]
 
+    def registry_dataset(self, result_dir):
+        """Keep only file-versioned list metadata, separately from inference caches."""
+        paths = [result_dir / name for name in ("dataset.json", "template.completed.json")]
+        signature = []
+        for path in paths:
+            try:
+                stat = path.stat()
+                signature.append((stat.st_mtime_ns, stat.st_ctime_ns, stat.st_size))
+            except FileNotFoundError:
+                signature.append(None)
+        signature = tuple(signature)
+        with self.registry_lock:
+            cached = self.registry_cache.get(result_dir)
+            if cached is not None and cached[0] == signature:
+                return cached[1]
+            dataset = read_json(paths[0], {})
+            entities = dataset.get("entities")
+            if entities is None and signature[1] is not None:
+                entities = read_json(paths[1], {}).get("entities")
+            count = (sum(len(entity.get("METRIC", [])) for entity in entities) if entities
+                     else len(dataset.get("records", [])))
+            metadata = {"status": dataset.get("status"),
+                        "extraction_mode": dataset.get("extraction_mode"),
+                        "summary": {"missing_required": dataset.get("summary", {}).get("missing_required", 0)}}
+            result = (metadata, count)
+            self.registry_cache[result_dir] = (signature, result)
+            return result
+
     def patents(self):
         patents, jobs = [], self.jobs()
         builtin = set(self.builtin_locations())
@@ -576,12 +630,7 @@ class Workspace:
             # The registry needs counts and file metadata, not every record's
             # provenance, table grid and sequence location. Building all those
             # bundles here can exceed the browser's registry timeout.
-            dataset = read_json(result_dir / "dataset.json", {})
-            entities = dataset.get("entities")
-            if entities is None and (result_dir / "template.completed.json").is_file():
-                entities = read_json(result_dir / "template.completed.json", {}).get("entities")
-            record_count = (sum(len(e.get("METRIC", [])) for e in entities) if entities
-                            else len(dataset.get("records", [])))
+            dataset, record_count = self.registry_dataset(result_dir)
             manifest = {}
             evidence_id = jobs.get(identity, {}).get("evidence_document_id") or identity
             for path in sorted(input_dir.glob("*_manifest.json")):
@@ -627,7 +676,8 @@ class Workspace:
             patent_root = (self.state / "patents" / identity).resolve()
             log_available = bool(log and log.is_relative_to(patent_root))
             pipeline_available = bundle["pdf"] is not None
-            patents.append({**job, "document_id": identity, "filename": job.get("filename") or f"{identity}.pdf",
+            patents.append({**{key: value for key, value in job.items() if key != "_codex_auth_id"},
+                            "document_id": identity, "filename": job.get("filename") or f"{identity}.pdf",
                             "extraction_engine": job.get("extraction_engine") or bundle["run"].get("extraction_engine")
                                 or ("dataagent2" if dataset.get("extraction_mode") == "dataagent2" else "dataagent1"),
                             "record_count": record_count, "page_count": bundle["pages"]["page_count"],
@@ -720,9 +770,12 @@ class Workspace:
                 raise ValueError("文件夹名称已存在") from exc
         return folder
 
-    def published(self, dataset_id=None):
+    def published(self, dataset_id=None, *, table=False):
         with self.connection() as db:
-            rows = db.execute("SELECT dataset_id, document_id, payload FROM publications" +
+            # Keep large extraction trees inside SQLite when only table values
+            # are requested. Full saved snapshots remain available to exports.
+            payload = "json_remove(payload, '$.sda_fields', '$.sda_sources')" if table else "payload"
+            rows = db.execute(f"SELECT dataset_id, document_id, {payload} FROM publications" +
                               (" WHERE dataset_id=?" if dataset_id else "") + " ORDER BY rowid",
                               (dataset_id,) if dataset_id else ()).fetchall()
         result = [{**json.loads(payload), "_dataset_id": folder, "_patent_id": document}
@@ -734,7 +787,40 @@ class Workspace:
             publications.setdefault((record["_dataset_id"], record["_patent_id"]), []).append(record)
         for records in publications.values():
             assign_comparison_candidates(records)
-        return result
+        return [table_record(record) for record in result] if table else result
+
+    def delete_dataset_items(self, *, dataset_ids=None, dataset_id=None, records=None):
+        """Remove only published snapshots, atomically validating the whole selection."""
+        with self.lock, self.connection() as db:
+            if dataset_ids is not None:
+                if dataset_id is not None or records is not None:
+                    raise ValueError("请分别删除文件夹或记录")
+                if not isinstance(dataset_ids, list) or not dataset_ids or any(
+                        not isinstance(key, str) or not key for key in dataset_ids):
+                    raise ValueError("请选择文件夹")
+                ids = list(dict.fromkeys(dataset_ids))
+                for key in ids:
+                    if not db.execute("SELECT 1 FROM folders WHERE dataset_id=?", (key,)).fetchone():
+                        raise ValueError("文件夹已变更，请刷新")
+                count = 0
+                for key in ids:
+                    count += db.execute("DELETE FROM publications WHERE dataset_id=?", (key,)).rowcount
+                    db.execute("DELETE FROM folders WHERE dataset_id=?", (key,))
+                return {"deleted_dataset_ids": ids, "deleted_folder_count": len(ids), "deleted_record_count": count}
+            if not isinstance(dataset_id, str) or not dataset_id or not isinstance(records, list) or not records:
+                raise ValueError("请选择文件夹内的记录")
+            keys = []
+            for record in records:
+                if not isinstance(record, dict) or any(not isinstance(record.get(key), str) or not record[key]
+                                                      for key in ("document_id", "record_id")):
+                    raise ValueError("记录标识无效")
+                key = (dataset_id, record["document_id"], record["record_id"])
+                if not db.execute("SELECT 1 FROM publications WHERE dataset_id=? AND document_id=? AND record_id=?", key).fetchone():
+                    raise ValueError("记录已变更，请刷新")
+                keys.append(key)
+            keys = list(dict.fromkeys(keys))
+            db.executemany("DELETE FROM publications WHERE dataset_id=? AND document_id=? AND record_id=?", keys)
+            return {"deleted_record_count": len(keys)}
 
     def publish(self, identity, record_ids, dataset_id):
         with self.lock:

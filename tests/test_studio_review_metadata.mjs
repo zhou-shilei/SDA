@@ -86,7 +86,21 @@ console.log("PASS: table/text conflict badges, filtering, evidence details and e
 
 context.op = {ophiuchus_review: {status: "manual_review", chains: {
   VH: {metric_status: "scored", mean_pll: -1.2345}, VL: {metric_status: "scored", mean_pll: -0.4567}}}};
-assert.ok(vm.runInContext("reviewCheckBadges(op)", context).includes("reviewCheck.ophiuchusScored"));
+assert.ok(vm.runInContext("reviewCheckBadges(op)", context).includes("reviewCheck.ophiuchus"));
+assert.ok(!vm.runInContext("reviewCheckBadges(op)", context).includes("reviewCheck.ophiuchusScored"));
+assert.equal(vm.runInContext('reviewCheckStatus(op, "ophiuchus")', context), "manual_review");
+context.opFailed = {ophiuchus_review_status: "manual_review", ophiuchus_review: {status: "manual_review", chains: {
+  VH: {status: "manual_review", metric_status: "scored"}, VL: {status: "error", metric_status: "scored"}}}};
+assert.equal(vm.runInContext('reviewCheckStatus(opFailed, "ophiuchus")', context), "error");
+assert.ok(vm.runInContext("reviewCheckBadges(opFailed)", context).includes('review-check-error" title="reviewCheck.ophiuchus'));
+context.opRisk = {ophiuchus_review: {status: "manual_review", chains: {
+  VH: {status: "manual_review", metric_status: "scored", site_screening: {risk_detected: true}}}}};
+assert.equal(vm.runInContext('reviewCheckStatus(opRisk, "ophiuchus")', context), "error");
+context.opUnavailable = {ophiuchus_review: {status: "manual_review", chains: {
+  VH: {metric_status: "not_run"}, VL: {status: "unavailable"}}}};
+assert.equal(vm.runInContext('reviewCheckStatus(opUnavailable, "ophiuchus")', context), "manual_review");
+context.opExecutionFailed = {ophiuchus_review: {status: "failed"}};
+assert.equal(vm.runInContext('reviewCheckStatus(opExecutionFailed, "ophiuchus")', context), "error");
 assert.ok(vm.runInContext("renderSequenceReviewInspector(op)", context).includes("-1.2345"));
 assert.ok(vm.runInContext("renderSequenceReviewInspector(op)", context).includes("reviewCheck.ophiuchusMetrics"));
 context.recordOnly = {record_verification: {status: "error", messages: ["source <mismatch>"]}};
